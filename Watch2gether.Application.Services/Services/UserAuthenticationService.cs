@@ -68,14 +68,18 @@ public class UserAuthenticationService : IUserAuthenticationService
                     @$"https://avatars.yandex.net/get-yapic/{info.Principal.FindFirstValue("urn:yandex:user:avatar")}/islands-75"),
                 _ => DefaultAvatar
             };
-            var userDomain = new User(
-                info.Principal.FindFirstValue(ClaimTypes.GivenName) + ' ' +
-                info.Principal.FindFirstValue(ClaimTypes.Surname), user.Email, avatarFileName);
+            var userDomain =
+                new User(
+                    info.Principal.FindFirstValue(ClaimTypes.GivenName) + ' ' +
+                    info.Principal.FindFirstValue(ClaimTypes.Surname), user.Email, avatarFileName);
+
             var result = await _userManager.CreateAsync(user);
-            await _userManager.AddLoginAsync(user, info);
             if (result.Errors.Any()) throw new UserCreationException(result.Errors.First().Description);
+
             user.EmailConfirmed = true;
+            await _userManager.AddLoginAsync(user, info);
             await _userManager.UpdateAsync(user);
+
             await AddAsync(userDomain);
         }
 

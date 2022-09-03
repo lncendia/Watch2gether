@@ -50,8 +50,8 @@
                                 if (message.Viewer.Id != Model.CurrentViewer.Id)
                                 {
                                     <div class="d-flex flex-row justify-content-start mb-4">
-                                        <img src="~/img/Avatars/@message.Viewer.AvatarFileName" class="rounded-circle mr-2" width="30" height="30" alt="avatar 1" style="width: 45px; height: 100%;">
-                                        <div class="px-3 py-1 ms-3 message messageOther">
+                                        <img src="~/img/Avatars/@message.Viewer.AvatarFileName" class="messageAvatar" alt="">
+                                        <div class="message messageOther">
                                             <p style="font-size: 12px" class="additionalText">@message.Viewer.Username</p>
                                             <p class="small mb-0">@message.Text</p>
                                             <p style="font-size: 10px;" class="text-end additionalText">@message.CreatedAt.ToLocalTime().ToString("T")</p>
@@ -61,12 +61,12 @@
                                 else
                                 {
                                     <div class="d-flex flex-row justify-content-end mb-4">
-                                        <div class="px-3 py-1 me-3 border message messageMe">
+                                        <div class="message messageMe">
                                             <p style="font-size: 12px;" class="text-end additionalText">@message.Viewer.Username</p>
-                                            <p class="small mb-0"> @message.Text</p>
+                                            <p class="small mb-0">@message.Text</p>
                                             <p style="font-size: 10px" class="additionalText">@message.CreatedAt.ToLocalTime().ToString("T")</p>
                                         </div>
-                                        <img src="~/img/Avatars/@message.Viewer.AvatarFileName" class="rounded-circle mr-2" width="30" height="30" alt="avatar 1" style="width: 45px; height: 100%;">
+                                        <img src="~/img/Avatars/@message.Viewer.AvatarFileName" class="messageAvatar" alt="">
                                     </div>
                                 }
                             }

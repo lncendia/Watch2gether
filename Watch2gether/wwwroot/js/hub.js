@@ -1,43 +1,41 @@
 ﻿//import {signalR} from "../lib/signalr/dist/signalr.min";
 
 const hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl("/chat")
+    .withUrl("/chat", null)
     .build();
+
+hubConnection.onclose(() => setTimeout(async () => await start(), 5000));
 
 let div = $("#chatScroll");
 
-div.ready(function () {
-    div.scrollTop(div.prop('scrollHeight'));
-});
+div.ready(() => div.scrollTop(div.prop('scrollHeight')));
 
 hubConnection.on("Send", (username, id, avatar, message) => showMessage(username, id, avatar, message));
 
 hubConnection.on("Pause", function (seconds, id, sync) {
-    if (sync) syncUsers(seconds, true); else {
+    if (sync) syncUsers(seconds, true, null); else {
         let user = users.find(u => u.id === id);
         user.updateInfo(true, seconds);
     }
 });
+
 hubConnection.on("Play", function (seconds, id, sync) {
-    if (sync) syncUsers(seconds, false); else {
+    if (sync) syncUsers(seconds, false, null); else {
         let user = users.find(u => u.id === id);
         user.updateInfo(false, seconds);
     }
 });
-hubConnection.on("Change", function (season, number) {
-    console.log(data);
-});
 
+hubConnection.on("Change", (season, number) => syncUsers(0, false, season + '_' + number));
 
 hubConnection.on("Leave", function (name, vId) {
     let user = users.find(x => x.id === vId);
-    if(user == null) return;
+    if (user == null) return;
     users.splice(users.indexOf(user), 1);
     $("#" + vId).remove();
     updateUsersCount();
-    showNotify("#ffabab", name + " покинул комнату");
+    showNotify("#813232", name + " покинул комнату");
 });
-
 
 hubConnection.on("Connect", function (name, vId) {
     let user = users.find(x => x.id === vId);
@@ -49,7 +47,7 @@ hubConnection.on("Connect", function (name, vId) {
     html += "<div class=\"d-inline-block username\">" + user.name + "</div> <div class=\"d-inline-block time\">" + "00:00:00" + "</div></li>";
     $("#viewers").append(html);
     updateUsersCount();
-    showNotify("#d3ffab", name + " подключился к комнате");
+    showNotify("#8eb969", name + " подключился к комнате");
 });
 
 hubConnection.start().then();
@@ -106,15 +104,20 @@ frame.onload = function () {
             hubConnection.invoke("Play", time).then();
             let user = users.find(u => u.id === data.currentUserId);
             user.updateInfo(false, parseInt(event.data.time));
-
         } else if (event.data.event === "pause" && event.data.time != null) {
             let time = parseInt(event.data.time);
             hubConnection.invoke("Pause", time).then();
             let user = users.find(u => u.id === data.currentUserId);
             user.updateInfo(true, time);
-
         } else if (event.data.event === "seek" && event.data.time != null) {
             let user = users.find(u => u.id === data.currentUserId);
+            if (!user.onPause) return;
+            let time = parseInt(event.data.time);
+            hubConnection.invoke(user.onPause ? "Pause" : "Play", time).then();
+            user.updateInfo(user.onPause, time);
+        } else if (event.data.event === "buffered" && event.data.time != null) {
+            let user = users.find(u => u.id === data.currentUserId);
+            if (user.onPause) return;
             let time = parseInt(event.data.time);
             hubConnection.invoke(user.onPause ? "Pause" : "Play", time).then();
             user.updateInfo(user.onPause, time);
@@ -150,15 +153,14 @@ function updateUsersCount() {
 
 function showMessage(username, id, avatar, message) {
     let html;
-    if (id === data.currentUserId) html = "<div class=\"d-flex flex-row justify-content-end mb-4\"><div class=\"px-3 py-1 me-3 border\" style=\"border-radius: 15px; background-color: rgba(57, 192, 237,.2);\"><p style=\"font-size: 12px;\" class=\"mb-0 text-black-50 text-end\">" + username + "</p><p class=\"small mb-0\">" + message + "</p><p style=\"font-size: 10px\" class=\"mb-0 text-black-50\">" + new Date().toLocaleTimeString() + "</p></div><img src=\"/img/Avatars/" + avatar + "\" class=\"rounded-circle mr-2\" width=\"30\" height=\"30\" alt=\"avatar 1\" style=\"width: 45px; height: 100%;\"></div>"
-    else html = "<div class=\"d-flex flex-row justify-content-start mb-4\"><img src=\"/img/Avatars" + avatar + "\" class=\"rounded-circle mr-2\" width=\"30\" height=\"30\" alt=\"avatar 1\" style=\"width: 45px; height: 100%;\"><div class=\"px-3 py-1 ms-3\" style=\"border-radius: 15px; background-color: #eeeeee\"><p style=\"font-size: 12px\" class=\"mb-0 text-black-50\">" + username + "</p><p class=\"small mb-0\">" + message + "</p><p style=\"font-size: 10px;\" class=\"mb-0 text-black-50 text-end\">" + new Date().toLocaleTimeString() + "</p></div></div>";
+    if (id === data.currentUserId) html = "<div class=\"d-flex flex-row justify-content-end mb-4\"><div class=\"message messageMe\"><p style=\"font-size: 12px;\" class=\"text-end additionalText\">" + username + "</p><p class=\"small mb-0\">" + message + "</p><p style=\"font-size: 10px\" class=\"additionalText\">" + new Date().toLocaleTimeString() + "</p></div><img src=\"/img/Avatars/" + avatar + "\" class=\"messageAvatar\" alt=\"\"></div>"; else html = "<div class=\"d-flex flex-row justify-content-start mb-4\"><img src=\"/img/Avatars/" + avatar + "\" class=\"messageAvatar\" alt=\"\"><div class=\"message messageOther\"><p style=\"font-size: 12px\" class=\"additionalText\">" + username + "</p><p class=\"small mb-0\">" + message + "</p><p style=\"font-size: 10px;\" class=\"text-end additionalText\">" + new Date().toLocaleTimeString() + "</p></div></div>"
     div.append(html);
     div.scrollTop(div.prop('scrollHeight'));
 }
 
 function showNotify(color, text) {
     let id = Math.random().toString(36).substring(7);
-    div.append("<div id=\"" + id + "\" class=\"text-center mb-4\"><div style=\"border-radius: 15px; background-color: " + color + "\" class=\"border px-3 py-1\"><p style=\"font-size: 12px\" class=\"mb-0\">" + text + "</p></div></div>");
+    div.append("<div id=\"" + id + "\" class=\"text-center mb-4\"><div style=\"background-color: " + color + "\" class=\"border notify\"><p class=\"mb-0\">" + text + "</p></div></div>");
     div.scrollTop(div.prop('scrollHeight'));
     setTimeout(function () {
         $("#" + id).hide('slow', function () {
@@ -167,9 +169,11 @@ function showNotify(color, text) {
     }, 5000);
 }
 
-function syncUsers(time, pause) {
+function syncUsers(time, pause, id) {
     if (data.ownerId === data.currentUserId) return;
     users.forEach(user => user.updateInfo(pause, time));
+
+    if (id !== null) frame.contentWindow.postMessage({"api": "play", "set": id}, "*");
     let message = pause ? "pause" : "play";
     frame.contentWindow.postMessage({"api": message}, "*");
     frame.contentWindow.postMessage({"api": "seek", "set": time}, "*");

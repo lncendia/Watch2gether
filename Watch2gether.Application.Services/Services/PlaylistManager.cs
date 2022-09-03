@@ -61,6 +61,6 @@ public class PlaylistManager : IPlaylistManager
             playlist.Description);
     }
 
-    private static PlaylistLiteDto MapPlaylists(Playlist playlist) => new PlaylistLiteDto(playlist.Id, playlist.Name,
+    private static PlaylistLiteDto MapPlaylists(Playlist playlist) => new(playlist.Id, playlist.Name,
         playlist.PosterFileName, playlist.Films.Count, playlist.Updated);
 }
