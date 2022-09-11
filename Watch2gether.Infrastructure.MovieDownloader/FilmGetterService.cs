@@ -133,8 +133,6 @@ public class FilmGetterService : IFilmInfoGetterService
             data.EpisodesCount);
     }
 
-    private static string GetName(string? name, string? nameEn)
-    {
-        return (string.IsNullOrEmpty(name) ? nameEn : name) ?? string.Empty;
-    }
+    private static string GetName(string? name, string? nameEn) =>
+        (string.IsNullOrEmpty(name) ? nameEn : name) ?? string.Empty;
 }

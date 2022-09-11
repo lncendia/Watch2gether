@@ -1,4 +1,5 @@
 ﻿using Watch2gether.Application.Abstractions.DTO.Rooms;
+using Watch2gether.Application.Abstractions.Exceptions.Films;
 using Watch2gether.Application.Abstractions.Exceptions.Rooms;
 using Watch2gether.Application.Abstractions.Exceptions.Users;
 using Watch2gether.Application.Abstractions.Interfaces.Rooms;
@@ -29,7 +30,7 @@ public class RoomService : IRoomService
     public async Task<(Guid roomId, ViewerDto viewer)> CreateForUserAsync(Guid filmId, string email)
     {
         var film = await _unitOfWork.FilmRepository.Value.GetAsync(filmId);
-        if (film == null) throw new ArgumentException("Film not found.", nameof(filmId)); //TODO: add exception
+        if (film == null) throw new FilmNotFoundException();
         var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserFromEmailSpecification(email), null, 0, 1))
             .FirstOrDefault();
         if (user == null) throw new UserNotFoundException();

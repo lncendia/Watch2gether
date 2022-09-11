@@ -33,7 +33,7 @@ let films = $(".films")
 function ShowList(json) {
     let data = JSON.parse(json);
     data.forEach(el => {
-        films.append("<div class=\"film col-xxl-3 col-lg-4 col-md-6 col-12\"><div class=\"card filmCard\"><a class=\"filmLink\" href=\"/Film/Film?id=" + el.id + "\"><div class=\"card-header filmCardHeader\">Рейтинг: " + el.rating + "</div> <img src=\"img/Posters/" + el.posterFileName + "\" class=\"card-img-top poster\" alt=\"...\"><div class=\"card-body\"><h5 class=\"card-title\">" + el.name + "</h5><h6 class=\"card-subtitle mb-2 additionalText\">" + el.description + "</h6><p class=\"card-text\">" + el.genres + "</p></div><div class=\"card-footer filmCardFooter\">" + el.type + "</div></a></div></div>");
+        films.append("<div class=\"film col-xxl-3 col-lg-4 col-md-6 col-12\"><div class=\"card filmCard\"><div class=\"card-header filmCardTop\">Рейтинг: " + el.rating + "</div><a class=\"filmLink\" href=\"/Film/Film?id=" + el.id + "\"><img src=\"img/Posters/" + el.posterFileName + "\" class=\"card-img-top poster\" alt=\"...\"><div class=\"card-body\"><h5 class=\"card-title\">" + el.name + "</h5><h6 class=\"card-subtitle mb-2 filmDescriptionList\">" + el.description + "</h6><p class=\"card-text pb-5\">" + el.genres + "</p></div></a><div class=\"card-footer filmCardBottom\">" + el.type + "</div></div></div>");
     })
 }
 

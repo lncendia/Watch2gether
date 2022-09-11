@@ -15,6 +15,7 @@ public class Room
 
     public Guid Id { get; }
     public Guid FilmId { get; }
+    
     private readonly List<Viewer> _viewers = new();
     private readonly List<Message> _messages = new();
     public List<Viewer> Viewers => _viewers.ToList();

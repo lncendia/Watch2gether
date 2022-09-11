@@ -23,12 +23,14 @@ body.theme-dark {
 
 /* Films list styles
 -------------------------------------------------- */
+
 .poster {
     height: 300px;
 }
 
 .filmCard {
     width: 200px;
+    height: 100%;
     margin: 0 auto;
     background: #4b4b4b !important;
 }
@@ -36,14 +38,22 @@ body.theme-dark {
 .filmLink {
     color: #eeeeee !important;
     text-decoration: none;
+    height: 100%;
 }
 
-.filmCardHeader {
+.filmCardTop {
     background: #252525 !important;
 }
 
-.filmCardFooter {
+.filmCardBottom{
     background: #252525 !important;
+    position : absolute;
+    bottom : 0;
+    width: 100%;
+}
+
+.filmDescriptionList{
+    color: #bebebe !important;
 }
 
 

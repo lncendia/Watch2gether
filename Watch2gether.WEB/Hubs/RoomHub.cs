@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Watch2gether.Application.Abstractions.Interfaces.Rooms;
+using Watch2gether.Domain.Rooms.Exceptions;
 using Watch2gether.WEB.Hubs.Models;
 
 namespace Watch2gether.WEB.Hubs;
@@ -21,7 +22,15 @@ public class RoomHub : Hub
     public async Task Send(string message)
     {
         var data = GetData();
-        await _roomService.SendMessageAsync(data.RoomId, data.Id, message);
+        try
+        {
+            await _roomService.SendMessageAsync(data.RoomId, data.Id, message);
+        }
+        catch (MessageLengthException)
+        {
+            return;
+        }
+
         await Clients.OthersInGroup(data.RoomIdString)
             .SendAsync("Send", data.Username, data.Id, data.AvatarFileName, message);
     }
