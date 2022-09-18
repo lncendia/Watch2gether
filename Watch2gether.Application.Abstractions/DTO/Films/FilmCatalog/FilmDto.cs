@@ -40,19 +40,3 @@ public class FilmDto
     public List<string> ScreenWriters { get; }
     public List<(string name, string desc)> Actors { get; }
 }
-
-public class CommentDto
-{
-    public CommentDto(Guid id, string text, DateTime createdAt, string username)
-    {
-        Id = id;
-        Text = text;
-        CreatedAt = createdAt;
-        Username = username;
-    }
-
-    public Guid Id { get; }
-    public string Text { get; }
-    public DateTime CreatedAt { get; }
-    public string Username { get; }
-}

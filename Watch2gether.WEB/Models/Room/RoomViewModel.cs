@@ -26,7 +26,7 @@ public class MessageViewModel
     public MessageViewModel(string text, DateTime createdAt, ViewerViewModel viewer)
     {
         Text = text;
-        CreatedAt = createdAt;
+        CreatedAt = createdAt.ToLocalTime();
         Viewer = viewer;
     }
 

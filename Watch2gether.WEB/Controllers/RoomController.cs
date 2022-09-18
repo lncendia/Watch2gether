@@ -12,9 +12,9 @@ namespace Watch2gether.WEB.Controllers;
 
 public class RoomController : Controller
 {
-    private readonly IRoomService _roomService;
+    private readonly IRoomManager _roomService;
 
-    public RoomController(IRoomService roomService)
+    public RoomController(IRoomManager roomService)
     {
         _roomService = roomService;
     }
@@ -81,15 +81,14 @@ public class RoomController : Controller
 
     private static RoomViewModel Map(RoomDto dto, Guid id, string url)
     {
-        var messages = dto.Messages.Select(x => new MessageViewModel(x.Text, x.CreatedAt.ToLocalTime(), Map(x.Viewer)))
+        var messages = dto.Messages.Select(x => new MessageViewModel(x.Text, x.CreatedAt, Map(x.Viewer)))
             .ToList();
         var viewers = dto.Viewers.Select(Map).ToList();
         var film = new FilmViewModel(dto.Film.Name, dto.Film.Url);
         return new RoomViewModel(messages, viewers, film, url, dto.OwnerId, viewers.First(x => x.Id == id));
     }
 
-    private static ViewerViewModel Map(ViewerDto dto) =>
-        new(dto.Id, dto.Username, dto.AvatarUrl, dto.OnPause, dto.Time);
+    private static ViewerViewModel Map(ViewerDto dto) => new(dto.Id, dto.Username, dto.AvatarUrl, dto.OnPause, dto.Time);
 
 
     private async Task AuthenticateUser(ViewerDto viewer, Guid roomId) => await HttpContext.SignInAsync(

@@ -3,21 +3,20 @@ using Watch2gether.Application.Abstractions.Exceptions.Films;
 using Watch2gether.Application.Abstractions.Exceptions.Rooms;
 using Watch2gether.Application.Abstractions.Exceptions.Users;
 using Watch2gether.Application.Abstractions.Interfaces.Rooms;
-using Watch2gether.Domain.Abstractions.Repositories;
+using Watch2gether.Domain.Abstractions.Repositories.UnitOfWorks;
 using Watch2gether.Domain.Films;
 using Watch2gether.Domain.Rooms;
 using Watch2gether.Domain.Rooms.Entities;
-using Watch2gether.Domain.Rooms.Exceptions;
 using Watch2gether.Domain.Users.Specifications;
 
-namespace Watch2gether.Application.Services.Services;
+namespace Watch2gether.Application.Services.Services.Rooms;
 
-public class RoomService : IRoomService
+public class RoomManager : IRoomManager
 {
     private readonly IUnitOfWork _unitOfWork;
     private const string DefaultAvatar = "default.jpg";
 
-    public RoomService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+    public RoomManager(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
     public async Task<(Guid roomId, ViewerDto viewer)> CreateAsync(Guid filmId, string name)
     {

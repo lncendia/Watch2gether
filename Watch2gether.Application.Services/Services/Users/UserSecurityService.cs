@@ -2,10 +2,10 @@
 using Watch2gether.Application.Abstractions.Entities.User;
 using Watch2gether.Application.Abstractions.Exceptions.Users;
 using Watch2gether.Application.Abstractions.Interfaces.Users;
-using Watch2gether.Domain.Abstractions.Repositories;
+using Watch2gether.Domain.Abstractions.Repositories.UnitOfWorks;
 using Watch2gether.Domain.Users.Specifications;
 
-namespace Watch2gether.Application.Services.Services;
+namespace Watch2gether.Application.Services.Services.Users;
 
 public class UserSecurityService : IUserSecurityService
 {

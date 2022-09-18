@@ -42,6 +42,9 @@ public class RoomRepository : IRoomRepository
         x.GetField("<Owner>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room,
             viewersList.First(viewer => viewer.Id == model.OwnerId));
 
+        x.GetField("<LastActivity>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room,
+            model.LastActivity);
+
         var messages =
             (x.GetField("_messages", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as List<Message>)!;
         messages.AddRange(model.Messages.Select(GetMap).OrderBy(message => message.CreatedAt));
@@ -170,8 +173,8 @@ public class RoomRepository : IRoomRepository
             specification.Accept(visitor);
             if (visitor.Expr != null) query = query.Where(visitor.Expr);
         }
-        
-        if(orderBy != null)
+
+        if (orderBy != null)
         {
             var visitor = new RoomSortingVisitor();
             orderBy.Accept(visitor);

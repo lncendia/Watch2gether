@@ -85,6 +85,17 @@ body.theme-dark {
     color: #d9d9d9;
 }
 
+.comment{
+    margin-top: 10px;
+    color: #a4a7a8 !important;
+}
+
+.commentAvatar {
+    width: 45px;
+    height: 100%;
+    border-radius: 50%;
+    margin-right: 10px;
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -305,7 +316,7 @@ input[type="checkbox"].input-validation-error {
     }
 }
 
-.center {
+.spinner {
     display: flex;
     justify-content: center;
     align-items: center;

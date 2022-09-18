@@ -1,9 +1,9 @@
 ﻿using Watch2gether.Application.Abstractions.DTO.Films.FilmDownloader;
 using Watch2gether.Application.Abstractions.Interfaces.Films;
-using Watch2gether.Domain.Abstractions.Repositories;
+using Watch2gether.Domain.Abstractions.Repositories.UnitOfWorks;
 using Watch2gether.Domain.Films;
 
-namespace Watch2gether.Application.Services.Services;
+namespace Watch2gether.Application.Services.Services.Films;
 
 public class FilmLoaderService : IFilmLoaderService
 {

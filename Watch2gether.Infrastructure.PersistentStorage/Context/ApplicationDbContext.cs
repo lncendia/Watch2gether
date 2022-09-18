@@ -14,7 +14,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<FilmModel> Films { get; set; } = null!;
     public DbSet<PlaylistModel> Playlists { get; set; } = null!;
 
-    // public DbSet<CommentModel> Comments { get; set; } = null!;
+    public DbSet<CommentModel> Comments { get; set; } = null!;
     public DbSet<RoomModel> Rooms { get; set; } = null!;
     public DbSet<ViewerModel> Viewers { get; set; } = null!;
     public DbSet<MessageModel> Messages { get; set; } = null!;

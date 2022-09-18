@@ -1,13 +1,14 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using Watch2gether.Application.Abstractions;
 using Watch2gether.Application.Abstractions.DTO.Users;
 using Watch2gether.Application.Abstractions.Entities.User;
 using Watch2gether.Application.Abstractions.Exceptions.Users;
 using Watch2gether.Application.Abstractions.Interfaces.Users;
-using Watch2gether.Domain.Abstractions.Repositories;
+using Watch2gether.Domain.Abstractions.Repositories.UnitOfWorks;
 using Watch2gether.Domain.Users;
 
-namespace Watch2gether.Application.Services.Services;
+namespace Watch2gether.Application.Services.Services.Users;
 
 public class UserAuthenticationService : IUserAuthenticationService
 {
@@ -15,7 +16,6 @@ public class UserAuthenticationService : IUserAuthenticationService
     private readonly IEmailService _emailService;
     private readonly IUserThumbnailService _photoManager;
     private readonly IUnitOfWork _unitOfWork;
-    private const string DefaultAvatar = "default.jpg";
 
     public UserAuthenticationService(UserManager<UserData> userManager, IEmailService emailService,
         IUserThumbnailService photoManager, IUnitOfWork unitOfWork)
@@ -30,7 +30,7 @@ public class UserAuthenticationService : IUserAuthenticationService
     {
         var user = await _userManager.FindByEmailAsync(userDto.Email);
         if (user != null) throw new UserAlreadyExistException();
-        var userDomain = new User(userDto.Username, userDto.Email, DefaultAvatar);
+        var userDomain = new User(userDto.Username, userDto.Email, ApplicationConstants.DefaultAvatar);
         user = new UserData(userDto.Email);
         var result = await _userManager.CreateAsync(user, userDto.Password);
         if (result.Errors.Any()) throw new UserCreationException(result.Errors.First().Description);
@@ -66,7 +66,7 @@ public class UserAuthenticationService : IUserAuthenticationService
                 "Vkontakte" => await _photoManager.SaveAsync(info.Principal.FindFirstValue("urn:vkontakte:photo:link")),
                 "Yandex" => await _photoManager.SaveAsync(
                     @$"https://avatars.yandex.net/get-yapic/{info.Principal.FindFirstValue("urn:yandex:user:avatar")}/islands-75"),
-                _ => DefaultAvatar
+                _ => ApplicationConstants.DefaultAvatar
             };
             var userDomain =
                 new User(

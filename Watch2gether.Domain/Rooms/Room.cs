@@ -15,7 +15,7 @@ public class Room
 
     public Guid Id { get; }
     public Guid FilmId { get; }
-    
+
     private readonly List<Viewer> _viewers = new();
     private readonly List<Message> _messages = new();
     public List<Viewer> Viewers => _viewers.ToList();
@@ -27,7 +27,7 @@ public class Room
     {
         var viewer = new Viewer(name, Id, avatarFileName);
         _viewers.Add(viewer);
-        LastActivity = DateTime.UtcNow;
+        UpdateActivity();
         return viewer;
     }
 
@@ -35,7 +35,7 @@ public class Room
     {
         SetOnline(viewerId, true);
         _messages.Add(new Message(viewerId, message, Id));
-        LastActivity = DateTime.UtcNow;
+        UpdateActivity();
     }
 
     public void UpdateViewer(Guid viewerId, bool pause, TimeSpan time)
@@ -44,7 +44,7 @@ public class Room
         if (viewer == null) throw new ViewerNotFoundException();
         viewer.OnPause = pause;
         viewer.TimeLine = time;
-        LastActivity = DateTime.UtcNow;
+        UpdateActivity();
     }
 
     public void SetOnline(Guid viewerId, bool isOnline)
@@ -52,6 +52,8 @@ public class Room
         var viewer = _viewers.FirstOrDefault(x => x.Id == viewerId);
         if (viewer == null) throw new ViewerNotFoundException();
         viewer.Online = isOnline;
-        LastActivity = DateTime.UtcNow;
+        UpdateActivity();
     }
+
+    private void UpdateActivity() => LastActivity = DateTime.UtcNow;
 }

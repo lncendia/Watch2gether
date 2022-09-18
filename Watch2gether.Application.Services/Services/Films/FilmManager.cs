@@ -1,8 +1,7 @@
 ﻿using Watch2gether.Application.Abstractions.DTO.Films.FilmCatalog;
-using Watch2gether.Application.Abstractions.DTO.Playlists;
 using Watch2gether.Application.Abstractions.Exceptions.Films;
 using Watch2gether.Application.Abstractions.Interfaces.Films;
-using Watch2gether.Domain.Abstractions.Repositories;
+using Watch2gether.Domain.Abstractions.Repositories.UnitOfWorks;
 using Watch2gether.Domain.Films;
 using Watch2gether.Domain.Films.Ordering;
 using Watch2gether.Domain.Films.Ordering.Visitor;
@@ -14,7 +13,7 @@ using Watch2gether.Domain.Specifications;
 using Watch2gether.Domain.Specifications.Abstractions;
 using SortBy = Watch2gether.Application.Abstractions.DTO.Films.FilmCatalog.SortBy;
 
-namespace Watch2gether.Application.Services.Services;
+namespace Watch2gether.Application.Services.Services.Films;
 
 public class FilmManager : IFilmManager
 {

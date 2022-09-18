@@ -4,10 +4,13 @@ let data = $("#dataForm")
 GetFormData();
 
 let nextHandler = async function (pageIndex) {
-    let data = await GetList(pageIndex + 1);
-    if (!data.succeeded) return false;
-    ShowList(data.text);
-    return true;
+    try {
+        let data = await GetList(pageIndex + 1);
+        return ParseData(data);
+    } catch (e) {
+        console.log(e);
+        return false;
+    }
 }
 
 let scroller = new InfiniteAjaxScroll('.films', {
@@ -17,24 +20,19 @@ let scroller = new InfiniteAjaxScroll('.films', {
 async function GetList(page) {
     $data.set("page", page)
     $data.set("inverseOrder", inverseOrder);
-    try {
-        let data = await fetch('Film/FilmsList?' + $data.toString());
-        if (data.status === 200) {
-            return {text: await data.text(), succeeded: true};
-        }
-        return {succeeded: false, text: null};
-    } catch {
-        return {succeeded: false, text: null};
-    }
+    let data = await fetch('/Film/FilmsList?' + $data.toString());
+    if (data.status === 200) return await data.text();
+    throw new Error(data.statusText);
 }
 
 let films = $(".films")
 
-function ShowList(json) {
+function ParseData(json) {
     let data = JSON.parse(json);
     data.forEach(el => {
         films.append("<div class=\"film col-xxl-3 col-lg-4 col-md-6 col-12\"><div class=\"card filmCard\"><div class=\"card-header filmCardTop\">Рейтинг: " + el.rating + "</div><a class=\"filmLink\" href=\"/Film/Film?id=" + el.id + "\"><img src=\"img/Posters/" + el.posterFileName + "\" class=\"card-img-top poster\" alt=\"...\"><div class=\"card-body\"><h5 class=\"card-title\">" + el.name + "</h5><h6 class=\"card-subtitle mb-2 filmDescriptionList\">" + el.description + "</h6><p class=\"card-text pb-5\">" + el.genres + "</p></div></a><div class=\"card-footer filmCardBottom\">" + el.type + "</div></div></div>");
     })
+    return true;
 }
 
 function GetFormData() {

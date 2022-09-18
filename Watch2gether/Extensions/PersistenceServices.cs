@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Watch2gether.Domain.Abstractions.Repositories;
+using Watch2gether.Domain.Abstractions.Repositories.UnitOfWorks;
 using Watch2gether.Infrastructure.ApplicationData;
 using Watch2gether.Infrastructure.PersistentStorage;
 using Watch2gether.Infrastructure.PersistentStorage.Context;

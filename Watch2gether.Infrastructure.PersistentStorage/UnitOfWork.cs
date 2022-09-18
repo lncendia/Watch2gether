@@ -1,4 +1,5 @@
 using Watch2gether.Domain.Abstractions.Repositories;
+using Watch2gether.Domain.Abstractions.Repositories.UnitOfWorks;
 using Watch2gether.Infrastructure.PersistentStorage.Context;
 using Watch2gether.Infrastructure.PersistentStorage.Repositories;
 
@@ -14,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
         UserRepository = new Lazy<IUserRepository>(() => new UserRepository(context));
         FilmRepository = new Lazy<IFilmRepository>(() => new FilmRepository(context));
         RoomRepository = new Lazy<IRoomRepository>(() => new RoomRepository(context));
+        CommentRepository = new Lazy<ICommentRepository>(() => new CommentRepository(context));
         PlaylistRepository = new Lazy<IPlaylistRepository>(() => new PlaylistRepository(context));
     }
 
@@ -21,6 +23,7 @@ public class UnitOfWork : IUnitOfWork
     public Lazy<IUserRepository> UserRepository { get; }
     public Lazy<IRoomRepository> RoomRepository { get; }
     public Lazy<IPlaylistRepository> PlaylistRepository { get; }
+    public Lazy<ICommentRepository> CommentRepository { get; }
 
     public Task SaveAsync() => _context.SaveChangesAsync();
 }

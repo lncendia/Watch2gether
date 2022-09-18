@@ -6,6 +6,7 @@ using Watch2gether.Application.Abstractions.Entities.Role;
 using Watch2gether.Application.Abstractions.Entities.User;
 using Watch2gether.Application.Abstractions.Interfaces.Users;
 using Watch2gether.Application.Services.Services;
+using Watch2gether.Application.Services.Services.Users;
 using Watch2gether.Infrastructure.ApplicationData;
 
 namespace Watch2gether.Extensions;

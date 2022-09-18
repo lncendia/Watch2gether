@@ -17,8 +17,6 @@ public class UserVisitor : BaseVisitor<UserModel, IUserSpecificationVisitor, Use
         return visitor.Expr!;
     }
 
-    public void Visit(UserFromEmailSpecification specification)
-    {
-        Expr = x => x.Email == specification.Email;
-    }
+    public void Visit(UserFromEmailSpecification specification) => Expr = x => x.Email == specification.Email;
+    public void Visit(UserFromIdSpecification specification) => Expr = x => x.Id == specification.Id;
 }

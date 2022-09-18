@@ -50,7 +50,7 @@ public class FilmDownloaderController : Controller
         }
         catch (Exception exception)
         {
-            return BadRequest();
+            return BadRequest(exception.Message);
         }
     }
 }

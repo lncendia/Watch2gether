@@ -2,7 +2,7 @@
 
 namespace Watch2gether.Application.Abstractions.Interfaces.Rooms;
 
-public interface IRoomService
+public interface IRoomManager
 {
     Task<(Guid roomId, ViewerDto viewer)> CreateAsync(Guid filmId, string name);
     Task<(Guid roomId, ViewerDto viewer)> CreateForUserAsync(Guid filmId, string email);

@@ -1,19 +1,19 @@
 ﻿using Watch2gether.Application.Abstractions.DTO.Playlists;
 using Watch2gether.Application.Abstractions.Exceptions.Playlists;
 using Watch2gether.Application.Abstractions.Interfaces.Playlists;
-using Watch2gether.Domain.Abstractions.Repositories;
+using Watch2gether.Domain.Abstractions.Repositories.UnitOfWorks;
 using Watch2gether.Domain.Films;
 using Watch2gether.Domain.Films.Specifications;
+using Watch2gether.Domain.Ordering;
+using Watch2gether.Domain.Ordering.Abstractions;
 using Watch2gether.Domain.Playlists;
 using Watch2gether.Domain.Playlists.Ordering;
 using Watch2gether.Domain.Playlists.Ordering.Visitor;
 using Watch2gether.Domain.Playlists.Specifications;
 using Watch2gether.Domain.Playlists.Specifications.Visitor;
-using Watch2gether.Domain.Ordering;
-using Watch2gether.Domain.Ordering.Abstractions;
 using Watch2gether.Domain.Specifications.Abstractions;
 
-namespace Watch2gether.Application.Services.Services;
+namespace Watch2gether.Application.Services.Services.Playlists;
 
 public class PlaylistManager : IPlaylistManager
 {

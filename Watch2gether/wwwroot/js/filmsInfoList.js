@@ -7,9 +7,14 @@ let title = $("#title")
 let count = 1, startPageVal = 0;
 
 let nextHandler = async function (pageIndex) {
-    let data = await GetList(pageIndex + 1);
-    if (!data.succeeded) return false;
-    return ShowList(data.text);
+    try {
+        let data = await GetList(pageIndex + 1);
+        return ParseData(data);
+    }
+    catch (e) {
+        console.log(e);
+        return false;
+    }
 }
 
 let scroller = new InfiniteAjaxScroll('.films', {
@@ -18,18 +23,12 @@ let scroller = new InfiniteAjaxScroll('.films', {
 
 async function GetList(page) {
     $data.set("page", page + startPageVal)
-    try {
-        let data = await fetch('FilmDownloader/FilmsList?' + $data.toString());
-        if (data.status === 200) {
-            return {text: await data.text(), succeeded: true};
-        }
-        return {succeeded: false, text: null};
-    } catch {
-        return {succeeded: false, text: null};
-    }
+    let data = await fetch('/FilmDownloader/FilmsList?' + $data.toString());
+    if (data.status === 200) return await data.text();
+    throw new Error(data.statusText);
 }
 
-function ShowList(json) {
+function ParseData(json) {
     let data = JSON.parse(json);
     data.films.forEach(el => {
         films.append("<tr class='film'><th scope=\"row\">" + count++ + "</th><td>" + el.name + "</td><td class=\"text-center\">" + el.year + "</td><td class=\"text-center\">" + el.type + "</td><td class=\"text-center\"><a class=\"addBtn nav-link\" id=\"" + el.id + "\" href=\"#\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-plus-square\" viewBox=\"0 0 16 16\"><path d=\"M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z\"/><path d=\"M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z\"/></svg></a></td></tr>");
@@ -38,7 +37,6 @@ function ShowList(json) {
             return false;
         });
     })
-    console.log(data)
     return data.moreAvailable;
 }
 

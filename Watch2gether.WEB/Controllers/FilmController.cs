@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Watch2gether.Application.Abstractions.DTO.Films.FilmCatalog;
 using Watch2gether.Application.Abstractions.DTO.Playlists;
+using Watch2gether.Application.Abstractions.Interfaces.Comments;
 using Watch2gether.Application.Abstractions.Interfaces.Films;
 using Watch2gether.Application.Abstractions.Interfaces.Playlists;
 using Watch2gether.WEB.Models.Film;
@@ -12,11 +14,13 @@ public class FilmController : Controller
 {
     private readonly IFilmManager _manager;
     private readonly IPlaylistManager _playlistManager;
+    private readonly ICommentManager _commentManager;
 
-    public FilmController(IFilmManager manager, IPlaylistManager playlistManager)
+    public FilmController(IFilmManager manager, IPlaylistManager playlistManager, ICommentManager commentManager)
     {
         _manager = manager;
         _playlistManager = playlistManager;
+        _commentManager = commentManager;
     }
 
     public IActionResult Index(string? query = null, string? person = null, string? genre = null,
@@ -30,12 +34,19 @@ public class FilmController : Controller
     public async Task<IActionResult> FilmsList(FilmsSearchViewModel model)
     {
         if (!ModelState.IsValid) return NoContent();
-        var films = await _manager.GetFilms(new FilmSearchQueryDto(model.Query, model.MinYear, model.MaxYear,
-            model.Genre,
-            model.Country, model.Person, model.Type, model.SortBy, model.Page, model.InverseOrder));
-        if (!films.Any()) return NoContent();
-        return Json(films.Select(x => new FilmLiteViewModel(x.Id, x.Name, x.PosterFileName, x.Rating,
-            x.ShortDescription, x.Year, x.Type, x.CountSeasons, string.Join(", ", x.Genres))));
+        try
+        {
+            var films = await _manager.GetFilms(new FilmSearchQueryDto(model.Query, model.MinYear, model.MaxYear,
+                model.Genre,
+                model.Country, model.Person, model.Type, model.SortBy, model.Page, model.InverseOrder));
+            if (!films.Any()) return NoContent();
+            return Json(films.Select(x => new FilmLiteViewModel(x.Id, x.Name, x.PosterFileName, x.Rating,
+                x.ShortDescription, x.Year, x.Type, x.CountSeasons, string.Join(", ", x.Genres))));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
 
@@ -43,6 +54,7 @@ public class FilmController : Controller
     {
         var film = await _manager.GetFilm(id);
         var playlists = await _playlistManager.GetPlaylists(new PlaylistSearchQueryDto(null, SortBy.Date, 1, false));
+
         var playlistViewModels =
             playlists.Select(x => new PlaylistLiteViewModel(x.Id, x.Name, x.PosterFileName)).ToList();
         var filmViewModel = new FilmViewModel(film.Id, film.Name, film.Year, film.Type, film.PosterFileName,
@@ -51,5 +63,40 @@ public class FilmController : Controller
             film.CountSeasons, film.CountEpisodes);
 
         return View(new FilmPageViewModel(filmViewModel, playlistViewModels));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Comments(Guid id, int page)
+    {
+        try
+        {
+            var comments = await _commentManager.GetCommentsAsync(id, page);
+            if (!comments.Any()) return NoContent();
+            var commentModels = comments
+                .Select(x => new CommentViewModel(x.Username, x.Text, x.CreatedAt, x.AvatarFileName))
+                .ToList();
+            return Json(commentModels);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Policy = "Identity.Application")]
+    public async Task<IActionResult> AddComment(Guid filmId, string text)
+    {
+        try
+        {
+            var comment = await _commentManager.AddCommentAsync(filmId, HttpContext.User.Identity!.Name!, text);
+            return Json(new CommentViewModel(comment.Username, comment.Text, comment.CreatedAt,
+                comment.AvatarFileName));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 }

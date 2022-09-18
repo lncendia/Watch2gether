@@ -10,10 +10,10 @@ namespace Watch2gether.WEB.Hubs;
 [Authorize(Policy = "RoomTemporary")]
 public class RoomHub : Hub
 {
-    private readonly IRoomService _roomService;
+    private readonly IRoomManager _roomService;
     private readonly IRoomDeleterManager _roomDeleterManager;
 
-    public RoomHub(IRoomService roomService, IRoomDeleterManager roomDeleterManager)
+    public RoomHub(IRoomManager roomService, IRoomDeleterManager roomDeleterManager)
     {
         _roomService = roomService;
         _roomDeleterManager = roomDeleterManager;
