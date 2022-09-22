@@ -3,7 +3,7 @@ using Watch2gether.Domain.Specifications.Abstractions;
 
 namespace Watch2gether.Domain.Comments.Specifications;
 
-public class UserCommentsSpecification : ISpecification<Comment, ICommentSpecificationVisitor>
+public abstract class UserCommentsSpecification : ISpecification<Comment, ICommentSpecificationVisitor>
 {
     public UserCommentsSpecification(Guid userId) => UserId = userId;
 

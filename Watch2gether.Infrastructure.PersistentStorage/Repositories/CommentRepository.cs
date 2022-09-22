@@ -30,6 +30,7 @@ public class CommentRepository : ICommentRepository
         var comment = _mapper.Map<Comment>(model);
         var x = comment.GetType();
         x.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(comment, model.Id);
+        x.GetField("<CreatedAt>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(comment, model.CreatedAt);
         return comment;
     }
 
@@ -65,7 +66,7 @@ public class CommentRepository : ICommentRepository
         return Task.CompletedTask;
     }
 
-    public Task DeleteRangeAsync(IList<Comment> entities)
+    public Task DeleteRangeAsync(IEnumerable<Comment> entities)
     {
         var ids = entities.Select(comment => comment.Id);
         _context.RemoveRange(_context.Comments.Where(comment => ids.Contains(comment.Id)));

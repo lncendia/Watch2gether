@@ -66,7 +66,7 @@ public class FilmRepository : IFilmRepository
         return Task.CompletedTask;
     }
 
-    public Task DeleteRangeAsync(IList<Film> entities)
+    public Task DeleteRangeAsync(IEnumerable<Film> entities)
     {
         var ids = entities.Select(film => film.Id);
         _context.RemoveRange(_context.Films.Where(film => ids.Contains(film.Id)));

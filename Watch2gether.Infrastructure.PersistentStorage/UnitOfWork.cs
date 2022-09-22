@@ -15,8 +15,8 @@ public class UnitOfWork : IUnitOfWork
         UserRepository = new Lazy<IUserRepository>(() => new UserRepository(context));
         FilmRepository = new Lazy<IFilmRepository>(() => new FilmRepository(context));
         RoomRepository = new Lazy<IRoomRepository>(() => new RoomRepository(context));
-        CommentRepository = new Lazy<ICommentRepository>(() => new CommentRepository(context));
         PlaylistRepository = new Lazy<IPlaylistRepository>(() => new PlaylistRepository(context));
+        CommentRepository = new Lazy<ICommentRepository>(() => new CommentRepository(context));
     }
 
     public Lazy<IFilmRepository> FilmRepository { get; }

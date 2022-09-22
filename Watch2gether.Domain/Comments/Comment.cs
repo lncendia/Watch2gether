@@ -1,6 +1,4 @@
-﻿using Watch2gether.Domain.Comments.Exceptions;
-
-namespace Watch2gether.Domain.Comments;
+﻿namespace Watch2gether.Domain.Comments;
 
 public class Comment
 {
@@ -9,7 +7,6 @@ public class Comment
         Id = Guid.NewGuid();
         FilmId = filmId;
         UserId = userId;
-        if (string.IsNullOrEmpty(text) || text.Length > 1000) throw new TextLengthException();
         Text = text;
     }
 

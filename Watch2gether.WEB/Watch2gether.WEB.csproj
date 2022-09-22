@@ -11,9 +11,4 @@
       <ProjectReference Include="..\Watch2gether.Application.Abstractions\Watch2gether.Application.Abstractions.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Pages\Film\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Pages\Film\Search.cshtml" />
-    </ItemGroup>
-
 </Project>

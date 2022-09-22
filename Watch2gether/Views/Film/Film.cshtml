@@ -1,9 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@using Watch2gether.Application.Abstractions.Interfaces.Users
 @model Watch2gether.WEB.Models.Film.FilmPageViewModel
-@inject IUserParametersService Service
 @{
     ViewData["Title"] = Model.Film.Name;
     var auth = await Context.AuthenticateAsync(IdentityConstants.ApplicationScheme);
@@ -106,41 +104,25 @@
         </div>
         <div class="blockBackground mb-4" style="min-height: 300px">
             <h3>Комментарии</h3>
-            @if (!auth.None)
-            {
-                <div>
+            <div class="my-4">
+                @if (!auth.None)
+                {
                     <form asp-action="AddComment" method="Post" id="commentForm" class="form-horizontal">
                         <input type="hidden" id="id" name="filmId" value="@Model.Film.Id">
                         <label class="form-label" for="comment">Введите комментарий</label>
                         <textarea class="form-control valid" id="comment" name="text" rows="2"></textarea>
-                        <span class="text-danger field-validation-valid" data-valmsg-for="comment"></span>
-                        <button type="submit" class="btn btn-outline-danger mt-2">Отправить</button>
+                        <span class="text-danger field-validation-valid d-block" data-valmsg-for="comment"></span>
+                        <button id="commentButton" type="button" class="btn btn-outline-danger mt-2">Отправить</button>
                     </form>
-                </div>
-            }
-            else
-            {
-                <div class="mb-2">
-                    <a class="btn btn-outline-danger" asp-controller="Account" asp-action="Login">Войти</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login">Войти</a>
                     <span>чтобы оставить комментарий</span>
-                </div>
-            }
-
-
-            <div class="comments">
-                <div class="comment">
-                    <div class="card bg-dark mb-3">
-                        <div class="card-header">
-                            <span class="float-start">Привет</span>
-                            <span class="float-end">@DateTime.Now</span>
-                        </div>
-                        <div class="card-body d-flex">
-                            <img src="~/img/Avatars/default.jpg" alt="" class="commentAvatar">
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                    </div>
-                </div>
+                }
             </div>
+            
+            <div class="comments"></div>
             <div class="spinner">
                 <div class="wave"></div>
                 <div class="wave"></div>

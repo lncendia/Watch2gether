@@ -147,7 +147,7 @@ public class RoomRepository : IRoomRepository
         return Task.CompletedTask;
     }
 
-    public Task DeleteRangeAsync(IList<Room> entities)
+    public Task DeleteRangeAsync(IEnumerable<Room> entities)
     {
         var ids = entities.Select(room => room.Id);
         _context.RemoveRange(_context.Rooms.Include(x => x.Messages).Include(x => x.Viewers)

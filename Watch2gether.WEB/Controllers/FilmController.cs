@@ -26,7 +26,11 @@ public class FilmController : Controller
     public IActionResult Index(string? query = null, string? person = null, string? genre = null,
         string? country = null)
     {
-        var model = new FilmsSearchViewModel {Query = query, Genre = genre, Country = country, Person = person};
+        var model = new FilmsSearchViewModel
+        {
+            Query = query, Genre = genre, Country = country, Person = person,
+            SortBy = Application.Abstractions.DTO.Films.FilmCatalog.SortBy.Date
+        };
         return View(model);
     }
 

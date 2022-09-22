@@ -12,7 +12,7 @@ public interface IRepository<T, in TK, out TX, out TM> where T : class
     Task UpdateAsync(T entity);
     Task UpdateRangeAsync(IList<T> entities);
     Task DeleteAsync(T entity);
-    Task DeleteRangeAsync(IList<T> entities);
+    Task DeleteRangeAsync(IEnumerable<T> entities);
     Task<T?> GetAsync(TK id);
 
     Task<IList<T>> FindAsync(ISpecification<T, TX>? specification, IOrderBy<T, TM>? orderBy = null, int? skip = null,

@@ -65,7 +65,7 @@ public class UserRepository : IUserRepository
         return Task.CompletedTask;
     }
 
-    public Task DeleteRangeAsync(IList<User> entities)
+    public Task DeleteRangeAsync(IEnumerable<User> entities)
     {
         var ids = entities.Select(user => user.Id);
         _context.RemoveRange(_context.Users.Where(user => ids.Contains(user.Id)));

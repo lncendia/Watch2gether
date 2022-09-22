@@ -10,12 +10,12 @@ namespace Watch2gether.WEB.Hubs;
 [Authorize(Policy = "RoomTemporary")]
 public class RoomHub : Hub
 {
-    private readonly IRoomManager _roomService;
+    private readonly IRoomManager _roomManager;
     private readonly IRoomDeleterManager _roomDeleterManager;
 
     public RoomHub(IRoomManager roomService, IRoomDeleterManager roomDeleterManager)
     {
-        _roomService = roomService;
+        _roomManager = roomService;
         _roomDeleterManager = roomDeleterManager;
     }
 
@@ -24,7 +24,7 @@ public class RoomHub : Hub
         var data = GetData();
         try
         {
-            await _roomService.SendMessageAsync(data.RoomId, data.Id, message);
+            await _roomManager.SendMessageAsync(data.RoomId, data.Id, message);
         }
         catch (MessageLengthException)
         {
@@ -39,32 +39,28 @@ public class RoomHub : Hub
     {
         seconds++;
         var data = GetData();
-        await _roomService.SetPauseAsync(data.RoomId, data.Id, true, TimeSpan.FromSeconds(seconds));
-        var sync = await _roomService.IsOwnerAsync(data.RoomId, data.Id);
-        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Pause", seconds, data.Id, sync);
+        await _roomManager.SetPauseAsync(data.RoomId, data.Id, true, TimeSpan.FromSeconds(seconds));
+        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Pause", seconds, data.Id);
     }
 
     public async Task Play(int seconds)
     {
         seconds++;
         var data = GetData();
-        await _roomService.SetPauseAsync(data.RoomId, data.Id, false, TimeSpan.FromSeconds(seconds));
-        var sync = await _roomService.IsOwnerAsync(data.RoomId, data.Id);
-        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Play", seconds, data.Id, sync);
+        await _roomManager.SetPauseAsync(data.RoomId, data.Id, false, TimeSpan.FromSeconds(seconds));
+        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Play", seconds, data.Id);
     }
 
     public async Task ChangeSeries(int season, int number)
     {
-        var id = Guid.Parse(Context.User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var roomId = Context.User.FindFirstValue("RoomId")!;
-        if (await _roomService.IsOwnerAsync(Guid.Parse(roomId), id))
-            await Clients.OthersInGroup(roomId).SendAsync("Change", season, number);
+        var data = GetData();
+        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Change", data.Id, season, number);
     }
 
     public override async Task OnConnectedAsync()
     {
         var data = GetData();
-        await _roomService.SetOnlineAsync(data.RoomId, data.Id, true);
+        await _roomManager.SetOnlineAsync(data.RoomId, data.Id, true);
         await Groups.AddToGroupAsync(Context.ConnectionId, data.RoomIdString);
         await Clients.OthersInGroup(data.RoomIdString).SendAsync("Connect", data.Username, data.Id);
         await base.OnConnectedAsync();
@@ -73,7 +69,7 @@ public class RoomHub : Hub
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
         var data = GetData();
-        await _roomService.SetOnlineAsync(data.RoomId, data.Id, false);
+        await _roomManager.SetOnlineAsync(data.RoomId, data.Id, false);
         //await _roomDeleterManager.DeleteRoomIfEmpty(Guid.Parse(roomId));
         await Clients.OthersInGroup(data.RoomIdString).SendAsync("Leave", data.Username, data.Id);
         await base.OnDisconnectedAsync(exception);

@@ -1,5 +1,5 @@
 ﻿let $data = new URLSearchParams();
-let inverseOrder = false;
+let inverseOrder = true;
 let data = $("#dataForm")
 GetFormData();
 

@@ -67,7 +67,7 @@ public class PlaylistRepository : IPlaylistRepository
         return Task.CompletedTask;
     }
 
-    public Task DeleteRangeAsync(IList<Playlist> entities)
+    public Task DeleteRangeAsync(IEnumerable<Playlist> entities)
     {
         var ids = entities.Select(playlist => playlist.Id);
         _context.RemoveRange(_context.Playlists.Where(playlist => ids.Contains(playlist.Id)));
