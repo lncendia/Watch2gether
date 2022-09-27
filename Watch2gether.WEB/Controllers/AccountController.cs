@@ -151,19 +151,13 @@ public class AccountController : Controller
         }
         catch (Exception ex)
         {
-            switch (ex)
+            var text = ex switch
             {
-                case UserNotFoundException:
-                    ModelState.AddModelError("", "Пользователь с таким логином не найден");
-                    break;
-                case InvalidPasswordException:
-                    ModelState.AddModelError("", "Неверный пароль");
-                    break;
-                default:
-                    ModelState.AddModelError("", "Произошла ошибка при входе");
-                    break;
-            }
-
+                UserNotFoundException => "Пользователь с таким email не найден",
+                InvalidPasswordException => "еверный пароль",
+                _ => "Произошла ошибка при входе"
+            };
+            ModelState.AddModelError("", text);
             return View(model);
         }
     }
@@ -201,18 +195,13 @@ public class AccountController : Controller
         }
         catch (Exception ex)
         {
-            switch (ex)
+            var text = ex switch
             {
-                case UserNotFoundException:
-                    ModelState.AddModelError("", "Пользователь с таким email не найден");
-                    break;
-                case EmailException:
-                    ModelState.AddModelError("", "Произошла ошибка при отправке письма");
-                    break;
-                default:
-                    ModelState.AddModelError("", "Произошла ошибка при восстановлении пароля");
-                    break;
-            }
+                UserNotFoundException => "Пользователь с таким email не найден",
+                EmailException => "Произошла ошибка при отправке письма",
+                _ => "Произошла ошибка при восстановлении пароля"
+            };
+            ModelState.AddModelError("", text);
 
             return View(model);
         }
@@ -241,18 +230,14 @@ public class AccountController : Controller
         }
         catch (Exception ex)
         {
-            switch (ex)
+            var text = ex switch
             {
-                case UserNotFoundException:
-                    ModelState.AddModelError("", "Пользователь с таким email не найден");
-                    break;
-                case InvalidCodeException:
-                    ModelState.AddModelError("", "Ссылка недействительна");
-                    break;
-                default:
-                    ModelState.AddModelError("", "Произошла ошибка при восстановлении пароля");
-                    break;
-            }
+                UserNotFoundException => "Пользователь с таким email не найден",
+                InvalidCodeException => "Ссылка недействительна",
+                _ => "Произошла ошибка при восстановлении пароля"
+            };
+            ModelState.AddModelError("", text);
+            
 
             return View(model);
         }

@@ -2,10 +2,9 @@
 
 public class RoomDto
 {
-    public RoomDto(List<MessageDto> messages, FilmDataDto film, List<ViewerDto> viewers, Guid ownerId)
+    public RoomDto(List<MessageDto> messages, List<ViewerDto> viewers, Guid ownerId)
     {
         Messages = messages;
-        Film = film;
         Viewers = viewers;
         OwnerId = ownerId;
     }
@@ -13,7 +12,6 @@ public class RoomDto
     public Guid OwnerId { get; }
     public List<MessageDto> Messages { get; }
     public List<ViewerDto> Viewers { get; }
-    public FilmDataDto Film { get; }
 }
 
 public class MessageDto
@@ -46,19 +44,4 @@ public class ViewerDto
     public string AvatarUrl { get; }
     public bool OnPause { get; }
     public TimeSpan Time { get; }
-}
-
-public class FilmDataDto
-{
-    public FilmDataDto(Guid id, string name, string url)
-    {
-        Name = name;
-        Url = url;
-        Id = id;
-    }
-
-    public Guid Id { get; }
-
-    public string Name { get; }
-    public string Url { get; }
 }

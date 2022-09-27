@@ -31,11 +31,11 @@ public class CommentManager : ICommentManager
         var comments = await _unitOfWork.CommentRepository.Value.FindAsync(new FilmCommentsSpecification(filmId),
             new DescendingOrder<Comment, ICommentSortingVisitor>(new OrderByDate()), (page - 1) * 10, 10);
         if (!comments.Any()) return new List<CommentDto>();
-        ISpecification<User, IUserSpecificationVisitor> spec = new UserFromIdSpecification(comments[0].UserId);
+        ISpecification<User, IUserSpecificationVisitor> spec = new UserByIdSpecification(comments[0].UserId);
         for (var i = 1; i < comments.Count; i++)
         {
             spec = new OrSpecification<User, IUserSpecificationVisitor>(spec,
-                new UserFromIdSpecification(comments[i].UserId));
+                new UserByIdSpecification(comments[i].UserId));
         }
 
         var users = await _unitOfWork.UserRepository.Value.FindAsync(spec);
@@ -50,7 +50,7 @@ public class CommentManager : ICommentManager
 
     public async Task<CommentDto> AddCommentAsync(Guid filmId, string email, string text)
     {
-        var t1 = _unitOfWork.UserRepository.Value.FindAsync(new UserFromEmailSpecification(email));
+        var t1 = _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email));
         var t2 = _unitOfWork.FilmRepository.Value.GetAsync(filmId);
         await Task.WhenAll(t1, t2);
         var user = t1.Result.FirstOrDefault();

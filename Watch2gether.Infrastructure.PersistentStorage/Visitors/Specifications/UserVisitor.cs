@@ -4,6 +4,7 @@ using Watch2gether.Domain.Users;
 using Watch2gether.Domain.Users.Specifications;
 using Watch2gether.Domain.Users.Specifications.Visitor;
 using Watch2gether.Infrastructure.PersistentStorage.Models;
+using Watch2gether.Infrastructure.PersistentStorage.Models.Users;
 
 namespace Watch2gether.Infrastructure.PersistentStorage.Visitors.Specifications;
 
@@ -17,6 +18,6 @@ public class UserVisitor : BaseVisitor<UserModel, IUserSpecificationVisitor, Use
         return visitor.Expr!;
     }
 
-    public void Visit(UserFromEmailSpecification specification) => Expr = x => x.Email == specification.Email;
-    public void Visit(UserFromIdSpecification specification) => Expr = x => x.Id == specification.Id;
+    public void Visit(UserByEmailSpecification specification) => Expr = x => x.Email == specification.Email;
+    public void Visit(UserByIdSpecification specification) => Expr = x => x.Id == specification.Id;
 }

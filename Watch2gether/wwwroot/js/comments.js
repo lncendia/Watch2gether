@@ -11,12 +11,10 @@ let nextHandler = async function (pageIndex) {
     }
 }
 
-$(document).ready(()=> {
-        let scroller = new InfiniteAjaxScroll('.comments', {
-            item: '.comment', next: nextHandler, spinner: '.spinner', delay: 600
-        });
-    }
-)
+let scroller = new InfiniteAjaxScroll('.comments', {
+    item: '.comment', next: nextHandler, spinner: '.spinner', delay: 600
+});
+
 //scroller.pageIndex = -1;
 
 async function GetList(page) {

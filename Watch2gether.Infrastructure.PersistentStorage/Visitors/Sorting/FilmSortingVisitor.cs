@@ -3,6 +3,7 @@ using Watch2gether.Domain.Films.Ordering;
 using Watch2gether.Domain.Films.Ordering.Visitor;
 using Watch2gether.Domain.Ordering.Abstractions;
 using Watch2gether.Infrastructure.PersistentStorage.Models;
+using Watch2gether.Infrastructure.PersistentStorage.Models.Films;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Sorting.Models;
 
 namespace Watch2gether.Infrastructure.PersistentStorage.Visitors.Sorting;

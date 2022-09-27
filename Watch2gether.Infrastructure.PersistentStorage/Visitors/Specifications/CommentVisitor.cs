@@ -4,6 +4,7 @@ using Watch2gether.Domain.Comments.Specifications;
 using Watch2gether.Domain.Comments.Specifications.Visitor;
 using Watch2gether.Domain.Specifications.Abstractions;
 using Watch2gether.Infrastructure.PersistentStorage.Models;
+using Watch2gether.Infrastructure.PersistentStorage.Models.Comments;
 
 namespace Watch2gether.Infrastructure.PersistentStorage.Visitors.Specifications;
 

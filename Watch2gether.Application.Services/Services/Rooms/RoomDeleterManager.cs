@@ -15,16 +15,17 @@ public class RoomDeleterManager : IRoomDeleterManager
 
     public async Task DeleteAll()
     {
-        await _unitOfWork.RoomRepository.Value.DeleteRangeAsync(await _unitOfWork.RoomRepository.Value.FindAsync(null));
+        await _unitOfWork.FilmRoomRepository.Value.DeleteRangeAsync(
+            await _unitOfWork.FilmRoomRepository.Value.FindAsync(null));
         await _unitOfWork.SaveAsync();
     }
 
     public async Task DeleteRoomIfEmpty(Guid roomId)
     {
-        var room = await _unitOfWork.RoomRepository.Value.GetAsync(roomId);
+        var room = await _unitOfWork.FilmRoomRepository.Value.GetAsync(roomId);
         if (room == null) throw new RoomNotFoundException();
         if (room.Viewers.Any(x => x.Online)) return;
-        await _unitOfWork.RoomRepository.Value.DeleteAsync(room);
+        await _unitOfWork.FilmRoomRepository.Value.DeleteAsync(room);
         await _unitOfWork.SaveAsync();
     }
 }

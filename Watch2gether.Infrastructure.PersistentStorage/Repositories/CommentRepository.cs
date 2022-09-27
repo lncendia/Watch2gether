@@ -8,7 +8,7 @@ using Watch2gether.Domain.Comments;
 using Watch2gether.Domain.Comments.Ordering.Visitor;
 using Watch2gether.Domain.Comments.Specifications.Visitor;
 using Watch2gether.Infrastructure.PersistentStorage.Context;
-using Watch2gether.Infrastructure.PersistentStorage.Models;
+using Watch2gether.Infrastructure.PersistentStorage.Models.Comments;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Sorting;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Specifications;
 
@@ -30,7 +30,8 @@ public class CommentRepository : ICommentRepository
         var comment = _mapper.Map<Comment>(model);
         var x = comment.GetType();
         x.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(comment, model.Id);
-        x.GetField("<CreatedAt>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(comment, model.CreatedAt);
+        x.GetField("<CreatedAt>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(comment,
+            model.CreatedAt);
         return comment;
     }
 
@@ -121,8 +122,6 @@ public class CommentRepository : ICommentRepository
         return query.CountAsync();
     }
 
-    private static IMapper GetMapper() => new Mapper(new MapperConfiguration(expr =>
-    {
-        expr.CreateMap<Comment, CommentModel>().ReverseMap();
-    }));
+    private static IMapper GetMapper() =>
+        new Mapper(new MapperConfiguration(expr => expr.CreateMap<Comment, CommentModel>().ReverseMap()));
 }

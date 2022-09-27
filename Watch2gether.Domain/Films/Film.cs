@@ -10,6 +10,14 @@ public class Film
         IEnumerable<string> directors, IEnumerable<string> screenwriters, IEnumerable<string> countries,
         string posterFileName, int? countSeasons = null, int? countEpisodes = null)
     {
+        switch (Type)
+        {
+            case FilmType.Serial when countSeasons == null:
+                throw new ArgumentException("Count of seasons must be specified for serials");
+            case FilmType.Serial when countEpisodes == null:
+                throw new ArgumentException("Count of episodes must be specified for serials");
+        }
+
         FilmData = new FilmData(rating, name, description, shortDescription, genres, year, countries, actors,
             screenwriters, directors, countSeasons, countEpisodes);
         Type = type;

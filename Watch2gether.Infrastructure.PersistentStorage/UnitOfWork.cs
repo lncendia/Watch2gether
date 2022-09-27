@@ -14,14 +14,16 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
         UserRepository = new Lazy<IUserRepository>(() => new UserRepository(context));
         FilmRepository = new Lazy<IFilmRepository>(() => new FilmRepository(context));
-        RoomRepository = new Lazy<IRoomRepository>(() => new RoomRepository(context));
+        FilmRoomRepository = new Lazy<IFilmRoomRepository>(() => new FilmRoomRepository(context));
+        YoutubeRoomRepository = new Lazy<IYoutubeRoomRepository>(() => new YoutubeRoomRepository(context));
         PlaylistRepository = new Lazy<IPlaylistRepository>(() => new PlaylistRepository(context));
         CommentRepository = new Lazy<ICommentRepository>(() => new CommentRepository(context));
     }
 
     public Lazy<IFilmRepository> FilmRepository { get; }
     public Lazy<IUserRepository> UserRepository { get; }
-    public Lazy<IRoomRepository> RoomRepository { get; }
+    public Lazy<IFilmRoomRepository> FilmRoomRepository { get; }
+    public Lazy<IYoutubeRoomRepository> YoutubeRoomRepository { get; }
     public Lazy<IPlaylistRepository> PlaylistRepository { get; }
     public Lazy<ICommentRepository> CommentRepository { get; }
 

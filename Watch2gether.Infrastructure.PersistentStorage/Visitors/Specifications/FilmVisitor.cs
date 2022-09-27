@@ -3,7 +3,7 @@ using Watch2gether.Domain.Films;
 using Watch2gether.Domain.Films.Specifications;
 using Watch2gether.Domain.Films.Specifications.Visitor;
 using Watch2gether.Domain.Specifications.Abstractions;
-using Watch2gether.Infrastructure.PersistentStorage.Models;
+using Watch2gether.Infrastructure.PersistentStorage.Models.Films;
 
 namespace Watch2gether.Infrastructure.PersistentStorage.Visitors.Specifications;
 
@@ -17,28 +17,38 @@ public class FilmVisitor : BaseVisitor<FilmModel, IFilmSpecificationVisitor, Fil
         return visitor.Expr!;
     }
 
-    public void Visit(FilmFromGenreSpecification specification) =>
-        Expr = model => model.GenresList.ToLower().Contains(specification.Genre.ToLower());
+    public void Visit(FilmByGenreSpecification specification) =>
+        Expr = model =>
+            model.Genres.Any(g =>
+                string.Equals(g.Name, specification.Genre, StringComparison.CurrentCultureIgnoreCase));
 
-    public void Visit(FilmFromActorSpecification specification) =>
-        Expr = model => model.ActorsList.Contains(specification.Actor);
+    public void Visit(FilmByActorSpecification specification) =>
+        Expr = model =>
+            model.Actors.Any(g =>
+                string.Equals(g.Name, specification.Actor, StringComparison.CurrentCultureIgnoreCase));
 
-    public void Visit(FilmFromDirectorSpecification specification) =>
-        Expr = model => model.DirectorsList.Contains(specification.Director);
+    public void Visit(FilmByDirectorSpecification specification) =>
+        Expr = model =>
+            model.Directors.Any(g =>
+                string.Equals(g.Name, specification.Director, StringComparison.CurrentCultureIgnoreCase));
 
-    public void Visit(FilmFromScreenWriterSpecification specification) =>
-        Expr = model => model.ScreenWritersList.Contains(specification.ScreenWriter);
+    public void Visit(FilmByScreenWriterSpecification specification) =>
+        Expr = model =>
+            model.ScreenWriters.Any(g =>
+                string.Equals(g.Name, specification.ScreenWriter, StringComparison.CurrentCultureIgnoreCase));
 
-    public void Visit(FilmFromTypeSpecification specification) => Expr = model => model.Type == specification.Type;
+    public void Visit(FilmByTypeSpecification specification) => Expr = model => model.Type == specification.Type;
 
-    public void Visit(FilmFromNameSpecification specification) =>
+    public void Visit(FilmByNameSpecification specification) =>
         Expr = model => model.Name.Contains(specification.Name);
 
-    public void Visit(FilmFromYearsSpecification specification) => Expr = model =>
+    public void Visit(FilmByYearsSpecification specification) => Expr = model =>
         model.Year <= specification.MaxYear && model.Year >= specification.MinYear;
 
-    public void Visit(FilmFromCountrySpecification specification) =>
-        Expr = model => model.CountriesList.Contains(specification.Country);
+    public void Visit(FilmByCountrySpecification specification) =>
+        Expr = model =>
+            model.Countries.Any(g =>
+                string.Equals(g.Name, specification.Country, StringComparison.CurrentCultureIgnoreCase));
 
-    public void Visit(FilmFromIdsSpecification specification) => Expr = model => specification.Ids.Contains(model.Id);
+    public void Visit(FilmByIdSpecification specification) => Expr = model => specification.Id == model.Id;
 }

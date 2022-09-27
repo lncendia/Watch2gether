@@ -3,6 +3,7 @@ using Watch2gether.Domain.Comments.Ordering;
 using Watch2gether.Domain.Comments.Ordering.Visitor;
 using Watch2gether.Domain.Ordering.Abstractions;
 using Watch2gether.Infrastructure.PersistentStorage.Models;
+using Watch2gether.Infrastructure.PersistentStorage.Models.Comments;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Sorting.Models;
 
 namespace Watch2gether.Infrastructure.PersistentStorage.Visitors.Sorting;

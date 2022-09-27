@@ -46,7 +46,7 @@ public class UserSecurityService : IUserSecurityService
         var result = await _userManager.ChangeEmailAsync(user, newEmail, code);
         if (!result.Succeeded) throw new InvalidCodeException();
         var userDomain =
-            (await _unitOfWork.UserRepository.Value.FindAsync(new UserFromEmailSpecification(email), null, 0, 1))
+            (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
             .FirstOrDefault();
         if (userDomain == null) throw new UserNotFoundException();
         userDomain.Email = newEmail;

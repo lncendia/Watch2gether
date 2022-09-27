@@ -28,11 +28,11 @@ public class FilmManager : IFilmManager
     {
         ISpecification<Film, IFilmSpecificationVisitor>? specification = null;
         if (!string.IsNullOrEmpty(searchQueryDto.Query))
-            specification = new FilmFromNameSpecification(searchQueryDto.Query);
+            specification = new FilmByNameSpecification(searchQueryDto.Query);
 
         if (!string.IsNullOrEmpty(searchQueryDto.Genre))
         {
-            var spec = new FilmFromGenreSpecification(searchQueryDto.Genre);
+            var spec = new FilmByGenreSpecification(searchQueryDto.Genre);
             specification = specification == null
                 ? spec
                 : new AndSpecification<Film, IFilmSpecificationVisitor>(specification, spec);
@@ -41,11 +41,11 @@ public class FilmManager : IFilmManager
         if (!string.IsNullOrEmpty(searchQueryDto.Person))
         {
             ISpecification<Film, IFilmSpecificationVisitor>
-                spec = new FilmFromActorSpecification(searchQueryDto.Person);
+                spec = new FilmByActorSpecification(searchQueryDto.Person);
             spec = new OrSpecification<Film, IFilmSpecificationVisitor>(spec,
-                new FilmFromDirectorSpecification(searchQueryDto.Person));
+                new FilmByDirectorSpecification(searchQueryDto.Person));
             spec = new OrSpecification<Film, IFilmSpecificationVisitor>(spec,
-                new FilmFromScreenWriterSpecification(searchQueryDto.Person));
+                new FilmByScreenWriterSpecification(searchQueryDto.Person));
 
             specification = specification == null
                 ? spec
@@ -54,7 +54,7 @@ public class FilmManager : IFilmManager
 
         if (!string.IsNullOrEmpty(searchQueryDto.Country))
         {
-            var spec = new FilmFromCountrySpecification(searchQueryDto.Country);
+            var spec = new FilmByCountrySpecification(searchQueryDto.Country);
             specification = specification == null
                 ? spec
                 : new AndSpecification<Film, IFilmSpecificationVisitor>(specification, spec);
@@ -64,7 +64,7 @@ public class FilmManager : IFilmManager
         {
             var minYear = searchQueryDto.MinYear ?? 0;
             var maxYear = searchQueryDto.MaxYear ?? int.MaxValue;
-            var spec = new FilmFromYearsSpecification(minYear, maxYear);
+            var spec = new FilmByYearsSpecification(minYear, maxYear);
             specification = specification == null
                 ? spec
                 : new AndSpecification<Film, IFilmSpecificationVisitor>(specification, spec);
@@ -72,7 +72,7 @@ public class FilmManager : IFilmManager
 
         if (searchQueryDto.Type != null)
         {
-            var spec = new FilmFromTypeSpecification(searchQueryDto.Type.Value);
+            var spec = new FilmByTypeSpecification(searchQueryDto.Type.Value);
             specification = specification == null
                 ? spec
                 : new AndSpecification<Film, IFilmSpecificationVisitor>(specification, spec);

@@ -4,6 +4,6 @@ namespace Watch2gether.Domain.Playlists.Specifications.Visitor;
 
 public interface IPlaylistSpecificationVisitor : ISpecificationVisitor<IPlaylistSpecificationVisitor, Playlist>
 {
-    void Visit(PlaylistFromFilmSpecification specification);
-    void Visit(PlaylistFromNameSpecification specification);
+    void Visit(PlaylistByFilmSpecification specification);
+    void Visit(PlaylistByNameSpecification specification);
 }

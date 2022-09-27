@@ -4,6 +4,7 @@ using Watch2gether.Domain.Playlists.Specifications;
 using Watch2gether.Domain.Playlists.Specifications.Visitor;
 using Watch2gether.Domain.Specifications.Abstractions;
 using Watch2gether.Infrastructure.PersistentStorage.Models;
+using Watch2gether.Infrastructure.PersistentStorage.Models.Playlists;
 
 namespace Watch2gether.Infrastructure.PersistentStorage.Visitors.Specifications;
 
@@ -18,9 +19,9 @@ public class PlaylistVisitor : BaseVisitor<PlaylistModel, IPlaylistSpecification
         return visitor.Expr!;
     }
 
-    public void Visit(PlaylistFromFilmSpecification specification) =>
+    public void Visit(PlaylistByFilmSpecification specification) =>
         Expr = model => model.FilmsList.Contains(specification.Id.ToString());
 
-    public void Visit(PlaylistFromNameSpecification specification) =>
+    public void Visit(PlaylistByNameSpecification specification) =>
         Expr = model => model.Name.Contains(specification.Name);
 }

@@ -4,13 +4,13 @@ namespace Watch2gether.Domain.Films.Specifications.Visitor;
 
 public interface IFilmSpecificationVisitor : ISpecificationVisitor<IFilmSpecificationVisitor, Film>
 {
-    void Visit(FilmFromGenreSpecification specification);
-    void Visit(FilmFromActorSpecification specification);
-    void Visit(FilmFromDirectorSpecification specification);
-    void Visit(FilmFromScreenWriterSpecification specification);
-    void Visit(FilmFromTypeSpecification specification);
-    void Visit(FilmFromNameSpecification specification);
-    void Visit(FilmFromYearsSpecification specification);
-    void Visit(FilmFromCountrySpecification specification);
-    void Visit(FilmFromIdsSpecification specification);
+    void Visit(FilmByGenreSpecification specification);
+    void Visit(FilmByActorSpecification specification);
+    void Visit(FilmByDirectorSpecification specification);
+    void Visit(FilmByScreenWriterSpecification specification);
+    void Visit(FilmByTypeSpecification specification);
+    void Visit(FilmByNameSpecification specification);
+    void Visit(FilmByYearsSpecification specification);
+    void Visit(FilmByCountrySpecification specification);
+    void Visit(FilmByIdSpecification specification);
 }

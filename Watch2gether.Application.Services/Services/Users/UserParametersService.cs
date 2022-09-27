@@ -19,7 +19,7 @@ public class UserParametersService : IUserParametersService
 
     public async Task<User> GetAsync(string email)
     {
-        var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserFromEmailSpecification(email), null, 0, 1))
+        var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
             .FirstOrDefault();
         if (user == null) throw new UserNotFoundException();
         return user;
@@ -27,7 +27,7 @@ public class UserParametersService : IUserParametersService
 
     public async Task ChangeNameAsync(string email, string name)
     {
-        var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserFromEmailSpecification(email), null, 0, 1))
+        var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
             .FirstOrDefault();
         if (user == null) throw new UserNotFoundException();
         user.Name = name;
@@ -38,7 +38,7 @@ public class UserParametersService : IUserParametersService
 
     public async Task ChangeAvatarAsync(string email, Stream avatar)
     {
-        var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserFromEmailSpecification(email), null, 0, 1))
+        var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
             .FirstOrDefault();
         if (user == null) throw new UserNotFoundException();
         var t1 = _photoManager.DeleteAsync(user.AvatarFileName);

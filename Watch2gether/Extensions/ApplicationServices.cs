@@ -18,7 +18,7 @@ public static class ApplicationServices
     {
         services.AddScoped<IUserParametersService, UserParametersService>();
         services.AddScoped<IUserSecurityService, UserSecurityService>();
-        services.AddScoped<IRoomManager, RoomManager>();
+        services.AddScoped<IFilmRoomManager, FilmRoomManager>();
         services.AddScoped<ICommentManager, CommentManager>();
         services.AddScoped<IRoomDeleterManager, RoomDeleterManager>();
         services.AddScoped<IFilmManager, FilmManager>();

@@ -15,9 +15,9 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.8");
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.CommentModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Comments.CommentModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,14 +41,74 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.FilmModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.ActorModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("FilmModelId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilmModelId");
+
+                    b.ToTable("Actors");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.CountryModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid?>("FilmModelId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilmModelId");
+
+                    b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.DirectorModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid?>("FilmModelId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilmModelId");
+
+                    b.ToTable("Directors");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.FilmModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ActorsList")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("CountEpisodes")
@@ -57,19 +117,7 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.Property<int?>("CountSeasons")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CountriesList")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DirectorsList")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("GenresList")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -82,10 +130,6 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
 
                     b.Property<double>("Rating")
                         .HasColumnType("REAL");
-
-                    b.Property<string>("ScreenWritersList")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("ShortDescription")
                         .HasColumnType("TEXT");
@@ -105,35 +149,47 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.ToTable("Films");
                 });
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.MessageModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.GenreModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid?>("FilmModelId")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("RoomId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Text")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ViewerId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId");
+                    b.HasIndex("FilmModelId");
 
-                    b.HasIndex("ViewerId");
-
-                    b.ToTable("Messages");
+                    b.ToTable("Genres");
                 });
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.PlaylistModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.ScreenWriterModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid?>("FilmModelId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilmModelId");
+
+                    b.ToTable("ScreenWriters");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Playlists.PlaylistModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,14 +219,46 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.ToTable("Playlists");
                 });
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.RoomModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.MessageModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ViewerId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex("ViewerId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("FilmId")
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsOpen")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("LastActivity")
                         .HasColumnType("TEXT");
@@ -180,43 +268,12 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FilmId");
+                    b.ToTable("RoomBaseModel");
 
-                    b.ToTable("Rooms");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("RoomBaseModel");
                 });
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.UserModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("AvatarFileName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FavoriteFilmsList")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("WatchedFilmsList")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.ViewerModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.ViewerModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -249,15 +306,102 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.ToTable("Viewers");
                 });
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.MessageModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Users.UserModel", b =>
                 {
-                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.RoomModel", "Room")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AvatarFileName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FavoriteFilmsList")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WatchedFilmsList")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.FilmRoomModel", b =>
+                {
+                    b.HasBaseType("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel");
+
+                    b.Property<Guid>("FilmId")
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("FilmRoomModel");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.YoutubeRoomModel", b =>
+                {
+                    b.HasBaseType("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("YoutubeRoomModel");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.ActorModel", b =>
+                {
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Films.FilmModel", null)
+                        .WithMany("Actors")
+                        .HasForeignKey("FilmModelId");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.CountryModel", b =>
+                {
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Films.FilmModel", null)
+                        .WithMany("Countries")
+                        .HasForeignKey("FilmModelId");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.DirectorModel", b =>
+                {
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Films.FilmModel", null)
+                        .WithMany("Directors")
+                        .HasForeignKey("FilmModelId");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.GenreModel", b =>
+                {
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Films.FilmModel", null)
+                        .WithMany("Genres")
+                        .HasForeignKey("FilmModelId");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.ScreenWriterModel", b =>
+                {
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Films.FilmModel", null)
+                        .WithMany("ScreenWriters")
+                        .HasForeignKey("FilmModelId");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.MessageModel", b =>
+                {
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel", "Room")
                         .WithMany("Messages")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.ViewerModel", "Viewer")
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.ViewerModel", "Viewer")
                         .WithMany()
                         .HasForeignKey("ViewerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -268,20 +412,9 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.Navigation("Viewer");
                 });
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.RoomModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.ViewerModel", b =>
                 {
-                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.FilmModel", "Film")
-                        .WithMany()
-                        .HasForeignKey("FilmId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Film");
-                });
-
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.ViewerModel", b =>
-                {
-                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.RoomModel", "Room")
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel", "Room")
                         .WithMany("Viewers")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -290,7 +423,20 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.RoomModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.FilmModel", b =>
+                {
+                    b.Navigation("Actors");
+
+                    b.Navigation("Countries");
+
+                    b.Navigation("Directors");
+
+                    b.Navigation("Genres");
+
+                    b.Navigation("ScreenWriters");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel", b =>
                 {
                     b.Navigation("Messages");
 

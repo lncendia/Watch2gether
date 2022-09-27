@@ -3,6 +3,7 @@ using Watch2gether.Domain.Playlists;
 using Watch2gether.Domain.Playlists.Ordering;
 using Watch2gether.Domain.Playlists.Ordering.Visitor;
 using Watch2gether.Infrastructure.PersistentStorage.Models;
+using Watch2gether.Infrastructure.PersistentStorage.Models.Playlists;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Sorting.Models;
 
 namespace Watch2gether.Infrastructure.PersistentStorage.Visitors.Sorting;

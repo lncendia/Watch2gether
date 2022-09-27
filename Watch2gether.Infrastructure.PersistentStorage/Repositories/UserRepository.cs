@@ -9,6 +9,7 @@ using Watch2gether.Domain.Users.Ordering.Visitor;
 using Watch2gether.Domain.Users.Specifications.Visitor;
 using Watch2gether.Infrastructure.PersistentStorage.Context;
 using Watch2gether.Infrastructure.PersistentStorage.Models;
+using Watch2gether.Infrastructure.PersistentStorage.Models.Users;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Sorting;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Specifications;
 

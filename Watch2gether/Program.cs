@@ -39,5 +39,9 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.UseEndpoints(x => { x.MapHub<RoomHub>("/chat"); });
+app.UseEndpoints(x =>
+{
+    x.MapHub<FilmRoomHub>("/filmRoom");
+    x.MapHub<YoutubeRoomHub>("/youtubeRoom");
+});
 app.Run();
