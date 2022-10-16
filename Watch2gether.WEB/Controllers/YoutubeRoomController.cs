@@ -11,6 +11,7 @@ using Watch2gether.Application.Abstractions.Interfaces.Rooms;
 using Watch2gether.Domain.Users.Exceptions;
 using Watch2gether.WEB.Models.Room;
 using Watch2gether.WEB.Models.Room.YoutubeRoom;
+using Watch2gether.WEB.RoomAuthentication;
 
 namespace Watch2gether.WEB.Controllers;
 
@@ -44,7 +45,8 @@ public class YoutubeRoomController : Controller
             return View(new CreateYoutubeRoomViewModel {Url = link});
         }
 
-        await AuthenticateUser(roomData.viewer, roomData.roomId);
+        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, roomData.viewer, roomData.roomId,
+            RoomType.Youtube);
         return RedirectToAction("Room", new {roomData.roomId});
     }
 
@@ -71,7 +73,8 @@ public class YoutubeRoomController : Controller
             return View(model);
         }
 
-        await AuthenticateUser(roomData.viewer, roomData.roomId);
+        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, roomData.viewer, roomData.roomId,
+            RoomType.Youtube);
         return RedirectToAction("Room", new {roomData.roomId});
     }
 
@@ -102,7 +105,7 @@ public class YoutubeRoomController : Controller
             return View(new ConnectToRoomViewModel {RoomId = roomId});
         }
 
-        await AuthenticateUser(viewer, roomId);
+        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, viewer, roomId, RoomType.Youtube);
         return RedirectToAction("Room");
     }
 
@@ -129,11 +132,12 @@ public class YoutubeRoomController : Controller
             return View(model);
         }
 
-        await AuthenticateUser(viewer, model.RoomId);
+        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, viewer, model.RoomId,
+            RoomType.Youtube);
         return RedirectToAction("Room");
     }
 
-    [Authorize(Policy = "RoomTemporary")]
+    [Authorize(Policy = "YoutubeRoom")]
     public async Task<IActionResult> Room()
     {
         var id = Guid.Parse(User.FindFirstValue("RoomId"));
@@ -156,20 +160,9 @@ public class YoutubeRoomController : Controller
         var messages = dto.Messages.Select(x => new MessageViewModel(x.Text, x.CreatedAt, Map(x.Viewer)))
             .ToList();
         var viewers = dto.Viewers.Select(Map).ToList();
-        return new YoutubeRoomViewModel(messages, viewers, url, dto.OwnerId, viewers.First(x => x.Id == id), dto.Link);
+        return new YoutubeRoomViewModel(messages, viewers, url, dto.OwnerId, viewers.First(x => x.Id == id), dto.Ids);
     }
 
     private static ViewerViewModel Map(ViewerDto dto) =>
         new(dto.Id, dto.Username, dto.AvatarUrl, dto.OnPause, dto.Time);
-
-
-    private async Task AuthenticateUser(ViewerDto viewer, Guid roomId) => await HttpContext.SignInAsync(
-        ApplicationConstants.RoomScheme,
-        new ClaimsPrincipal(new ClaimsIdentity(new[]
-        {
-            new Claim(ClaimTypes.Name, viewer.Username),
-            new Claim(ClaimTypes.NameIdentifier, viewer.Id.ToString()),
-            new Claim(ClaimTypes.Thumbprint, viewer.AvatarUrl),
-            new Claim("RoomId", roomId.ToString())
-        }, ApplicationConstants.RoomScheme)));
 }

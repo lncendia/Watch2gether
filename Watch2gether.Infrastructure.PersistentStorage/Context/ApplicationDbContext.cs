@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Watch2gether.Infrastructure.PersistentStorage.Models;
 using Watch2gether.Infrastructure.PersistentStorage.Models.Comments;
 using Watch2gether.Infrastructure.PersistentStorage.Models.Films;
 using Watch2gether.Infrastructure.PersistentStorage.Models.Playlists;
 using Watch2gether.Infrastructure.PersistentStorage.Models.Rooms;
+using Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base;
 using Watch2gether.Infrastructure.PersistentStorage.Models.Users;
 
 namespace Watch2gether.Infrastructure.PersistentStorage.Context;
@@ -33,13 +33,25 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<FilmRoomModel> FilmRooms { get; set; } = null!;
     public DbSet<YoutubeRoomModel> YoutubeRooms { get; set; } = null!;
-    public DbSet<ViewerModel> Viewers { get; set; } = null!;
+    public DbSet<VideoIdModel> VideoIds { get; set; } = null!;
     public DbSet<MessageModel> Messages { get; set; } = null!;
+
+    public DbSet<YoutubeViewerModel> YoutubeViewers { get; set; } = null!;
+    public DbSet<FilmViewerModel> FilmViewers { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<RoomBaseModel>().HasMany(x => x.Viewers).WithOne(x => x.Room).HasForeignKey(x => x.RoomId);
         modelBuilder.Entity<RoomBaseModel>().HasMany(x => x.Messages).WithOne(x => x.Room).HasForeignKey(x => x.RoomId);
+
+        modelBuilder.Entity<FilmRoomModel>().HasMany(x => x.Viewers).WithOne(x => (FilmRoomModel) x.Room)
+            .HasForeignKey(x => x.RoomId);
+
+
+        modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.Viewers).WithOne(x => (YoutubeRoomModel) x.Room)
+            .HasForeignKey(x => x.RoomId);
+        modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.VideoIds).WithOne(x => x.Room)
+            .HasForeignKey(x => x.RoomId);
+
         modelBuilder.Entity<MessageModel>().HasOne(x => x.Viewer).WithMany().HasForeignKey(x => x.ViewerId);
 
         modelBuilder.Entity<FilmModel>().HasMany(x => x.Actors).WithOne();

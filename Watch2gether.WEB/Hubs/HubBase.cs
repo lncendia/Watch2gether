@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.SignalR;
+using Watch2gether.Application.Abstractions.Exceptions.Rooms;
 using Watch2gether.Application.Abstractions.Interfaces.Rooms;
+using Watch2gether.Domain.Rooms.BaseRoom.Exceptions;
 using Watch2gether.WEB.Hubs.Models;
 
 namespace Watch2gether.WEB.Hubs;
@@ -12,83 +14,109 @@ public abstract class HubBase : Hub
 
     public async Task Send(string message)
     {
-        var data = GetData();
         try
         {
+            var data = GetData();
             await _roomManager.SendMessageAsync(data.RoomId, data.Id, message);
+            await Clients.Group(data.RoomIdString).SendAsync("Send", data.Username, data.Id, data.AvatarFileName, message);
         }
-        catch
+        catch (Exception ex)
         {
-            return;
+            var error = ex switch
+            {
+                RoomNotFoundException => "Ошибка. Комната не найдена.",
+                ViewerNotFoundException => "Ошибка. Зритель не найден.",
+                _ => "Неизвестная ошибка"
+            };
+            await Clients.Caller.SendAsync("ReceiveMessage", error);
         }
-
-        await Clients.Group(data.RoomIdString).SendAsync("Send", data.Username, data.Id, data.AvatarFileName, message);
     }
 
     public async Task Pause(int seconds)
     {
-        seconds++;
-        var data = GetData();
         try
         {
+            seconds++;
+            var data = GetData();
             await _roomManager.SetPauseAsync(data.RoomId, data.Id, true, TimeSpan.FromSeconds(seconds));
+            await Clients.OthersInGroup(data.RoomIdString).SendAsync("Pause", seconds, data.Id);
         }
-        catch
+        catch (Exception ex)
         {
-            return;
+            var error = ex switch
+            {
+                RoomNotFoundException => "Ошибка. Комната не найдена.",
+                ViewerNotFoundException => "Ошибка. Зритель не найден.",
+                _ => "Неизвестная ошибка"
+            };
+            await Clients.Caller.SendAsync("ReceiveMessage", error);
         }
-
-        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Pause", seconds, data.Id);
     }
 
     public async Task Play(int seconds)
     {
-        seconds++;
-        var data = GetData();
         try
         {
+            seconds++;
+            var data = GetData();
             await _roomManager.SetPauseAsync(data.RoomId, data.Id, false, TimeSpan.FromSeconds(seconds));
+            await Clients.OthersInGroup(data.RoomIdString).SendAsync("Play", seconds, data.Id);
         }
-        catch
+        catch (Exception ex)
         {
-            return;
+            var error = ex switch
+            {
+                RoomNotFoundException => "Ошибка. Комната не найдена.",
+                ViewerNotFoundException => "Ошибка. Зритель не найден.",
+                _ => "Неизвестная ошибка"
+            };
+            await Clients.Caller.SendAsync("ReceiveMessage", error);
         }
-
-        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Play", seconds, data.Id);
     }
-    
+
     public override async Task OnConnectedAsync()
     {
-        var data = GetData();
         try
         {
+            var data = GetData();
             await _roomManager.SetOnlineAsync(data.RoomId, data.Id, true);
+            await Groups.AddToGroupAsync(Context.ConnectionId, data.RoomIdString);
+            await Clients.OthersInGroup(data.RoomIdString).SendAsync("Connect", data.Username, data.Id);
+            await base.OnConnectedAsync();
         }
-        catch
+        catch (Exception ex)
         {
-            return;
+            var error = ex switch
+            {
+                RoomNotFoundException => "Ошибка. Комната не найдена.",
+                ViewerNotFoundException => "Ошибка. Зритель не найден.",
+                _ => "Неизвестная ошибка"
+            };
+            await Clients.Caller.SendAsync("ReceiveMessage", error);
         }
-
-        await Groups.AddToGroupAsync(Context.ConnectionId, data.RoomIdString);
-        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Connect", data.Username, data.Id);
-        await base.OnConnectedAsync();
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        var data = GetData();
         try
         {
+            var data = GetData();
             await _roomManager.SetOnlineAsync(data.RoomId, data.Id, false);
+            await Clients.OthersInGroup(data.RoomIdString).SendAsync("Leave", data.Id);
+            await base.OnDisconnectedAsync(exception);
         }
-        catch
+        catch (Exception ex)
         {
-            return;
+            var error = ex switch
+            {
+                RoomNotFoundException => "Ошибка. Комната не найдена.",
+                ViewerNotFoundException => "Ошибка. Зритель не найден.",
+                _ => "Неизвестная ошибка"
+            };
+            await Clients.Caller.SendAsync("ReceiveMessage", error);
         }
 
         //await _roomDeleterManager.DeleteRoomIfEmpty(Guid.Parse(roomId));
-        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Leave", data.Id);
-        await base.OnDisconnectedAsync(exception);
     }
 
     protected DataModel GetData()

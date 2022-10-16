@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+builder.Services.AddDomainServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddAuthenticationServices();
 builder.Services.AddInfrastructureServices(builder.Environment.WebRootPath);

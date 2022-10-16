@@ -9,9 +9,11 @@ using Watch2gether.Application.Abstractions.Exceptions.Films;
 using Watch2gether.Application.Abstractions.Exceptions.Rooms;
 using Watch2gether.Application.Abstractions.Exceptions.Users;
 using Watch2gether.Application.Abstractions.Interfaces.Rooms;
+using Watch2gether.Domain.Rooms.BaseRoom.Exceptions;
 using Watch2gether.Domain.Users.Exceptions;
 using Watch2gether.WEB.Models.Room;
 using Watch2gether.WEB.Models.Room.FilmRoom;
+using Watch2gether.WEB.RoomAuthentication;
 
 namespace Watch2gether.WEB.Controllers;
 
@@ -45,7 +47,8 @@ public class FilmRoomController : Controller
             return View(new CreateFilmRoomViewModel {FilmId = filmId});
         }
 
-        await AuthenticateUser(roomData.viewer, roomData.roomId);
+        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, roomData.viewer, roomData.roomId,
+            RoomType.Film);
         return RedirectToAction("Room", new {roomData.roomId});
     }
 
@@ -72,7 +75,8 @@ public class FilmRoomController : Controller
             return View(model);
         }
 
-        await AuthenticateUser(roomData.viewer, roomData.roomId);
+        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, roomData.viewer, roomData.roomId,
+            RoomType.Film);
         return RedirectToAction("Room", new {roomData.roomId});
     }
 
@@ -97,13 +101,14 @@ public class FilmRoomController : Controller
                 UserNotFoundException => "Пользователь с таким email не найден",
                 RoomNotFoundException => "Комната не найдена",
                 InvalidNicknameException => "Неверный формат имени",
+                RoomIsFullException => "Комната заполнена",
                 _ => "Произошла ошибка при подключении"
             };
             ModelState.AddModelError("", text);
             return View(new ConnectToRoomViewModel {RoomId = roomId});
         }
 
-        await AuthenticateUser(viewer, roomId);
+        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, viewer, roomId, RoomType.Film);
         return RedirectToAction("Room");
     }
 
@@ -124,17 +129,18 @@ public class FilmRoomController : Controller
             {
                 RoomNotFoundException => "Комната не найдена",
                 InvalidNicknameException => "Неверный формат имени",
+                RoomIsFullException => "Комната заполнена",
                 _ => "Произошла ошибка при подключении"
             };
             ModelState.AddModelError("", text);
             return View(model);
         }
 
-        await AuthenticateUser(viewer, model.RoomId);
+        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, viewer, model.RoomId, RoomType.Film);
         return RedirectToAction("Room");
     }
 
-    [Authorize(Policy = "RoomTemporary")]
+    [Authorize(Policy = "FilmRoom")]
     public async Task<IActionResult> Room()
     {
         var id = Guid.Parse(User.FindFirstValue("RoomId"));
@@ -163,15 +169,4 @@ public class FilmRoomController : Controller
 
     private static ViewerViewModel Map(ViewerDto dto) =>
         new(dto.Id, dto.Username, dto.AvatarUrl, dto.OnPause, dto.Time);
-
-
-    private async Task AuthenticateUser(ViewerDto viewer, Guid roomId) => await HttpContext.SignInAsync(
-        ApplicationConstants.RoomScheme,
-        new ClaimsPrincipal(new ClaimsIdentity(new[]
-        {
-            new Claim(ClaimTypes.Name, viewer.Username),
-            new Claim(ClaimTypes.NameIdentifier, viewer.Id.ToString()),
-            new Claim(ClaimTypes.Thumbprint, viewer.AvatarUrl),
-            new Claim("RoomId", roomId.ToString())
-        }, ApplicationConstants.RoomScheme)));
 }

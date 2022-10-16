@@ -8,6 +8,6 @@ public interface IFilmRoomManager : IRoomManager
     Task<FilmRoomDto> GetAsync(Guid roomId, Guid viewerId);
     Task<(Guid roomId, ViewerDto viewer)> CreateAsync(Guid filmId, string name);
     Task<(Guid roomId, ViewerDto viewer)> CreateForUserAsync(Guid filmId, string email);
-    Task ChangeSeason(Guid roomId, Guid viewerId, int season);
-    Task ChangeSeries(Guid roomId, Guid viewerId, int series);
+    // Task ChangeSeason(Guid roomId, Guid viewerId, int season);
+    // Task ChangeSeries(Guid roomId, Guid viewerId, int series);
 }

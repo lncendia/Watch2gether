@@ -2,11 +2,11 @@
 
 public class YoutubeRoomDto : RoomDto
 {
-    public string Link { get; }
+    public List<string> Ids { get; }
 
-    public YoutubeRoomDto(string link, List<MessageDto> messages, List<ViewerDto> viewers, Guid ownerId) : base(
+    public YoutubeRoomDto(List<string> ids, List<MessageDto> messages, List<ViewerDto> viewers, Guid ownerId) : base(
         messages, viewers, ownerId)
     {
-        Link = link;
+        Ids = ids;
     }
 }

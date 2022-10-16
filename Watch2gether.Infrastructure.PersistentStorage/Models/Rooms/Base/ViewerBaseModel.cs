@@ -1,6 +1,6 @@
-﻿namespace Watch2gether.Infrastructure.PersistentStorage.Models.Rooms;
+﻿namespace Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base;
 
-public class ViewerModel
+public class ViewerBaseModel
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;

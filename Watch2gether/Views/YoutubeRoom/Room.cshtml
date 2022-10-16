@@ -1,10 +1,10 @@
-﻿@model Watch2gether.WEB.Models.Room.FilmRoom.FilmRoomViewModel
+﻿@model Watch2gether.WEB.Models.Room.YoutubeRoom.YoutubeRoomViewModel
 @{
-    ViewData["Title"] = Model.Film.Name;
+    ViewData["Title"] = "Youtube";
 }
 <div class="row gx-0 pt-1">
     <div class="col-lg-8 col-md-7 col-12">
-        <iframe id="player" src="@Model.Film.Url" width="100%" height="630px" allowfullscreen></iframe>
+        <div id="player"></div>
     </div>
     <partial name="_RoomPartial" model="Model"/>
 </div>
@@ -12,6 +12,7 @@
 @section scripts
 {
     <script src="~/lib/signalr/dist/signalr.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="~/js/roomHub.js"></script>
-    <script src="~/js/filmHub.js"></script>
+    <script src="~/js/youtubeHub.js"></script>
 }

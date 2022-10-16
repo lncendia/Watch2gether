@@ -4,7 +4,6 @@ using Watch2gether.Application.Abstractions.Exceptions.Films;
 using Watch2gether.Application.Abstractions.Exceptions.Rooms;
 using Watch2gether.Application.Abstractions.Exceptions.Users;
 using Watch2gether.Application.Abstractions.Interfaces.Rooms;
-using Watch2gether.Domain.Abstractions.Interfaces;
 using Watch2gether.Domain.Abstractions.Repositories.UnitOfWorks;
 using Watch2gether.Domain.Films;
 using Watch2gether.Domain.Rooms.BaseRoom.Entities;
@@ -16,18 +15,17 @@ namespace Watch2gether.Application.Services.Services.Rooms;
 public class FilmRoomManager : IFilmRoomManager
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IFilmRoomService _roomService;
+    //private readonly IFilmRoomService _roomService;
 
-    public FilmRoomManager(IUnitOfWork unitOfWork, IFilmRoomService roomService)
+    public FilmRoomManager(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _roomService = roomService;
     }
 
     public async Task<(Guid roomId, ViewerDto viewer)> CreateAsync(Guid filmId, string name)
     {
         var film = await _unitOfWork.FilmRepository.Value.GetAsync(filmId);
-        if (film == null) throw new ArgumentException("Film not found.", nameof(filmId));
+        if (film == null) throw new FilmNotFoundException();
         return await CreateAsync(filmId, name, ApplicationConstants.DefaultAvatar);
     }
 
@@ -42,19 +40,23 @@ public class FilmRoomManager : IFilmRoomManager
         return await CreateAsync(filmId, user.Name, user.AvatarFileName);
     }
 
-    public async Task ChangeSeason(Guid roomId, Guid viewerId, int season)
-    {
-        var room = await _unitOfWork.FilmRoomRepository.Value.GetAsync(roomId);
-        if (room == null) throw new RoomNotFoundException();
-        _roomService.ChangeSeason(room, viewerId, season);
-    }
-
-    public async Task ChangeSeries(Guid roomId, Guid viewerId, int series)
-    {
-        var room = await _unitOfWork.FilmRoomRepository.Value.GetAsync(roomId);
-        if (room == null) throw new RoomNotFoundException();
-        _roomService.ChangeSeries(room, viewerId, series);
-    }
+    // public async Task ChangeSeason(Guid roomId, Guid viewerId, int season)
+    // {
+    //     var room = await _unitOfWork.FilmRoomRepository.Value.GetAsync(roomId);
+    //     if (room == null) throw new RoomNotFoundException();
+    //     await _roomService.ChangeSeasonAsync(room, viewerId, season);
+    //     await _unitOfWork.FilmRoomRepository.Value.UpdateAsync(room);
+    //     await _unitOfWork.SaveAsync();
+    // }
+    //
+    // public async Task ChangeSeries(Guid roomId, Guid viewerId, int series)
+    // {
+    //     var room = await _unitOfWork.FilmRoomRepository.Value.GetAsync(roomId);
+    //     if (room == null) throw new RoomNotFoundException();
+    //     await _roomService.ChangeSeriesAsync(room, viewerId, series);
+    //     await _unitOfWork.FilmRoomRepository.Value.UpdateAsync(room);
+    //     await _unitOfWork.SaveAsync();
+    // }
 
     public async Task<ViewerDto> ConnectAsync(Guid roomId, string name)
     {
@@ -112,7 +114,7 @@ public class FilmRoomManager : IFilmRoomManager
     {
         var room = await _unitOfWork.FilmRoomRepository.Value.GetAsync(roomId);
         if (room == null) throw new RoomNotFoundException();
-        room.UpdateViewer(viewerId, pause, time);
+        room.UpdateTimeLine(viewerId, pause, time);
         await _unitOfWork.FilmRoomRepository.Value.UpdateAsync(room);
         await _unitOfWork.SaveAsync();
     }

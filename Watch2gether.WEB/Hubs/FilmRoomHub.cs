@@ -5,7 +5,7 @@ using Watch2gether.Application.Abstractions.Interfaces.Rooms;
 
 namespace Watch2gether.WEB.Hubs;
 
-[Authorize(Policy = ApplicationConstants.RoomScheme)]
+[Authorize(Policy = "FilmRoom")]
 public class FilmRoomHub : HubBase
 {
     private readonly IFilmRoomManager _roomManager;

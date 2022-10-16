@@ -1,4 +1,4 @@
-﻿namespace Watch2gether.Application.Abstractions.Exceptions.Rooms;
+﻿namespace Watch2gether.Application.Abstractions.Exceptions.Films;
 
 public class PosterSaveException : Exception
 {

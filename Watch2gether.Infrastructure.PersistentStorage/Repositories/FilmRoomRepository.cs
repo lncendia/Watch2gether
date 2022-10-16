@@ -6,11 +6,13 @@ using Watch2gether.Domain.Ordering.Abstractions;
 using Watch2gether.Domain.Rooms.BaseRoom.Entities;
 using Watch2gether.Domain.Rooms.BaseRoom.ValueObject;
 using Watch2gether.Domain.Rooms.FilmRoom;
+using Watch2gether.Domain.Rooms.FilmRoom.Entities;
 using Watch2gether.Domain.Rooms.FilmRoom.Ordering.Visitor;
 using Watch2gether.Domain.Rooms.FilmRoom.Specifications.Visitor;
 using Watch2gether.Domain.Specifications.Abstractions;
 using Watch2gether.Infrastructure.PersistentStorage.Context;
 using Watch2gether.Infrastructure.PersistentStorage.Models.Rooms;
+using Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Sorting;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Specifications;
 
@@ -31,31 +33,34 @@ public class FilmRoomRepository : IFilmRoomRepository
     {
         var room = new FilmRoom(model.FilmId, "someName", "someAvatar");
         _mapper.Map(model, room);
-        var x = room.GetType();
+        var type = room.GetType();
+        var btype = type.BaseType!;
         var viewersList = model.Viewers.Select(GetMap).OrderBy(viewer => viewer.Name).ToList();
-        x.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room, model.Id);
+        btype.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room, model.Id);
         var viewers =
-            (x.GetField("_viewers", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as List<Viewer>)!;
+            (btype.GetField("_viewers", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as List<Viewer>)
+            !;
         viewers.Clear();
         viewers.AddRange(viewersList);
 
-        x.GetField("<Owner>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room,
+        type.GetField("<Owner>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room,
             viewersList.First(viewer => viewer.Id == model.OwnerId));
 
-        x.GetField("<LastActivity>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room,
+        btype.GetField("<LastActivity>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room,
             model.LastActivity);
 
         var messages =
-            (x.GetField("_messages", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as List<Message>)!;
+            (btype.GetField("_messages", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as
+                List<Message>)!;
         messages.AddRange(model.Messages.Select(GetMap).OrderBy(message => message.CreatedAt));
 
         return room;
     }
 
-    private Viewer GetMap(ViewerModel model)
+    private Viewer GetMap(ViewerBaseModel model)
     {
-        var viewer = _mapper.Map<Viewer>(model);
-        var x = viewer.GetType();
+        var viewer = _mapper.Map<FilmViewer>(model);
+        var x = viewer.GetType().BaseType!;
         x.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(viewer, model.Id);
         return viewer;
     }
@@ -71,8 +76,8 @@ public class FilmRoomRepository : IFilmRoomRepository
 
     private FilmRoomModel UpdateMap(FilmRoom room, FilmRoomModel model)
     {
-        var oldViewers = new List<ViewerModel>();
-        var newViewers = new List<ViewerModel>();
+        var oldViewers = new List<FilmViewerModel>();
+        var newViewers = new List<FilmViewerModel>();
         var viewers = room.Viewers;
         foreach (var viewer in viewers)
         {
@@ -80,7 +85,7 @@ public class FilmRoomRepository : IFilmRoomRepository
             if (viewerModel != null)
                 oldViewers.Add(viewerModel);
             else
-                newViewers.Add(_mapper.Map<ViewerModel>(viewer));
+                newViewers.Add(_mapper.Map<FilmViewerModel>(viewer));
         }
 
         var oldMessages = new List<MessageModel>();
@@ -96,10 +101,12 @@ public class FilmRoomRepository : IFilmRoomRepository
                 newMessages.Add(_mapper.Map(message, new MessageModel()));
         }
 
-        _context.RemoveRange(model.Viewers.Where(x => !oldViewers.Contains(x)));
-        _context.RemoveRange(model.Messages.Where(x => !oldMessages.Contains(x)));
-        model.Viewers.Clear();
-        model.Messages.Clear();
+        model.Viewers.RemoveAll(x => !oldViewers.Contains(x));
+        model.Messages.RemoveAll(x => !oldMessages.Contains(x));
+        // _context.RemoveRange(model.Viewers.Where(x => !oldViewers.Contains(x)));
+        // _context.RemoveRange(model.Messages.Where(x => !oldMessages.Contains(x)));
+        // model.Viewers.Clear();
+        // model.Messages.Clear();
 
         _mapper.Map(room, model);
 
@@ -142,16 +149,14 @@ public class FilmRoomRepository : IFilmRoomRepository
 
     public Task DeleteAsync(FilmRoom entity)
     {
-        _context.Remove(_context.FilmRooms.Include(x => x.Messages).Include(x => x.Viewers)
-            .First(room => room.Id == entity.Id));
+        _context.Remove(_context.FilmRooms.First(room => room.Id == entity.Id));
         return Task.CompletedTask;
     }
 
     public Task DeleteRangeAsync(IEnumerable<FilmRoom> entities)
     {
         var ids = entities.Select(room => room.Id);
-        _context.RemoveRange(_context.FilmRooms.Include(x => x.Messages).Include(x => x.Viewers)
-            .Where(room => ids.Contains(room.Id)));
+        _context.RemoveRange(_context.FilmRooms.Where(room => ids.Contains(room.Id)));
         return Task.CompletedTask;
     }
 
@@ -213,7 +218,7 @@ public class FilmRoomRepository : IFilmRoomRepository
         expr.CreateMap<FilmRoom, FilmRoomModel>().ForMember(x => x.Messages, opt => opt.Ignore())
             .ForMember(x => x.Viewers, opt => opt.Ignore());
 
-        expr.CreateMap<ViewerModel, Viewer>().ReverseMap();
+        expr.CreateMap<FilmViewerModel, FilmViewer>().ReverseMap();
         expr.CreateMap<MessageModel, Message>().ReverseMap();
     }));
 }

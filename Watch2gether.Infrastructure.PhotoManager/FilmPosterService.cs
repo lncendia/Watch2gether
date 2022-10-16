@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using Watch2gether.Application.Abstractions.Exceptions.Films;
 using Watch2gether.Application.Abstractions.Exceptions.Rooms;
 using Watch2gether.Application.Abstractions.Interfaces.Films;
 

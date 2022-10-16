@@ -2,8 +2,8 @@
 
 namespace Watch2gether.Infrastructure.PersistentStorage.Models.Rooms;
 
-public class FilmRoomModel : RoomBaseModel
+public class FilmViewerModel : ViewerBaseModel
 {
-    public Guid FilmId { get; set; }
-    public List<FilmViewerModel> Viewers { get; set; } = new();
+    public int Season { get; set; }
+    public int Series { get; set; }
 }

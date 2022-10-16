@@ -10,6 +10,7 @@ public class CreateYoutubeRoomViewModel
         ErrorMessage = "Имя пользователя должно содержать от 3 до 20 символов")]
     public string Name { get; set; } = null!;
 
+    [Display(Name = "Вставьте ссылку на видео")]
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [DataType(DataType.Url)]
     public string Url { get; set; } = null!;

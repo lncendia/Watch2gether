@@ -5,9 +5,9 @@ using Watch2gether.Application.Abstractions;
 using Watch2gether.Application.Abstractions.Entities.Role;
 using Watch2gether.Application.Abstractions.Entities.User;
 using Watch2gether.Application.Abstractions.Interfaces.Users;
-using Watch2gether.Application.Services.Services;
 using Watch2gether.Application.Services.Services.Users;
 using Watch2gether.Infrastructure.ApplicationData;
+using Watch2gether.WEB.RoomAuthentication;
 
 namespace Watch2gether.Extensions;
 
@@ -38,7 +38,7 @@ public static class AuthenticationServices
 
         services.AddAuthorization(options =>
         {
-            options.AddPolicy("RoomTemporary", policy =>
+            options.AddPolicy("FilmRoom", policy =>
             {
                 policy.RequireAuthenticatedUser();
                 policy.AddAuthenticationSchemes(ApplicationConstants.RoomScheme);
@@ -46,6 +46,17 @@ public static class AuthenticationServices
                 policy.RequireClaim(ClaimTypes.NameIdentifier);
                 policy.RequireClaim(ClaimTypes.Name);
                 policy.RequireClaim(ClaimTypes.Thumbprint);
+                policy.RequireClaim("RoomType", RoomType.Film.ToString());
+            });
+            options.AddPolicy("YoutubeRoom", policy =>
+            {
+                policy.RequireAuthenticatedUser();
+                policy.AddAuthenticationSchemes(ApplicationConstants.RoomScheme);
+                policy.RequireClaim("RoomId");
+                policy.RequireClaim(ClaimTypes.NameIdentifier);
+                policy.RequireClaim(ClaimTypes.Name);
+                policy.RequireClaim(ClaimTypes.Thumbprint);
+                policy.RequireClaim("RoomType", RoomType.Youtube.ToString());
             });
             options.AddPolicy("Identity.Application", policy =>
             {

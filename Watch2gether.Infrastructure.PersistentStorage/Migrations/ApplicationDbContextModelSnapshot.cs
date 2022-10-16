@@ -219,6 +219,69 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.ToTable("Playlists");
                 });
 
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base.RoomBaseModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsOpen")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("LastActivity")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoomBaseModel");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("RoomBaseModel");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base.ViewerBaseModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AvatarFileName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("OnPause")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Online")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<TimeSpan>("TimeLine")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ViewerBaseModel");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("ViewerBaseModel");
+                });
+
             modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.MessageModel", b =>
                 {
                     b.Property<int>("Id")
@@ -247,63 +310,24 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.VideoIdModel", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("LastActivity")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RoomBaseModel");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("RoomBaseModel");
-                });
-
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.ViewerModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("AvatarFileName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("OnPause")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Online")
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid>("RoomId")
                         .HasColumnType("TEXT");
 
-                    b.Property<TimeSpan>("TimeLine")
+                    b.Property<string>("VideoId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Viewers");
+                    b.ToTable("VideoIds");
                 });
 
             modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Users.UserModel", b =>
@@ -339,7 +363,7 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
 
             modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.FilmRoomModel", b =>
                 {
-                    b.HasBaseType("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel");
+                    b.HasBaseType("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base.RoomBaseModel");
 
                     b.Property<Guid>("FilmId")
                         .HasColumnType("TEXT");
@@ -347,15 +371,39 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.HasDiscriminator().HasValue("FilmRoomModel");
                 });
 
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.FilmViewerModel", b =>
+                {
+                    b.HasBaseType("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base.ViewerBaseModel");
+
+                    b.Property<int>("Season")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Series")
+                        .HasColumnType("INTEGER");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasDiscriminator().HasValue("FilmViewerModel");
+                });
+
             modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.YoutubeRoomModel", b =>
                 {
-                    b.HasBaseType("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel");
+                    b.HasBaseType("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base.RoomBaseModel");
 
-                    b.Property<string>("Url")
+                    b.HasDiscriminator().HasValue("YoutubeRoomModel");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.YoutubeViewerModel", b =>
+                {
+                    b.HasBaseType("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base.ViewerBaseModel");
+
+                    b.Property<string>("CurrentVideoId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasDiscriminator().HasValue("YoutubeRoomModel");
+                    b.HasIndex("RoomId");
+
+                    b.HasDiscriminator().HasValue("YoutubeViewerModel");
                 });
 
             modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Films.ActorModel", b =>
@@ -395,13 +443,13 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
 
             modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.MessageModel", b =>
                 {
-                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel", "Room")
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base.RoomBaseModel", "Room")
                         .WithMany("Messages")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.ViewerModel", "Viewer")
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base.ViewerBaseModel", "Viewer")
                         .WithMany()
                         .HasForeignKey("ViewerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -412,9 +460,31 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.Navigation("Viewer");
                 });
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.ViewerModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.VideoIdModel", b =>
                 {
-                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel", "Room")
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.YoutubeRoomModel", "Room")
+                        .WithMany("VideoIds")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.FilmViewerModel", b =>
+                {
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.FilmRoomModel", "Room")
+                        .WithMany("Viewers")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.YoutubeViewerModel", b =>
+                {
+                    b.HasOne("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.YoutubeRoomModel", "Room")
                         .WithMany("Viewers")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -436,9 +506,19 @@ namespace Watch2gether.Infrastructure.PersistentStorage.Migrations
                     b.Navigation("ScreenWriters");
                 });
 
-            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.RoomBaseModel", b =>
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base.RoomBaseModel", b =>
                 {
                     b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.FilmRoomModel", b =>
+                {
+                    b.Navigation("Viewers");
+                });
+
+            modelBuilder.Entity("Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.YoutubeRoomModel", b =>
+                {
+                    b.Navigation("VideoIds");
 
                     b.Navigation("Viewers");
                 });

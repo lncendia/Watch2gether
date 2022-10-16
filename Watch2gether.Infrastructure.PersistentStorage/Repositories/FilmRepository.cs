@@ -240,14 +240,17 @@ public class FilmRepository : IFilmRepository
             .ForMember(x => x.ShortDescription, expression => expression.MapFrom(y => y.FilmData.ShortDescription))
             .ForMember(x => x.Name, expression => expression.MapFrom(y => y.FilmData.Name));
 
+        expr.CreateMap<FilmModel, Film>()
+            .ForMember(x => x.Url, expression => expression.MapFrom(y => new Uri(y.Url)))
+            .ForMember(x => x.FilmData, expression => expression.MapFrom(model => model));
 
-        expr.CreateMap<FilmModel, Film>().ForMember(x => x.Url, expression => expression.MapFrom(y => new Uri(y.Url)))
-            .ForMember(x => x.FilmData.Genres, expression => expression.MapFrom(y => y.Genres.Select(x => x.Name)))
-            .ForMember(x => x.FilmData.Screenwriters,
+        expr.CreateMap<FilmModel, FilmData>().ForMember(x => x.Genres,
+                expression => expression.MapFrom(y => y.Genres.Select(x => x.Name)))
+            .ForMember(x => x.Screenwriters,
                 expression => expression.MapFrom(y => y.ScreenWriters.Select(x => x.Name)))
-            .ForMember(x => x.FilmData.Directors,
+            .ForMember(x => x.Directors,
                 expression => expression.MapFrom(y => y.Directors.Select(x => x.Name)))
-            .ForMember(x => x.FilmData.Countries,
+            .ForMember(x => x.Countries,
                 expression => expression.MapFrom(y => y.Countries.Select(x => x.Name)));
 
 

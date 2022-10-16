@@ -6,53 +6,40 @@ namespace Watch2gether.Domain.Rooms.BaseRoom;
 
 public abstract class BaseRoom
 {
-    protected BaseRoom(string name, string avatarFileName)
-    {
-        Id = Guid.NewGuid();
-        Owner = Connect(name, avatarFileName);
-    }
+    protected BaseRoom() => Id = Guid.NewGuid();
 
     public Guid Id { get; }
     public bool IsOpen { get; set; } = false;
-    protected readonly List<Viewer> _viewers = new();
-    protected readonly List<Message> _messages = new();
-
-    public List<Viewer> Viewers => _viewers.ToList();
-    public List<Message> Messages => _messages.ToList();
-    public Viewer Owner { get; }
     public DateTime LastActivity { get; private set; } = DateTime.UtcNow;
+    public List<Message> Messages => MessagesList.ToList();
+    
+    protected readonly List<Viewer> ViewersList = new();
 
-    public Viewer Connect(string name, string avatarFileName)
+    protected readonly List<Message> MessagesList = new();
+
+
+    public void SetOnline(Guid viewerId, bool isOnline) => GetViewer(viewerId).Online = isOnline;
+
+    public void UpdateTimeLine(Guid viewerId, bool pause, TimeSpan time)
     {
-        var viewer = new Viewer(name, Id, avatarFileName);
-        _viewers.Add(viewer);
-        UpdateActivity();
-        return viewer;
+        var viewer = GetViewer(viewerId);
+        viewer.OnPause = pause;
+        viewer.TimeLine = time;
     }
 
     public void SendMessage(Guid viewerId, string message)
     {
         SetOnline(viewerId, true);
-        _messages.Add(new Message(viewerId, message, Id));
-        UpdateActivity();
-    }
-
-    public void UpdateViewer(Guid viewerId, bool pause, TimeSpan time)
-    {
-        var viewer = _viewers.FirstOrDefault(x => x.Id == viewerId);
-        if (viewer == null) throw new ViewerNotFoundException();
-        viewer.OnPause = pause;
-        viewer.TimeLine = time;
-        UpdateActivity();
-    }
-
-    public void SetOnline(Guid viewerId, bool isOnline)
-    {
-        var viewer = _viewers.FirstOrDefault(x => x.Id == viewerId);
-        if (viewer == null) throw new ViewerNotFoundException();
-        viewer.Online = isOnline;
+        MessagesList.Add(new Message(viewerId, message, Id));
         UpdateActivity();
     }
 
     protected void UpdateActivity() => LastActivity = DateTime.UtcNow;
+
+    protected Viewer GetViewer(Guid viewerId)
+    {
+        var viewer = ViewersList.FirstOrDefault(x => x.Id == viewerId);
+        if (viewer == null) throw new ViewerNotFoundException();
+        return viewer;
+    }
 }
