@@ -12,7 +12,6 @@ using Watch2gether.Domain.Rooms.FilmRoom.Specifications.Visitor;
 using Watch2gether.Domain.Specifications.Abstractions;
 using Watch2gether.Infrastructure.PersistentStorage.Context;
 using Watch2gether.Infrastructure.PersistentStorage.Models.Rooms;
-using Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Sorting;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Specifications;
 
@@ -35,11 +34,13 @@ public class FilmRoomRepository : IFilmRoomRepository
         _mapper.Map(model, room);
         var type = room.GetType();
         var btype = type.BaseType!;
+
         var viewersList = model.Viewers.Select(GetMap).OrderBy(viewer => viewer.Name).ToList();
+
         btype.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room, model.Id);
         var viewers =
-            (btype.GetField("_viewers", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as List<Viewer>)
-            !;
+            (btype.GetField("ViewersList", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as
+                List<Viewer>)!;
         viewers.Clear();
         viewers.AddRange(viewersList);
 
@@ -50,14 +51,14 @@ public class FilmRoomRepository : IFilmRoomRepository
             model.LastActivity);
 
         var messages =
-            (btype.GetField("_messages", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as
+            (btype.GetField("MessagesList", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as
                 List<Message>)!;
         messages.AddRange(model.Messages.Select(GetMap).OrderBy(message => message.CreatedAt));
 
         return room;
     }
 
-    private Viewer GetMap(ViewerBaseModel model)
+    private FilmViewer GetMap(FilmViewerModel model)
     {
         var viewer = _mapper.Map<FilmViewer>(model);
         var x = viewer.GetType().BaseType!;
@@ -113,8 +114,8 @@ public class FilmRoomRepository : IFilmRoomRepository
         _context.AddRange(newViewers);
         _context.AddRange(newMessages);
 
-        model.Viewers.AddRange(oldViewers);
-        model.Messages.AddRange(oldMessages);
+        // model.Viewers.AddRange(oldViewers);
+        // model.Messages.AddRange(oldMessages);
         return model;
     }
 

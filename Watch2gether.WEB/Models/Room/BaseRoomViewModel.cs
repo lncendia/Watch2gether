@@ -1,41 +1,42 @@
 ﻿namespace Watch2gether.WEB.Models.Room;
 
-public class BaseRoomViewModel
+public abstract class BaseRoomViewModel
 {
-    public BaseRoomViewModel(List<MessageViewModel> messages, List<ViewerViewModel> viewers, string connectUrl,
-        Guid ownerId, ViewerViewModel currentViewer)
+    protected BaseRoomViewModel(IEnumerable<MessageViewModel> messages, IEnumerable<ViewerViewModel> viewers,
+        string connectUrl, Guid ownerId, Guid currentViewerId)
     {
-        Messages = messages;
+        Messages = messages.ToList();
         ConnectUrl = connectUrl;
         OwnerId = ownerId;
-        CurrentViewer = currentViewer;
-        Viewers = viewers;
+        Viewers = viewers.ToList();
+        CurrentViewer = Viewers.First(x=>x.Id == currentViewerId);
     }
 
-    public List<MessageViewModel> Messages { get; }
-    public List<ViewerViewModel> Viewers { get; }
-    public ViewerViewModel CurrentViewer { get; }
+    protected readonly List<MessageViewModel> Messages;
+    protected readonly List<ViewerViewModel> Viewers;
+    
+    public readonly ViewerViewModel CurrentViewer;
     public Guid OwnerId { get; }
     public string ConnectUrl { get; }
 }
 
-public class MessageViewModel
+public abstract class MessageViewModel
 {
-    public MessageViewModel(string text, DateTime createdAt, ViewerViewModel viewer)
+    protected MessageViewModel(string text, DateTime createdAt, ViewerViewModel viewer)
     {
         Text = text;
         CreatedAt = createdAt.ToLocalTime();
         Viewer = viewer;
     }
 
-    public ViewerViewModel Viewer { get; }
+    public readonly ViewerViewModel Viewer;
     public DateTime CreatedAt { get; }
     public string Text { get; }
 }
 
-public class ViewerViewModel
+public abstract class ViewerViewModel
 {
-    public ViewerViewModel(Guid id, string username, string avatarUrl, bool onPause, TimeSpan time)
+    protected ViewerViewModel(Guid id, string username, string avatarUrl, bool onPause, TimeSpan time)
     {
         Id = id;
         Username = username;

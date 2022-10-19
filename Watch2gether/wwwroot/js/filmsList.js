@@ -17,7 +17,7 @@ let scroller = new InfiniteAjaxScroll('.films', {
     item: '.film', next: nextHandler, spinner: '.spinner', delay: 600
 });
 
-async function GetList(page: number) {
+async function GetList(page) {
     $data.set("page", page)
     $data.set("inverseOrder", inverseOrder);
     let data = await fetch('/Film/FilmsList?' + $data.toString());

@@ -18,7 +18,7 @@ public abstract class HubBase : Hub
         {
             var data = GetData();
             await _roomManager.SendMessageAsync(data.RoomId, data.Id, message);
-            await Clients.Group(data.RoomIdString).SendAsync("Send", data.Username, data.Id, data.AvatarFileName, message);
+            await Clients.Group(data.RoomIdString).SendAsync("Send", data.Id, message);
         }
         catch (Exception ex)
         {
@@ -74,34 +74,12 @@ public abstract class HubBase : Hub
         }
     }
 
-    public override async Task OnConnectedAsync()
-    {
-        try
-        {
-            var data = GetData();
-            await _roomManager.SetOnlineAsync(data.RoomId, data.Id, true);
-            await Groups.AddToGroupAsync(Context.ConnectionId, data.RoomIdString);
-            await Clients.OthersInGroup(data.RoomIdString).SendAsync("Connect", data.Username, data.Id);
-            await base.OnConnectedAsync();
-        }
-        catch (Exception ex)
-        {
-            var error = ex switch
-            {
-                RoomNotFoundException => "Ошибка. Комната не найдена.",
-                ViewerNotFoundException => "Ошибка. Зритель не найден.",
-                _ => "Неизвестная ошибка"
-            };
-            await Clients.Caller.SendAsync("ReceiveMessage", error);
-        }
-    }
-
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
         try
         {
             var data = GetData();
-            await _roomManager.SetOnlineAsync(data.RoomId, data.Id, false);
+            await _roomManager.DisconnectAsync(data.RoomId, data.Id);
             await Clients.OthersInGroup(data.RoomIdString).SendAsync("Leave", data.Id);
             await base.OnDisconnectedAsync(exception);
         }

@@ -13,19 +13,13 @@ public class FilmRoomService : IFilmRoomService
 
     public FilmRoomService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
-    public async Task ChangeSeasonAsync(FilmRoom room, Guid viewerId, int season)
+    public async Task ChangeSeriesAsync(FilmRoom room, Guid viewerId, int season, int series)
     {
         var film = await _unitOfWork.FilmRepository.Value.GetAsync(room.FilmId);
         if (film!.Type != FilmType.Serial) throw new NotSerialException();
         if (film.FilmData.CountSeasons < season) throw new SeasonException();
-        //room.ChangeSeason(viewerId, season);
-    }
-
-    public async Task ChangeSeriesAsync(FilmRoom room, Guid viewerId, int series)
-    {
-        var film = await _unitOfWork.FilmRepository.Value.GetAsync(room.FilmId);
-        if (film!.Type != FilmType.Serial) throw new NotSerialException();
         if (film.FilmData.CountEpisodes < series) throw new SeriesException();
-        //room.ChangeSeason(viewerId, series);
+        room.ChangeSeries(viewerId, series);
+        room.ChangeSeason(viewerId, season);
     }
 }

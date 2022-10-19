@@ -12,13 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Settings\Communication.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Settings\Communications.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Settings\CreateCommunication.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Watch2gether.Application.Services\Watch2gether.Application.Services.csproj" />
       <ProjectReference Include="..\Watch2gether.Domain.Abstractions\Watch2gether.Domain.Abstractions.csproj" />
       <ProjectReference Include="..\Watch2gether.Domain.Services\Watch2gether.Domain.Services.csproj" />
@@ -32,6 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AntiXSS" Version="4.3.0" />
       <PackageReference Include="AspNet.Security.OAuth.Vkontakte" Version="6.0.6" />
       <PackageReference Include="AspNet.Security.OAuth.Yandex" Version="6.0.6" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth" Version="2.2.0" />
@@ -39,12 +33,6 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Views\YoutubeRoom\Connect.cshtml" />
-      <AdditionalFiles Include="Views\YoutubeRoom\CreateRoom.cshtml" />
-      <AdditionalFiles Include="Views\YoutubeRoom\Room.cshtml" />
     </ItemGroup>
 
 </Project>

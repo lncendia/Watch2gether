@@ -12,7 +12,6 @@ using Watch2gether.Domain.Rooms.YoutubeRoom.Specifications.Visitor;
 using Watch2gether.Domain.Specifications.Abstractions;
 using Watch2gether.Infrastructure.PersistentStorage.Context;
 using Watch2gether.Infrastructure.PersistentStorage.Models.Rooms;
-using Watch2gether.Infrastructure.PersistentStorage.Models.Rooms.Base;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Sorting;
 using Watch2gether.Infrastructure.PersistentStorage.Visitors.Specifications;
 
@@ -31,16 +30,18 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
 
     private YoutubeRoom GetMap(YoutubeRoomModel model)
     {
-        var room = new YoutubeRoom("someId", "someName", "someAvatar");
+        var room = new YoutubeRoom("someId", "someName", "someAvatar", model.AddAccess);
         _mapper.Map(model, room);
         var type = room.GetType();
         var btype = type.BaseType!;
 
         var viewersList = model.Viewers.Select(GetMap).OrderBy(viewer => viewer.Name).ToList();
+
         btype.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room, model.Id);
+
         var viewers =
-            (btype.GetField("_viewers", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as List<Viewer>)
-            !;
+            (btype.GetField("ViewersList", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as
+                List<Viewer>)!;
         viewers.Clear();
         viewers.AddRange(viewersList);
 
@@ -51,7 +52,7 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
             model.LastActivity);
 
         var messages =
-            (btype.GetField("_messages", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as
+            (btype.GetField("MessagesList", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as
                 List<Message>)!;
         messages.AddRange(model.Messages.Select(GetMap).OrderBy(message => message.CreatedAt));
 
@@ -63,9 +64,9 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
         return room;
     }
 
-    private Viewer GetMap(ViewerBaseModel model)
+    private YoutubeViewer GetMap(YoutubeViewerModel model)
     {
-        var viewer = _mapper.Map<Viewer>(model);
+        var viewer = _mapper.Map<YoutubeViewer>(model);
         var x = viewer.GetType();
         x.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(viewer, model.Id);
         return viewer;
@@ -153,7 +154,7 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
     public async Task UpdateAsync(YoutubeRoom entity)
     {
         var model = await _context.YoutubeRooms.Include(x => x.Messages).Include(x => x.Viewers)
-            .FirstAsync(x => x.Id == entity.Id);
+            .Include(x => x.VideoIds).FirstAsync(x => x.Id == entity.Id);
         UpdateMap(entity, model);
     }
 
@@ -161,7 +162,7 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
     {
         var ids = entities.Select(room => room.Id);
         var rooms = await _context.YoutubeRooms.Include(x => x.Messages).Include(x => x.Viewers)
-            .Where(room => ids.Contains(room.Id)).ToListAsync();
+            .Include(x => x.VideoIds).Where(room => ids.Contains(room.Id)).ToListAsync();
         foreach (var entity in entities)
             UpdateMap(entity, rooms.First(youtubeRoomModel => youtubeRoomModel.Id == entity.Id));
     }
@@ -182,7 +183,7 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
     public async Task<YoutubeRoom?> GetAsync(Guid id)
     {
         var room = await _context.YoutubeRooms.Include(x => x.Messages).Include(x => x.Viewers)
-            .FirstOrDefaultAsync(youtubeRoomModel => youtubeRoomModel.Id == id);
+            .Include(x => x.VideoIds).FirstOrDefaultAsync(youtubeRoomModel => youtubeRoomModel.Id == id);
         return room == null ? null : GetMap(room);
     }
 
@@ -191,7 +192,7 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
         IOrderBy<YoutubeRoom, IYoutubeRoomSortingVisitor>? orderBy = null, int? skip = null,
         int? take = null)
     {
-        var query = _context.YoutubeRooms.Include(x => x.Messages).Include(x => x.Viewers).AsQueryable();
+        var query = _context.YoutubeRooms.Include(x => x.VideoIds).Include(x => x.Messages).Include(x => x.Viewers).AsQueryable();
         if (specification != null)
         {
             var visitor = new YoutubeRoomVisitor();

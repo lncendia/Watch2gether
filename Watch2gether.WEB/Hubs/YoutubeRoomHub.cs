@@ -1,7 +1,5 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Watch2gether.Application.Abstractions;
 using Watch2gether.Application.Abstractions.Exceptions.Rooms;
 using Watch2gether.Application.Abstractions.Interfaces.Rooms;
 using Watch2gether.Domain.Rooms.BaseRoom.Exceptions;
@@ -20,11 +18,12 @@ public class YoutubeRoomHub : HubBase
         _roomManager = roomService;
         _roomDeleterManager = roomDeleterManager;
     }
-    public async Task ChangeVideo(int index)
+
+    public async Task ChangeVideo(string id)
     {
         var data = GetData();
-        //TODO: ChangeSeries
-        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Change", index);
+        await _roomManager.ChangeVideoAsync(data.RoomId, data.Id, id);
+        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Change", data.Id, id);
     }
 
     public async Task AddVideo(string url)
@@ -32,7 +31,8 @@ public class YoutubeRoomHub : HubBase
         try
         {
             var data = GetData();
-            var id = await _roomManager.AddVideoAsync(data.RoomId, url);
+            var id = await _roomManager.AddVideoAsync(data.RoomId, data.Id, url);
+            //TODO: Exceptions
             await Clients.Group(data.RoomIdString).SendAsync("AddVideo", id);
         }
         catch (Exception ex)
@@ -63,6 +63,30 @@ public class YoutubeRoomHub : HubBase
                 RoomNotFoundException => "Ошибка. Комната не найдена.",
                 ViewerNotFoundException => "Ошибка. Зритель не найден.",
                 InvalidVideoUrlException => "Ошибка. Неверный URL.",
+                _ => "Неизвестная ошибка"
+            };
+            await Clients.Caller.SendAsync("ReceiveMessage", error);
+        }
+    }
+
+    public override async Task OnConnectedAsync()
+    {
+        try
+        {
+            var data = GetData();
+            var viewer = await _roomManager.ConnectAsync(data.RoomId, data.Id);
+            await Groups.AddToGroupAsync(Context.ConnectionId, data.RoomIdString);
+            await Clients.OthersInGroup(data.RoomIdString).SendAsync("Connect",
+                new YoutubeViewerModel(viewer.Id, viewer.Username, viewer.AvatarUrl, (int) viewer.Time.TotalSeconds,
+                    viewer.CurrentVideoId));
+            await base.OnConnectedAsync();
+        }
+        catch (Exception ex)
+        {
+            var error = ex switch
+            {
+                RoomNotFoundException => "Ошибка. Комната не найдена.",
+                ViewerNotFoundException => "Ошибка. Зритель не найден.",
                 _ => "Неизвестная ошибка"
             };
             await Clients.Caller.SendAsync("ReceiveMessage", error);

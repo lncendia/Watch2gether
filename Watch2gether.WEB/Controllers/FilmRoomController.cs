@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Watch2gether.Application.Abstractions;
 using Watch2gether.Application.Abstractions.DTO.Rooms;
+using Watch2gether.Application.Abstractions.DTO.Rooms.Film;
 using Watch2gether.Application.Abstractions.Exceptions.Films;
 using Watch2gether.Application.Abstractions.Exceptions.Rooms;
 using Watch2gether.Application.Abstractions.Exceptions.Users;
@@ -160,13 +161,18 @@ public class FilmRoomController : Controller
 
     private static FilmRoomViewModel Map(FilmRoomDto dto, Guid id, string url)
     {
-        var messages = dto.Messages.Select(x => new MessageViewModel(x.Text, x.CreatedAt, Map(x.Viewer)))
-            .ToList();
-        var viewers = dto.Viewers.Select(Map).ToList();
-        var film = new FilmViewModel(dto.Film.Name, dto.Film.Url);
-        return new FilmRoomViewModel(messages, viewers, film, url, dto.OwnerId, viewers.First(x => x.Id == id));
+        var messages = dto.Messages.Select(Map);
+        var viewers = dto.Viewers.Select(Map);
+        var film = new FilmViewModel(dto.Film.Name, dto.Film.Url, dto.Film.Type);
+        return new FilmRoomViewModel(messages, viewers, film, url, dto.OwnerId, id);
     }
 
-    private static ViewerViewModel Map(ViewerDto dto) =>
-        new(dto.Id, dto.Username, dto.AvatarUrl, dto.OnPause, dto.Time);
+    private static FilmViewerViewModel Map(FilmViewerDto dto) =>
+        new(dto.Id, dto.Username, dto.AvatarUrl, dto.OnPause, dto.Time, dto.Season, dto.Series);
+
+    private static FilmMessageViewModel Map(FilmMessageDto dto)
+    {
+        var viewer = Map(dto.Viewer);
+        return new FilmMessageViewModel(dto.Text, dto.CreatedAt, viewer);
+    }
 }

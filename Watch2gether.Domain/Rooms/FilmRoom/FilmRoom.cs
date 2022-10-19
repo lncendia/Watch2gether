@@ -1,4 +1,5 @@
 ﻿using Watch2gether.Domain.Rooms.BaseRoom.Exceptions;
+using Watch2gether.Domain.Rooms.BaseRoom.ValueObject;
 using Watch2gether.Domain.Rooms.FilmRoom.Entities;
 
 namespace Watch2gether.Domain.Rooms.FilmRoom;
@@ -9,11 +10,13 @@ public class FilmRoom : BaseRoom.BaseRoom
     {
         FilmId = filmId;
         Owner = new FilmViewer(name, Id, avatarFileName, 1, 1);
+        ViewersList.Add(Owner);
     }
 
     public Guid FilmId { get; }
     public FilmViewer Owner { get; }
-    public List<FilmViewer> Viewers => ViewersList.Select(x => (FilmViewer) x).ToList();
+    public List<FilmViewer> Viewers => ViewersList.Cast<FilmViewer>().ToList();
+    public List<Message> Messages => MessagesList.ToList();
 
 
     public FilmViewer Connect(string name, string avatarFileName)

@@ -54,6 +54,7 @@ function failForm(error) {
     input.addClass("input-validation-error");
 }
 
+
 $("#commentButton").click(async () => {
     try {
         await AddComment();

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Watch2gether.Application.Abstractions;
 using Watch2gether.Application.Abstractions.DTO.Rooms;
+using Watch2gether.Application.Abstractions.DTO.Rooms.Youtube;
 using Watch2gether.Application.Abstractions.Exceptions.Rooms;
 using Watch2gether.Application.Abstractions.Exceptions.Users;
 using Watch2gether.Application.Abstractions.Interfaces.Rooms;
@@ -22,15 +23,59 @@ public class YoutubeRoomController : Controller
     public YoutubeRoomController(IYoutubeRoomManager roomService) => _roomService = roomService;
 
     [HttpGet]
-    public async Task<IActionResult> CreateRoom(string link)
+    public async Task<IActionResult> CreateRoom()
     {
         var data = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
-        if (data.None) return View(new CreateYoutubeRoomViewModel {Url = link});
+        return RedirectToAction(data.None ? "CreateDefaultRoom" : "CreateUserRoom");
+    }
+
+    [HttpGet]
+    public ActionResult CreateDefaultRoom() => View();
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateDefaultRoom(CreateYoutubeRoomViewModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
+        (Guid roomId, ViewerDto viewer) roomData;
+        try
+        {
+            roomData = await _roomService.CreateAsync(model.Url, model.Name, model.AddAccess);
+        }
+        catch (Exception ex)
+        {
+            var text = ex switch
+            {
+                UriFormatException => "Неверный формат ссылки",
+                InvalidNicknameException => "Неверный формат имени",
+                InvalidVideoUrlException => "Неверный формат ссылки на видео",
+                _ => "Произошла ошибка при создании комнаты"
+            };
+            ModelState.AddModelError("", text);
+            return View(model);
+        }
+
+        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, roomData.viewer, roomData.roomId,
+            RoomType.Youtube);
+        return RedirectToAction("Room", new {roomData.roomId});
+    }
+
+    [HttpGet]
+    public ActionResult CreateUserRoom() => View();
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateUserRoom(CreateYoutubeRoomForUserViewModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
+        var data = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
+        if (data.None) return RedirectToAction("CreateRoom");
 
         (Guid roomId, ViewerDto viewer) roomData;
         try
         {
-            roomData = await _roomService.CreateForUserAsync(link, data.Principal!.Identity!.Name!);
+            roomData = await _roomService.CreateForUserAsync(model.Url, data.Principal!.Identity!.Name!,
+                model.AddAccess);
         }
         catch (Exception ex)
         {
@@ -39,34 +84,7 @@ public class YoutubeRoomController : Controller
                 UserNotFoundException => "Пользователь с таким email не найден",
                 UriFormatException => "Неверный формат ссылки",
                 InvalidNicknameException => "Неверный формат имени",
-                _ => "Произошла ошибка при создании комнаты"
-            };
-            ModelState.AddModelError("", text);
-            return View(new CreateYoutubeRoomViewModel {Url = link});
-        }
-
-        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, roomData.viewer, roomData.roomId,
-            RoomType.Youtube);
-        return RedirectToAction("Room", new {roomData.roomId});
-    }
-
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateRoom(CreateYoutubeRoomViewModel model)
-    {
-        if (!ModelState.IsValid) return View(model);
-        (Guid roomId, ViewerDto viewer) roomData;
-        try
-        {
-            roomData = await _roomService.CreateAsync(model.Url, model.Name);
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                UriFormatException => "Неверный формат ссылки",
-                InvalidNicknameException => "Неверный формат имени",
+                InvalidVideoUrlException => "Неверный формат ссылки на видео",
                 _ => "Произошла ошибка при создании комнаты"
             };
             ModelState.AddModelError("", text);
@@ -157,12 +175,17 @@ public class YoutubeRoomController : Controller
 
     private static YoutubeRoomViewModel Map(YoutubeRoomDto dto, Guid id, string url)
     {
-        var messages = dto.Messages.Select(x => new MessageViewModel(x.Text, x.CreatedAt, Map(x.Viewer)))
-            .ToList();
-        var viewers = dto.Viewers.Select(Map).ToList();
-        return new YoutubeRoomViewModel(messages, viewers, url, dto.OwnerId, viewers.First(x => x.Id == id), dto.Ids);
+        var messages = dto.Messages.Select(Map);
+        var viewers = dto.Viewers.Select(Map);
+        return new YoutubeRoomViewModel(messages, viewers, url, dto.OwnerId, id, dto.Ids, dto.AddAccess);
     }
 
-    private static ViewerViewModel Map(ViewerDto dto) =>
-        new(dto.Id, dto.Username, dto.AvatarUrl, dto.OnPause, dto.Time);
+    private static YoutubeViewerViewModel Map(YoutubeViewerDto dto) =>
+        new(dto.Id, dto.Username, dto.AvatarUrl, dto.OnPause, dto.Time, dto.CurrentVideoId);
+
+    private static YoutubeMessageViewModel Map(YoutubeMessageDto dto)
+    {
+        var viewer = Map(dto.Viewer);
+        return new YoutubeMessageViewModel(dto.Text, dto.CreatedAt, viewer);
+    }
 }
