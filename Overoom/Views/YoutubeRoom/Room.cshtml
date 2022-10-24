@@ -1,0 +1,141 @@
+﻿@model Overoom.WEB.Models.Room.YoutubeRoom.YoutubeRoomViewModel
+@{
+    ViewData["Title"] = "Youtube";
+}
+<div class="row gx-0 pt-1">
+    <div class="col-lg-8 col-md-7 col-12">
+        <div id="player"></div>
+        <div class="manage">
+            <div class="buttons">
+                <div class="btn btn-dark shadow-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-skip-start-btn" viewBox="0 0 16 16">
+                        <path d="M9.71 5.093a.5.5 0 0 1 .79.407v5a.5.5 0 0 1-.79.407L7 8.972V10.5a.5.5 0 0 1-1 0v-5a.5.5 0 0 1 1 0v1.528l2.71-1.935z"/>
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                    </svg>
+                </div>
+                <div class="btn btn-dark shadow-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-skip-end-btn" viewBox="0 0 16 16">
+                        <path d="M6.79 5.093 9.5 7.028V5.5a.5.5 0 0 1 1 0v5a.5.5 0 0 1-1 0V8.972l-2.71 1.935A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .79-.407z"/>
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="add">
+                <form action="#" method="post">
+                    <input class="form-control valid" id="url" name="url" placeholder="Вставьте ссылку на видео">
+                    <span class="text-danger field-validation-valid d-block" data-valmsg-for="comment"></span>
+                    <button id="commentButton" type="button" class="btn btn-outline-danger mt-2">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-5 col-12">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="card chat">
+                    <div class="card-header p-3 chatHeader">
+                        <a aria-controls="collapseExample" aria-expanded="false" class="mb-0" style="color: #cbcbcb" data-bs-toggle="collapse" href="#collapseExample" id="chatButton" role="button">
+                            Обсуждение
+                            <p id="countViewers" style="font-size: 12px;" class="mb-0 text-center">В сети: @Model.Viewers.Count</p>
+                        </a>
+                    </div>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body chatList">
+                            <ul id="viewers" class="list-group list-group-flush">
+                                @foreach (var viewer in Model.Viewers)
+                                {
+                                    <li id="@viewer.Id" class="list-group-item py-0 pb-1 viewer ">
+                                        <div class="d-inline-block pause @(viewer.OnPause ? "" : "d-none")">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause-circle" viewBox="0 0 16 16">
+                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                <path d="M5 6.25a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5zm3.5 0a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5z"/>
+                                            </svg>
+                                        </div>
+                                        @if (viewer.Id == Model.OwnerId)
+                                        {
+                                            <div class="d-inline-block">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-flag" viewBox="0 0 16 16">
+                                                    <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001M14 1.221c-.22.078-.48.167-.766.255-.81.252-1.872.523-2.734.523-.886 0-1.592-.286-2.203-.534l-.008-.003C7.662 1.21 7.139 1 6.5 1c-.669 0-1.606.229-2.415.478A21.294 21.294 0 0 0 3 1.845v6.433c.22-.078.48-.167.766-.255C4.576 7.77 5.638 7.5 6.5 7.5c.847 0 1.548.28 2.158.525l.028.01C9.32 8.29 9.86 8.5 10.5 8.5c.668 0 1.606-.229 2.415-.478A21.317 21.317 0 0 0 14 7.655V1.222z"/>
+                                                </svg>
+                                            </div>
+                                        }
+                                        <div class="d-inline-block video">[@viewer.CurrentVideoId]</div>
+                                        <div class="d-inline-block username">@viewer.Username</div>
+                                        <div class="d-inline-block time">@viewer.Time.ToString(@"hh\:mm\:ss")</div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="chatScroll" class="pe-2">
+                            @foreach (var message in Model.Messages)
+                            {
+                                if (message.Viewer.Id != Model.CurrentViewerId)
+                                {
+                                    <div class="d-flex flex-row justify-content-start mb-4">
+                                        <img src="~/img/Avatars/@message.Viewer.AvatarFileName" class="messageAvatar" alt="">
+                                        <div class="message messageOther">
+                                            <p style="font-size: 12px" class="additionalText">@message.Viewer.Username</p>
+                                            <p class="small mb-0">@message.Text</p>
+                                            <p style="font-size: 10px;" class="text-end additionalText">@message.CreatedAt</p>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="d-flex flex-row justify-content-end mb-4">
+                                        <div class="message messageMe">
+                                            <p style="font-size: 12px;" class="text-end additionalText">@message.Viewer.Username</p>
+                                            <p class="small mb-0">@message.Text</p>
+                                            <p style="font-size: 10px" class="additionalText">@message.CreatedAt</p>
+                                        </div>
+                                        <img src="~/img/Avatars/@message.Viewer.AvatarFileName" class="messageAvatar" alt="">
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                        <div class="form-outline">
+                            <textarea class="form-control" id="message" rows="4"></textarea>
+                            <label class="form-label" for="message">Введите сообщение</label>
+                            <div class="text-center">
+                                <a href="#" id="copyButton" class="nav-link d-inline my-0" data-clipboard-text="@Model.ConnectUrl">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                                    </svg>
+                                    Ссылка для подключения
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/lib/signalr/dist/signalr.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="~/js/roomHub.js"></script>
+    <script src="~/js/youtubeHub.js"></script>
+    <script>
+        @foreach (var viewer in Model.Viewers)
+        {
+            <text>users.push(new YoutubeUser(@viewer.Id, @viewer.Username, @viewer.AvatarFileName, @viewer.Time.TotalSeconds, @viewer.OnPause, @viewer.CurrentVideoId));</text>
+        }
+        data = new Data(@Model.CurrentViewerId, @Model.OwnerId);
+        @foreach(var video in Model.Ids)
+        {
+            <text>videos.push(@video);</text>
+        }
+        
+    </script>
+}
+@section styles
+{
+    <link rel="stylesheet" href="~/css/room.css">
+}

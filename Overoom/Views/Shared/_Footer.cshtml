@@ -1,0 +1,9 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Overoom.Application.Abstractions
+<footer class="bg-dark">
+    <div class="container">
+        &copy; @DateTime.UtcNow.Year - @ApplicationConstants.ProjectName <a asp-controller="Home" asp-action="About">О нас</a>
+    </div>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>

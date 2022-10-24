@@ -1,0 +1,156 @@
+﻿@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Overoom.WEB.Models.Film.FilmPageViewModel
+@{
+    ViewData["Title"] = Model.Film.Name;
+    var auth = await Context.AuthenticateAsync(IdentityConstants.ApplicationScheme);
+}
+
+<div class="row gx-5">
+    <div class="col-8">
+        <div class="blockBackground mb-4">
+            <div class="row">
+                <div class="col-xl-3 col-md-4 text-center mb-3">
+                    <img class="filmAvatar" src="~/img/Posters/@Model.Film.PosterFileName" alt="">
+                </div>
+                <div class="col-xl-9 col-md-8">
+                    <div class="mb-3">
+                        <h3>@Model.Film.Name</h3>
+                    </div>
+                    <div class="mb-2">
+                        <span class="filmKey">Тип:</span>
+                        <span class="filmDescription">@Model.Film.TypeString</span>
+                    </div>
+                    <div class="mb-2">
+                        <span class="filmKey">Страна:</span>
+                        @{
+                            var count = Model.Film.Countries.Count - 1;
+                            for (var index = 0; index < Model.Film.Countries.Count; index++)
+                            {
+                                var el = Model.Film.Countries[index];
+                                var elString = index != count ? el + ", " : el;
+                                <a class="filmsSearchLink" asp-action="Index" asp-route-country="@el">@elString</a>
+                            }
+                        }
+                    </div>
+                    <div class="mb-2">
+                        <span class="filmKey">Жанр:</span>
+                        @{
+                            count = Model.Film.Genres.Count - 1;
+                            for (var index = 0; index < Model.Film.Genres.Count; index++)
+                            {
+                                var el = Model.Film.Genres[index];
+                                var elString = index != count ? el + ", " : el;
+                                <a class="filmsSearchLink" asp-action="Index" asp-route-genre="@el">@elString</a>
+                            }
+                        }
+                    </div>
+                    <div class="mb-2">
+                        <span class="filmKey">Режиссер:</span>
+                        @{
+                            count = Model.Film.Directors.Count - 1;
+                            for (var index = 0; index < Model.Film.Directors.Count; index++)
+                            {
+                                var el = Model.Film.Directors[index];
+                                var elString = index != count ? el + ", " : el;
+                                <a class="filmsSearchLink" asp-action="Index" asp-route-person="@el">@elString</a>
+                            }
+                        }
+                    </div>
+                    <div class="mb-2">
+                        <span class="filmKey">Сценарий:</span>
+                        @{
+                            count = Model.Film.ScreenWriters.Count - 1;
+                            for (var index = 0; index < Model.Film.ScreenWriters.Count; index++)
+                            {
+                                var el = Model.Film.ScreenWriters[index];
+                                var elString = index != count ? el + ", " : el;
+                                <a class="filmsSearchLink" asp-action="Index" asp-route-person="@el">@elString</a>
+                            }
+                        }
+                    </div>
+                    <div class="mb-2">
+                        <span class="filmKey">Актеры:</span>
+                        @{
+                            count = Model.Film.Actors.Count - 1;
+                            for (var index = 0; index < Model.Film.Actors.Count; index++)
+                            {
+                                var el = Model.Film.Actors[index];
+                                var elString = index != count ? el.name + ", " : el.name;
+                                <a class="filmsSearchLink" asp-action="Index" asp-route-person="@el.name" title="@el.desc">@elString</a>
+                            }
+                        }
+                    </div>
+                    <div>
+                        <span class="filmKey">Рейтинг:</span>
+                        <span class="filmDescription">
+                            @Model.Film.Rating
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="blockBackground mb-4">
+            <span class="filmKey">Описание:</span>
+            <span class="filmDescription">@Model.Film.Description</span>
+        </div>
+        <div class="blockBackground mb-4">
+            <a class="btn btn-outline-danger d-block" asp-controller="FilmRoom" asp-action="CreateRoom" asp-route-filmId="@Model.Film.Id">Создать комнату</a>
+        </div>
+        <div class="blockBackground mb-4">
+            <iframe src="@Model.Film.Url" width="100%" height="500px" allowfullscreen></iframe>
+        </div>
+        <div class="blockBackground mb-4" style="min-height: 300px">
+            <h3>Комментарии</h3>
+            <div class="my-4">
+                @if (!auth.None)
+                {
+                    <form asp-action="AddComment" method="Post" id="commentForm" class="form-horizontal">
+                        <input type="hidden" id="id" name="filmId" value="@Model.Film.Id">
+                        <label class="form-label" for="comment">Введите комментарий</label>
+                        <textarea class="form-control valid" id="comment" name="text" rows="2"></textarea>
+                        <span class="text-danger field-validation-valid d-block" data-valmsg-for="comment"></span>
+                        <button id="commentButton" type="button" class="btn btn-outline-danger mt-2">Отправить</button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login">Войти</a>
+                    <span>чтобы оставить комментарий</span>
+                }
+            </div>
+
+            <div class="comments"></div>
+            <div class="spinner">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="blockBackground" style="height: 1000px">
+            Я что-то сюда впихну
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/infinite-ajax-scroll/dist/infinite-ajax-scroll.min.js"></script>
+    <script src="~/js/comments.js"></script>
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/css/film.css" />
+}

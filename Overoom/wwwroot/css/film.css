@@ -1,0 +1,38 @@
+﻿.filmAvatar {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    max-width: 200px;
+    border-radius: 10px;
+}
+
+.filmDescription {
+    color: #8f8f8f;
+}
+
+.filmsSearchLink {
+    color: #8f8f8f !important;
+    text-decoration: none;
+}
+
+.filmsSearchLink:hover {
+    color: #6b6b6b !important;
+    text-decoration: underline;
+}
+
+.filmKey {
+    color: #d9d9d9;
+}
+
+.comment{
+    margin-top: 10px;
+    color: #a4a7a8 !important;
+}
+
+.commentAvatar {
+    width: 45px;
+    height: 100%;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+

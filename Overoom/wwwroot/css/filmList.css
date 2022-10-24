@@ -1,0 +1,32 @@
+﻿
+.poster {
+    height: 300px;
+}
+
+.filmCard {
+    width: 200px;
+    height: 100%;
+    margin: 0 auto;
+    background: #4b4b4b !important;
+}
+
+.filmLink {
+    color: #eeeeee !important;
+    text-decoration: none;
+    height: 100%;
+}
+
+.filmCardTop {
+    background: #252525 !important;
+}
+
+.filmCardBottom{
+    background: #252525 !important;
+    position : absolute;
+    bottom : 0;
+    width: 100%;
+}
+
+.filmDescriptionList{
+    color: #bebebe !important;
+}
