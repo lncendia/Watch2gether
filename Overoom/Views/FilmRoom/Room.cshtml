@@ -1,16 +1,14 @@
-﻿@using System.Web
-@using Overoom.Domain.Films.Enums
-@model Overoom.WEB.Models.Room.FilmRoom.FilmRoomViewModel
+﻿@model Overoom.WEB.Models.Room.FilmRoom.FilmRoomViewModel
 @{
     ViewData["Title"] = Model.Film.Name;
 }
 <div class="row gx-0 pt-1">
     <div class="col-lg-8 col-md-7 col-12">
-        <div id="player" data-url="@Model.Film.Url"></div>
+        <div id="player" class="player"></div>
     </div>
     <div class="col-lg-4 col-md-5 col-12">
         <div class="container">
-            <div class="row d-flex justify-content-center">
+            <div class="row justify-content-center">
                 <div class="card chat">
                     <div class="card-header p-3 chatHeader">
                         <a aria-controls="collapseExample" aria-expanded="false" class="mb-0" style="color: #cbcbcb" data-bs-toggle="collapse" href="#collapseExample" id="chatButton" role="button">
@@ -76,7 +74,7 @@
                         </div>
 
                         <div class="form-outline">
-                            <textarea class="form-control" id="message" rows="4"></textarea>
+                            <textarea class="form-control" id="message" style="height: 50px;"></textarea>
                             <label class="form-label" for="message">Введите сообщение</label>
                             <div class="text-center">
                                 <a href="#" id="copyButton" class="nav-link d-inline my-0" data-clipboard-text="@Model.ConnectUrl">
@@ -104,10 +102,11 @@
         @{
             foreach (var viewer in Model.Viewers)
             {
-                <text>users.push(new FilmUser("@viewer.Id.ToString()", "@Html.Raw(viewer.Username)", "@viewer.AvatarFileName", @viewer.Time.TotalSeconds, @(viewer.OnPause ? "true" : "false"), @viewer.Season, @viewer.Series));</text>
+                <text>users.push(new FilmUser('@viewer.Id.ToString()', '@Html.Raw(viewer.Username)', '@viewer.AvatarFileName', @viewer.Time.TotalSeconds, @(viewer.OnPause ? "true" : "false"), @viewer.Season, @viewer.Series));</text>
             }
         }
-        data = new Data("@Model.CurrentViewerId", "@Model.OwnerId");
+        data = new Data('@Model.CurrentViewerId', '@Model.OwnerId');
+        url = @Model.Film.Url;
     </script>
 }
 

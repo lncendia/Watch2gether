@@ -3,8 +3,12 @@ for details on configuring this project to bundle and minify static web assets. 
 
 .blockBackground {
     padding: 20px;
-    background: #232323 !important;
+    background: #111111 !important;
     border-radius: 15px;
+    box-shadow: 0 0 15px #252525;
+}
+.nav-background {
+    background: #111111 !important;
 }
 
 a.navbar-brand {
@@ -18,7 +22,7 @@ a.navbar-brand:hover {
 /* Sticky footer styles
 -------------------------------------------------- */
 .form-control {
-    background: #363636 !important;
+    background: #171717 !important;
     color: #eeeeee !important;
 }
 
@@ -43,7 +47,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background: #111111;
+    background: #000000;
     color: #eeeeee;
 }
 

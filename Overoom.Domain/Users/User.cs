@@ -52,19 +52,21 @@ public class User
 
     private readonly List<Guid> _favoriteFilms = new();
     private readonly List<Guid> _watchedFilms = new();
-    
+
     public List<Guid> FavoriteFilms => _favoriteFilms.ToList();
     public List<Guid> WatchedFilms => _watchedFilms.ToList();
-    
+
     public void AddFavoriteFilm(Guid filmId)
     {
-        if (!_favoriteFilms.Contains(filmId))
-            _favoriteFilms.Add(filmId);
+        if (_favoriteFilms.Contains(filmId)) return;
+        if (_favoriteFilms.Count > 50) _favoriteFilms.RemoveAt(0);
+        _favoriteFilms.Add(filmId);
     }
-    
+
     public void AddWatchedFilm(Guid filmId)
     {
-        if (!_watchedFilms.Contains(filmId))
-            _watchedFilms.Add(filmId);
+        if (_watchedFilms.Contains(filmId)) return;
+        if (_watchedFilms.Count > 50) _watchedFilms.RemoveAt(0);
+        _watchedFilms.Add(filmId);
     }
 }

@@ -1,15 +1,21 @@
 ﻿body {
-    background-color: black !important;
+    background-color: black;
 }
 
-.comment {
+.comment{
     margin-top: 10px;
-    color: #a4a7a8 !important;
+    color: #a4a7a8;
+}
+.comment-card{
+    background-color: #131313;
+    border-radius: 10px;
+    box-shadow: 2px 2px 12px #54014e;
 }
 
-.bg-comment {
-    background: #1c1c1c !important;
+.comment-header{
+    background-color: #0c0c0c;
 }
+
 
 .commentAvatar {
     width: 45px;
@@ -27,7 +33,8 @@
     width: 200px;
     height: 100%;
     margin: 0 auto;
-    background: #1c1c1c !important;
+    background: #111111;
+    box-shadow: 2px 1px 12px #54014e;
 }
 
 .filmLink {

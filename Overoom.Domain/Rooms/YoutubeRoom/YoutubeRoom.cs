@@ -11,7 +11,7 @@ public class YoutubeRoom : BaseRoom.BaseRoom
     {
         AddAccess = addAccess;
         var id = GetId(url);
-        VideoIds.Add(id);
+        _ids.Add(id);
         Owner = new YoutubeViewer(name, Id, avatarFileName, id);
         ViewersList.Add(Owner);
     }
@@ -64,13 +64,13 @@ public class YoutubeRoom : BaseRoom.BaseRoom
 
     private static string GetId(string url)
     {
-        var uri = new Uri(url);
         string id;
         try
         {
+            var uri = new Uri(url);
             id = uri.Host switch
             {
-                "www.youtube.com" => uri.Query[..3],
+                "www.youtube.com" => uri.Query[3..],
                 "youtu.be" => uri.Segments[1],
                 _ => string.Empty
             };

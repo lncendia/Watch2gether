@@ -1,9 +1,11 @@
 ﻿.chat {
     border-radius: 15px;
-    border: 1px solid #606060;
-    box-sizing: border-box;
-    background: #262626 !important;
+    background: #131313;
     color: #cbcbcb;
+    box-shadow: 0 0 25px #2a2a2a;
+    width: 80%;
+    max-width: 350px;
+    padding: 10px;
 }
 
 .message {
@@ -41,18 +43,24 @@
 }
 
 .chatHeader {
-    border-top-left-radius: 15px !important;
-    border-top-right-radius: 15px !important;
-    border-bottom: 0;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
     text-align: center;
-    background: #5d5d5d !important;
+    background: #212121;
 }
 
-.chatList, .chatList .list-group-item {
-    background: #6c6c6c !important;
+.chatList {
+    background: #212121;
     color: white;
-    border-top-left-radius: 0 !important;
-    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.viewer {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #363636;
 }
 
 #chatButton {
@@ -60,25 +68,50 @@
     text-decoration: none;
 }
 
-#chatScroll {
+.chatScroll {
     height: 350px;
-    margin: 0;
+    margin-top: 20px;
     overflow-y: auto;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    -moz-overflow-scrolling: touch;
-    -ms-overflow-scrolling: touch;
-    -o-overflow-scrolling: touch;
     overflow-scrolling: touch;
 }
 
-#chatScroll::-webkit-scrollbar {
+.chatScroll::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;
 }
 
-#chatScroll::-webkit-scrollbar-thumb {
+.chatScroll::-webkit-scrollbar-thumb {
     border-radius: 2px;
     background-color: rgba(0, 0, 0, 0.16);
     -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.player {
+    border-radius: 10px;
+    box-shadow: 0 0 30px #790e0e;
+    height: 80%;
+}
+
+.inputVideo {
+    width: 80%;
+    display: inline-block;
+}
+
+.addVideo {
+    float: right;
+    width: 15%;
+}
+.buttons{
+    display: inline-block;
+    width: 30%;
+    height: 100%;
+}
+.add{
+    display: inline-block;
+    width: 70%;
+    float: right;
+}
+.control-btn{
+    width: 40%;
 }

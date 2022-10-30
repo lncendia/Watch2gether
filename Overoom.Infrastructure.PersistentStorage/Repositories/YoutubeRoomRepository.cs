@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Runtime.Serialization;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Overoom.Domain.Abstractions.Repositories;
@@ -30,7 +31,7 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
 
     private YoutubeRoom GetMap(YoutubeRoomModel model)
     {
-        var room = new YoutubeRoom("someId", "someName", "someAvatar", model.AddAccess);
+        var room = new YoutubeRoom("https://youtu.be/" + model.VideoIds.First().VideoId, "someName", "someAvatar", model.AddAccess);
         _mapper.Map(model, room);
         var type = room.GetType();
         var btype = type.BaseType!;
@@ -58,8 +59,10 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
 
         var ids =
             (type.GetField("_ids", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as List<string>)!;
-        ids.Clear();
-        ids.AddRange(model.VideoIds.Select(idModel => idModel.VideoId));
+        ids.AddRange(model.VideoIds.Skip(1).Select(idModel => idModel.VideoId));
+
+        type.GetField("<AddAccess>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room,
+            model.AddAccess);
 
         return room;
     }
@@ -67,7 +70,7 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
     private YoutubeViewer GetMap(YoutubeViewerModel model)
     {
         var viewer = _mapper.Map<YoutubeViewer>(model);
-        var x = viewer.GetType();
+        var x = viewer.GetType().BaseType!;
         x.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(viewer, model.Id);
         return viewer;
     }
@@ -113,28 +116,18 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
         {
             var viewerModel = model.VideoIds.FirstOrDefault(v => v.VideoId == id);
             if (viewerModel != null) oldIds.Add(viewerModel);
-            else newIds.Add(new VideoIdModel() {VideoId = id});
+            else newIds.Add(new VideoIdModel {VideoId = id});
         }
 
         model.Viewers.RemoveAll(x => !oldViewers.Contains(x));
         model.Messages.RemoveAll(x => !oldMessages.Contains(x));
         model.VideoIds.RemoveAll(x => !oldIds.Contains(x));
-        // _context.RemoveRange(model.Viewers.Where(x => !oldViewers.Contains(x)));
-        // _context.RemoveRange(model.Messages.Where(x => !oldMessages.Contains(x)));
-        // _context.RemoveRange(model.VideoIds.Where(x => !oldIds.Contains(x)));
-        // model.Viewers.Clear();
-        // model.Messages.Clear();
-        // model.VideoIds.Clear();
 
         _mapper.Map(room, model);
 
-        _context.AddRange(newViewers);
-        _context.AddRange(newMessages);
-        _context.AddRange(newIds);
-
-        model.Viewers.AddRange(oldViewers);
-        model.Messages.AddRange(oldMessages);
-        model.VideoIds.AddRange(oldIds);
+        model.Viewers.AddRange(newViewers);
+        model.Messages.AddRange(newMessages);
+        model.VideoIds.AddRange(newIds);
         return model;
     }
 

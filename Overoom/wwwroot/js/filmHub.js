@@ -105,11 +105,12 @@ function onSeriesChanged(id, season, number) {
     user.updateSeries(season, number);
 }
 
+let url;
+
 function init(user) {
     let player = $("#player");
-    let url = player.attr("data-url");
     url += '?episode=' + user.series + '&season=' + user.season + '&start_time=' + user.time;
-    player.html('<iframe id="frame" src="' + url + '" width="100%" height="630px" allowfullscreen></iframe>');
+    player.html('<iframe id="frame" src="' + url + '" width="100%" height="100%" allowfullscreen></iframe>');
     $("#frame")[0].onload = eventHandler;
 }
 

@@ -104,18 +104,11 @@ public class FilmRoomRepository : IFilmRoomRepository
 
         model.Viewers.RemoveAll(x => !oldViewers.Contains(x));
         model.Messages.RemoveAll(x => !oldMessages.Contains(x));
-        // _context.RemoveRange(model.Viewers.Where(x => !oldViewers.Contains(x)));
-        // _context.RemoveRange(model.Messages.Where(x => !oldMessages.Contains(x)));
-        // model.Viewers.Clear();
-        // model.Messages.Clear();
 
         _mapper.Map(room, model);
 
-        _context.AddRange(newViewers);
-        _context.AddRange(newMessages);
-
-        // model.Viewers.AddRange(oldViewers);
-        // model.Messages.AddRange(oldMessages);
+        model.Viewers.AddRange(newViewers);
+        model.Messages.AddRange(newMessages);
         return model;
     }
 

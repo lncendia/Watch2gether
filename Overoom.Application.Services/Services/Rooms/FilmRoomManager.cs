@@ -36,6 +36,8 @@ public class FilmRoomManager : IFilmRoomManager
         var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
             .FirstOrDefault();
         if (user == null) throw new UserNotFoundException();
+        user.WatchedFilms.Add(filmId);
+        await _unitOfWork.UserRepository.Value.UpdateAsync(user);
         return await CreateAsync(filmId, user.Name, user.AvatarFileName);
     }
 
@@ -59,6 +61,8 @@ public class FilmRoomManager : IFilmRoomManager
         var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
             .FirstOrDefault();
         if (user == null) throw new UserNotFoundException();
+        user.WatchedFilms.Add(room.FilmId);
+        await _unitOfWork.UserRepository.Value.UpdateAsync(user);
         return await ConnectAsync(room, user.Name, user.AvatarFileName);
     }
 

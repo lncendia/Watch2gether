@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Overoom.Application.Abstractions.Exceptions.Rooms;
 using Overoom.Application.Abstractions.Interfaces.Rooms;
@@ -77,18 +78,18 @@ public class YoutubeRoomHub : HubBase
             var data = GetData();
             var viewer = await _roomManager.ConnectAsync(data.RoomId, data.Id);
             await Groups.AddToGroupAsync(Context.ConnectionId, data.RoomIdString);
-            await Clients.OthersInGroup(data.RoomIdString).SendAsync("Connect",
-                new YoutubeViewerModel(viewer.Id, viewer.Username, viewer.AvatarUrl, (int) viewer.Time.TotalSeconds,
-                    viewer.CurrentVideoId));
+            var json = JsonSerializer.Serialize(new YoutubeViewerModel(viewer.Id, viewer.Username, viewer.AvatarUrl, (int) viewer.Time.TotalSeconds,
+                    viewer.CurrentVideoId), new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
+            await Clients.Group(data.RoomIdString).SendAsync("Connect", json);
             await base.OnConnectedAsync();
         }
         catch (Exception ex)
         {
             var error = ex switch
             {
-                RoomNotFoundException => "Ошибка. Комната не найдена.",
-                ViewerNotFoundException => "Ошибка. Зритель не найден.",
-                _ => "Неизвестная ошибка"
+                RoomNotFoundException => "Комната не найдена.",
+                ViewerNotFoundException => "Зритель не найден.",
+                _ => "Неизвестная ошибка."
             };
             await Clients.Caller.SendAsync("ReceiveMessage", error);
         }

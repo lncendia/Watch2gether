@@ -101,9 +101,7 @@
         <div class="blockBackground mb-4">
             <a class="btn btn-outline-danger d-block" asp-controller="FilmRoom" asp-action="CreateRoom" asp-route-filmId="@Model.Film.Id">Создать комнату</a>
         </div>
-        <div class="blockBackground mb-4">
-            <iframe src="@Model.Film.Url" width="100%" height="500px" allowfullscreen></iframe>
-        </div>
+        <iframe class="frame mb-4" src="@Model.Film.Url" allowfullscreen></iframe>
         <div class="blockBackground mb-4" style="min-height: 300px">
             <h3>Комментарии</h3>
             <div class="my-4">
