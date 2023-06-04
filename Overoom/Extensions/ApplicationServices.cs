@@ -1,16 +1,14 @@
-using Overoom.Application.Abstractions.Interfaces.Comments;
-using Overoom.Application.Abstractions.Interfaces.Films;
-using Overoom.Application.Abstractions.Interfaces.Playlists;
-using Overoom.Application.Abstractions.Interfaces.Rooms;
-using Overoom.Application.Abstractions.Interfaces.StartPage;
-using Overoom.Application.Abstractions.Interfaces.Users;
+using Overoom.Application.Abstractions.Comment.Interfaces;
+using Overoom.Application.Abstractions.Film.Interfaces;
+using Overoom.Application.Abstractions.Room.Interfaces;
+using Overoom.Application.Abstractions.StartPage.Interfaces;
+using Overoom.Application.Abstractions.User.Interfaces;
+using Overoom.Application.Services.Comment;
+using Overoom.Application.Services.Film;
+using Overoom.Application.Services.Room;
 using Overoom.Application.Services.Services;
-using Overoom.Application.Services.Services.Comments;
-using Overoom.Application.Services.Services.Films;
-using Overoom.Application.Services.Services.Playlists;
-using Overoom.Application.Services.Services.Rooms;
-using Overoom.Application.Services.Services.StartPage;
-using Overoom.Application.Services.Services.Users;
+using Overoom.Application.Services.StartPage;
+using Overoom.Application.Services.User;
 
 namespace Overoom.Extensions;
 

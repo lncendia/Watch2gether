@@ -1,0 +1,19 @@
+using Overoom.Domain.Film.Enums;
+
+namespace Overoom.Domain.Film.DTOs;
+
+public class CdnDto
+{
+    public CdnDto(CdnType type, Uri uri, string quality, List<string> voices)
+    {
+        Type = type;
+        Uri = uri;
+        Quality = quality;
+        Voices = voices;
+    }
+
+    public CdnType Type { get; }
+    public Uri Uri { get; }
+    public string Quality { get; }
+    public List<string> Voices { get; }
+}

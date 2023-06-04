@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Overoom.Domain.Films.Enums;
+using Overoom.Domain.Film.Enums;
 
 namespace Overoom.Infrastructure.MovieDownloader.Converters;
 

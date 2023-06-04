@@ -1,11 +1,11 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Overoom.Application.Abstractions.Exceptions.Rooms;
-using Overoom.Application.Abstractions.Interfaces.Rooms;
+using Overoom.Application.Abstractions.Room.Exceptions;
+using Overoom.Application.Abstractions.Room.Interfaces;
+using Overoom.Domain.Room.BaseRoom.Exceptions;
+using Overoom.Domain.Room.YoutubeRoom.Exceptions;
 using Overoom.WEB.Hubs.Models;
-using Overoom.Domain.Rooms.BaseRoom.Exceptions;
-using Overoom.Domain.Rooms.YoutubeRoom.Exceptions;
 
 namespace Overoom.WEB.Hubs;
 

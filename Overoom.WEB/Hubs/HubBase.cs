@@ -1,9 +1,8 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.SignalR;
-using Overoom.Application.Abstractions.Exceptions.Rooms;
-using Overoom.Application.Abstractions.Interfaces.Rooms;
+using Overoom.Application.Abstractions.Room.Exceptions;
+using Overoom.Domain.Room.BaseRoom.Exceptions;
 using Overoom.WEB.Hubs.Models;
-using Overoom.Domain.Rooms.BaseRoom.Exceptions;
 
 namespace Overoom.WEB.Hubs;
 

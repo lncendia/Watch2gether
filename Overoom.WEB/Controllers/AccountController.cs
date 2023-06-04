@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Overoom.Application.Abstractions.DTO.Users;
-using Overoom.Application.Abstractions.Entities.User;
-using Overoom.Application.Abstractions.Exceptions.Users;
-using Overoom.Application.Abstractions.Interfaces.Users;
+using Overoom.Application.Abstractions.User.DTOs;
+using Overoom.Application.Abstractions.User.Entities.User;
+using Overoom.Application.Abstractions.User.Exceptions;
+using Overoom.Application.Abstractions.User.Interfaces;
+using Overoom.Domain.User.Exceptions;
 using Overoom.WEB.Models.Account;
-using Overoom.Domain.Users.Exceptions;
 
 namespace Overoom.WEB.Controllers;
 

@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Overoom.Domain.Abstractions.Repositories;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
 using Overoom.Infrastructure.ApplicationData;
-using Overoom.Infrastructure.PersistentStorage;
-using Overoom.Infrastructure.PersistentStorage.Context;
+using Overoom.Infrastructure.Storage;
+using Overoom.Infrastructure.Storage.Context;
 
 namespace Overoom.Extensions;
 

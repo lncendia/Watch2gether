@@ -2,10 +2,10 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Identity;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Entities.Role;
-using Overoom.Application.Abstractions.Entities.User;
-using Overoom.Application.Abstractions.Interfaces.Users;
-using Overoom.Application.Services.Services.Users;
+using Overoom.Application.Abstractions.User.Entities.Role;
+using Overoom.Application.Abstractions.User.Entities.User;
+using Overoom.Application.Abstractions.User.Interfaces;
+using Overoom.Application.Services.User;
 using Overoom.Infrastructure.ApplicationData;
 using Overoom.WEB.RoomAuthentication;
 

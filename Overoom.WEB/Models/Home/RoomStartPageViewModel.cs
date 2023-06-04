@@ -1,4 +1,4 @@
-﻿using Type = Overoom.Application.Abstractions.DTO.StartPage.Type;
+﻿using Type = Overoom.Application.Abstractions.StartPage.DTOs.Type;
 
 namespace Overoom.WEB.Models.Home;
 

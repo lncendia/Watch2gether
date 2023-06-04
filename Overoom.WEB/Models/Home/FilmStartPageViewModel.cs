@@ -2,7 +2,7 @@
 
 public class FilmStartPageViewModel
 {
-    public FilmStartPageViewModel(string name, string posterUrl, Guid id, List<string> genres)
+    public FilmStartPageViewModel(string name, string posterUrl, Guid id, IEnumerable<string> genres)
     {
         Name = name;
         PosterUrl = posterUrl;

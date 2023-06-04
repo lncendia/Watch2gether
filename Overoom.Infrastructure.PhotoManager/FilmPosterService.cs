@@ -1,9 +1,8 @@
-﻿using RestSharp;
+﻿using Overoom.Application.Abstractions.Film.Exceptions;
+using Overoom.Application.Abstractions.Film.Interfaces;
+using RestSharp;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-using Overoom.Application.Abstractions.Exceptions.Films;
-using Overoom.Application.Abstractions.Exceptions.Rooms;
-using Overoom.Application.Abstractions.Interfaces.Films;
 
 namespace Overoom.Infrastructure.PhotoManager;
 

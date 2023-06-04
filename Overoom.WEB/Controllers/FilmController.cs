@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.DTO.Films.FilmCatalog;
-using Overoom.Application.Abstractions.DTO.Playlists;
-using Overoom.Application.Abstractions.Exceptions.Films;
-using Overoom.Application.Abstractions.Interfaces.Comments;
-using Overoom.Application.Abstractions.Interfaces.Films;
-using Overoom.Application.Abstractions.Interfaces.Playlists;
+using Overoom.Application.Abstractions.Comment.Interfaces;
+using Overoom.Application.Abstractions.Film.DTOs.FilmCatalog;
+using Overoom.Application.Abstractions.Film.DTOs.Playlist;
+using Overoom.Application.Abstractions.Film.Exceptions;
+using Overoom.Application.Abstractions.Film.Interfaces;
 using Overoom.WEB.Models.Film;
-using SortBy = Overoom.Application.Abstractions.DTO.Playlists.SortBy;
+using SortBy = Overoom.Application.Abstractions.Film.DTOs.Playlist.SortBy;
 
 namespace Overoom.WEB.Controllers;
 
@@ -33,7 +32,7 @@ public class FilmController : Controller
         var model = new FilmsSearchViewModel
         {
             Query = query, Genre = genre, Country = country, Person = person,
-            SortBy = Overoom.Application.Abstractions.DTO.Films.FilmCatalog.SortBy.Date
+            SortBy = Application.Abstractions.Film.DTOs.FilmCatalog.SortBy.Date
         };
         return View(model);
     }
@@ -44,7 +43,7 @@ public class FilmController : Controller
         if (!ModelState.IsValid) return NoContent();
         try
         {
-            var films = await _filmManager.GetFilmsAsync(new FilmSearchQueryDto(model.Query, model.MinYear,
+            var films = await _filmManager.FindAsync(new FilmSearchQueryDto(model.Query, model.MinYear,
                 model.MaxYear, model.Genre, model.Country, model.Person, model.Type, model.SortBy, model.Page,
                 model.InverseOrder));
 
@@ -70,9 +69,9 @@ public class FilmController : Controller
     {
         try
         {
-            var film = await _filmManager.GetFilmAsync(id);
+            var film = await _filmManager.GetAsync(id);
             var playlists =
-                await _playlistManager.GetPlaylists(new PlaylistSearchQueryDto(null, SortBy.Date, 1, false));
+                await _playlistManager.FindAsync(new PlaylistSearchQueryDto(null, SortBy.Date, 1, false));
 
             var playlistViewModels =
                 playlists.Select(x => new PlaylistLiteViewModel(x.Id, x.Name, x.PosterFileName)).ToList();
@@ -99,7 +98,7 @@ public class FilmController : Controller
     {
         try
         {
-            var comments = await _commentManager.GetCommentsAsync(id, page);
+            var comments = await _commentManager.GetAsync(id, page);
             if (!comments.Any()) return NoContent();
             var commentModels = comments
                 .Select(x => new CommentViewModel(x.Username, x.Text, x.CreatedAt, x.AvatarFileName))
@@ -119,7 +118,7 @@ public class FilmController : Controller
     {
         try
         {
-            var comment = await _commentManager.AddCommentAsync(filmId, HttpContext.User.Identity!.Name!, text);
+            var comment = await _commentManager.AddAsync(filmId, TODO, text);
             return Json(new CommentViewModel(comment.Username, comment.Text, comment.CreatedAt,
                 comment.AvatarFileName));
         }
@@ -135,7 +134,7 @@ public class FilmController : Controller
     {
         try
         {
-            await _commentManager.UserDeleteCommentAsync(id, HttpContext.User.Identity!.Name!);
+            await _commentManager.DeleteAsync(id, TODO);
             return Ok();
         }
         catch (Exception e)
@@ -150,7 +149,7 @@ public class FilmController : Controller
     {
         try
         {
-            await _commentManager.DeleteCommentAsync(id);
+            await _commentManager.DeleteAsync(id);
             return Ok();
         }
         catch (Exception e)
@@ -165,7 +164,7 @@ public class FilmController : Controller
     {
         try
         {
-            await _filmManager.DeleteFilmAsync(id);
+            await _filmManager.DeleteAsync(id);
             return Ok();
         }
         catch (Exception e)

@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Overoom.Application.Abstractions.Exceptions.Rooms;
-using Overoom.Application.Abstractions.Interfaces.Rooms;
+using Overoom.Application.Abstractions.Room.Exceptions;
+using Overoom.Application.Abstractions.Room.Interfaces;
+using Overoom.Domain.Room.BaseRoom.Exceptions;
 using Overoom.WEB.Hubs.Models;
-using Overoom.Domain.Rooms.BaseRoom.Exceptions;
 
 namespace Overoom.WEB.Hubs;
 
@@ -12,12 +12,10 @@ namespace Overoom.WEB.Hubs;
 public class FilmRoomHub : HubBase
 {
     private readonly IFilmRoomManager _roomManager;
-    private readonly IRoomDeleterManager _roomDeleterManager;
 
-    public FilmRoomHub(IFilmRoomManager roomService, IRoomDeleterManager roomDeleterManager) : base(roomService)
+    public FilmRoomHub(IFilmRoomManager roomService) : base(roomService)
     {
         _roomManager = roomService;
-        _roomDeleterManager = roomDeleterManager;
     }
 
     public async Task ChangeSeries(int season, int series)

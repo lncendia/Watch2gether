@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.WEB", "Overoom.WEB\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.Infrastructure.Mailing", "Overoom.Infrastructure.Mailing\Overoom.Infrastructure.Mailing.csproj", "{56248353-736C-497F-B0D7-D33761C3724A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.Infrastructure.PersistentStorage", "Overoom.Infrastructure.PersistentStorage\Overoom.Infrastructure.PersistentStorage.csproj", "{BB12186D-D77B-4526-A8EF-7E4D3024B5C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.Infrastructure.Storage", "Overoom.Infrastructure.Storage\Overoom.Infrastructure.Storage.csproj", "{BB12186D-D77B-4526-A8EF-7E4D3024B5C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.Infrastructure.PhotoManager", "Overoom.Infrastructure.PhotoManager\Overoom.Infrastructure.PhotoManager.csproj", "{D8505F2D-D233-4317-B7E6-1A57CAF7DEC9}"
 EndProject

@@ -4,7 +4,7 @@ namespace Overoom.Infrastructure.MovieDownloader.Models;
 
 public class FilmFullData
 {
-    [JsonProperty("description")] public string? Description { get; set; }
+    [JsonProperty("description")] public string Description { get; set; }
     [JsonProperty("shortDescription")] public string? ShortDescription { get; set; }
     [JsonProperty("posterUrl")] public string PosterUrl { get; set; } = null!;
     [JsonProperty("ratingKinopoisk")] public double? RatingKinopoisk { get; set; }

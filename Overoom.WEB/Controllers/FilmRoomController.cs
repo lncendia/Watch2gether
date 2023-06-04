@@ -4,17 +4,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.DTO.Rooms;
-using Overoom.Application.Abstractions.DTO.Rooms.Film;
-using Overoom.Application.Abstractions.Exceptions.Films;
-using Overoom.Application.Abstractions.Exceptions.Rooms;
-using Overoom.Application.Abstractions.Exceptions.Users;
-using Overoom.Application.Abstractions.Interfaces.Rooms;
+using Overoom.Application.Abstractions.Film.Exceptions;
+using Overoom.Application.Abstractions.Room.DTOs;
+using Overoom.Application.Abstractions.Room.DTOs.Film;
+using Overoom.Application.Abstractions.Room.Exceptions;
+using Overoom.Application.Abstractions.Room.Interfaces;
+using Overoom.Application.Abstractions.User.Exceptions;
+using Overoom.Domain.Room.BaseRoom.Exceptions;
 using Overoom.WEB.Models.Room;
 using Overoom.WEB.Models.Room.FilmRoom;
 using Overoom.WEB.RoomAuthentication;
-using Overoom.Domain.Rooms.BaseRoom.Exceptions;
-using Overoom.Domain.Users.Exceptions;
 
 namespace Overoom.WEB.Controllers;
 

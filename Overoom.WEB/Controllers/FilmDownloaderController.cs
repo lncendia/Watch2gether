@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Overoom.Application.Abstractions.DTO.Films.FilmLoader;
-using Overoom.Application.Abstractions.Interfaces.Films;
+using Overoom.Application.Abstractions.Film.DTOs.FilmLoader;
+using Overoom.Application.Abstractions.Film.Interfaces;
 using Overoom.WEB.Models.FilmDownloader;
 
 namespace Overoom.WEB.Controllers;
@@ -28,7 +28,7 @@ public class FilmDownloaderController : Controller
         DownloaderResultDto list;
         try
         {
-            list = await _filmLoaderService.GetFilmsAsync(model.Title, model.Page ?? 1);
+            list = await _filmLoaderService.GetAsync(model.Title, model.Page ?? 1);
         }
         catch
         {
@@ -46,7 +46,7 @@ public class FilmDownloaderController : Controller
         if (id == 0) return BadRequest();
         try
         {
-            await _filmLoaderService.DownloadFilmAsync(id);
+            await _filmLoaderService.DownloadAsync(id);
             return Ok();
         }
         catch (Exception exception)

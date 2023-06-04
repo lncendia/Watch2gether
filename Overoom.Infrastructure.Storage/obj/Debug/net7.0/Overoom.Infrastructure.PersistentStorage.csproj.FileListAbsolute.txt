@@ -1,0 +1,17 @@
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\bin\Debug\net7.0\Overoom.Infrastructure.PersistentStorage.deps.json
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\bin\Debug\net7.0\Overoom.Infrastructure.PersistentStorage.dll
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\bin\Debug\net7.0\Overoom.Infrastructure.PersistentStorage.pdb
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\bin\Debug\net7.0\Overoom.Domain.Abstractions.dll
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\bin\Debug\net7.0\Overoom.Domain.dll
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\bin\Debug\net7.0\Overoom.Domain.Abstractions.pdb
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\bin\Debug\net7.0\Overoom.Domain.pdb
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\obj\Debug\net7.0\Overoom.Infrastructure.PersistentStorage.csproj.AssemblyReference.cache
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\obj\Debug\net7.0\Overoom.Infrastructure.PersistentStorage.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\obj\Debug\net7.0\Overoom.Infrastructure.PersistentStorage.AssemblyInfoInputs.cache
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\obj\Debug\net7.0\Overoom.Infrastructure.PersistentStorage.AssemblyInfo.cs
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\obj\Debug\net7.0\Overoom.Infrastructure.PersistentStorage.csproj.CoreCompileInputs.cache
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\obj\Debug\net7.0\Overoom.Infrastructure.PersistentStorage.csproj.CopyComplete
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\obj\Debug\net7.0\Overoom.Infrastructure.PersistentStorage.dll
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\obj\Debug\net7.0\refint\Overoom.Infrastructure.PersistentStorage.dll
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\obj\Debug\net7.0\Overoom.Infrastructure.PersistentStorage.pdb
+D:\Projects\Overoom\Overoom.Infrastructure.PersistentStorage\obj\Debug\net7.0\ref\Overoom.Infrastructure.PersistentStorage.dll

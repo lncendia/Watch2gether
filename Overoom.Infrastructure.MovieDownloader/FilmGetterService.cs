@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
+using Overoom.Application.Abstractions.Film.DTOs.FilmInfoGetter;
+using Overoom.Application.Abstractions.Film.Exceptions;
+using Overoom.Application.Abstractions.Film.Interfaces;
 using RestSharp;
 using RestSharp.Serializers.NewtonsoftJson;
-using Overoom.Application.Abstractions.DTO.Films.FilmInfoGetter;
-using Overoom.Application.Abstractions.Exceptions.Films;
-using Overoom.Application.Abstractions.Interfaces.Films;
 using Overoom.Infrastructure.MovieDownloader.Converters;
 using Overoom.Infrastructure.MovieDownloader.Enums;
 using Overoom.Infrastructure.MovieDownloader.Models;
@@ -37,7 +37,7 @@ public class FilmGetterService : IFilmInfoGetterService
     }
 
 
-    public async Task<GetterResultDto> GetFilmsAsync(string? title, int page, int pageSize)
+    public async Task<GetterResultDto> GetAsync(string? title, int page, int pageSize)
     {
         var request = new RestRequest("https://videocdn.tv/api/short");
         if (!string.IsNullOrEmpty(title)) request.AddQueryParameter("title", title);
@@ -59,7 +59,7 @@ public class FilmGetterService : IFilmInfoGetterService
         return Map(result);
     }
 
-    public async Task<FilmFullInfoDto> GetFilmFromVideoCdnIdAsync(int id)
+    public async Task<FilmFullInfoDto> GetFromVideoCdnIdAsync(int id)
     {
         FilmData film;
         (FilmFullData filmData, List<ActorsData> actorsData) filmData;

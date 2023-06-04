@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mail;
-using Overoom.Application.Abstractions.Interfaces.Users;
+using Overoom.Application.Abstractions.User.Interfaces;
 
 namespace Overoom.Infrastructure.Mailing;
 
@@ -19,7 +19,7 @@ public class EmailService : IEmailService
         };
     }
 
-    public Task SendEmailAsync(string email, string message)
+    public Task SendAsync(string email, string message)
     {
         var mail = new MailMessage();
         //TODO: check

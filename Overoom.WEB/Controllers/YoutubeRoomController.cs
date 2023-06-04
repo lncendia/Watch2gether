@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.DTO.Rooms;
-using Overoom.Application.Abstractions.DTO.Rooms.Youtube;
-using Overoom.Application.Abstractions.Exceptions.Rooms;
-using Overoom.Application.Abstractions.Exceptions.Users;
-using Overoom.Application.Abstractions.Interfaces.Rooms;
-using Overoom.Domain.Rooms.YoutubeRoom.Exceptions;
+using Overoom.Application.Abstractions.Room.DTOs;
+using Overoom.Application.Abstractions.Room.DTOs.Youtube;
+using Overoom.Application.Abstractions.Room.Exceptions;
+using Overoom.Application.Abstractions.Room.Interfaces;
+using Overoom.Application.Abstractions.User.Exceptions;
+using Overoom.Domain.Room.BaseRoom.Exceptions;
+using Overoom.Domain.Room.YoutubeRoom.Exceptions;
 using Overoom.WEB.Models.Room;
 using Overoom.WEB.Models.Room.YoutubeRoom;
 using Overoom.WEB.RoomAuthentication;
-using Overoom.Domain.Users.Exceptions;
 
 namespace Overoom.WEB.Controllers;
 
@@ -75,7 +75,7 @@ public class YoutubeRoomController : Controller
         (Guid roomId, ViewerDto viewer) roomData;
         try
         {
-            roomData = await _roomService.CreateForUserAsync(model.Url, User.Identity!.Name!, model.AddAccess);
+            roomData = await _roomService.CreateForUserAsync(model.Url, TODO, model.AddAccess);
         }
         catch (Exception ex)
         {
