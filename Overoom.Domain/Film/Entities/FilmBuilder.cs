@@ -21,10 +21,11 @@ public class FilmBuilder
     private IEnumerable<string>? _directors;
     private IEnumerable<string>? _screenwriters;
     private IEnumerable<string>? _countries;
-    private string? _posterFileName;
+    private string? _posterUri;
     private int? _countSeasons;
     private int? _countEpisodes;
 
+    public static FilmBuilder Create() => new();
     public FilmBuilder WithName(string name)
     {
         _name = name;
@@ -99,7 +100,7 @@ public class FilmBuilder
 
     public FilmBuilder WithPoster(string patch)
     {
-        _posterFileName = patch;
+        _posterUri = patch;
         return this;
     }
 
@@ -118,7 +119,7 @@ public class FilmBuilder
         if (_rating == null) throw new InvalidOperationException("builder not formed");
         if (_type == null) throw new InvalidOperationException("builder not formed");
         if (_cdnList == null) throw new InvalidOperationException("builder not formed");
-        if (_posterFileName == null) throw new InvalidOperationException("builder not formed");
+        if (_posterUri == null) throw new InvalidOperationException("builder not formed");
         if (_genres == null) throw new InvalidOperationException("builder not formed");
         if (_actors == null) throw new InvalidOperationException("builder not formed");
         if (_directors == null) throw new InvalidOperationException("builder not formed");
@@ -126,6 +127,6 @@ public class FilmBuilder
         if (_countries == null) throw new InvalidOperationException("builder not formed");
 
         return new Film(_name, _description, _shortDescription, _date.Value, _rating.Value, _type.Value, _cdnList,
-            _genres, _actors, _directors, _screenwriters, _countries, _posterFileName, _countSeasons, _countEpisodes);
+            _genres, _actors, _directors, _screenwriters, _countries, _posterUri, _countSeasons, _countEpisodes);
     }
 }

@@ -40,7 +40,7 @@ public class StartPageService : IStartPageService
     {
         var films = await _unitOfWork.FilmRepository.Value.FindAsync(null,
             new DescendingOrder<Domain.Film.Entities.Film, IFilmSortingVisitor>(new OrderByDate()), take: 10);
-        return films.Select(x => new FilmStartPageDto(x.Name, x.PosterFileName, x.Id, x.FilmTags.Genres));
+        return films.Select(x => new FilmStartPageDto(x.Name, x.PosterUri, x.Id, x.FilmTags.Genres));
     }
 
     private async Task<IEnumerable<CommentStartPageDto>> GetCommentsAsync()
@@ -60,7 +60,7 @@ public class StartPageService : IStartPageService
         return from comment in comments
             let user = users.FirstOrDefault(x => x.Id == comment.UserId)
             select new CommentStartPageDto(user?.Name ?? "Удаленный пользователь", comment.Text, comment.CreatedAt,
-                comment.FilmId, user?.AvatarFileName ?? ApplicationConstants.DefaultAvatar);
+                comment.FilmId, user?.AvatarUri ?? ApplicationConstants.DefaultAvatar);
     }
 
     private async Task<IEnumerable<RoomStartPageDto>> GetRoomsAsync()

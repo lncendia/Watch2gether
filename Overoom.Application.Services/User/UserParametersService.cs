@@ -40,10 +40,10 @@ public class UserParametersService : IUserParametersService
         var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
             .FirstOrDefault();
         if (user == null) throw new UserNotFoundException();
-        var t1 = _photoManager.DeleteAsync(user.AvatarFileName);
+        var t1 = _photoManager.DeleteAsync(user.AvatarUri);
         var t2 = _photoManager.SaveAsync(avatar);
         await Task.WhenAll(t1, t2);
-        user.AvatarFileName = t2.Result;
+        user.AvatarUri = t2.Result;
         await _unitOfWork.UserRepository.Value.UpdateAsync(user);
         await _unitOfWork.SaveAsync();
     }

@@ -54,7 +54,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
         if (user != null) return user;
         user = new UserData(info.Principal.FindFirstValue(ClaimTypes.Email)!);
-        var avatarFileName = info.LoginProvider switch
+        var avatarUri = info.LoginProvider switch
         {
             "Vkontakte" => await _photoManager.SaveAsync(info.Principal.FindFirstValue("urn:vkontakte:photo:link")!),
             "Yandex" => await _photoManager.SaveAsync(
@@ -64,7 +64,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         var userDomain =
             new Domain.User.Entities.User(
                 info.Principal.FindFirstValue(ClaimTypes.GivenName) + ' ' +
-                info.Principal.FindFirstValue(ClaimTypes.Surname), user.Email!, avatarFileName);
+                info.Principal.FindFirstValue(ClaimTypes.Surname), user.Email!, avatarUri);
 
         var result = await _userManager.CreateAsync(user);
         if (result.Errors.Any()) throw new UserCreationException(result.Errors.First().Description);

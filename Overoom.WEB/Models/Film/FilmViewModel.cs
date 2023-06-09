@@ -4,12 +4,12 @@ namespace Overoom.WEB.Models.Film;
 
 public class FilmViewModel
 {
-    public FilmViewModel(Guid id, string name, int year, FilmType type, string posterFileName,
+    public FilmViewModel(Guid id, string name, int year, FilmType type, string posterUri,
         string description, double rating, List<string> directors, List<string> screenWriters, List<string> genres,
         List<string> countries, List<(string name, string desc)> actors, int? countSeasons, int? countEpisodes, string url)
     {
         Name = name + " (" + year + ")";
-        PosterFileName = posterFileName;
+        PosterUri = posterUri;
         Description = description;
         Rating = rating;
         Directors = directors;
@@ -33,7 +33,7 @@ public class FilmViewModel
     public string Description { get; }
     public string TypeString { get; }
     public string Name { get; }
-    public string PosterFileName { get; }
+    public string PosterUri { get; }
     public double Rating { get; }
     public string Url { get; }
     public int? CountSeasons { get; }

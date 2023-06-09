@@ -1,37 +1,36 @@
-﻿namespace Overoom.Infrastructure.Storage.Mappers.StaticMethods;
+﻿using System.Reflection;
+using Overoom.Domain.Room.BaseRoom.Entities;
+using Overoom.Infrastructure.Storage.Models.Rooms.Base;
+
+namespace Overoom.Infrastructure.Storage.Mappers.StaticMethods;
 
 internal static class RoomModelInitializer
 {
-    internal static void InitPublicationReportModel(PublicationReportModel report, PublicationReport element)
-    {
-        if (!report.Publications.Any())
-        {
-            report.Publications = element.Publications.Select(x => new PublicationModel
-                { EntityId = x.Id, ItemId = x.ItemId, OwnerId = x.OwnerId, IsLoaded = x.IsLoaded }).ToList();
-        }
-        else
-        {
-            var elementPublications = element.Publications.OrderBy(x => x.Id).ToList();
-            var reportPublications = report.Publications.OrderBy(x => x.Id).ToList();
-            for (var i = 0; i < elementPublications.Count; i++)
-                reportPublications[i].IsLoaded = elementPublications[i].IsLoaded;
-        }
+    private static readonly FieldInfo IdCounter =
+        typeof(Room).GetField("IdCounter", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
-        report.Hashtag = element.Hashtag;
-        report.Process = element.Process;
-        report.AllParticipants = element.AllParticipants;
-        report.SearchStartDate = element.SearchStartDate;
-        InitReportModel(report, element);
+    internal static void InitRoomModel(RoomModel model, Room entity)
+    {
+        model.IsOpen = entity.IsOpen;
+        model.LastActivity = entity.LastActivity;
+        model.IdCounter = (int)IdCounter.GetValue(entity)!;
+
+        var newMessages = entity.Messages.Where(x =>
+            model.Messages.All(m => m.ViewerEntityId != x.ViewerId && m.CreatedAt != x.CreatedAt));
+        model.Messages.AddRange(newMessages.Select(x => new MessageModel
+            { ViewerEntityId = x.ViewerId, Text = x.Text, CreatedAt = x.CreatedAt }));
+        model.Messages.RemoveAll(x =>
+            entity.Messages.All(m => m.ViewerId != x.ViewerEntityId && m.CreatedAt != x.CreatedAt));
+
+        //todo: check for delete
     }
 
-    internal static void InitReportModel(ReportModel report, Report element)
+    internal static void InitViewerModel(ViewerModel model, Viewer viewer)
     {
-        report.Id = element.Id;
-        report.Message = element.Message;
-        report.UserId = element.UserId;
-        report.CreationDate = element.CreationDate;
-        report.EndDate = element.EndDate;
-        report.IsSucceeded = element.IsSucceeded;
-        report.StartDate = element.StartDate;
+        model.Name = viewer.Name;
+        model.AvatarUri = viewer.AvatarUri;
+        model.Online = viewer.Online;
+        model.OnPause = viewer.OnPause;
+        model.TimeLine = viewer.TimeLine;
     }
 }

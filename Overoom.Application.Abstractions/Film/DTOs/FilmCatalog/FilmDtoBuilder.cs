@@ -21,7 +21,7 @@ public class FilmDtoBuilder
     private IReadOnlyCollection<string>? _directors;
     private IReadOnlyCollection<string>? _screenwriters;
     private IReadOnlyCollection<string>? _countries;
-    private string? _posterFileName;
+    private string? _posterUri;
     private int? _countSeasons;
     private int? _countEpisodes;
 
@@ -107,7 +107,7 @@ public class FilmDtoBuilder
 
     public FilmDtoBuilder WithPoster(string patch)
     {
-        _posterFileName = patch;
+        _posterUri = patch;
         return this;
     }
 
@@ -128,14 +128,14 @@ public class FilmDtoBuilder
         if (_userRating == null) throw new InvalidOperationException("builder not formed");
         if (_type == null) throw new InvalidOperationException("builder not formed");
         if (_cdnList == null) throw new InvalidOperationException("builder not formed");
-        if (_posterFileName == null) throw new InvalidOperationException("builder not formed");
+        if (_posterUri == null) throw new InvalidOperationException("builder not formed");
         if (_genres == null) throw new InvalidOperationException("builder not formed");
         if (_actors == null) throw new InvalidOperationException("builder not formed");
         if (_directors == null) throw new InvalidOperationException("builder not formed");
         if (_screenwriters == null) throw new InvalidOperationException("builder not formed");
         if (_countries == null) throw new InvalidOperationException("builder not formed");
 
-        return new FilmDto(_id.Value, _name, _date.Value.Year, _type.Value, _posterFileName, _description, _ratingKp.Value,
+        return new FilmDto(_id.Value, _name, _date.Value.Year, _type.Value, _posterUri, _description, _ratingKp.Value,
             _userRating.Value, _directors, _screenwriters, _genres, _countries, _actors, _countSeasons, _countEpisodes,
             _cdnList);
     }

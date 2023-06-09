@@ -12,6 +12,8 @@ using Overoom.Domain.Room.YoutubeRoom.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Models.Rooms;
+using Overoom.Infrastructure.Storage.Models.Rooms.Base;
+using Overoom.Infrastructure.Storage.Models.Rooms.YoutubeRoom;
 using Overoom.Infrastructure.Storage.Visitors.Sorting;
 using Overoom.Infrastructure.Storage.Visitors.Specifications;
 

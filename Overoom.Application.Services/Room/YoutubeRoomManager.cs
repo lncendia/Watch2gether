@@ -29,7 +29,7 @@ public class YoutubeRoomManager : IYoutubeRoomManager
     {
         var user = await _unitOfWork.UserRepository.Value.GetAsync(userId);
         if (user == null) throw new UserNotFoundException();
-        return await CreateAsync(url, user.Name, addAccess, user.AvatarFileName);
+        return await CreateAsync(url, user.Name, addAccess, user.AvatarUri);
     }
 
     public async Task<string> AddVideoAsync(Guid roomId, int viewerId, string url)
@@ -75,21 +75,21 @@ public class YoutubeRoomManager : IYoutubeRoomManager
         var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
             .FirstOrDefault();
         if (user == null) throw new UserNotFoundException();
-        return await ConnectAsync(room, user.Name, user.AvatarFileName);
+        return await ConnectAsync(room, user.Name, user.AvatarUri);
     }
 
     private async Task<(Guid roomId, YoutubeViewerDto viewer)> CreateAsync(string url, string name, bool addAccess,
-        string avatarFileName)
+        string avatarUri)
     {
-        var room = new YoutubeRoom(url, name, avatarFileName, addAccess);
+        var room = new YoutubeRoom(url, name, avatarUri, addAccess);
         await _unitOfWork.YoutubeRoomRepository.Value.AddAsync(room);
         await _unitOfWork.SaveAsync();
         return (room.Id, _mapper.Map(room.Owner));
     }
 
-    private async Task<YoutubeViewerDto> ConnectAsync(YoutubeRoom room, string name, string avatarFileName)
+    private async Task<YoutubeViewerDto> ConnectAsync(YoutubeRoom room, string name, string avatarUri)
     {
-        var viewer = room.Connect(name, avatarFileName);
+        var viewer = room.Connect(name, avatarUri);
         await SaveRoomAsync(room);
         return _mapper.Map(viewer);
     }

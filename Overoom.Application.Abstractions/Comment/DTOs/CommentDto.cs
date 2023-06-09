@@ -2,18 +2,18 @@
 
 public class CommentDto
 {
-    public CommentDto(Guid id, string text, DateTime createdAt, string username, string avatarFileName)
+    public CommentDto(Guid id, string text, DateTime createdAt, string username, string avatarUri)
     {
         Id = id;
         Text = text;
         CreatedAt = createdAt;
         Username = username;
-        AvatarFileName = avatarFileName;
+        AvatarUri = avatarUri;
     }
 
     public Guid Id { get; }
     public string Text { get; }
     public DateTime CreatedAt { get; }
     public string Username { get; }
-    public string AvatarFileName { get; }
+    public string AvatarUri { get; }
 }

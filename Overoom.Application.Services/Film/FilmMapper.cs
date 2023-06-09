@@ -13,7 +13,7 @@ public class FilmMapper : IFilmMapper
             .WithName(film.Name)
             .WithDate(film.Date)
             .WithType(film.Type)
-            .WithPoster(film.PosterFileName)
+            .WithPoster(film.PosterUri)
             .WithDescription(film.FilmInfo.Description)
             .WithRatingKp(film.FilmInfo.RatingKp)
             .WithUserRating(film.UserRating)
@@ -35,13 +35,13 @@ public class FilmMapper : IFilmMapper
             ? film.FilmInfo.ShortDescription
             : film.FilmInfo.Description[..100] + "...";
 
-        return new FilmShortDto(film.Id, film.Name, film.PosterFileName, film.FilmInfo.RatingKp,
+        return new FilmShortDto(film.Id, film.Name, film.PosterUri, film.FilmInfo.RatingKp,
             description, film.Date.Year, film.Type, film.FilmInfo.CountSeasons, film.FilmTags.Genres);
     }
     
     public PlaylistDto MapPlaylist(Domain.Playlist.Entities.Playlist playlist)
     {
-        return new PlaylistDto(playlist.Id, playlist.PosterFileName, playlist.Updated, playlist.Name,
+        return new PlaylistDto(playlist.Id, playlist.PosterUri, playlist.Updated, playlist.Name,
             playlist.Description);
     }
 }

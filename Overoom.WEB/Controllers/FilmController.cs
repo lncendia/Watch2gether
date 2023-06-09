@@ -49,7 +49,7 @@ public class FilmController : Controller
 
             if (!films.Any()) return NoContent();
 
-            var filmsModels = films.Select(x => new FilmLiteViewModel(x.Id, x.Name, x.PosterFileName, x.Rating,
+            var filmsModels = films.Select(x => new FilmLiteViewModel(x.Id, x.Name, x.PosterUri, x.Rating,
                 x.ShortDescription, x.Year, x.Type, x.CountSeasons, string.Join(", ", x.Genres)));
 
             var data = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
@@ -74,8 +74,8 @@ public class FilmController : Controller
                 await _playlistManager.FindAsync(new PlaylistSearchQueryDto(null, SortBy.Date, 1, false));
 
             var playlistViewModels =
-                playlists.Select(x => new PlaylistLiteViewModel(x.Id, x.Name, x.PosterFileName)).ToList();
-            var filmViewModel = new FilmViewModel(film.Id, film.Name, film.Year, film.Type, film.PosterFileName,
+                playlists.Select(x => new PlaylistLiteViewModel(x.Id, x.Name, x.PosterUri)).ToList();
+            var filmViewModel = new FilmViewModel(film.Id, film.Name, film.Year, film.Type, film.PosterUri,
                 film.Description,
                 film.Rating, film.Directors, film.ScreenWriters, film.Genres, film.Countries, film.Actors,
                 film.CountSeasons, film.CountEpisodes, film.Url);
@@ -101,7 +101,7 @@ public class FilmController : Controller
             var comments = await _commentManager.GetAsync(id, page);
             if (!comments.Any()) return NoContent();
             var commentModels = comments
-                .Select(x => new CommentViewModel(x.Username, x.Text, x.CreatedAt, x.AvatarFileName))
+                .Select(x => new CommentViewModel(x.Username, x.Text, x.CreatedAt, x.AvatarUri))
                 .ToList();
             return Json(commentModels);
         }
@@ -120,7 +120,7 @@ public class FilmController : Controller
         {
             var comment = await _commentManager.AddAsync(filmId, TODO, text);
             return Json(new CommentViewModel(comment.Username, comment.Text, comment.CreatedAt,
-                comment.AvatarFileName));
+                comment.AvatarUri));
         }
         catch (Exception e)
         {

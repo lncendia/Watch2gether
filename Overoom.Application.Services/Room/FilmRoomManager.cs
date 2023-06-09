@@ -36,9 +36,9 @@ public class FilmRoomManager : IFilmRoomManager
         if (film == null) throw new FilmNotFoundException();
         var user = await _unitOfWork.UserRepository.Value.GetAsync(userId);
         if (user == null) throw new UserNotFoundException();
-        user.WatchedFilms.Add(filmId);
+        user.History.Add(filmId);
         await _unitOfWork.UserRepository.Value.UpdateAsync(user);
-        return await CreateAsync(filmId, cdn, user.Name, user.AvatarFileName);
+        return await CreateAsync(filmId, cdn, user.Name, user.AvatarUri);
     }
 
     public async Task ChangeSeries(Guid roomId, int viewerId, int season, int series)
@@ -61,23 +61,23 @@ public class FilmRoomManager : IFilmRoomManager
         var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
             .FirstOrDefault();
         if (user == null) throw new UserNotFoundException();
-        user.WatchedFilms.Add(room.FilmId);
+        user.History.Add(room.FilmId);
         await _unitOfWork.UserRepository.Value.UpdateAsync(user);
-        return await ConnectAsync(room, user.Name, user.AvatarFileName);
+        return await ConnectAsync(room, user.Name, user.AvatarUri);
     }
 
     private async Task<(Guid roomId, FilmViewerDto viewer)> CreateAsync(Guid filmId, CdnType cdn, string name,
-        string avatarFileName)
+        string avatarUri)
     {
-        var room = new FilmRoom(filmId, name, avatarFileName, cdn);
+        var room = new FilmRoom(filmId, name, avatarUri, cdn);
         await _unitOfWork.FilmRoomRepository.Value.AddAsync(room);
         await _unitOfWork.SaveAsync();
         return (room.Id, _mapper.Map(room.Owner));
     }
 
-    private async Task<FilmViewerDto> ConnectAsync(FilmRoom room, string name, string avatarFileName)
+    private async Task<FilmViewerDto> ConnectAsync(FilmRoom room, string name, string avatarUri)
     {
-        var viewer = room.Connect(name, avatarFileName);
+        var viewer = room.Connect(name, avatarUri);
         await SaveRoomAsync(room);
         return _mapper.Map(viewer);
     }

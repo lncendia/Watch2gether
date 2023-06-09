@@ -104,7 +104,7 @@ public class FilmManager : IFilmManager
 
     private static FilmDto MapFilm(Film film)
     {
-        return new FilmDto(film.Id, film.Name, film.Date.Year, film.Type, film.PosterFileName,
+        return new FilmDto(film.Id, film.Name, film.Date.Year, film.Type, film.PosterUri,
             film.FilmInfo.Description ?? "...", film.FilmInfo.Rating, film.FilmCollections.Directors,
             film.FilmCollections.Screenwriters, film.FilmCollections.Genres, film.FilmCollections.Countries,
             film.FilmCollections.Actors.Select(x => (x.ActorName, x.ActorDescription)).ToList(),
@@ -117,7 +117,7 @@ public class FilmManager : IFilmManager
         var description = !string.IsNullOrEmpty(film.FilmInfo.ShortDescription)
             ? film.FilmInfo.ShortDescription
             : film.FilmInfo.Description?[..100] + "...";
-        return new FilmLiteDto(film.Id, film.Name, film.PosterFileName, film.FilmInfo.Rating,
+        return new FilmLiteDto(film.Id, film.Name, film.PosterUri, film.FilmInfo.Rating,
             description, film.Date.Year, film.Type, film.FilmInfo.CountSeasons, film.FilmCollections.Genres);
     }
 }

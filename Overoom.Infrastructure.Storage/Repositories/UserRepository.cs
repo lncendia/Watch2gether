@@ -11,6 +11,7 @@ using Overoom.Domain.User.Specifications.Visitor;
 using Overoom.Domain.Users;
 using Overoom.Infrastructure.Storage.Models;
 using Overoom.Infrastructure.Storage.Context;
+using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Users;
 using Overoom.Infrastructure.Storage.Visitors.Sorting;
 using Overoom.Infrastructure.Storage.Visitors.Specifications;
@@ -20,12 +21,15 @@ namespace Overoom.Infrastructure.Storage.Repositories;
 public class UserRepository : IUserRepository
 {
     private readonly ApplicationDbContext _context;
-    private readonly IMapper _mapper;
+    private readonly IAggregateMapperUnit<User, UserModel> _aggregateMapper;
+    private readonly IModelMapperUnit<UserModel, User> _modelMapper;
 
-    public UserRepository(ApplicationDbContext context)
+    public UserRepository(ApplicationDbContext context, IAggregateMapperUnit<User, UserModel> aggregateMapper,
+        IModelMapperUnit<UserModel, User> modelMapper)
     {
         _context = context;
-        _mapper = GetMapper();
+        _aggregateMapper = aggregateMapper;
+        _modelMapper = modelMapper;
     }
 
     private User Map(UserModel model)

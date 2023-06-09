@@ -2,7 +2,7 @@
 
 public class ActorData
 {
-    public ActorData(string actorName, string actorDescription)
+    internal ActorData(string actorName, string actorDescription)
     {
         ActorName = actorName;
         ActorDescription = actorDescription;

@@ -4,7 +4,7 @@ namespace Overoom.Domain.Film.ValueObject;
 
 public class FilmTags
 {
-    public FilmTags(IEnumerable<string> genres, IEnumerable<string> countries,
+    internal FilmTags(IEnumerable<string> genres, IEnumerable<string> countries,
         IEnumerable<(string name, string description)> actors, IEnumerable<string> screenwriters,
         IEnumerable<string> directors)
     {

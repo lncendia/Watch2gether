@@ -4,25 +4,25 @@ namespace Overoom.Domain.Playlist.Entities;
 
 public class Playlist : AggregateRoot
 {
-    public Playlist(string posterFileName, string name, string description)
+    public Playlist(string posterUri, string name, string description)
     {
-        PosterFileName = posterFileName;
+        PosterUri = posterUri;
         Name = name;
         Description = description;
     }
 
-    public Playlist(List<Guid> films, string posterFileName, string name, string description)
+    public Playlist(IEnumerable<Guid> films, string posterUri, string name, string description)
     {
-        PosterFileName = posterFileName;
+        PosterUri = posterUri;
         Name = name;
         Description = description;
-        films.ForEach(AddFilm);
+        foreach (var film in films) AddFilm(film);
     }
 
     public string Name { get; }
     public string Description { get; }
     public DateTime Updated { get; } = DateTime.UtcNow;
-    public string PosterFileName { get; }
+    public string PosterUri { get; }
 
     private readonly List<Guid> _films = new();
 
@@ -30,7 +30,7 @@ public class Playlist : AggregateRoot
 
     public void AddFilm(Guid filmId)
     {
-        if (_films.Any(x => x == filmId)) throw new Exception("Film already in playlist");
+        if (_films.Any(x => x == filmId)) throw new Exception("Film already in playlist"); //todo:exception
         _films.Add(filmId);
     }
 }

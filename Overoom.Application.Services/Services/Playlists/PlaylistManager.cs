@@ -57,17 +57,17 @@ public class PlaylistManager : IPlaylistManager
 
     private static PlaylistDto MapPlaylist(Playlist playlist, IEnumerable<Film> films)
     {
-        var filmsDto = films.Select(f => new PlaylistFilmLiteDto(f.Id, f.Name, f.PosterFileName,
+        var filmsDto = films.Select(f => new PlaylistFilmLiteDto(f.Id, f.Name, f.PosterUri,
                 f.FilmInfo.Rating,
                 !string.IsNullOrEmpty(f.FilmInfo.ShortDescription)
                     ? f.FilmInfo.ShortDescription
                     : f.FilmInfo.Description?[..100] + "...", f.Date.Year, f.Type, f.FilmInfo.CountSeasons,
                 f.FilmCollections.Genres))
             .ToList();
-        return new PlaylistDto(playlist.Id, playlist.PosterFileName, playlist.Updated, filmsDto, playlist.Name,
+        return new PlaylistDto(playlist.Id, playlist.PosterUri, playlist.Updated, filmsDto, playlist.Name,
             playlist.Description);
     }
 
     private static PlaylistLiteDto MapPlaylists(Playlist playlist) => new(playlist.Id, playlist.Name,
-        playlist.PosterFileName, playlist.Films.Count, playlist.Updated);
+        playlist.PosterUri, playlist.Films.Count, playlist.Updated);
 }

@@ -1,43 +1,31 @@
 ﻿using Overoom.Domain.Room.BaseRoom.Exceptions;
-using Overoom.Domain.Room.BaseRoom.ValueObject;
 using Overoom.Domain.Room.YoutubeRoom.Exceptions;
 
 namespace Overoom.Domain.Room.YoutubeRoom.Entities;
 
-public class YoutubeRoom : BaseRoom.Entities.BaseRoom
+public class YoutubeRoom : BaseRoom.Entities.Room
 {
-    public YoutubeRoom(string url, string name, string avatarFileName, bool addAccess)
+    public YoutubeRoom(string url, string name, string avatarUri, bool addAccess)
     {
         AddAccess = addAccess;
         var id = GetId(url);
         _ids.Add(id);
-        Owner = new YoutubeViewer(_idCounter, name, avatarFileName, id);
+        base.Owner = new YoutubeViewer(IdCounter, name, avatarUri, id);
+        IdCounter++;
         ViewersList.Add(Owner);
     }
 
     public bool AddAccess { get; }
-    public IReadOnlyCollection<Message> Messages => MessagesList.AsReadOnly();
-    public YoutubeViewer Owner { get; }
+    public new YoutubeViewer Owner => (YoutubeViewer)base.Owner!;
     public IReadOnlyCollection<YoutubeViewer> Viewers => ViewersList.Cast<YoutubeViewer>().ToList().AsReadOnly();
     public IReadOnlyCollection<string> VideoIds => _ids.ToList().AsReadOnly();
     private readonly List<string> _ids = new();
-    private int _idCounter = 1;
 
-    public YoutubeViewer Connect(string name, string avatarFileName)
+    public void Connect(string name, string avatarUri)
     {
         if (ViewersList.Count >= 10) throw new RoomIsFullException();
-
-        _idCounter++;
-        var viewer = new YoutubeViewer(_idCounter, name, avatarFileName, Owner.CurrentVideoId);
+        var viewer = new YoutubeViewer(IdCounter, name, avatarUri, Owner.CurrentVideoId);
         AddViewer(viewer);
-        return viewer;
-    }
-
-    public void SendMessage(int viewerId, string message)
-    {
-        SetOnline(viewerId, true);
-        var messageV = new Message(viewerId, message, Id);
-        AddMessage(messageV);
     }
 
     public void ChangeVideo(int viewerId, string id)

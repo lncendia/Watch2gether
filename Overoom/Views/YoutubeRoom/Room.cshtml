@@ -74,7 +74,7 @@
                     if (message.Viewer.Id != Model.CurrentViewerId)
                     {
                         <div class="d-flex flex-row justify-content-start mb-4">
-                            <img src="~/img/Avatars/@message.Viewer.AvatarFileName" class="messageAvatar" alt="">
+                            <img src="~/img/Avatars/@message.Viewer.AvatarUri" class="messageAvatar" alt="">
                             <div class="message messageOther">
                                 <p style="font-size: 12px" class="additionalText">@message.Viewer.Username</p>
                                 <p class="small mb-0">@message.Text</p>
@@ -90,7 +90,7 @@
                                 <p class="small mb-0">@message.Text</p>
                                 <p style="font-size: 10px" class="additionalText">@message.CreatedAt</p>
                             </div>
-                            <img src="~/img/Avatars/@message.Viewer.AvatarFileName" class="messageAvatar" alt="">
+                            <img src="~/img/Avatars/@message.Viewer.AvatarUri" class="messageAvatar" alt="">
                         </div>
                     }
                 }
@@ -122,7 +122,7 @@
     <script>
         @foreach (var viewer in Model.Viewers)
         {
-            <text>users.push(new YoutubeUser('@viewer.Id.ToString()', '@Html.Raw(viewer.Username)', '@viewer.AvatarFileName', @viewer.Time.TotalSeconds, @(viewer.OnPause ? "true" : "false"), '@viewer.CurrentVideoId'));</text>
+            <text>users.push(new YoutubeUser('@viewer.Id.ToString()', '@Html.Raw(viewer.Username)', '@viewer.AvatarUri', @viewer.Time.TotalSeconds, @(viewer.OnPause ? "true" : "false"), '@viewer.CurrentVideoId'));</text>
         }
         data = new Data('@Model.CurrentViewerId', '@Model.OwnerId');
         @foreach (var video in Model.Ids)

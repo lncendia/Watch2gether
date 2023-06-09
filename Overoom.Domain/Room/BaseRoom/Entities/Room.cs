@@ -4,17 +4,20 @@ using Overoom.Domain.Room.BaseRoom.ValueObject;
 
 namespace Overoom.Domain.Room.BaseRoom.Entities;
 
-public abstract class BaseRoom : AggregateRoot
+public abstract class Room : AggregateRoot
 {
     public bool IsOpen { get; set; } = false;
     public DateTime LastActivity { get; private set; } = DateTime.UtcNow;
 
     protected readonly List<Viewer> ViewersList = new();
 
-    protected readonly List<Message> MessagesList = new();
+    private readonly List<Message> _messagesList = new();
+    protected Viewer? Owner = null;
+    protected int IdCounter = 1;
 
+    public IReadOnlyCollection<Message> Messages => _messagesList.AsReadOnly();
 
-    public void SetOnline(int viewerId, bool isOnline)
+    public virtual void SetOnline(int viewerId, bool isOnline)
     {
         var viewer = GetViewer(viewerId);
         viewer.Online = isOnline;
@@ -22,7 +25,7 @@ public abstract class BaseRoom : AggregateRoot
         UpdateActivity();
     }
 
-    public void UpdateTimeLine(int viewerId, bool pause, TimeSpan time)
+    public virtual void UpdateTimeLine(int viewerId, bool pause, TimeSpan time)
     {
         var viewer = GetViewer(viewerId);
         viewer.OnPause = pause;
@@ -39,17 +42,20 @@ public abstract class BaseRoom : AggregateRoot
         return viewer;
     }
 
+    public virtual void SendMessage(int viewerId, string message)
+    {
+        if (_messagesList.Count >= 100) _messagesList.RemoveAt(0);
+        SetOnline(viewerId, true);
+        var messageV = new Message(viewerId, message);
+        _messagesList.Add(messageV);
+        UpdateActivity();
+    }
+
     protected void AddViewer(Viewer viewer)
     {
         if (ViewersList.Any(x => x.Id == viewer.Id)) throw new ViewerAlreadyExistsException();
         ViewersList.Add(viewer);
         UpdateActivity();
-    }
-
-    protected void AddMessage(Message message)
-    {
-        if (MessagesList.Count >= 100) MessagesList.RemoveAt(0);
-        MessagesList.Add(message);
-        UpdateActivity();
+        IdCounter++;
     }
 }

@@ -10,23 +10,19 @@ public class Film : AggregateRoot
     public Film(string name, string description, string? shortDescription, DateOnly date, double rating, FilmType type,
         IEnumerable<CdnDto> cdn, IEnumerable<string> genres, IEnumerable<(string name, string description)> actors,
         IEnumerable<string> directors, IEnumerable<string> screenwriters, IEnumerable<string> countries,
-        string posterFileName, int? countSeasons = null, int? countEpisodes = null)
+        string posterUri, int? countSeasons = null, int? countEpisodes = null)
     {
-        switch (Type)
-        {
-            case FilmType.Serial when countSeasons == null:
-                throw new ArgumentException("Count of seasons must be specified for serials");
-            case FilmType.Serial when countEpisodes == null:
-                throw new ArgumentException("Count of episodes must be specified for serials");
-        }
-
-        FilmInfo = new FilmInfo(rating, description, shortDescription, countSeasons, countEpisodes);
         FilmTags = new FilmTags(genres, countries, actors, directors, screenwriters);
 
         Type = type;
         Name = name;
-        PosterFileName = posterFileName;
+        PosterUri = posterUri;
         Date = date;
+        RatingKp = rating;
+        Description = description;
+        ShortDescription = shortDescription;
+        Type = type;
+        if (countSeasons != null && countEpisodes != null) UpdateSeriesInfo(countSeasons.Value, countEpisodes.Value);
 
         _cdnList = cdn.Select(x => new Cdn(x.Type, x.Uri, x.Quality, x.Voices)).ToList();
         if (!_cdnList.Any()) throw new ArgumentException("Cdn list is empty");
@@ -38,8 +34,7 @@ public class Film : AggregateRoot
 
     private readonly List<Cdn> _cdnList;
     public IReadOnlyCollection<Cdn> CdnList => _cdnList.AsReadOnly();
-    public string PosterFileName { get; }
-    public FilmInfo FilmInfo { get; private set; }
+    public string PosterUri { get; }
     public FilmTags FilmTags { get; }
 
     private double _userRating;
@@ -55,17 +50,30 @@ public class Film : AggregateRoot
         }
     }
 
-    public void UpdateInfo(string description, string? shortDescription, double rating, int? countSeasons = null,
-        int? countEpisodes = null)
-    {
-        switch (Type)
-        {
-            case FilmType.Serial when countSeasons == null:
-                throw new ArgumentException("Count of seasons must be specified for serials");
-            case FilmType.Serial when countEpisodes == null:
-                throw new ArgumentException("Count of episodes must be specified for serials");
-        }
+    public string Description { get; }
+    public string? ShortDescription { get; }
+    public int? CountSeasons { get; private set; }
+    public int? CountEpisodes { get; private set; }
 
-        FilmInfo = new FilmInfo(rating, description, shortDescription, countSeasons, countEpisodes);
+    private readonly double _rating;
+
+    public double RatingKp
+    {
+        get => _rating;
+        private init
+        {
+            if (value is < 0 or > 10)
+                throw new ArgumentException("Rating must be between 0 and 10");
+            _rating = value;
+        }
+    }
+
+    public void UpdateSeriesInfo(int countSeasons, int countEpisodes)
+    {
+        if (Type != FilmType.Serial)
+            throw new InvalidOperationException("Count of episodes must be specified for serials");
+
+        CountSeasons = countSeasons;
+        CountEpisodes = countEpisodes;
     }
 }

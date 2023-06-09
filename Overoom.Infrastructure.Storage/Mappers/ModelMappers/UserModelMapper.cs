@@ -12,14 +12,29 @@ internal class UserModelMapper : IModelMapperUnit<UserModel, User>
 
     public UserModelMapper(ApplicationDbContext context) => _context = context;
 
-    public async Task<UserModel> MapAsync(User model)
+    public async Task<UserModel> MapAsync(User entity)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == model.Id) ?? new UserModel { Id = model.Id };
-        user.Name = model.Name;
-        user.Email = model.Email;
-        user.Id = model.Id;
-        user.AvatarFileName = model.AvatarFileName;
-        user.
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == entity.Id);
+        if (user != null)
+        {
+            await _context.Entry(user).Collection(x => x.History).LoadAsync();
+            await _context.Entry(user).Collection(x => x.Watchlist).LoadAsync();
+        }
+        else user = new UserModel { Id = entity.Id };
+
+        user.Name = entity.Name;
+        user.Email = entity.Email;
+        user.AvatarUri = entity.AvatarUri;
+
+
+        var newHistory = entity.History.Where(x => user.History.All(m => m.FilmId != x));
+        user.History.AddRange(newHistory.Select(x => new HistoryModel { FilmId = x }));
+        user.History.RemoveAll(x => entity.History.All(m => m != x.FilmId));
+
+        var newWatchlist = entity.Watchlist.Where(x => user.Watchlist.All(m => m.FilmId != x));
+        user.Watchlist.AddRange(newWatchlist.Select(x => new WatchlistModel { FilmId = x }));
+        user.Watchlist.RemoveAll(x => entity.Watchlist.All(m => m != x.FilmId));
+
         return user;
     }
 }

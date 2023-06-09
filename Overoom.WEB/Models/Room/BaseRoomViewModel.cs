@@ -40,13 +40,13 @@ public abstract class ViewerViewModel
     {
         Id = id;
         Username = username;
-        AvatarFileName = avatarUrl;
+        AvatarUri = avatarUrl;
         OnPause = onPause;
         Time = time;
     }
 
     public Guid Id { get; }
-    public string AvatarFileName { get; }
+    public string AvatarUri { get; }
     public string Username { get; }
     public bool OnPause { get; }
     public TimeSpan Time { get; }

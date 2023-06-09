@@ -45,7 +45,7 @@ public class CommentManager : ICommentManager
         (from comment in comments
             let user = users.FirstOrDefault(x => x.Id == comment.UserId)
             select new CommentDto(comment.Id, comment.Text, comment.CreatedAt, user?.Name ?? "Удаленный пользователь",
-                user?.AvatarFileName ?? ApplicationConstants.DefaultAvatar)).ToList();
+                user?.AvatarUri ?? ApplicationConstants.DefaultAvatar)).ToList();
 
     public async Task<CommentDto> AddAsync(Guid filmId, Guid id, string text)
     {
@@ -56,7 +56,7 @@ public class CommentManager : ICommentManager
         var comment = new Domain.Comment.Entities.Comment(filmId, user.Id, text);
         await _unitOfWork.CommentRepository.Value.AddAsync(comment);
         await _unitOfWork.SaveAsync();
-        return new CommentDto(comment.Id, comment.Text, comment.CreatedAt, user.Name, user.AvatarFileName);
+        return new CommentDto(comment.Id, comment.Text, comment.CreatedAt, user.Name, user.AvatarUri);
     }
 
     public async Task DeleteAsync(Guid commentId, Guid id)

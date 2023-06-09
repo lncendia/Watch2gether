@@ -7,18 +7,16 @@ namespace Overoom.Domain.User.Entities;
 
 public class User : AggregateRoot
 {
-    public User(string name, string email, string avatarFileName)
+    public User(string name, string email, string avatarUri)
     {
         Name = name;
-        _name = name;
-        _email = email;
         Email = email;
-        AvatarFileName = avatarFileName;
+        AvatarUri = avatarUri;
     }
-    
-    public string AvatarFileName { get; set; }
 
-    private string _email;
+    public string AvatarUri { get; set; }
+
+    private string _email = null!;
 
     public string Email
     {
@@ -37,7 +35,7 @@ public class User : AggregateRoot
     }
 
 
-    private string _name;
+    private string _name = null!;
 
     public string Name
     {
@@ -49,23 +47,23 @@ public class User : AggregateRoot
         }
     }
 
-    private readonly List<Guid> _favoriteFilms = new();
-    private readonly List<Guid> _watchedFilms = new();
+    private readonly List<Guid> _watchlist = new();
+    private readonly List<Guid> _history = new();
 
-    public List<Guid> FavoriteFilms => _favoriteFilms.ToList();
-    public List<Guid> WatchedFilms => _watchedFilms.ToList();
+    public IReadOnlyCollection<Guid> Watchlist => _watchlist.AsReadOnly();
+    public IReadOnlyCollection<Guid> History => _history.AsReadOnly();
 
-    public void AddFavoriteFilm(Guid filmId)
+    public void AddFilmToWatchlist(Guid filmId)
     {
-        if (_favoriteFilms.Contains(filmId)) return;
-        if (_favoriteFilms.Count > 50) _favoriteFilms.RemoveAt(0);
-        _favoriteFilms.Add(filmId);
+        if (_watchlist.Contains(filmId)) return;
+        if (_watchlist.Count > 50) _watchlist.RemoveAt(0);
+        _watchlist.Add(filmId);
     }
 
-    public void AddWatchedFilm(Guid filmId)
+    public void AddFilmToHistory(Guid filmId)
     {
-        if (_watchedFilms.Contains(filmId)) return;
-        if (_watchedFilms.Count > 50) _watchedFilms.RemoveAt(0);
-        _watchedFilms.Add(filmId);
+        if (_history.Contains(filmId)) return;
+        if (_history.Count > 50) _history.RemoveAt(0);
+        _history.Add(filmId);
     }
 }

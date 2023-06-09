@@ -4,7 +4,7 @@ namespace Overoom.Domain.Film.ValueObject;
 
 public class Cdn
 {
-    public Cdn(CdnType type, Uri uri, string quality, List<string> voices)
+    internal Cdn(CdnType type, Uri uri, string quality, List<string> voices)
     {
         Type = type;
         Uri = uri;

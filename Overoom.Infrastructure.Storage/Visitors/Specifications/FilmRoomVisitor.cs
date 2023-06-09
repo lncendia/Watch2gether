@@ -7,6 +7,7 @@ using Overoom.Domain.Specifications;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Models;
 using Overoom.Infrastructure.Storage.Models.Rooms;
+using Overoom.Infrastructure.Storage.Models.Rooms.FilmRoom;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Specifications;
 

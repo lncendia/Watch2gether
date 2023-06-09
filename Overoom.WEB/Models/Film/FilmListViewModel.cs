@@ -16,13 +16,13 @@ public class FilmListViewModel
 
 public class FilmLiteViewModel
 {
-    public FilmLiteViewModel(Guid id, string name, string posterFileName, double rating, string description, int year,
+    public FilmLiteViewModel(Guid id, string name, string posterUri, double rating, string description, int year,
         FilmType type, int? countSeasons, string genres)
     {
         Id = id;
         Name = name;
         Year = year;
-        PosterFileName = posterFileName;
+        PosterUri = posterUri;
         Rating = rating;
         Description = description;
         Type = type switch
@@ -36,7 +36,7 @@ public class FilmLiteViewModel
 
     public Guid Id { get; }
     public string Name { get; }
-    public string PosterFileName { get; }
+    public string PosterUri { get; }
     public double Rating { get; }
     public string Description { get; }
     public string Type { get; }

@@ -4,7 +4,7 @@ namespace Overoom.Application.Abstractions.Film.DTOs.FilmCatalog;
 
 public class FilmDto
 {
-    public FilmDto(Guid id, string name, int year, FilmType type, string posterFileName,
+    public FilmDto(Guid id, string name, int year, FilmType type, string posterUri,
         string description, double ratingKp, double userRating, IReadOnlyCollection<string> directors,
         IReadOnlyCollection<string> screenWriters, IReadOnlyCollection<string> genres,
         IReadOnlyCollection<string> countries, IReadOnlyCollection<(string name, string desc)> actors,
@@ -13,7 +13,7 @@ public class FilmDto
         Name = name;
         Year = year;
         Type = type;
-        PosterFileName = posterFileName;
+        PosterUri = posterUri;
         Description = description;
         UserRating = userRating;
         RatingKp = ratingKp;
@@ -32,7 +32,7 @@ public class FilmDto
     public string Description { get; }
     public FilmType Type { get; }
     public string Name { get; }
-    public string PosterFileName { get; }
+    public string PosterUri { get; }
     public int Year { get; }
     public double RatingKp { get; }
     public double UserRating { get; }

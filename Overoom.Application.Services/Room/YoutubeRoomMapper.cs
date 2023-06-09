@@ -15,5 +15,5 @@ public class YoutubeRoomMapper : IYoutubeRoomMapper
     }
 
     public YoutubeViewerDto Map(YoutubeViewer v) =>
-        new(v.Name, v.Id, v.AvatarFileName, v.TimeLine, v.OnPause, v.CurrentVideoId);
+        new(v.Name, v.Id, v.AvatarUri, v.TimeLine, v.OnPause, v.CurrentVideoId);
 }

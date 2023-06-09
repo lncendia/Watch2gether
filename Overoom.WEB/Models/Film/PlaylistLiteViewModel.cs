@@ -2,14 +2,14 @@
 
 public class PlaylistLiteViewModel
 {
-    public PlaylistLiteViewModel(Guid id, string name, string posterFileName)
+    public PlaylistLiteViewModel(Guid id, string name, string posterUri)
     {
         Id = id;
         Name = name;
-        PosterFileName = posterFileName;
+        PosterUri = posterUri;
     }
 
     public Guid Id { get; }
     public string Name { get;}
-    public string PosterFileName { get; }
+    public string PosterUri { get; }
 }

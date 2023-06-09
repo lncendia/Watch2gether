@@ -2,8 +2,11 @@
 using Overoom.Infrastructure.Storage.Models.Comments;
 using Overoom.Infrastructure.Storage.Models.Films;
 using Overoom.Infrastructure.Storage.Models.Playlists;
+using Overoom.Infrastructure.Storage.Models.Rating;
 using Overoom.Infrastructure.Storage.Models.Rooms;
 using Overoom.Infrastructure.Storage.Models.Rooms.Base;
+using Overoom.Infrastructure.Storage.Models.Rooms.FilmRoom;
+using Overoom.Infrastructure.Storage.Models.Rooms.YoutubeRoom;
 using Overoom.Infrastructure.Storage.Models.Users;
 
 namespace Overoom.Infrastructure.Storage.Context;
@@ -30,7 +33,8 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<CommentModel> Comments { get; set; } = null!;
 
-
+    public DbSet<RatingModel> Ratings { get; set; } = null!;
+    
     public DbSet<FilmRoomModel> FilmRooms { get; set; } = null!;
     public DbSet<YoutubeRoomModel> YoutubeRooms { get; set; } = null!;
     public DbSet<VideoIdModel> VideoIds { get; set; } = null!;
@@ -41,7 +45,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<RoomBaseModel>().HasMany(x => x.Messages).WithOne(x => x.Room).HasForeignKey(x => x.RoomId);
+        modelBuilder.Entity<RoomModel>().HasMany(x => x.Messages).WithOne(x => x.Room).HasForeignKey(x => x.RoomId);
 
         modelBuilder.Entity<FilmRoomModel>().HasMany(x => x.Viewers).WithOne(x => (FilmRoomModel) x.Room)
             .HasForeignKey(x => x.RoomId);

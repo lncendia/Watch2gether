@@ -20,5 +20,5 @@ public class FilmRoomMapper : IFilmRoomMapper
     }
 
     public FilmViewerDto Map(FilmViewer v) =>
-        new(v.Name, v.Id, v.AvatarFileName, v.TimeLine, v.OnPause, v.Season, v.Series);
+        new(v.Name, v.Id, v.AvatarUri, v.TimeLine, v.OnPause, v.Season, v.Series);
 }
