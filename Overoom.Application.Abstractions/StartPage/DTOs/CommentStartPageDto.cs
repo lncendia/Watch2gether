@@ -2,13 +2,14 @@
 
 public class CommentStartPageDto
 {
-    public CommentStartPageDto(string name, string text, DateTime dateTime, Guid filmId, string avatar)
+    public CommentStartPageDto(string name, string text, DateTime dateTime, Guid filmId, string filmName, string avatar)
     {
         Name = name;
         Text = text;
         DateTime = dateTime;
         FilmId = filmId;
         Avatar = avatar;
+        FilmName = filmName;
     }
 
     public string Name { get; }
@@ -16,4 +17,5 @@ public class CommentStartPageDto
     public string Avatar { get; }
     public DateTime DateTime { get; }
     public Guid FilmId { get; }
+    public string FilmName { get; }
 }

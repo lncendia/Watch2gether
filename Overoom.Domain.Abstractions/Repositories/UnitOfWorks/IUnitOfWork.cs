@@ -8,5 +8,6 @@ public interface IUnitOfWork
     Lazy<IYoutubeRoomRepository> YoutubeRoomRepository { get; }
     Lazy<IPlaylistRepository> PlaylistRepository { get; } 
     Lazy<ICommentRepository> CommentRepository { get; } 
-    Task SaveAsync();
+    Lazy<IRatingRepository> RatingRepository { get; } 
+    Task SaveChangesAsync();
 }

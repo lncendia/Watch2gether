@@ -2,8 +2,7 @@ using Overoom.Domain.Comment.Entities;
 using Overoom.Domain.Comment.Ordering;
 using Overoom.Domain.Comment.Ordering.Visitor;
 using Overoom.Domain.Ordering.Abstractions;
-using Overoom.Infrastructure.Storage.Models;
-using Overoom.Infrastructure.Storage.Models.Comments;
+using Overoom.Infrastructure.Storage.Models.Comment;
 using Overoom.Infrastructure.Storage.Visitors.Sorting.Models;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Sorting;

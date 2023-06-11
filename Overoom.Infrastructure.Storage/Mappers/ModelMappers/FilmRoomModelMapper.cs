@@ -3,7 +3,7 @@ using Overoom.Domain.Room.FilmRoom.Entities;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Mappers.StaticMethods;
-using Overoom.Infrastructure.Storage.Models.Rooms.FilmRoom;
+using Overoom.Infrastructure.Storage.Models.Room.FilmRoom;
 
 namespace Overoom.Infrastructure.Storage.Mappers.ModelMappers;
 

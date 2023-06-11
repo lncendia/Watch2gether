@@ -3,8 +3,7 @@ using Overoom.Domain.Comment.Entities;
 using Overoom.Domain.Comment.Specifications;
 using Overoom.Domain.Comment.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
-using Overoom.Infrastructure.Storage.Models;
-using Overoom.Infrastructure.Storage.Models.Comments;
+using Overoom.Infrastructure.Storage.Models.Comment;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Specifications;
 

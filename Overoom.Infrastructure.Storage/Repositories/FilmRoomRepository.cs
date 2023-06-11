@@ -1,18 +1,13 @@
-using System.Reflection;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Overoom.Domain.Abstractions.Repositories;
 using Overoom.Domain.Ordering.Abstractions;
-using Overoom.Domain.Room.BaseRoom.Entities;
-using Overoom.Domain.Room.BaseRoom.ValueObject;
 using Overoom.Domain.Room.FilmRoom.Entities;
 using Overoom.Domain.Room.FilmRoom.Ordering.Visitor;
 using Overoom.Domain.Room.FilmRoom.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Context;
-using Overoom.Infrastructure.Storage.Models.Rooms;
-using Overoom.Infrastructure.Storage.Models.Rooms.Base;
-using Overoom.Infrastructure.Storage.Models.Rooms.FilmRoom;
+using Overoom.Infrastructure.Storage.Mappers.Abstractions;
+using Overoom.Infrastructure.Storage.Models.Room.FilmRoom;
 using Overoom.Infrastructure.Storage.Visitors.Sorting;
 using Overoom.Infrastructure.Storage.Visitors.Specifications;
 
@@ -21,146 +16,43 @@ namespace Overoom.Infrastructure.Storage.Repositories;
 public class FilmRoomRepository : IFilmRoomRepository
 {
     private readonly ApplicationDbContext _context;
-    private readonly IMapper _mapper;
+    private readonly IAggregateMapperUnit<FilmRoom, FilmRoomModel> _aggregateMapper;
+    private readonly IModelMapperUnit<FilmRoomModel, FilmRoom> _modelMapper;
 
-    public FilmRoomRepository(ApplicationDbContext context)
+    public FilmRoomRepository(ApplicationDbContext context,
+        IAggregateMapperUnit<FilmRoom, FilmRoomModel> aggregateMapper,
+        IModelMapperUnit<FilmRoomModel, FilmRoom> modelMapper)
     {
         _context = context;
-        _mapper = GetMapper();
-    }
-
-    private FilmRoom GetMap(FilmRoomModel model)
-    {
-        var room = new FilmRoom(model.FilmId, "someName", "someAvatar");
-        _mapper.Map(model, room);
-        var type = room.GetType();
-        var btype = type.BaseType!;
-
-        var viewersList = model.Viewers.Select(GetMap).OrderBy(viewer => viewer.Name).ToList();
-
-        btype.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room, model.Id);
-        var viewers =
-            (btype.GetField("ViewersList", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as
-                List<Viewer>)!;
-        viewers.Clear();
-        viewers.AddRange(viewersList);
-
-        type.GetField("<Owner>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room,
-            viewersList.First(viewer => viewer.Id == model.OwnerId));
-
-        btype.GetField("<LastActivity>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(room,
-            model.LastActivity);
-
-        var messages =
-            (btype.GetField("MessagesList", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(room) as
-                List<Message>)!;
-        messages.AddRange(model.Messages.Select(GetMap).OrderBy(message => message.CreatedAt));
-
-        return room;
-    }
-
-    private FilmViewer GetMap(FilmViewerModel model)
-    {
-        var viewer = _mapper.Map<FilmViewer>(model);
-        var x = viewer.GetType().BaseType!;
-        x.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(viewer, model.Id);
-        return viewer;
-    }
-
-    private Message GetMap(MessageModel model)
-    {
-        var message = _mapper.Map<Message>(model);
-        var x = message.GetType();
-        x.GetField("<CreatedAt>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(message,
-            model.CreatedAt);
-        return message;
-    }
-
-    private FilmRoomModel UpdateMap(FilmRoom room, FilmRoomModel model)
-    {
-        var oldViewers = new List<FilmViewerModel>();
-        var newViewers = new List<FilmViewerModel>();
-        var viewers = room.Viewers;
-        foreach (var viewer in viewers)
-        {
-            var viewerModel = model.Viewers.FirstOrDefault(v => v.Id == viewer.Id);
-            if (viewerModel != null)
-                oldViewers.Add(_mapper.Map(viewer, viewerModel));
-            else
-                newViewers.Add(_mapper.Map<FilmViewerModel>(viewer));
-        }
-
-        var oldMessages = new List<MessageModel>();
-        var newMessages = new List<MessageModel>();
-        var messages = room.Messages;
-        foreach (var message in messages)
-        {
-            var messageModel = model.Messages.FirstOrDefault(v =>
-                v.Text == message.Text && v.ViewerId == message.ViewerId && v.CreatedAt == message.CreatedAt);
-            if (messageModel != null)
-                oldMessages.Add(_mapper.Map(message, messageModel));
-            else
-                newMessages.Add(_mapper.Map<MessageModel>(message));
-        }
-
-        model.Viewers.RemoveAll(x => !oldViewers.Contains(x));
-        model.Messages.RemoveAll(x => !oldMessages.Contains(x));
-
-        _mapper.Map(room, model);
-
-        model.Viewers.AddRange(newViewers);
-        model.Messages.AddRange(newMessages);
-        return model;
+        _aggregateMapper = aggregateMapper;
+        _modelMapper = modelMapper;
     }
 
     public async Task AddAsync(FilmRoom entity)
     {
-        var room = new FilmRoomModel();
-        UpdateMap(entity, room);
+        _context.Notifications.AddRange(entity.DomainEvents);
+        var room = await _modelMapper.MapAsync(entity);
         await _context.AddAsync(room);
-    }
-
-    public async Task AddRangeAsync(IList<FilmRoom> entities)
-    {
-        var rooms = entities.Select(x => UpdateMap(x, new FilmRoomModel())).ToList();
-        await _context.AddRangeAsync(rooms);
     }
 
     public async Task UpdateAsync(FilmRoom entity)
     {
-        var model = await _context.FilmRooms.Include(x => x.Messages).Include(x => x.Viewers)
-            .FirstAsync(x => x.Id == entity.Id);
-        UpdateMap(entity, model);
-        Console.WriteLine("film room updated");
+        _context.Notifications.AddRange(entity.DomainEvents);
+        await _modelMapper.MapAsync(entity);
     }
 
-    public async Task UpdateRangeAsync(IList<FilmRoom> entities)
+    public Task DeleteAsync(Guid id)
     {
-        var ids = entities.Select(room => room.Id);
-        var rooms = await _context.FilmRooms.Include(x => x.Messages).Include(x => x.Viewers)
-            .Where(room => ids.Contains(room.Id)).ToListAsync();
-        foreach (var entity in entities)
-            UpdateMap(entity, rooms.First(filmRoomModel => filmRoomModel.Id == entity.Id));
-    }
-
-    public Task DeleteAsync(FilmRoom entity)
-    {
-        _context.Remove(_context.FilmRooms.First(room => room.Id == entity.Id));
-        return Task.CompletedTask;
-    }
-
-    public Task DeleteRangeAsync(IEnumerable<FilmRoom> entities)
-    {
-        var ids = entities.Select(room => room.Id);
-        _context.RemoveRange(_context.FilmRooms.Where(room => ids.Contains(room.Id)));
+        _context.Remove(_context.FilmRooms.First(room => room.Id == id));
         return Task.CompletedTask;
     }
 
     public async Task<FilmRoom?> GetAsync(Guid id)
     {
-        var room = await _context.FilmRooms.Include(x => x.Messages).Include(x => x.Viewers)
-            .FirstOrDefaultAsync(filmRoomModel => filmRoomModel.Id == id);
-        return room == null ? null : GetMap(room);
+        var room = await _context.FilmRooms.FirstOrDefaultAsync(x => x.Id == id);
+        if (room == null) return null;
+        await LoadCollectionsAsync(room);
+        return _aggregateMapper.Map(room);
     }
 
     public async Task<IList<FilmRoom>> FindAsync(ISpecification<FilmRoom, IFilmRoomSpecificationVisitor>? specification,
@@ -192,7 +84,9 @@ public class FilmRoomRepository : IFilmRoomRepository
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        return (await query.ToListAsync()).Select(GetMap).ToList();
+        var models = await query.ToListAsync();
+        foreach (var model in models) await LoadCollectionsAsync(model);
+        return models.Select(_aggregateMapper.Map).ToList();
     }
 
     public Task<int> CountAsync(ISpecification<FilmRoom, IFilmRoomSpecificationVisitor>? specification)
@@ -206,15 +100,9 @@ public class FilmRoomRepository : IFilmRoomRepository
         return query.CountAsync();
     }
 
-    private static IMapper GetMapper() => new Mapper(new MapperConfiguration(expr =>
+    private async Task LoadCollectionsAsync(FilmRoomModel model)
     {
-        expr.CreateMap<FilmRoomModel, FilmRoom>().ForMember(x => x.Messages, opt => opt.Ignore())
-            .ForMember(x => x.Viewers, opt => opt.Ignore());
-
-        expr.CreateMap<FilmRoom, FilmRoomModel>().ForMember(x => x.Messages, opt => opt.Ignore())
-            .ForMember(x => x.Viewers, opt => opt.Ignore());
-
-        expr.CreateMap<FilmViewerModel, FilmViewer>().ReverseMap();
-        expr.CreateMap<MessageModel, Message>().ReverseMap();
-    }));
+        await _context.Entry(model).Collection(x => x.Viewers).LoadAsync();
+        await _context.Entry(model).Collection(x => x.Messages).LoadAsync();
+    }
 }

@@ -1,8 +1,6 @@
-﻿using Overoom.Application.Abstractions.Film.Exceptions;
-using Overoom.Application.Abstractions.Film.Interfaces;
+﻿using Overoom.Application.Abstractions.Film.Load.Exceptions;
+using Overoom.Application.Abstractions.Film.Load.Interfaces;
 using RestSharp;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
 
 namespace Overoom.Infrastructure.PhotoManager;
 
@@ -18,12 +16,12 @@ public class FilmPosterService : IFilmPosterService
         _client = new RestClient();
     }
 
-    public async Task<string> SaveAsync(string url)
+    public async Task<Uri> SaveAsync(Uri url)
     {
         try
         {
             var stream = await _client.DownloadStreamAsync(new RestRequest(url));
-            using var image = await Image.LoadAsync(stream);
+            using var image = await Image.LoadAsync(stream ?? throw new NullReferenceException());
             image.Mutate(x => x.Resize(200, 500));
             var fileName = $"{Guid.NewGuid()}.jpg";
             await image.SaveAsync(Path.Combine(_basePath, fileName));
@@ -35,7 +33,7 @@ public class FilmPosterService : IFilmPosterService
         }
     }
 
-    public Task DeleteAsync(string fileName)
+    public Task DeleteAsync(Uri uri)
     {
         File.Delete(Path.Combine(_basePath, fileName));
         return Task.CompletedTask;

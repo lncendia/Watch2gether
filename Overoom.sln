@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom", "Overoom\Overoom.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.Domain", "Overoom.Domain\Overoom.Domain.csproj", "{EEA6571B-3426-42E6-B4BE-DCCDE1691DAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.Domain.Services", "Overoom.Domain.Services\Overoom.Domain.Services.csproj", "{54262A4A-3876-4B76-967B-E23BB1C3FA8B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.Domain.Abstractions", "Overoom.Domain.Abstractions\Overoom.Domain.Abstractions.csproj", "{ADFB62FA-43A5-4FCA-9586-42D8E054D82B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{F19D4E6A-23C2-45A6-A6EB-5A65B308C482}"
@@ -28,7 +26,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.Infrastructure.Stor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.Infrastructure.PhotoManager", "Overoom.Infrastructure.PhotoManager\Overoom.Infrastructure.PhotoManager.csproj", "{D8505F2D-D233-4317-B7E6-1A57CAF7DEC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.Infrastructure.MovieDownloader", "Overoom.Infrastructure.MovieDownloader\Overoom.Infrastructure.MovieDownloader.csproj", "{456203C7-7559-429E-BACE-B5139346B000}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.Infrastructure.Movie", "Overoom.Infrastructure.Movie\Overoom.Infrastructure.Movie.csproj", "{456203C7-7559-429E-BACE-B5139346B000}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,10 +42,6 @@ Global
 		{EEA6571B-3426-42E6-B4BE-DCCDE1691DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEA6571B-3426-42E6-B4BE-DCCDE1691DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEA6571B-3426-42E6-B4BE-DCCDE1691DAE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54262A4A-3876-4B76-967B-E23BB1C3FA8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54262A4A-3876-4B76-967B-E23BB1C3FA8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54262A4A-3876-4B76-967B-E23BB1C3FA8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54262A4A-3876-4B76-967B-E23BB1C3FA8B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ADFB62FA-43A5-4FCA-9586-42D8E054D82B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ADFB62FA-43A5-4FCA-9586-42D8E054D82B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADFB62FA-43A5-4FCA-9586-42D8E054D82B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -86,7 +80,6 @@ Global
 		{456203C7-7559-429E-BACE-B5139346B000}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{54262A4A-3876-4B76-967B-E23BB1C3FA8B} = {F19D4E6A-23C2-45A6-A6EB-5A65B308C482}
 		{ADFB62FA-43A5-4FCA-9586-42D8E054D82B} = {F19D4E6A-23C2-45A6-A6EB-5A65B308C482}
 		{EEA6571B-3426-42E6-B4BE-DCCDE1691DAE} = {F19D4E6A-23C2-45A6-A6EB-5A65B308C482}
 		{8DC0AA84-C5B4-49F8-909E-602D115FEF41} = {BE7B32FB-BF2F-48A0-AD7D-A97042191745}

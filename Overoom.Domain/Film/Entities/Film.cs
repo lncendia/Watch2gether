@@ -7,34 +7,34 @@ namespace Overoom.Domain.Film.Entities;
 
 public class Film : AggregateRoot
 {
-    public Film(string name, string description, string? shortDescription, DateOnly date, double rating, FilmType type,
+    public Film(string name, string description, string? shortDescription, int year, double rating, FilmType type,
         IEnumerable<CdnDto> cdn, IEnumerable<string> genres, IEnumerable<(string name, string description)> actors,
         IEnumerable<string> directors, IEnumerable<string> screenwriters, IEnumerable<string> countries,
-        string posterUri, int? countSeasons = null, int? countEpisodes = null)
+        Uri posterUri, int? countSeasons = null, int? countEpisodes = null)
     {
         FilmTags = new FilmTags(genres, countries, actors, directors, screenwriters);
 
         Type = type;
         Name = name;
         PosterUri = posterUri;
-        Date = date;
+        Year = year;
         RatingKp = rating;
         Description = description;
         ShortDescription = shortDescription;
         Type = type;
         if (countSeasons != null && countEpisodes != null) UpdateSeriesInfo(countSeasons.Value, countEpisodes.Value);
 
-        _cdnList = cdn.Select(x => new Cdn(x.Type, x.Uri, x.Quality, x.Voices)).ToList();
+        _cdnList = cdn.Select(x => new Cdn(x.Type, x.Uri, x.Quality, x.Voices.ToList())).ToList();
         if (!_cdnList.Any()) throw new ArgumentException("Cdn list is empty");
     }
 
     public string Name { get; }
-    public DateOnly Date { get; }
+    public int Year { get; }
     public FilmType Type { get; }
 
     private readonly List<Cdn> _cdnList;
     public IReadOnlyCollection<Cdn> CdnList => _cdnList.AsReadOnly();
-    public string PosterUri { get; }
+    public Uri PosterUri { get; }
     public FilmTags FilmTags { get; }
 
     private double _userRating;

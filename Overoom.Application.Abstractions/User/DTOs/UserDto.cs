@@ -2,14 +2,14 @@
 
 public class UserDto
 {
-    public UserDto(string username, string password, string email)
+    public UserDto(string username, string email, Guid id)
     {
         Username = username;
-        Password = password;
         Email = email;
+        Id = id;
     }
 
+    public Guid Id { get; }
     public string Username { get; }
-    public string Password { get; }
     public string Email { get; }
 }

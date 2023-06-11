@@ -2,8 +2,7 @@ using Overoom.Domain.Ordering.Abstractions;
 using Overoom.Domain.Playlist.Entities;
 using Overoom.Domain.Playlist.Ordering;
 using Overoom.Domain.Playlist.Ordering.Visitor;
-using Overoom.Infrastructure.Storage.Models;
-using Overoom.Infrastructure.Storage.Models.Playlists;
+using Overoom.Infrastructure.Storage.Models.Playlist;
 using Overoom.Infrastructure.Storage.Visitors.Sorting.Models;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Sorting;
@@ -14,7 +13,7 @@ public class PlaylistSortingVisitor : BaseSortingVisitor<PlaylistModel, IPlaylis
     public void Visit(OrderByUpdateDate order) => SortItems.Add(new SortData<PlaylistModel>(x => x.Updated, false));
 
     public void Visit(OrderByCountFilms order) =>
-        SortItems.Add(new SortData<PlaylistModel>(x => x.FilmsList.Length, false));
+        SortItems.Add(new SortData<PlaylistModel>(x => x.Films.Count, false));
 
     protected override List<SortData<PlaylistModel>> ConvertOrderToList(
         IOrderBy<Playlist, IPlaylistSortingVisitor> spec)

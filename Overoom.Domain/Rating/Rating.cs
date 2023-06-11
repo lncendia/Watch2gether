@@ -10,7 +10,8 @@ public class Rating : AggregateRoot
         UserId = userId;
         Score = score;
     }
+
     public Guid FilmId { get; }
-    public Guid UserId { get; }
+    public Guid? UserId { get; }
     public double Score { get; }
 }

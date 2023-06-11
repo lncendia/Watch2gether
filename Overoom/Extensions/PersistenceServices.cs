@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Overoom.Domain.Abstractions.Repositories;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
 using Overoom.Infrastructure.ApplicationData;
 using Overoom.Infrastructure.Storage;

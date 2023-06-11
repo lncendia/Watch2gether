@@ -1,8 +1,6 @@
 ﻿using Overoom.Application.Abstractions.User.Exceptions;
 using Overoom.Application.Abstractions.User.Interfaces;
 using RestSharp;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
 
 namespace Overoom.Infrastructure.PhotoManager;
 

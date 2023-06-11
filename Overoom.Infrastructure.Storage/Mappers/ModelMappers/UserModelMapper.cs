@@ -2,7 +2,7 @@
 using Overoom.Domain.User.Entities;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
-using Overoom.Infrastructure.Storage.Models.Users;
+using Overoom.Infrastructure.Storage.Models.User;
 
 namespace Overoom.Infrastructure.Storage.Mappers.ModelMappers;
 

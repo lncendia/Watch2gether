@@ -15,7 +15,7 @@ public class FilmByYearsSpecification : ISpecification<Film.Entities.Film, IFilm
     public int MaxYear { get; }
 
     bool ISpecification<Film.Entities.Film, IFilmSpecificationVisitor>.IsSatisfiedBy(Film.Entities.Film item) =>
-        item.Date.Year <= MaxYear && item.Date.Year >= MinYear;
+        item.Year <= MaxYear && item.Year >= MinYear;
 
     public void Accept(IFilmSpecificationVisitor visitor) => visitor.Visit(this);
 }

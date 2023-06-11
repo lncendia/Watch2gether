@@ -13,4 +13,5 @@ public interface IFilmSpecificationVisitor : ISpecificationVisitor<IFilmSpecific
     void Visit(FilmByYearsSpecification specification);
     void Visit(FilmByCountrySpecification specification);
     void Visit(FilmByIdSpecification specification);
+    void Visit(FilmByIdsSpecification specification);
 }

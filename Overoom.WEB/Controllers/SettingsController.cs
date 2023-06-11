@@ -129,7 +129,7 @@ public class SettingsController : Controller
         if (!ModelState.IsValid) return View(model);
         try
         {
-            await _userService.ChangeNameAsync(User.Identity!.Name!, model.Name);
+            await _userService.ChangeNameAsync(TODO, model.Name);
             return RedirectToAction("ChangeName", new {message = "Имя успешно изменено."});
         }
         catch (Exception ex)
@@ -160,7 +160,7 @@ public class SettingsController : Controller
         try
         {
             await using var stream = uploadedFile.OpenReadStream();
-            await _userService.ChangeAvatarAsync(User.Identity!.Name!, stream);
+            await _userService.ChangeAvatarAsync(TODO, stream);
             return RedirectToAction("ChangeAvatar", new {message = "Аватар успешно изменён."});
         }
         catch (Exception ex)

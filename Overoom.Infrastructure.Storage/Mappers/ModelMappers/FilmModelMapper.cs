@@ -2,7 +2,7 @@
 using Overoom.Domain.Film.Entities;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
-using Overoom.Infrastructure.Storage.Models.Films;
+using Overoom.Infrastructure.Storage.Models.Film;
 
 namespace Overoom.Infrastructure.Storage.Mappers.ModelMappers;
 
@@ -21,8 +21,8 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
             await _context.Entry(film).Collection(x => x.Directors).LoadAsync();
             await _context.Entry(film).Collection(x => x.Actors).LoadAsync();
             await _context.Entry(film).Collection(x => x.Genres).LoadAsync();
-            await _context.Entry(film).Collection(x => x.CdnList).LoadAsync();
             await _context.Entry(film).Collection(x => x.ScreenWriters).LoadAsync();
+            await _context.Entry(film).Collection(x => x.CdnList).Query().Include(x => x.Voices).LoadAsync();
         }
         else
         {
@@ -31,10 +31,7 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
                 Id = entity.Id,
                 Type = entity.Type,
                 Name = entity.Name,
-                PosterUri = entity.PosterUri,
-                Description = entity.Description,
-                ShortDescription = entity.ShortDescription,
-                Date = entity.Date
+                Year = entity.Year
             };
             film.Countries.AddRange(entity.FilmTags.Countries.Select(x => new CountryModel { Name = x }));
             film.Directors.AddRange(entity.FilmTags.Directors.Select(x => new DirectorModel { Name = x }));
@@ -44,6 +41,9 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
                 { Name = x.ActorName, Description = x.ActorDescription }));
         }
 
+        film.PosterUri = entity.PosterUri;
+        film.Description = entity.Description;
+        film.ShortDescription = entity.ShortDescription;
         film.RatingKp = entity.RatingKp;
         film.UserRating = entity.UserRating;
         film.CountSeasons = entity.CountSeasons;

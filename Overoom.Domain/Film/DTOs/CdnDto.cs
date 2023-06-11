@@ -4,7 +4,7 @@ namespace Overoom.Domain.Film.DTOs;
 
 public class CdnDto
 {
-    public CdnDto(CdnType type, Uri uri, string quality, List<string> voices)
+    public CdnDto(CdnType type, Uri uri, string quality, IReadOnlyCollection<string> voices)
     {
         Type = type;
         Uri = uri;
@@ -15,5 +15,5 @@ public class CdnDto
     public CdnType Type { get; }
     public Uri Uri { get; }
     public string Quality { get; }
-    public List<string> Voices { get; }
+    public IReadOnlyCollection<string> Voices { get; }
 }

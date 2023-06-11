@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions;
 using Overoom.Application.Abstractions.Comment.Interfaces;
-using Overoom.Application.Abstractions.Film.DTOs.FilmCatalog;
-using Overoom.Application.Abstractions.Film.DTOs.Playlist;
-using Overoom.Application.Abstractions.Film.Exceptions;
-using Overoom.Application.Abstractions.Film.Interfaces;
+using Overoom.Application.Abstractions.Film.Catalog.DTOs;
+using Overoom.Application.Abstractions.Film.Catalog.Exceptions;
+using Overoom.Application.Abstractions.Film.Catalog.Interfaces;
+using Overoom.Application.Abstractions.Film.Playlist.DTOs;
+using Overoom.Application.Abstractions.Film.Playlist.Interfaces;
 using Overoom.WEB.Models.Film;
-using SortBy = Overoom.Application.Abstractions.Film.DTOs.Playlist.SortBy;
+using SortBy = Overoom.Application.Abstractions.Film.Playlist.DTOs.SortBy;
 
 namespace Overoom.WEB.Controllers;
 
@@ -32,7 +33,7 @@ public class FilmController : Controller
         var model = new FilmsSearchViewModel
         {
             Query = query, Genre = genre, Country = country, Person = person,
-            SortBy = Application.Abstractions.Film.DTOs.FilmCatalog.SortBy.Date
+            SortBy = Application.Abstractions.Film.Catalog.DTOs.SortBy.Date
         };
         return View(model);
     }

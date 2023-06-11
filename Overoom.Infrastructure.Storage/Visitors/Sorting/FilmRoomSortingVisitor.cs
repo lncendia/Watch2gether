@@ -2,8 +2,7 @@ using Overoom.Domain.Ordering.Abstractions;
 using Overoom.Domain.Room.FilmRoom.Entities;
 using Overoom.Domain.Room.FilmRoom.Ordering;
 using Overoom.Domain.Room.FilmRoom.Ordering.Visitor;
-using Overoom.Infrastructure.Storage.Models.Rooms;
-using Overoom.Infrastructure.Storage.Models.Rooms.FilmRoom;
+using Overoom.Infrastructure.Storage.Models.Room.FilmRoom;
 using Overoom.Infrastructure.Storage.Visitors.Sorting.Models;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Sorting;

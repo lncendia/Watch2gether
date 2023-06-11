@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Overoom.Application.Abstractions.User.Entities.Role;
-using Overoom.Application.Abstractions.User.Entities.User;
+using Overoom.Application.Abstractions.User.Entities;
 
 namespace Overoom.Infrastructure.ApplicationData;
 
@@ -12,6 +11,6 @@ public class ApplicationContext : IdentityDbContext<UserData, RoleData, string>
     {
     }
 
-    public DbSet<UserData>? ApplicationUsers { get; set; } = null!;
-    public DbSet<RoleData>? ApplicationRoles { get; set; } = null!;
+    public DbSet<UserData>? ApplicationUsers { get; set; }
+    public DbSet<RoleData>? ApplicationRoles { get; set; }
 }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Film.Exceptions;
+using Overoom.Application.Abstractions.Film.Catalog.Exceptions;
 using Overoom.Application.Abstractions.Room.DTOs;
 using Overoom.Application.Abstractions.Room.DTOs.Film;
 using Overoom.Application.Abstractions.Room.Exceptions;

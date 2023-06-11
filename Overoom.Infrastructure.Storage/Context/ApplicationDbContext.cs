@@ -1,67 +1,107 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Overoom.Infrastructure.Storage.Models.Comments;
-using Overoom.Infrastructure.Storage.Models.Films;
-using Overoom.Infrastructure.Storage.Models.Playlists;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Overoom.Infrastructure.Storage.Models.Comment;
+using Overoom.Infrastructure.Storage.Models.Film;
+using Overoom.Infrastructure.Storage.Models.Playlist;
 using Overoom.Infrastructure.Storage.Models.Rating;
-using Overoom.Infrastructure.Storage.Models.Rooms;
-using Overoom.Infrastructure.Storage.Models.Rooms.Base;
-using Overoom.Infrastructure.Storage.Models.Rooms.FilmRoom;
-using Overoom.Infrastructure.Storage.Models.Rooms.YoutubeRoom;
-using Overoom.Infrastructure.Storage.Models.Users;
+using Overoom.Infrastructure.Storage.Models.Room.Base;
+using Overoom.Infrastructure.Storage.Models.Room.FilmRoom;
+using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
+using Overoom.Infrastructure.Storage.Models.User;
 
 namespace Overoom.Infrastructure.Storage.Context;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    internal ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
-    public DbSet<UserModel> Users { get; set; } = null!;
+    internal List<INotification> Notifications { get; } = new();
+    internal DbSet<UserModel> Users { get; set; } = null!;
+    internal DbSet<HistoryModel> UserHistory { get; set; } = null!;
+    internal DbSet<WatchlistModel> UserWatchlist { get; set; } = null!;
 
 
-    public DbSet<FilmModel> Films { get; set; } = null!;
-    public DbSet<ActorModel> Actors { get; set; } = null!;
-    public DbSet<DirectorModel> Directors { get; set; } = null!;
-    public DbSet<ScreenWriterModel> ScreenWriters { get; set; } = null!;
-    public DbSet<GenreModel> Genres { get; set; } = null!;
-    public DbSet<CountryModel> Countries { get; set; } = null!;
+    internal DbSet<FilmModel> Films { get; set; } = null!;
+    internal DbSet<ActorModel> FilmActors { get; set; } = null!;
+    internal DbSet<DirectorModel> FilmDirectors { get; set; } = null!;
+    internal DbSet<ScreenWriterModel> FilmScreenWriters { get; set; } = null!;
+    internal DbSet<GenreModel> FilmGenres { get; set; } = null!;
+    internal DbSet<CountryModel> FilmCountries { get; set; } = null!;
+    internal DbSet<CdnModel> FilmCdn { get; set; } = null!;
+    internal DbSet<VoiceModel> CdnVoices { get; set; } = null!;
 
 
-    public DbSet<PlaylistModel> Playlists { get; set; } = null!;
+    internal DbSet<PlaylistModel> Playlists { get; set; } = null!;
+    internal DbSet<PlaylistFilmModel> PlaylistFilms { get; set; } = null!;
 
-    public DbSet<CommentModel> Comments { get; set; } = null!;
+    internal DbSet<CommentModel> Comments { get; set; } = null!;
 
-    public DbSet<RatingModel> Ratings { get; set; } = null!;
-    
-    public DbSet<FilmRoomModel> FilmRooms { get; set; } = null!;
-    public DbSet<YoutubeRoomModel> YoutubeRooms { get; set; } = null!;
-    public DbSet<VideoIdModel> VideoIds { get; set; } = null!;
-    public DbSet<MessageModel> Messages { get; set; } = null!;
+    internal DbSet<RatingModel> Ratings { get; set; } = null!;
 
-    public DbSet<YoutubeViewerModel> YoutubeViewers { get; set; } = null!;
-    public DbSet<FilmViewerModel> FilmViewers { get; set; } = null!;
+    internal DbSet<FilmRoomModel> FilmRooms { get; set; } = null!;
+    internal DbSet<FilmViewerModel> FilmViewers { get; set; } = null!;
+    internal DbSet<YoutubeRoomModel> YoutubeRooms { get; set; } = null!;
+    internal DbSet<YoutubeViewerModel> YoutubeViewers { get; set; } = null!;
+    internal DbSet<VideoIdModel> VideoIds { get; set; } = null!;
+
+
+    internal DbSet<MessageModel> Messages { get; set; } = null!;
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<RoomModel>().HasMany(x => x.Messages).WithOne(x => x.Room).HasForeignKey(x => x.RoomId);
+        modelBuilder.Entity<UserModel>().HasMany(x => x.History).WithOne().OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<UserModel>().HasMany(x => x.Watchlist).WithOne().OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<FilmRoomModel>().HasMany(x => x.Viewers).WithOne(x => (FilmRoomModel) x.Room)
-            .HasForeignKey(x => x.RoomId);
+        modelBuilder.Entity<WatchlistModel>().HasOne(x => x.Film).WithMany().HasForeignKey(x => x.FilmId)
+            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<HistoryModel>().HasOne(x => x.Film).WithMany().HasForeignKey(x => x.FilmId)
+            .OnDelete(DeleteBehavior.Restrict);
 
 
-        modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.Viewers).WithOne(x => (YoutubeRoomModel) x.Room)
-            .HasForeignKey(x => x.RoomId);
+        modelBuilder.Entity<RoomModel>().HasMany(x => x.Messages).WithOne(x => x.Room).HasForeignKey(x => x.RoomId)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<RoomModel>().HasMany(x => x.Viewers).WithOne(x => x.Room).HasForeignKey(x => x.RoomId)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<MessageModel>().HasOne(x => x.Viewer).WithMany().HasForeignKey(x => x.ViewerId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.VideoIds).WithOne(x => x.Room)
-            .HasForeignKey(x => x.RoomId);
+            .HasForeignKey(x => x.RoomId).OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<MessageModel>().HasOne(x => x.Viewer).WithMany().HasForeignKey(x => x.ViewerId);
 
-        modelBuilder.Entity<FilmModel>().HasMany(x => x.Actors).WithOne(x => x.FilmModel);
-        modelBuilder.Entity<FilmModel>().HasMany(x => x.Directors).WithOne(x => x.FilmModel);
-        modelBuilder.Entity<FilmModel>().HasMany(x => x.ScreenWriters).WithOne(x => x.FilmModel);
-        modelBuilder.Entity<FilmModel>().HasMany(x => x.Genres).WithOne(x => x.FilmModel);
-        modelBuilder.Entity<FilmModel>().HasMany(x => x.Countries).WithOne(x => x.FilmModel);
+        modelBuilder.Entity<FilmModel>().HasMany(x => x.Actors).WithOne(x => x.FilmModel)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<FilmModel>().HasMany(x => x.Directors).WithOne(x => x.FilmModel)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<FilmModel>().HasMany(x => x.ScreenWriters).WithOne(x => x.FilmModel)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<FilmModel>().HasMany(x => x.Genres).WithOne(x => x.FilmModel)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<FilmModel>().HasMany(x => x.Countries).WithOne(x => x.FilmModel)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<FilmModel>().HasMany(x => x.CdnList).WithOne().OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<CdnModel>().HasMany(x => x.Voices).WithOne(x => x.Cdn).OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<PlaylistModel>().HasMany(x => x.Films).WithOne().OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<PlaylistFilmModel>().HasOne(x => x.Film).WithMany().HasForeignKey(x => x.FilmId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<RatingModel>().HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.SetNull);
+        modelBuilder.Entity<RatingModel>().HasOne(x => x.Film).WithMany().HasForeignKey(x => x.FilmId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<CommentModel>().HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.SetNull);
+        modelBuilder.Entity<CommentModel>().HasOne(x => x.Film).WithMany().HasForeignKey(x => x.FilmId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
+        modelBuilder.Entity<RoomModel>().UseTpcMappingStrategy();
+        modelBuilder.Entity<ViewerModel>().UseTpcMappingStrategy();
     }
 }

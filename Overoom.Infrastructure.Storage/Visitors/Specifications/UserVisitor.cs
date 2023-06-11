@@ -1,12 +1,9 @@
 using System.Linq.Expressions;
 using Overoom.Domain.Specifications.Abstractions;
-using Overoom.Domain.User;
 using Overoom.Domain.User.Entities;
 using Overoom.Domain.User.Specifications;
 using Overoom.Domain.User.Specifications.Visitor;
-using Overoom.Domain.Users;
-using Overoom.Infrastructure.Storage.Models;
-using Overoom.Infrastructure.Storage.Models.Users;
+using Overoom.Infrastructure.Storage.Models.User;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Specifications;
 

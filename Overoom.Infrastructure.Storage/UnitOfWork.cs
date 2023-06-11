@@ -21,28 +21,19 @@ public class UnitOfWork : IUnitOfWork
 
     public Lazy<IUserRepository> UserRepository => new(() =>
         new UserRepository(_context, new UserMapper(), new UserModelMapper(_context)));
-
-    public Lazy<ILinkRepository> LinkRepository => new(() =>
-        new LinkRepository(_context, new LinkMapper(), new LinkModelMapper(_context)));
-
-    public Lazy<ITransactionRepository> TransactionRepository => new(() =>
-        new TransactionRepository(_context, new TransactionMapper(), new TransactionModelMapper(_context)));
-
-    public Lazy<IParticipantRepository> ParticipantRepository => new(() =>
-        new ParticipantRepository(_context, new ParticipantMapper(), new ParticipantModelMapper(_context)));
-
-    public Lazy<IReportLogRepository> ReportLogRepository => new(() =>
-        new LogRepository(_context, new LogMapper(), new LogModelMapper(_context)));
-
-    public Lazy<ILikeReportRepository> LikeReportRepository => new(() =>
-        new LikeReportRepository(_context, new LikeReportMapper(), new LikeReportModelMapper(_context)));
-
-    public Lazy<ICommentReportRepository> CommentReportRepository => new(() =>
-        new CommentReportRepository(_context, new CommentReportMapper(), new CommentReportModelMapper(_context)));
-
-    public Lazy<IParticipantReportRepository> ParticipantReportRepository => new(() =>
-        new ParticipantReportRepository(_context, new ParticipantReportMapper(),
-            new ParticipantReportModelMapper(_context)));
+    public Lazy<IFilmRepository> FilmRepository  => new(() =>
+        new FilmRepository(_context, new FilmMapper(), new FilmModelMapper(_context)));
+    public Lazy<IFilmRoomRepository> FilmRoomRepository  => new(() =>
+        new FilmRoomRepository(_context, new FilmRoomMapper(), new FilmRoomModelMapper(_context)));
+    public Lazy<IYoutubeRoomRepository> YoutubeRoomRepository  => new(() =>
+        new YoutubeRoomRepository(_context, new YoutubeRoomMapper(), new YoutubeRoomModelMapper(_context)));
+    public Lazy<IPlaylistRepository> PlaylistRepository  => new(() =>
+        new PlaylistRepository(_context, new PlaylistMapper(), new PlaylistModelMapper(_context)));
+    public Lazy<ICommentRepository> CommentRepository  => new(() =>
+        new CommentRepository(_context, new CommentMapper(), new CommentModelMapper(_context)));
+    public Lazy<IRatingRepository> RatingRepository  => new(() =>
+        new RatingRepository(_context, new RatingMapper(), new RatingModelMapper(_context)));
+    
 
     public async Task SaveChangesAsync()
     {

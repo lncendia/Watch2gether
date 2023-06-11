@@ -14,11 +14,10 @@
     <ItemGroup>
       <ProjectReference Include="..\Overoom.Application.Services\Overoom.Application.Services.csproj" />
       <ProjectReference Include="..\Overoom.Domain.Abstractions\Overoom.Domain.Abstractions.csproj" />
-      <ProjectReference Include="..\Overoom.Domain.Services\Overoom.Domain.Services.csproj" />
       <ProjectReference Include="..\Overoom.Domain\Overoom.Domain.csproj" />
       <ProjectReference Include="..\Overoom.Infrastructure.ApplicationData\Overoom.Infrastructure.ApplicationData.csproj" />
       <ProjectReference Include="..\Overoom.Infrastructure.Mailing\Overoom.Infrastructure.Mailing.csproj" />
-      <ProjectReference Include="..\Overoom.Infrastructure.MovieDownloader\Overoom.Infrastructure.MovieDownloader.csproj" />
+      <ProjectReference Include="..\Overoom.Infrastructure.Movie\Overoom.Infrastructure.Movie.csproj" />
       <ProjectReference Include="..\Overoom.Infrastructure.Storage\Overoom.Infrastructure.Storage.csproj" />
       <ProjectReference Include="..\Overoom.Infrastructure.PhotoManager\Overoom.Infrastructure.PhotoManager.csproj" />
       <ProjectReference Include="..\Overoom.WEB\Overoom.WEB.csproj" />

@@ -2,7 +2,7 @@
 
 public class UserCreationException : Exception
 {
-    public UserCreationException(string error) : base($"Failed to create user: {error}.")
+    public UserCreationException(string error) : base($"Failed to create user: {error}")
     {
     }
 }

@@ -2,7 +2,7 @@
 
 public class InvalidCodeException : Exception
 {
-    public InvalidCodeException() : base("Invalid code specified.")
+    public InvalidCodeException() : base("Invalid code specified")
     {
     }
 }

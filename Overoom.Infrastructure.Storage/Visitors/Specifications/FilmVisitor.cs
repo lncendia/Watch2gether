@@ -2,9 +2,8 @@ using System.Linq.Expressions;
 using Overoom.Domain.Film.Entities;
 using Overoom.Domain.Film.Specifications;
 using Overoom.Domain.Film.Specifications.Visitor;
-using Overoom.Domain.Films;
 using Overoom.Domain.Specifications.Abstractions;
-using Overoom.Infrastructure.Storage.Models.Films;
+using Overoom.Infrastructure.Storage.Models.Film;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Specifications;
 
@@ -40,11 +39,14 @@ public class FilmVisitor : BaseVisitor<FilmModel, IFilmSpecificationVisitor, Fil
         Expr = model => model.Name.Contains(specification.Name);
 
     public void Visit(FilmByYearsSpecification specification) => Expr = model =>
-        model.Date.Year <= specification.MaxYear && model.Date.Year >= specification.MinYear;
+        model.Year <= specification.MaxYear && model.Year >= specification.MinYear;
 
     public void Visit(FilmByCountrySpecification specification) =>
         Expr = model =>
             model.Countries.Any(g => g.Name == specification.Country);
 
     public void Visit(FilmByIdSpecification specification) => Expr = model => specification.Id == model.Id;
+
+    public void Visit(FilmByIdsSpecification specification) =>
+        Expr = model => specification.Ids.Any(x => x == model.Id);
 }

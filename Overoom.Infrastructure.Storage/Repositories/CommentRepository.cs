@@ -1,5 +1,3 @@
-using System.Reflection;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Overoom.Domain.Abstractions.Repositories;
 using Overoom.Domain.Comment.Entities;
@@ -8,7 +6,8 @@ using Overoom.Domain.Comment.Specifications.Visitor;
 using Overoom.Domain.Ordering.Abstractions;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Context;
-using Overoom.Infrastructure.Storage.Models.Comments;
+using Overoom.Infrastructure.Storage.Mappers.Abstractions;
+using Overoom.Infrastructure.Storage.Models.Comment;
 using Overoom.Infrastructure.Storage.Visitors.Sorting;
 using Overoom.Infrastructure.Storage.Visitors.Specifications;
 
@@ -17,53 +16,32 @@ namespace Overoom.Infrastructure.Storage.Repositories;
 public class CommentRepository : ICommentRepository
 {
     private readonly ApplicationDbContext _context;
-    private readonly IMapper _mapper;
+    private readonly IAggregateMapperUnit<Comment, CommentModel> _aggregateMapper;
+    private readonly IModelMapperUnit<CommentModel, Comment> _modelMapper;
 
-    public CommentRepository(ApplicationDbContext context)
+    public CommentRepository(ApplicationDbContext context, IAggregateMapperUnit<Comment, CommentModel> aggregateMapper,
+        IModelMapperUnit<CommentModel, Comment> modelMapper)
     {
         _context = context;
-        _mapper = GetMapper();
-    }
-
-    private Comment Map(CommentModel model)
-    {
-        var comment = _mapper.Map<Comment>(model);
-        var x = comment.GetType();
-        x.GetField("<Id>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(comment, model.Id);
-        x.GetField("<CreatedAt>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(comment,
-            model.CreatedAt);
-        return comment;
+        _aggregateMapper = aggregateMapper;
+        _modelMapper = modelMapper;
     }
 
     public async Task AddAsync(Comment entity)
     {
-        var comment = _mapper.Map<Comment, CommentModel>(entity);
+        _context.Notifications.AddRange(entity.DomainEvents);
+        var comment = await _modelMapper.MapAsync(entity);
         await _context.AddAsync(comment);
-    }
-
-    public async Task AddRangeAsync(IList<Comment> entities)
-    {
-        var comments = _mapper.Map<IList<Comment>, List<CommentModel>>(entities);
-        await _context.AddRangeAsync(comments);
     }
 
     public async Task UpdateAsync(Comment entity)
     {
-        var model = await _context.Comments.FirstAsync(x => x.Id == entity.Id);
-        _mapper.Map(entity, model);
+        _context.Notifications.AddRange(entity.DomainEvents);
+        await _modelMapper.MapAsync(entity);
     }
-
-    public async Task UpdateRangeAsync(IList<Comment> entities)
+    public Task DeleteAsync(Guid id)
     {
-        var ids = entities.Select(comment => comment.Id);
-        var comments = await _context.Comments.Where(comment => ids.Contains(comment.Id)).ToListAsync();
-        foreach (var entity in entities)
-            _mapper.Map(entity, comments.First(commentModel => commentModel.Id == entity.Id));
-    }
-
-    public Task DeleteAsync(Comment entity)
-    {
-        _context.Remove(_context.Comments.First(comment => comment.Id == entity.Id));
+        _context.Remove(_context.Comments.First(comment => comment.Id == id));
         return Task.CompletedTask;
     }
 
@@ -77,7 +55,7 @@ public class CommentRepository : ICommentRepository
     public async Task<Comment?> GetAsync(Guid id)
     {
         var comment = await _context.Comments.FirstOrDefaultAsync(commentModel => commentModel.Id == id);
-        return comment == null ? null : Map(comment);
+        return comment == null ? null : _aggregateMapper.Map(comment);
     }
 
     public async Task<IList<Comment>> FindAsync(ISpecification<Comment, ICommentSpecificationVisitor>? specification,
@@ -108,7 +86,7 @@ public class CommentRepository : ICommentRepository
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        return (await query.ToListAsync()).Select(Map).ToList();
+        return (await query.ToListAsync()).Select(_aggregateMapper.Map).ToList();
     }
 
     public Task<int> CountAsync(ISpecification<Comment, ICommentSpecificationVisitor>? specification)
@@ -121,7 +99,4 @@ public class CommentRepository : ICommentRepository
 
         return query.CountAsync();
     }
-
-    private static IMapper GetMapper() =>
-        new Mapper(new MapperConfiguration(expr => expr.CreateMap<Comment, CommentModel>().ReverseMap()));
 }

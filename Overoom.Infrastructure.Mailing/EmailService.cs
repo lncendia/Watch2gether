@@ -19,10 +19,9 @@ public class EmailService : IEmailService
         };
     }
 
-    public Task SendAsync(string email, string message)
+    public Task SendEmailAsync(string email, string message)
     {
         var mail = new MailMessage();
-        //TODO: check
         mail.To.Add(email);
         mail.Body = message;
         mail.IsBodyHtml = true;

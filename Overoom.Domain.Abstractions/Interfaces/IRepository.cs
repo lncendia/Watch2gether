@@ -8,11 +8,8 @@ public interface IRepository<T, in TK, out TX, out TM> where T : class
     where TM : ISortingVisitor<TM, T>
 {
     Task AddAsync(T entity);
-    Task AddRangeAsync(IList<T> entities);
     Task UpdateAsync(T entity);
-    Task UpdateRangeAsync(IList<T> entities);
-    Task DeleteAsync(T entity);
-    Task DeleteRangeAsync(IEnumerable<T> entities);
+    Task DeleteAsync(TK id);
     Task<T?> GetAsync(TK id);
 
     Task<IList<T>> FindAsync(ISpecification<T, TX>? specification, IOrderBy<T, TM>? orderBy = null, int? skip = null,

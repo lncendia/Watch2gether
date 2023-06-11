@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions.Film.DTOs.FilmLoader;
-using Overoom.Application.Abstractions.Film.Interfaces;
 using Overoom.WEB.Models.FilmDownloader;
 
 namespace Overoom.WEB.Controllers;

@@ -83,7 +83,7 @@ public class YoutubeRoomManager : IYoutubeRoomManager
     {
         var room = new YoutubeRoom(url, name, avatarUri, addAccess);
         await _unitOfWork.YoutubeRoomRepository.Value.AddAsync(room);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveChangesAsync();
         return (room.Id, _mapper.Map(room.Owner));
     }
 
@@ -132,6 +132,6 @@ public class YoutubeRoomManager : IYoutubeRoomManager
     private async Task SaveRoomAsync(YoutubeRoom room)
     {
         await _unitOfWork.YoutubeRoomRepository.Value.UpdateAsync(room);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveChangesAsync();
     }
 }

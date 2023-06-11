@@ -1,5 +1,4 @@
 ﻿using Overoom.Domain.Film.Enums;
-using Overoom.Domain.Room.BaseRoom.ValueObject;
 
 namespace Overoom.Domain.Room.FilmRoom.Entities;
 

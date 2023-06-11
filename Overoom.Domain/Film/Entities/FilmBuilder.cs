@@ -12,7 +12,7 @@ public class FilmBuilder
     private string? _name;
     private string? _description;
     private string? _shortDescription;
-    private DateOnly? _date;
+    private int? _year;
     private double? _rating;
     private FilmType? _type;
     private IEnumerable<CdnDto>? _cdnList;
@@ -21,11 +21,12 @@ public class FilmBuilder
     private IEnumerable<string>? _directors;
     private IEnumerable<string>? _screenwriters;
     private IEnumerable<string>? _countries;
-    private string? _posterUri;
+    private Uri? _posterUri;
     private int? _countSeasons;
     private int? _countEpisodes;
 
     public static FilmBuilder Create() => new();
+
     public FilmBuilder WithName(string name)
     {
         _name = name;
@@ -44,9 +45,9 @@ public class FilmBuilder
         return this;
     }
 
-    public FilmBuilder WithDate(DateOnly date)
+    public FilmBuilder WithYear(int year)
     {
-        _date = date;
+        _year = year;
         return this;
     }
 
@@ -98,9 +99,9 @@ public class FilmBuilder
         return this;
     }
 
-    public FilmBuilder WithPoster(string patch)
+    public FilmBuilder WithPoster(Uri uri)
     {
-        _posterUri = patch;
+        _posterUri = uri;
         return this;
     }
 
@@ -115,7 +116,7 @@ public class FilmBuilder
     {
         if (string.IsNullOrEmpty(_name)) throw new InvalidOperationException("builder not formed");
         if (string.IsNullOrEmpty(_description)) throw new InvalidOperationException("builder not formed");
-        if (_date == null) throw new InvalidOperationException("builder not formed");
+        if (_year == null) throw new InvalidOperationException("builder not formed");
         if (_rating == null) throw new InvalidOperationException("builder not formed");
         if (_type == null) throw new InvalidOperationException("builder not formed");
         if (_cdnList == null) throw new InvalidOperationException("builder not formed");
@@ -126,7 +127,7 @@ public class FilmBuilder
         if (_screenwriters == null) throw new InvalidOperationException("builder not formed");
         if (_countries == null) throw new InvalidOperationException("builder not formed");
 
-        return new Film(_name, _description, _shortDescription, _date.Value, _rating.Value, _type.Value, _cdnList,
+        return new Film(_name, _description, _shortDescription, _year.Value, _rating.Value, _type.Value, _cdnList,
             _genres, _actors, _directors, _screenwriters, _countries, _posterUri, _countSeasons, _countEpisodes);
     }
 }

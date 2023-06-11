@@ -1,10 +1,7 @@
 using Overoom.Domain.Ordering.Abstractions;
-using Overoom.Domain.User;
 using Overoom.Domain.User.Entities;
 using Overoom.Domain.User.Ordering.Visitor;
-using Overoom.Domain.Users;
-using Overoom.Infrastructure.Storage.Models;
-using Overoom.Infrastructure.Storage.Models.Users;
+using Overoom.Infrastructure.Storage.Models.User;
 using Overoom.Infrastructure.Storage.Visitors.Sorting.Models;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Sorting;

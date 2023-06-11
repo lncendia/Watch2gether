@@ -77,7 +77,7 @@
         <ul class="navbar-nav">
             @if (!appAuth.None)
             {
-                var userModel = await Service.GetAsync(appAuth.Principal!.Identity!.Name!);
+                var userModel = await Service.GetAsync(TODO);
                 @if (Model)
                 {
                     <li class="nav-item d-none d-md-block">

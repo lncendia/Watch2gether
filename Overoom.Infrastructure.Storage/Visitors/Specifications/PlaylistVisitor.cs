@@ -3,8 +3,7 @@ using Overoom.Domain.Playlist.Entities;
 using Overoom.Domain.Playlist.Specifications;
 using Overoom.Domain.Playlist.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
-using Overoom.Infrastructure.Storage.Models;
-using Overoom.Infrastructure.Storage.Models.Playlists;
+using Overoom.Infrastructure.Storage.Models.Playlist;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Specifications;
 
@@ -20,7 +19,7 @@ public class PlaylistVisitor : BaseVisitor<PlaylistModel, IPlaylistSpecification
     }
 
     public void Visit(PlaylistByFilmSpecification specification) =>
-        Expr = model => model.FilmsList.Contains(specification.Id.ToString());
+        Expr = model => model.Films.Any(x => x.FilmId == specification.Id);
 
     public void Visit(PlaylistByNameSpecification specification) =>
         Expr = model => model.Name.Contains(specification.Name);

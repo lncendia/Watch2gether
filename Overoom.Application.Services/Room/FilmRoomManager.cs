@@ -1,5 +1,5 @@
 ﻿using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Film.Exceptions;
+using Overoom.Application.Abstractions.Film.Catalog.Exceptions;
 using Overoom.Application.Abstractions.Room.DTOs.Film;
 using Overoom.Application.Abstractions.Room.Exceptions;
 using Overoom.Application.Abstractions.Room.Interfaces;
@@ -36,7 +36,7 @@ public class FilmRoomManager : IFilmRoomManager
         if (film == null) throw new FilmNotFoundException();
         var user = await _unitOfWork.UserRepository.Value.GetAsync(userId);
         if (user == null) throw new UserNotFoundException();
-        user.History.Add(filmId);
+        user.AddFilmToHistory(filmId);
         await _unitOfWork.UserRepository.Value.UpdateAsync(user);
         return await CreateAsync(filmId, cdn, user.Name, user.AvatarUri);
     }
@@ -61,7 +61,7 @@ public class FilmRoomManager : IFilmRoomManager
         var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
             .FirstOrDefault();
         if (user == null) throw new UserNotFoundException();
-        user.History.Add(room.FilmId);
+        user.AddFilmToHistory(room.FilmId);
         await _unitOfWork.UserRepository.Value.UpdateAsync(user);
         return await ConnectAsync(room, user.Name, user.AvatarUri);
     }
@@ -71,7 +71,7 @@ public class FilmRoomManager : IFilmRoomManager
     {
         var room = new FilmRoom(filmId, name, avatarUri, cdn);
         await _unitOfWork.FilmRoomRepository.Value.AddAsync(room);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveChangesAsync();
         return (room.Id, _mapper.Map(room.Owner));
     }
 
@@ -131,6 +131,6 @@ public class FilmRoomManager : IFilmRoomManager
     private async Task SaveRoomAsync(FilmRoom room)
     {
         await _unitOfWork.FilmRoomRepository.Value.UpdateAsync(room);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveChangesAsync();
     }
 }

@@ -2,12 +2,8 @@ using System.Linq.Expressions;
 using Overoom.Domain.Room.FilmRoom.Entities;
 using Overoom.Domain.Room.FilmRoom.Specifications;
 using Overoom.Domain.Room.FilmRoom.Specifications.Visitor;
-using Overoom.Domain.Rooms;
-using Overoom.Domain.Specifications;
 using Overoom.Domain.Specifications.Abstractions;
-using Overoom.Infrastructure.Storage.Models;
-using Overoom.Infrastructure.Storage.Models.Rooms;
-using Overoom.Infrastructure.Storage.Models.Rooms.FilmRoom;
+using Overoom.Infrastructure.Storage.Models.Room.FilmRoom;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Specifications;
 

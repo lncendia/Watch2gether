@@ -3,7 +3,7 @@ using Overoom.Domain.Room.YoutubeRoom.Entities;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Mappers.StaticMethods;
-using Overoom.Infrastructure.Storage.Models.Rooms.YoutubeRoom;
+using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
 
 namespace Overoom.Infrastructure.Storage.Mappers.ModelMappers;
 
