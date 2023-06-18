@@ -1,14 +1,15 @@
-using Overoom.Application.Abstractions.Film.Catalog.DTOs;
-using Overoom.Application.Abstractions.Film.Catalog.Interfaces;
-using Overoom.Domain.Film.Enums;
+using Overoom.Application.Abstractions.Films.Catalog.DTOs;
+using Overoom.Application.Abstractions.Films.Catalog.Interfaces;
+using Overoom.Domain.Films.Enums;
 
 namespace Overoom.Application.Services.Film.Catalog;
 
 public class FilmMapper : IFilmMapper
 {
-    public FilmDto MapFilm(Domain.Film.Entities.Film film)
+    public FilmDto MapFilm(Domain.Films.Entities.Film film)
     {
-        var x = FilmDtoBuilder.Create().WithId(film.Id)
+        var x = FilmDtoBuilder.Create()
+            .WithId(film.Id)
             .WithName(film.Name)
             .WithYear(film.Year)
             .WithType(film.Type)
@@ -28,7 +29,7 @@ public class FilmMapper : IFilmMapper
         return x.Build();
     }
 
-    public FilmShortDto MapFilmShort(Domain.Film.Entities.Film film)
+    public FilmShortDto MapFilmShort(Domain.Films.Entities.Film film)
     {
         var description = !string.IsNullOrEmpty(film.ShortDescription)
             ? film.ShortDescription

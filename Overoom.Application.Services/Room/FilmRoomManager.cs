@@ -1,13 +1,13 @@
 ﻿using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Film.Catalog.Exceptions;
-using Overoom.Application.Abstractions.Room.DTOs.Film;
-using Overoom.Application.Abstractions.Room.Exceptions;
-using Overoom.Application.Abstractions.Room.Interfaces;
-using Overoom.Application.Abstractions.User.Exceptions;
+using Overoom.Application.Abstractions.Films.Catalog.Exceptions;
+using Overoom.Application.Abstractions.Rooms.DTOs.Film;
+using Overoom.Application.Abstractions.Rooms.Exceptions;
+using Overoom.Application.Abstractions.Rooms.Interfaces;
+using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
-using Overoom.Domain.Film.Enums;
-using Overoom.Domain.Room.FilmRoom.Entities;
-using Overoom.Domain.User.Specifications;
+using Overoom.Domain.Films.Enums;
+using Overoom.Domain.Rooms.FilmRoom.Entities;
+using Overoom.Domain.Users.Specifications;
 
 namespace Overoom.Application.Services.Room;
 

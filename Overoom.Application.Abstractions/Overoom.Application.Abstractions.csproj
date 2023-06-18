@@ -23,10 +23,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Film\Catalog\" />
-      <Folder Include="Rating\DTOs\" />
-      <Folder Include="Rating\Exceptions\" />
-      <Folder Include="Rating\Interfaces\" />
+      <Folder Include="Films\Catalog\" />
+      <Folder Include="Ratings\DTOs\" />
+      <Folder Include="Ratings\Exceptions\" />
+      <Folder Include="Ratings\Interfaces\" />
     </ItemGroup>
 
 </Project>

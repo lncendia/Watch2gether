@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Overoom.Application.Abstractions.Film.Catalog.DTOs;
-using Overoom.Domain.Film.Enums;
+using Overoom.Application.Abstractions.Films.Catalog.DTOs;
+using Overoom.Domain.Films.Enums;
 
 namespace Overoom.WEB.Models.Film;
 

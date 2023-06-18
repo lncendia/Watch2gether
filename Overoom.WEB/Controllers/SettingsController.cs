@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Overoom.Application.Abstractions.User.Exceptions;
-using Overoom.Application.Abstractions.User.Interfaces;
-using Overoom.Domain.User.Exceptions;
+using Overoom.Application.Abstractions.Users.Exceptions;
+using Overoom.Domain.Users.Exceptions;
 using Overoom.WEB.Models.Settings;
 
 namespace Overoom.WEB.Controllers;

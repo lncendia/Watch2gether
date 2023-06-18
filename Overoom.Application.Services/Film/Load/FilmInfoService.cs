@@ -1,6 +1,6 @@
-using Overoom.Application.Abstractions.Film.Kinopoisk.Interfaces;
-using Overoom.Application.Abstractions.Film.Load.DTOs;
-using Overoom.Application.Abstractions.Film.Load.Interfaces;
+using Overoom.Application.Abstractions.Films.Kinopoisk.Interfaces;
+using Overoom.Application.Abstractions.Films.Load.DTOs;
+using Overoom.Application.Abstractions.Films.Load.Interfaces;
 
 namespace Overoom.Application.Services.Film.Load;
 

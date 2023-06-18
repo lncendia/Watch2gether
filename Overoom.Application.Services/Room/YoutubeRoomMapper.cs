@@ -1,6 +1,6 @@
-using Overoom.Application.Abstractions.Room.DTOs.Youtube;
-using Overoom.Application.Abstractions.Room.Interfaces;
-using Overoom.Domain.Room.YoutubeRoom.Entities;
+using Overoom.Application.Abstractions.Rooms.DTOs.Youtube;
+using Overoom.Application.Abstractions.Rooms.Interfaces;
+using Overoom.Domain.Rooms.YoutubeRoom.Entities;
 
 namespace Overoom.Application.Services.Room;
 

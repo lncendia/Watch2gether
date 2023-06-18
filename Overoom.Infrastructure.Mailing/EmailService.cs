@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mail;
-using Overoom.Application.Abstractions.User.Interfaces;
+using Overoom.Application.Abstractions.Users.Interfaces;
 
 namespace Overoom.Infrastructure.Mailing;
 

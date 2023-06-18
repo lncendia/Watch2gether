@@ -1,12 +1,12 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.User.DTOs;
-using Overoom.Application.Abstractions.User.Entities;
-using Overoom.Application.Abstractions.User.Exceptions;
-using Overoom.Application.Abstractions.User.Interfaces;
+using Overoom.Application.Abstractions.Users.DTOs;
+using Overoom.Application.Abstractions.Users.Entities;
+using Overoom.Application.Abstractions.Users.Exceptions;
+using Overoom.Application.Abstractions.Users.Interfaces;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
-using Overoom.Domain.User.Exceptions;
+using Overoom.Domain.Users.Exceptions;
 
 namespace Overoom.Application.Services.User;
 
@@ -60,7 +60,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         CheckResult(result, user);
 
         await _userManager.AddLoginAsync(user, info);
-        var userDomain = new Domain.User.Entities.User(user.UserName!, user.Email!, ApplicationConstants.DefaultAvatar);
+        var userDomain = new Domain.Users.Entities.User(user.UserName!, user.Email!, ApplicationConstants.DefaultAvatar);
         await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, userDomain.Id.ToString()));
         await AddAsync(userDomain);
 
@@ -73,7 +73,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         if (user is null) throw new UserNotFoundException();
         var result = await _userManager.ConfirmEmailAsync(user, code);
         if (!result.Succeeded) throw new InvalidCodeException();
-        var userDomain = new Domain.User.Entities.User(user.UserName!, user.Email!, ApplicationConstants.DefaultAvatar);
+        var userDomain = new Domain.Users.Entities.User(user.UserName!, user.Email!, ApplicationConstants.DefaultAvatar);
         await AddAsync(userDomain);
         await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, userDomain.Id.ToString()));
         return user;
@@ -114,7 +114,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         return user;
     }
 
-    private async Task AddAsync(Domain.User.Entities.User user)
+    private async Task AddAsync(Domain.Users.Entities.User user)
     {
         await _unitOfWork.UserRepository.Value.AddAsync(user);
         await _unitOfWork.SaveChangesAsync();

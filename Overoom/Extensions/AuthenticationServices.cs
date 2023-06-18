@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Overoom.Application.Abstractions;
 using Overoom.Application.Abstractions.User.Entities.Role;
 using Overoom.Application.Abstractions.User.Entities.User;
-using Overoom.Application.Abstractions.User.Interfaces;
+using Overoom.Application.Abstractions.Users.Interfaces;
 using Overoom.Application.Services.User;
 using Overoom.Infrastructure.ApplicationData;
 using Overoom.WEB.RoomAuthentication;

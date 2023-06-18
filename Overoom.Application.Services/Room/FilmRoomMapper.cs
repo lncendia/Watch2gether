@@ -1,12 +1,12 @@
-using Overoom.Application.Abstractions.Room.DTOs.Film;
-using Overoom.Application.Abstractions.Room.Interfaces;
-using Overoom.Domain.Room.FilmRoom.Entities;
+using Overoom.Application.Abstractions.Rooms.DTOs.Film;
+using Overoom.Application.Abstractions.Rooms.Interfaces;
+using Overoom.Domain.Rooms.FilmRoom.Entities;
 
 namespace Overoom.Application.Services.Room;
 
 public class FilmRoomMapper : IFilmRoomMapper
 {
-    public FilmRoomDto Map(FilmRoom room, Domain.Film.Entities.Film film)
+    public FilmRoomDto Map(FilmRoom room, Domain.Films.Entities.Film film)
     {
         var viewers = room.Viewers.Where(x => x.Online).Select(Map).ToList();
 

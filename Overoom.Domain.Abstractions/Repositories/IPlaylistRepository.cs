@@ -1,8 +1,9 @@
 using Overoom.Domain.Abstractions.Interfaces;
-using Overoom.Domain.Playlist.Ordering.Visitor;
-using Overoom.Domain.Playlist.Specifications.Visitor;
+using Overoom.Domain.Playlists.Entities;
+using Overoom.Domain.Playlists.Ordering.Visitor;
+using Overoom.Domain.Playlists.Specifications.Visitor;
 
 namespace Overoom.Domain.Abstractions.Repositories;
 
-public interface IPlaylistRepository : IRepository<Playlist.Entities.Playlist, Guid, IPlaylistSpecificationVisitor, IPlaylistSortingVisitor>
+public interface IPlaylistRepository : IRepository<Playlist, Guid, IPlaylistSpecificationVisitor, IPlaylistSortingVisitor>
 { }

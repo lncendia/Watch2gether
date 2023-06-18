@@ -1,4 +1,4 @@
-﻿using Overoom.Domain.Playlist.Entities;
+﻿using Overoom.Domain.Playlists.Entities;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Mappers.StaticMethods;
 using Overoom.Infrastructure.Storage.Models.Playlist;

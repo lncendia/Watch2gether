@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Overoom.Domain.Abstractions.Repositories;
 using Overoom.Domain.Ordering.Abstractions;
-using Overoom.Domain.Playlist.Entities;
-using Overoom.Domain.Playlist.Ordering.Visitor;
-using Overoom.Domain.Playlist.Specifications.Visitor;
+using Overoom.Domain.Playlists.Entities;
+using Overoom.Domain.Playlists.Ordering.Visitor;
+using Overoom.Domain.Playlists.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Overoom.Domain.Abstractions.Repositories;
-using Overoom.Domain.Film.Entities;
-using Overoom.Domain.Film.Ordering.Visitor;
-using Overoom.Domain.Film.Specifications.Visitor;
+using Overoom.Domain.Films.Entities;
+using Overoom.Domain.Films.Ordering.Visitor;
+using Overoom.Domain.Films.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Domain.Ordering.Abstractions;
 using Overoom.Infrastructure.Storage.Context;

@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
-using Overoom.Domain.Playlist.Entities;
-using Overoom.Domain.Playlist.Specifications;
-using Overoom.Domain.Playlist.Specifications.Visitor;
+using Overoom.Domain.Playlists.Entities;
+using Overoom.Domain.Playlists.Specifications;
+using Overoom.Domain.Playlists.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Playlist;
 

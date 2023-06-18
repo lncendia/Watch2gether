@@ -1,7 +1,7 @@
 ﻿using System.Net.Mail;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Identity;
-using Overoom.Application.Abstractions.User.Entities;
+using Overoom.Application.Abstractions.Users.Entities;
 
 namespace Overoom.Application.Services.User;
 

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Overoom.Domain.Abstractions.Repositories;
-using Overoom.Domain.Comment.Entities;
-using Overoom.Domain.Comment.Ordering.Visitor;
-using Overoom.Domain.Comment.Specifications.Visitor;
+using Overoom.Domain.Comments.Entities;
+using Overoom.Domain.Comments.Ordering.Visitor;
+using Overoom.Domain.Comments.Specifications.Visitor;
 using Overoom.Domain.Ordering.Abstractions;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Context;

@@ -1,7 +1,7 @@
 using Overoom.Domain.Ordering.Abstractions;
-using Overoom.Domain.Room.YoutubeRoom.Entities;
-using Overoom.Domain.Room.YoutubeRoom.Ordering;
-using Overoom.Domain.Room.YoutubeRoom.Ordering.Visitor;
+using Overoom.Domain.Rooms.YoutubeRoom.Entities;
+using Overoom.Domain.Rooms.YoutubeRoom.Ordering;
+using Overoom.Domain.Rooms.YoutubeRoom.Ordering.Visitor;
 using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
 using Overoom.Infrastructure.Storage.Visitors.Sorting.Models;
 

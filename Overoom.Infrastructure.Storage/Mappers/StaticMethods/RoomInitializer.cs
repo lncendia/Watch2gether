@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using Overoom.Domain.Room.BaseRoom.Entities;
-using Overoom.Domain.Room.BaseRoom.ValueObject;
+using Overoom.Domain.Rooms.BaseRoom.Entities;
+using Overoom.Domain.Rooms.BaseRoom.ValueObject;
 using Overoom.Infrastructure.Storage.Models.Room.Base;
 
 namespace Overoom.Infrastructure.Storage.Mappers.StaticMethods;

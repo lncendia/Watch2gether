@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Overoom.Domain.Room.FilmRoom.Entities;
+using Overoom.Domain.Rooms.FilmRoom.Entities;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Mappers.StaticMethods;

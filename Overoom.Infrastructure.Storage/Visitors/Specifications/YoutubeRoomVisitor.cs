@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
-using Overoom.Domain.Room.YoutubeRoom.Entities;
-using Overoom.Domain.Room.YoutubeRoom.Specifications;
-using Overoom.Domain.Room.YoutubeRoom.Specifications.Visitor;
+using Overoom.Domain.Rooms.YoutubeRoom.Entities;
+using Overoom.Domain.Rooms.YoutubeRoom.Specifications;
+using Overoom.Domain.Rooms.YoutubeRoom.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
 

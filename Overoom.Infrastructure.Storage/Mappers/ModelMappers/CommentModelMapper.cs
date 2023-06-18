@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Overoom.Domain.Comment.Entities;
+using Overoom.Domain.Comments.Entities;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Comment;

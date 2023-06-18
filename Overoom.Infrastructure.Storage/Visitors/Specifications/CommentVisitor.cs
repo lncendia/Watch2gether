@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
-using Overoom.Domain.Comment.Entities;
-using Overoom.Domain.Comment.Specifications;
-using Overoom.Domain.Comment.Specifications.Visitor;
+using Overoom.Domain.Comments.Entities;
+using Overoom.Domain.Comments.Specifications;
+using Overoom.Domain.Comments.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Comment;
 

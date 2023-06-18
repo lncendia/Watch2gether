@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Overoom.Domain.Abstractions.Repositories;
 using Overoom.Domain.Ordering.Abstractions;
-using Overoom.Domain.Room.YoutubeRoom.Entities;
-using Overoom.Domain.Room.YoutubeRoom.Ordering.Visitor;
-using Overoom.Domain.Room.YoutubeRoom.Specifications.Visitor;
+using Overoom.Domain.Rooms.YoutubeRoom.Entities;
+using Overoom.Domain.Rooms.YoutubeRoom.Ordering.Visitor;
+using Overoom.Domain.Rooms.YoutubeRoom.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;

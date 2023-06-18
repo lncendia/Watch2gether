@@ -1,15 +1,15 @@
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Comment.DTOs;
-using Overoom.Application.Abstractions.Comment.Interfaces;
+using Overoom.Application.Abstractions.Comments.DTOs;
+using Overoom.Application.Abstractions.Comments.Interfaces;
 
 namespace Overoom.Application.Services.Comment;
 
 public class CommentMapper : ICommentMapper
 {
-    public CommentDto Map(Domain.Comment.Entities.Comment comment, Domain.User.Entities.User? user)
+    public CommentDto Map(Domain.Comments.Entities.Comment comment, Domain.Users.Entities.User? user)
     {
         string? name;
-        string? avatar;
+        Uri? avatar;
         if (comment.UserId == null || user == null)
         {
             name = "Удаленный пользователь";

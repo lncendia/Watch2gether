@@ -1,12 +1,12 @@
 using Newtonsoft.Json;
-using Overoom.Application.Abstractions.Film.Kinopoisk.DTOs;
-using Overoom.Application.Abstractions.Film.Kinopoisk.Exceptions;
+using Overoom.Application.Abstractions.Films.Kinopoisk.DTOs;
+using Overoom.Application.Abstractions.Films.Kinopoisk.Exceptions;
 using Overoom.Infrastructure.Movie.Abstractions;
 using Overoom.Infrastructure.Movie.Converters;
 using Overoom.Infrastructure.Movie.Enums;
 using Overoom.Infrastructure.Movie.Models;
-using Episode = Overoom.Application.Abstractions.Film.Kinopoisk.DTOs.Episode;
-using Season = Overoom.Application.Abstractions.Film.Kinopoisk.DTOs.Season;
+using Episode = Overoom.Application.Abstractions.Films.Kinopoisk.DTOs.Episode;
+using Season = Overoom.Application.Abstractions.Films.Kinopoisk.DTOs.Season;
 
 namespace Overoom.Infrastructure.Movie;
 
@@ -40,8 +40,8 @@ public class ResponseParser : IResponseParser
     {
         var film = JsonConvert.DeserializeObject<FilmData>(json, _settings)!;
         return new Film(film.KpId, film.ImdbId, GetName(film.NameRu, film.NameEn), film.Year, film.Serial,
-            film.Description,
-            film.ShortDescription, film.PosterUrl, film.RatingKinopoisk, film.RatingImdb, film.Countries, film.Genres);
+            film.Description, film.ShortDescription, new Uri(film.PosterUrl), film.RatingKinopoisk, film.RatingImdb,
+            film.Countries, film.Genres);
     }
 
     public FilmShort GetFirstFilmFromSearch(string json)

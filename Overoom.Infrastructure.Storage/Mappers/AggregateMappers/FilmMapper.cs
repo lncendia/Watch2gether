@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using Overoom.Domain.Film.DTOs;
-using Overoom.Domain.Film.Entities;
-using Overoom.Domain.Film.Enums;
+using Overoom.Domain.Films.DTOs;
+using Overoom.Domain.Films.Entities;
+using Overoom.Domain.Films.Enums;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Mappers.StaticMethods;
 using Overoom.Infrastructure.Storage.Models.Film;

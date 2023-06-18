@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using Overoom.Domain.Film.Entities;
-using Overoom.Domain.Rating;
+using Overoom.Domain.Films.Entities;
+using Overoom.Domain.Ratings;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Mappers.StaticMethods;
 using Overoom.Infrastructure.Storage.Models.Rating;

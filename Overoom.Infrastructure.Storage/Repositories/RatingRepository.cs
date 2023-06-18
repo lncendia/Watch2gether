@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Overoom.Domain.Abstractions.Repositories;
 using Overoom.Domain.Ordering.Abstractions;
-using Overoom.Domain.Rating;
+using Overoom.Domain.Ratings;
+using Overoom.Domain.Ratings.Ordering.Visitor;
+using Overoom.Domain.Ratings.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
-using Overoom.Domain.Rating.Ordering.Visitor;
-using Overoom.Domain.Rating.Specifications.Visitor;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Rating;

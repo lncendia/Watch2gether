@@ -36,11 +36,11 @@ public abstract class MessageViewModel
 
 public abstract class ViewerViewModel
 {
-    protected ViewerViewModel(Guid id, string username, string avatarUrl, bool onPause, TimeSpan time)
+    protected ViewerViewModel(Guid id, string username, string avatarUri, bool onPause, TimeSpan time)
     {
         Id = id;
         Username = username;
-        AvatarUri = avatarUrl;
+        AvatarUri = avatarUri;
         OnPause = onPause;
         Time = time;
     }

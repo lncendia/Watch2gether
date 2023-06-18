@@ -1,7 +1,7 @@
 ﻿using System.Net;
-using Overoom.Application.Abstractions.Film.Kinopoisk.DTOs;
-using Overoom.Application.Abstractions.Film.Kinopoisk.Exceptions;
-using Overoom.Application.Abstractions.Film.Kinopoisk.Interfaces;
+using Overoom.Application.Abstractions.Films.Kinopoisk.DTOs;
+using Overoom.Application.Abstractions.Films.Kinopoisk.Exceptions;
+using Overoom.Application.Abstractions.Films.Kinopoisk.Interfaces;
 using Overoom.Infrastructure.Movie.Abstractions;
 using RestSharp;
 

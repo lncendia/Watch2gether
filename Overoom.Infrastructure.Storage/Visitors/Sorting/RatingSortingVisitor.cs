@@ -1,6 +1,6 @@
 using Overoom.Domain.Ordering.Abstractions;
-using Overoom.Domain.Rating;
-using Overoom.Domain.Rating.Ordering.Visitor;
+using Overoom.Domain.Ratings;
+using Overoom.Domain.Ratings.Ordering.Visitor;
 using Overoom.Infrastructure.Storage.Models.Rating;
 using Overoom.Infrastructure.Storage.Visitors.Sorting.Models;
 

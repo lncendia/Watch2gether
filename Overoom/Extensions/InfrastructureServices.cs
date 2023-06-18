@@ -1,5 +1,5 @@
-using Overoom.Application.Abstractions.Film.Load.Interfaces;
-using Overoom.Application.Abstractions.User.Interfaces;
+using Overoom.Application.Abstractions.Films.Load.Interfaces;
+using Overoom.Application.Abstractions.Users.Interfaces;
 using Overoom.Infrastructure.Mailing;
 using Overoom.Infrastructure.Movie;
 using Overoom.Infrastructure.PhotoManager;

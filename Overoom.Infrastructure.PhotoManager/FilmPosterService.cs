@@ -1,5 +1,5 @@
-﻿using Overoom.Application.Abstractions.Film.Load.Exceptions;
-using Overoom.Application.Abstractions.Film.Load.Interfaces;
+﻿using Overoom.Application.Abstractions.Films.Load.Exceptions;
+using Overoom.Application.Abstractions.Films.Load.Interfaces;
 using RestSharp;
 
 namespace Overoom.Infrastructure.PhotoManager;
@@ -25,7 +25,7 @@ public class FilmPosterService : IFilmPosterService
             image.Mutate(x => x.Resize(200, 500));
             var fileName = $"{Guid.NewGuid()}.jpg";
             await image.SaveAsync(Path.Combine(_basePath, fileName));
-            return fileName;
+            return new Uri(fileName, UriKind.Relative);
         }
         catch (Exception ex)
         {
@@ -35,7 +35,7 @@ public class FilmPosterService : IFilmPosterService
 
     public Task DeleteAsync(Uri uri)
     {
-        File.Delete(Path.Combine(_basePath, fileName));
+        File.Delete(Path.Combine(_basePath, uri.ToString()));
         return Task.CompletedTask;
     }
 }

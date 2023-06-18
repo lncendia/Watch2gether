@@ -1,7 +1,7 @@
 using Overoom.Domain.Ordering.Abstractions;
-using Overoom.Domain.Room.FilmRoom.Entities;
-using Overoom.Domain.Room.FilmRoom.Ordering;
-using Overoom.Domain.Room.FilmRoom.Ordering.Visitor;
+using Overoom.Domain.Rooms.FilmRoom.Entities;
+using Overoom.Domain.Rooms.FilmRoom.Ordering;
+using Overoom.Domain.Rooms.FilmRoom.Ordering.Visitor;
 using Overoom.Infrastructure.Storage.Models.Room.FilmRoom;
 using Overoom.Infrastructure.Storage.Visitors.Sorting.Models;
 

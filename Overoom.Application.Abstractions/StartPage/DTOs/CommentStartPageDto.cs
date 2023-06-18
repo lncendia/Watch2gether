@@ -2,20 +2,18 @@
 
 public class CommentStartPageDto
 {
-    public CommentStartPageDto(string name, string text, DateTime dateTime, Guid filmId, string filmName, string avatar)
+    public CommentStartPageDto(string name, string text, DateTime dateTime, Guid filmId, Uri avatarUri)
     {
         Name = name;
         Text = text;
         DateTime = dateTime;
         FilmId = filmId;
-        Avatar = avatar;
-        FilmName = filmName;
+        AvatarUri = avatarUri;
     }
 
     public string Name { get; }
     public string Text { get; }
-    public string Avatar { get; }
+    public Uri AvatarUri { get; }
     public DateTime DateTime { get; }
     public Guid FilmId { get; }
-    public string FilmName { get; }
 }

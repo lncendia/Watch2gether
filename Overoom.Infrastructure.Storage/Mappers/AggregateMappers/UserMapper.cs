@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Overoom.Domain.User.Entities;
+using Overoom.Domain.Users.Entities;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Mappers.StaticMethods;
 using Overoom.Infrastructure.Storage.Models.User;

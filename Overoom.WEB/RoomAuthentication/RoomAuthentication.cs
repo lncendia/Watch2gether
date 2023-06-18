@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Room.DTOs;
+using Overoom.Application.Abstractions.Rooms.DTOs;
 
 namespace Overoom.WEB.RoomAuthentication;
 

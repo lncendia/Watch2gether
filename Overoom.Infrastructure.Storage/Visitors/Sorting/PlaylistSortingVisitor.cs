@@ -1,7 +1,7 @@
 using Overoom.Domain.Ordering.Abstractions;
-using Overoom.Domain.Playlist.Entities;
-using Overoom.Domain.Playlist.Ordering;
-using Overoom.Domain.Playlist.Ordering.Visitor;
+using Overoom.Domain.Playlists.Entities;
+using Overoom.Domain.Playlists.Ordering;
+using Overoom.Domain.Playlists.Ordering.Visitor;
 using Overoom.Infrastructure.Storage.Models.Playlist;
 using Overoom.Infrastructure.Storage.Visitors.Sorting.Models;
 

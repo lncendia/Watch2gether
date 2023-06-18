@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
-using Overoom.Domain.Film.Entities;
-using Overoom.Domain.Film.Specifications;
-using Overoom.Domain.Film.Specifications.Visitor;
+using Overoom.Domain.Films.Entities;
+using Overoom.Domain.Films.Specifications;
+using Overoom.Domain.Films.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Film;
 

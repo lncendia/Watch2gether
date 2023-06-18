@@ -1,4 +1,4 @@
-using Overoom.Domain.Film.Enums;
+using Overoom.Domain.Films.Enums;
 
 namespace Overoom.Infrastructure.Storage.Models.Film;
 

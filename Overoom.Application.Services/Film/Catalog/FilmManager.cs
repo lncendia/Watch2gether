@@ -1,17 +1,17 @@
-using Overoom.Application.Abstractions.Film.Catalog.DTOs;
-using Overoom.Application.Abstractions.Film.Catalog.Exceptions;
-using Overoom.Application.Abstractions.Film.Catalog.Interfaces;
+using Overoom.Application.Abstractions.Films.Catalog.DTOs;
+using Overoom.Application.Abstractions.Films.Catalog.Exceptions;
+using Overoom.Application.Abstractions.Films.Catalog.Interfaces;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
-using Overoom.Domain.Film.Enums;
-using Overoom.Domain.Film.Ordering;
-using Overoom.Domain.Film.Ordering.Visitor;
-using Overoom.Domain.Film.Specifications;
-using Overoom.Domain.Film.Specifications.Visitor;
+using Overoom.Domain.Films.Enums;
+using Overoom.Domain.Films.Ordering;
+using Overoom.Domain.Films.Ordering.Visitor;
+using Overoom.Domain.Films.Specifications;
+using Overoom.Domain.Films.Specifications.Visitor;
 using Overoom.Domain.Ordering;
 using Overoom.Domain.Ordering.Abstractions;
 using Overoom.Domain.Specifications;
 using Overoom.Domain.Specifications.Abstractions;
-using SortBy = Overoom.Application.Abstractions.Film.Catalog.DTOs.SortBy;
+using SortBy = Overoom.Application.Abstractions.Films.Catalog.DTOs.SortBy;
 
 namespace Overoom.Application.Services.Film.Catalog;
 
@@ -28,7 +28,7 @@ public class FilmManager : IFilmManager
 
     public async Task<List<FilmShortDto>> FindAsync(FilmSearchQueryDto searchQueryDto)
     {
-        ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor>? specification = null;
+        ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor>? specification = null;
 
         if (!string.IsNullOrEmpty(searchQueryDto.Query))
         {
@@ -67,10 +67,10 @@ public class FilmManager : IFilmManager
             if (playlist != null) specification = AddToSpecification(specification, FilmByPlaylist(playlist));
         }
 
-        IOrderBy<Domain.Film.Entities.Film, IFilmSortingVisitor> orderBy =
+        IOrderBy<Domain.Films.Entities.Film, IFilmSortingVisitor> orderBy =
             searchQueryDto.SortBy == SortBy.Rating ? new OrderByRating() : new OrderByDate();
         if (searchQueryDto.InverseOrder)
-            orderBy = new DescendingOrder<Domain.Film.Entities.Film, IFilmSortingVisitor>(orderBy);
+            orderBy = new DescendingOrder<Domain.Films.Entities.Film, IFilmSortingVisitor>(orderBy);
 
         var films = await _unitOfWork.FilmRepository.Value.FindAsync(specification, orderBy,
             (searchQueryDto.Page - 1) * 10, 10);
@@ -84,57 +84,57 @@ public class FilmManager : IFilmManager
     }
 
 
-    private static ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor> FilmByPerson(string person)
+    private static ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> FilmByPerson(string person)
     {
-        ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor>
+        ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor>
             spec = new FilmByActorSpecification(person);
 
-        spec = new OrSpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor>(spec,
+        spec = new OrSpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor>(spec,
             new FilmByDirectorSpecification(person));
 
-        spec = new OrSpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor>(spec,
+        spec = new OrSpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor>(spec,
             new FilmByScreenWriterSpecification(person));
         return spec;
     }
 
-    private static ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor> FilmByGenre(string genre)
+    private static ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> FilmByGenre(string genre)
     {
         return new FilmByGenreSpecification(genre);
     }
 
-    private static ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor> FilmByTitle(string title)
+    private static ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> FilmByTitle(string title)
     {
         return new FilmByNameSpecification(title);
     }
 
-    private static ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor> FilmByCountry(string country)
+    private static ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> FilmByCountry(string country)
     {
         return new FilmByCountrySpecification(country);
     }
 
-    private static ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor> FilmByYear(int? minYear,
+    private static ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> FilmByYear(int? minYear,
         int? maxYear)
     {
         return new FilmByYearsSpecification(minYear ?? 0, maxYear ?? int.MaxValue);
     }
 
-    private static ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor> FilmByType(FilmType type)
+    private static ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> FilmByType(FilmType type)
     {
         return new FilmByTypeSpecification(type);
     }
 
-    private static ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor> FilmByPlaylist(
-        Domain.Playlist.Entities.Playlist playlist)
+    private static ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> FilmByPlaylist(
+        Domain.Playlists.Entities.Playlist playlist)
     {
         return new FilmByIdsSpecification(playlist.Films);
     }
     
-    private static ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor> AddToSpecification(
-        ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor>? baseSpec,
-        ISpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor> newSpec)
+    private static ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> AddToSpecification(
+        ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor>? baseSpec,
+        ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> newSpec)
     {
         return baseSpec == null
             ? newSpec
-            : new AndSpecification<Domain.Film.Entities.Film, IFilmSpecificationVisitor>(baseSpec, newSpec);
+            : new AndSpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor>(baseSpec, newSpec);
     }
 }

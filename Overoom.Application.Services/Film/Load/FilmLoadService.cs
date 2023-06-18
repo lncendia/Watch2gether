@@ -1,8 +1,9 @@
-using Overoom.Application.Abstractions.Film.Catalog.Exceptions;
-using Overoom.Application.Abstractions.Film.Load.DTOs;
-using Overoom.Application.Abstractions.Film.Load.Interfaces;
+using Overoom.Application.Abstractions.Films.Catalog.Exceptions;
+using Overoom.Application.Abstractions.Films.Load.DTOs;
+using Overoom.Application.Abstractions.Films.Load.Interfaces;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
-using Overoom.Domain.Film.Entities;
+using Overoom.Domain.Films.Entities;
+using CdnDto = Overoom.Domain.Films.DTOs.CdnDto;
 
 namespace Overoom.Application.Services.Film.Load;
 
@@ -26,7 +27,7 @@ public class FilmLoadService : IFilmLoadService
             .WithYear(film.Year)
             .WithRating(film.RatingKp)
             .WithType(film.Type)
-            .WithCdn(film.CdnList.Select(x => new Domain.Film.DTOs.CdnDto(x.Type, x.Uri, x.Quality, x.Voices)))
+            .WithCdn(film.CdnList.Select(x => new CdnDto(x.Type, x.Uri, x.Quality, x.Voices)))
             .WithGenres(film.Genres)
             .WithActors(film.Actors)
             .WithDirectors(film.Directors)
@@ -44,7 +45,28 @@ public class FilmLoadService : IFilmLoadService
     {
         var film = await _unitOfWork.FilmRepository.Value.GetAsync(filmToChange.FilmId);
         if (film == null) throw new FilmNotFoundException();
-        await _mapper.MapAsync(film, filmToChange);
+        if (!string.IsNullOrEmpty(filmToChange.Description)) film.Description = filmToChange.Description;
+        if (!string.IsNullOrEmpty(filmToChange.ShortDescription)) film.ShortDescription = filmToChange.ShortDescription;
+        if (filmToChange.RatingKp.HasValue) film.RatingKp = filmToChange.RatingKp.Value;
+        if (filmToChange is { CountSeasons: not null, CountEpisodes: not null })
+            film.UpdateSeriesInfo(filmToChange.CountSeasons.Value, filmToChange.CountEpisodes.Value);
+
+
+        if (filmToChange.PosterUri != null)
+        {
+            await _filmPosterService.DeleteAsync(film.PosterUri);
+            var poster = await _filmPosterService.SaveAsync(film.PosterUri);
+            film.PosterUri = poster;
+        }
+
+        if (filmToChange.CdnList != null)
+        {
+            foreach (var cdnDto in filmToChange.CdnList)
+            {
+                film.AddOrChangeCdn(new CdnDto(cdnDto.Type, cdnDto.Uri, cdnDto.Quality, cdnDto.Voices));
+            }
+        }
+
         await _unitOfWork.FilmRepository.Value.UpdateAsync(film);
         await _unitOfWork.SaveChangesAsync();
     }

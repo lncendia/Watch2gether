@@ -2,7 +2,7 @@
 
 public class FilmStartPageDto
 {
-    public FilmStartPageDto(string name, string posterUrl, Guid id, IReadOnlyCollection<string> genres)
+    public FilmStartPageDto(string name, Uri posterUrl, Guid id, IReadOnlyCollection<string> genres)
     {
         Name = name;
         PosterUrl = posterUrl;
@@ -12,6 +12,6 @@ public class FilmStartPageDto
 
     public Guid Id { get; }
     public string Name { get; }
-    public string PosterUrl { get; }
+    public Uri PosterUrl { get; }
     public IReadOnlyCollection<string> Genres { get; }
 }

@@ -1,9 +1,8 @@
-using Overoom.Application.Abstractions.Comment.Interfaces;
-using Overoom.Application.Abstractions.Film.Catalog.Interfaces;
-using Overoom.Application.Abstractions.Film.Playlist.Interfaces;
-using Overoom.Application.Abstractions.Room.Interfaces;
+using Overoom.Application.Abstractions.Comments.Interfaces;
+using Overoom.Application.Abstractions.Films.Catalog.Interfaces;
+using Overoom.Application.Abstractions.Films.Playlist.Interfaces;
+using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Application.Abstractions.StartPage.Interfaces;
-using Overoom.Application.Abstractions.User.Interfaces;
 using Overoom.Application.Services.Comment;
 using Overoom.Application.Services.Film;
 using Overoom.Application.Services.Film.Catalog;
