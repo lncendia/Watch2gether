@@ -4,7 +4,7 @@ namespace Overoom.Domain.Rooms.YoutubeRoom.Entities;
 
 public class YoutubeViewer : Viewer
 {
-    internal YoutubeViewer(int id, string name, string avatarUri, string currentVideoId) : base(id, name, avatarUri)
+    internal YoutubeViewer(int id, string name, Uri avatarUri, string currentVideoId) : base(id, name, avatarUri)
     {
         CurrentVideoId = currentVideoId;
     }

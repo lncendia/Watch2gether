@@ -4,5 +4,5 @@ namespace Overoom.Domain.Comments.Ordering.Visitor;
 
 public interface ICommentSortingVisitor : ISortingVisitor<ICommentSortingVisitor, Entities.Comment>
 {
-    void Visit(OrderByDate order);
+    void Visit(CommentOrderByDate order);
 }

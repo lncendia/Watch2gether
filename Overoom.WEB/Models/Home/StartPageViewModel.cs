@@ -2,14 +2,15 @@
 
 public class StartPageViewModel
 {
-    public StartPageViewModel(IEnumerable<CommentStartPageViewModel> comments, IEnumerable<FilmStartPageViewModel> films, IEnumerable<RoomStartPageViewModel> rooms)
+    public StartPageViewModel(IReadOnlyCollection<CommentStartPageViewModel> comments,
+        IReadOnlyCollection<FilmStartPageViewModel> films, IReadOnlyCollection<RoomStartPageViewModel> rooms)
     {
-        Comments = comments.ToList();
-        Films = films.ToList();
-        Rooms = rooms.ToList();
+        Comments = comments;
+        Films = films;
+        Rooms = rooms;
     }
 
-    public List<CommentStartPageViewModel> Comments { get; }
-    public List<FilmStartPageViewModel> Films { get; }
-    public List<RoomStartPageViewModel> Rooms { get; }
+    public IReadOnlyCollection<CommentStartPageViewModel> Comments { get; }
+    public IReadOnlyCollection<FilmStartPageViewModel> Films { get; }
+    public IReadOnlyCollection<RoomStartPageViewModel> Rooms { get; }
 }

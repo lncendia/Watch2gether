@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Overoom.Application.Abstractions.User.Entities.User;
 using Overoom.Application.Abstractions.Users.DTOs;
+using Overoom.Application.Abstractions.Users.Entities;
 using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Application.Abstractions.Users.Interfaces;
 using Overoom.Domain.Users.Exceptions;
-using Overoom.WEB.Models.Account;
+using Overoom.WEB.Models.Accounts;
 
 namespace Overoom.WEB.Controllers;
 
@@ -37,11 +37,11 @@ public class AccountController : Controller
         if (!ModelState.IsValid) return View(model);
         try
         {
-            await _userAuthenticationService.CreateAsync(new UserDto(model.Name, model.Password, model.Email),
+            await _userAuthenticationService.CreateAsync(new UserCreateDto(model.Name, model.Password, model.Email),
                 Url.Action("AcceptCode", "Account", null, HttpContext.Request.Scheme)!);
 
             return RedirectToAction("Index", "Home",
-                new {message = "Завершите регистрацию, перейдя по ссылке, отправленной вам на почту."});
+                new { message = "Завершите регистрацию, перейдя по ссылке, отправленной вам на почту." });
         }
         catch (Exception ex)
         {
@@ -75,15 +75,15 @@ public class AccountController : Controller
         if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(email))
         {
             return RedirectToAction("Index", "Home",
-                new {message = "Ссылка недействительна."});
+                new { message = "Ссылка недействительна." });
         }
 
         try
         {
-            var user = await _userAuthenticationService.AcceptCodeAsync(email, code);
+            var user = await _userAuthenticationService.CodeAuthenticateAsync(email, code);
             await _signInManager.SignInAsync(user, true);
             return RedirectToAction("Index", "Home",
-                new {message = "Почта успешно подтверждена."});
+                new { message = "Почта успешно подтверждена." });
         }
         catch (Exception ex)
         {
@@ -95,13 +95,13 @@ public class AccountController : Controller
             };
 
             return RedirectToAction("Index", "Home",
-                new {message = text});
+                new { message = text });
         }
     }
 
     public IActionResult LoginOauth(string provider, string returnUrl = "/")
     {
-        var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new {ReturnUrl = returnUrl});
+        var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
         var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         return new ChallengeResult(provider, properties);
     }
@@ -113,7 +113,7 @@ public class AccountController : Controller
 
         try
         {
-            var user = await _userAuthenticationService.ExternalLoginAsync(info);
+            var user = await _userAuthenticationService.ExternalAuthenticateAsync(info);
             await _signInManager.SignInAsync(user, true);
             await HttpContext.SignOutAsync(info.AuthenticationProperties);
             return Redirect(returnUrl);
@@ -127,7 +127,7 @@ public class AccountController : Controller
                 InvalidNicknameException => "Неверный формат имени пользователя",
                 _ => "Произошла ошибка при входе"
             };
-            return RedirectToAction("Login", "Account", new {message = text});
+            return RedirectToAction("Login", "Account", new { message = text });
         }
     }
 
@@ -135,7 +135,7 @@ public class AccountController : Controller
     public IActionResult Login(string message, string returnUrl = "/")
     {
         if (!string.IsNullOrEmpty(message)) ViewData["Alert"] = message;
-        return View(new LoginViewModel() {ReturnUrl = returnUrl});
+        return View(new LoginViewModel { ReturnUrl = returnUrl });
     }
 
     [HttpPost]
@@ -167,7 +167,7 @@ public class AccountController : Controller
     {
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home",
-            new {message = "Вы вышли из аккаунта."});
+            new { message = "Вы вышли из аккаунта." });
     }
 
     [HttpGet]
@@ -212,10 +212,10 @@ public class AccountController : Controller
     {
         if (email is null && code is null)
         {
-            return RedirectToAction("Login", new {message = "Ссылка недействительна."});
+            return RedirectToAction("Login", new { message = "Ссылка недействительна." });
         }
 
-        return View(new EnterNewPasswordViewModel {Email = email!, Code = code!});
+        return View(new EnterNewPasswordViewModel { Email = email!, Code = code! });
     }
 
     [HttpPost]
@@ -226,7 +226,7 @@ public class AccountController : Controller
         try
         {
             await _userAuthenticationService.ResetPasswordAsync(model.Email, model.Code, model.Password);
-            return RedirectToAction("Login", new {message = "Пароль успешно изменен."});
+            return RedirectToAction("Login", new { message = "Пароль успешно изменен." });
         }
         catch (Exception ex)
         {
@@ -237,7 +237,7 @@ public class AccountController : Controller
                 _ => "Произошла ошибка при восстановлении пароля"
             };
             ModelState.AddModelError("", text);
-            
+
 
             return View(model);
         }

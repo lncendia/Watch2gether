@@ -9,9 +9,9 @@ namespace Overoom.Infrastructure.Storage.Visitors.Sorting;
 
 public class FilmSortingVisitor : BaseSortingVisitor<FilmModel, IFilmSortingVisitor, Film>, IFilmSortingVisitor
 {
-    public void Visit(OrderByRating order) => SortItems.Add(new SortData<FilmModel>(x => x.RatingKp, false));
+    public void Visit(FilmOrderByRating order) => SortItems.Add(new SortData<FilmModel>(x => x.RatingKp, false));
 
-    public void Visit(OrderByDate order) => SortItems.Add(new SortData<FilmModel>(x => x.Year, false));
+    public void Visit(FilmOrderByDate order) => SortItems.Add(new SortData<FilmModel>(x => x.Year, false));
 
     protected override List<SortData<FilmModel>> ConvertOrderToList(IOrderBy<Film, IFilmSortingVisitor> spec)
     {

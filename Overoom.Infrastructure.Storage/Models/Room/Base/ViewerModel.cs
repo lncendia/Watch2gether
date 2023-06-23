@@ -10,7 +10,7 @@ public class ViewerModel : IEntityModel
     public string Name { get; set; } = null!;
     public Guid RoomId { get; set; }
     public RoomModel Room { get; set; } = null!;
-    public string AvatarUri { get; set; } = null!;
+    public Uri AvatarUri { get; set; } = null!;
     public bool Online { get; set; }
     public bool OnPause { get; set; }
     public TimeSpan TimeLine { get; set; }

@@ -2,7 +2,7 @@
 
 public interface IUserThumbnailService
 {
-    Task<string> SaveAsync(string url);
-    Task<string> SaveAsync(Stream stream);
-    Task DeleteAsync(string fileName);
+    Task<Uri> SaveAsync(Uri url);
+    Task<Uri> SaveAsync(Stream stream);
+    Task DeleteAsync(Uri uri);
 }

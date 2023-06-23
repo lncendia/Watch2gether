@@ -16,22 +16,31 @@ public class UserThumbnailService : IUserThumbnailService
         _client = new RestClient();
     }
 
-    public async Task<string> SaveAsync(string url)
+    public async Task<Uri> SaveAsync(Uri url)
     {
-        Stream stream;
         try
         {
-            stream = await _client.DownloadStreamAsync(new RestRequest(url)) ?? throw new NullReferenceException();
+            var stream = await _client.DownloadStreamAsync(new RestRequest(url));
+            using var image = await Image.LoadAsync(stream ?? throw new NullReferenceException());
+            image.Mutate(x => x.Resize(200, 500));
+            var fileName = $"{Guid.NewGuid()}.jpg";
+            await image.SaveAsync(Path.Combine(_basePath, fileName));
+            return new Uri(fileName, UriKind.Relative);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw new ThumbnailSaveException(e);
+            throw new ThumbnailSaveException(ex);
         }
-
-        return await SaveAsync(stream);
     }
 
-    public async Task<string> SaveAsync(Stream stream)
+
+    public Task DeleteAsync(Uri uri)
+    {
+        File.Delete(Path.Combine(_basePath, uri.ToString()));
+        return Task.CompletedTask;
+    }
+
+    public async Task<Uri> SaveAsync(Stream stream)
     {
         try
         {
@@ -39,7 +48,7 @@ public class UserThumbnailService : IUserThumbnailService
             image.Mutate(x => x.Resize(64, 64));
             var fileName = $"{Guid.NewGuid()}.jpg";
             await image.SaveAsync(Path.Combine(_basePath, fileName));
-            return fileName;
+            return new Uri(fileName, UriKind.Relative);
         }
         catch (Exception ex)
         {

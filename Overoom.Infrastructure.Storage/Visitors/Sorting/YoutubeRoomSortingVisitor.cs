@@ -18,6 +18,6 @@ public class YoutubeRoomSortingVisitor : BaseSortingVisitor<YoutubeRoomModel, IY
         return visitor.SortItems;
     }
 
-    public void Visit(OrderByLastActivityDate sorting) =>
+    public void Visit(YoutubeRoomOrderByLastActivityDate sorting) =>
         SortItems.Add(new SortData<YoutubeRoomModel>(f => f.LastActivity, false));
 }

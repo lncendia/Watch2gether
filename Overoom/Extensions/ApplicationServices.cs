@@ -3,14 +3,13 @@ using Overoom.Application.Abstractions.Films.Catalog.Interfaces;
 using Overoom.Application.Abstractions.Films.Playlist.Interfaces;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Application.Abstractions.StartPage.Interfaces;
-using Overoom.Application.Services.Comment;
+using Overoom.Application.Services.Comments;
 using Overoom.Application.Services.Film;
-using Overoom.Application.Services.Film.Catalog;
-using Overoom.Application.Services.Film.Playlist;
+using Overoom.Application.Services.Films.Catalog;
+using Overoom.Application.Services.Films.Playlist;
 using Overoom.Application.Services.Kinopoisk;
-using Overoom.Application.Services.Room;
+using Overoom.Application.Services.Rooms;
 using Overoom.Application.Services.StartPage;
-using Overoom.Application.Services.User;
 
 namespace Overoom.Extensions;
 

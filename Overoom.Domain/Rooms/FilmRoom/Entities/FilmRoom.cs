@@ -4,7 +4,7 @@ namespace Overoom.Domain.Rooms.FilmRoom.Entities;
 
 public class FilmRoom : BaseRoom.Entities.Room
 {
-    public FilmRoom(Guid filmId, string name, string avatarUri, CdnType cdnType)
+    public FilmRoom(Guid filmId, string name, Uri avatarUri, CdnType cdnType)
     {
         FilmId = filmId;
         CdnType = cdnType;
@@ -18,7 +18,7 @@ public class FilmRoom : BaseRoom.Entities.Room
     public new FilmViewer Owner => (FilmViewer)base.Owner!;
     public IReadOnlyCollection<FilmViewer> Viewers => ViewersList.Cast<FilmViewer>().ToList().AsReadOnly();
 
-    public FilmViewer Connect(string name, string avatarFileName)
+    public FilmViewer Connect(string name, Uri avatarFileName)
     {
         var viewer = new FilmViewer(IdCounter, name, avatarFileName, Owner.Season, Owner.Series);
         AddViewer(viewer);

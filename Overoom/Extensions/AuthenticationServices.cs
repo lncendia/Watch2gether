@@ -5,7 +5,7 @@ using Overoom.Application.Abstractions;
 using Overoom.Application.Abstractions.User.Entities.Role;
 using Overoom.Application.Abstractions.User.Entities.User;
 using Overoom.Application.Abstractions.Users.Interfaces;
-using Overoom.Application.Services.User;
+using Overoom.Application.Services.Users;
 using Overoom.Infrastructure.ApplicationData;
 using Overoom.WEB.RoomAuthentication;
 

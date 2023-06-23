@@ -11,8 +11,8 @@ using Overoom.Application.Abstractions.Rooms.Exceptions;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Domain.Rooms.BaseRoom.Exceptions;
-using Overoom.WEB.Models.Room;
-using Overoom.WEB.Models.Room.FilmRoom;
+using Overoom.WEB.Models.Rooms;
+using Overoom.WEB.Models.Rooms.FilmRoom;
 using Overoom.WEB.RoomAuthentication;
 
 namespace Overoom.WEB.Controllers;
@@ -51,7 +51,7 @@ public class FilmRoomController : Controller
             return RedirectToAction("Index", "Home", new {message = text});
         }
 
-        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, roomData.viewer, roomData.roomId,
+        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, roomData.viewer, roomData.roomId,
             RoomType.Film);
         return RedirectToAction("Room", new {roomData.roomId});
     }
@@ -82,7 +82,7 @@ public class FilmRoomController : Controller
             return View(model);
         }
 
-        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, roomData.viewer, roomData.roomId,
+        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, roomData.viewer, roomData.roomId,
             RoomType.Film);
         return RedirectToAction("Room", new {roomData.roomId});
     }
@@ -125,7 +125,7 @@ public class FilmRoomController : Controller
             return View(model);
         }
 
-        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, viewer, model.RoomId, RoomType.Film);
+        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, viewer, model.RoomId, RoomType.Film);
         return RedirectToAction("Room");
     }
 
@@ -151,7 +151,7 @@ public class FilmRoomController : Controller
             return RedirectToAction("Index", "Home", new {message = text});
         }
 
-        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, viewer, roomId, RoomType.Film);
+        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, viewer, roomId, RoomType.Film);
         return RedirectToAction("Room");
     }
 

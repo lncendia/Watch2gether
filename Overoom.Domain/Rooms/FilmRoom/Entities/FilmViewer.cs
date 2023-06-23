@@ -4,7 +4,7 @@ namespace Overoom.Domain.Rooms.FilmRoom.Entities;
 
 public class FilmViewer : Viewer
 {
-    internal FilmViewer(int id, string name, string avatarUri, int season, int series) : base(id, name,
+    internal FilmViewer(int id, string name, Uri avatarUri, int season, int series) : base(id, name,
         avatarUri)
     {
         Season = season;

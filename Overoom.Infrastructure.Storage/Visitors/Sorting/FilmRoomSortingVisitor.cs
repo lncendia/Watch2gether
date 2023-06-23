@@ -18,6 +18,6 @@ public class FilmRoomSortingVisitor : BaseSortingVisitor<FilmRoomModel, IFilmRoo
         return visitor.SortItems;
     }
 
-    public void Visit(OrderByLastActivityDate sorting) =>
+    public void Visit(FilmRoomOrderByLastActivityDate sorting) =>
         SortItems.Add(new SortData<FilmRoomModel>(f => f.LastActivity, false));
 }

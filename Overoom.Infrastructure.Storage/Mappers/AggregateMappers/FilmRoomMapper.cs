@@ -8,13 +8,12 @@ namespace Overoom.Infrastructure.Storage.Mappers.AggregateMappers;
 
 internal class FilmRoomMapper : IAggregateMapperUnit<FilmRoom, FilmRoomModel>
 {
-    private static readonly Type FilmRoomType = typeof(FilmRoom);
     private static readonly Type FilmViewerType = typeof(FilmViewer);
-    
+    private static readonly Uri MockUri = new("mock", UriKind.Relative);
 
     public FilmRoom Map(FilmRoomModel model)
     {
-        var room = new FilmRoom(model.FilmId, "mockName", "mockUri", model.CdnType);
+        var room = new FilmRoom(model.FilmId, "mockName", MockUri, model.CdnType);
         var viewers = model.Viewers.Cast<FilmViewerModel>().Select(CreateViewer);
         RoomInitializer.InitRoom(room, model, viewers, model.OwnerId);
         return room;

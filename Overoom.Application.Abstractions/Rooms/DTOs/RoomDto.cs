@@ -30,7 +30,7 @@ public abstract class MessageDto
 
 public abstract class ViewerDto
 {
-    protected ViewerDto(string username, int id, string avatarUrl, TimeSpan time, bool onPause)
+    protected ViewerDto(string username, int id, Uri avatarUrl, TimeSpan time, bool onPause)
     {
         Username = username;
         Id = id;
@@ -41,7 +41,7 @@ public abstract class ViewerDto
 
     public int Id { get; }
     public string Username { get; }
-    public string AvatarUrl { get; }
+    public Uri AvatarUrl { get; }
     public bool OnPause { get; }
     public TimeSpan Time { get; }
 }

@@ -18,4 +18,5 @@ public class RatingVisitor : BaseVisitor<RatingModel, IRatingSpecificationVisito
     }
 
     public void Visit(RatingByUserSpecification specification) => Expr = x => x.UserId == specification.UserId;
+    public void Visit(RatingByFilmSpecification specification) => Expr = x => x.FilmId == specification.FilmId;
 }

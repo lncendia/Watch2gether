@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Overoom.Application.Abstractions;
 using Overoom.Application.Abstractions.Comments.Interfaces;
-using Overoom.Application.Abstractions.Films.Catalog.DTOs;
 using Overoom.Application.Abstractions.Films.Catalog.Exceptions;
 using Overoom.Application.Abstractions.Films.Catalog.Interfaces;
 using Overoom.Application.Abstractions.Films.Playlist.DTOs;
 using Overoom.Application.Abstractions.Films.Playlist.Interfaces;
-using Overoom.WEB.Models.Film;
+using Overoom.WEB.Models.Films;
+using Overoom.WEB.RoomAuthentication;
+using IFilmMapper = Overoom.WEB.Mappers.Abstractions.IFilmMapper;
 using SortBy = Overoom.Application.Abstractions.Films.Playlist.DTOs.SortBy;
 
 namespace Overoom.WEB.Controllers;
@@ -19,20 +17,23 @@ public class FilmController : Controller
     private readonly IFilmManager _filmManager;
     private readonly IPlaylistManager _playlistManager;
     private readonly ICommentManager _commentManager;
+    private readonly IFilmMapper _filmMapper;
 
-    public FilmController(IFilmManager manager, IPlaylistManager playlistManager, ICommentManager commentManager)
+    public FilmController(IFilmManager manager, IPlaylistManager playlistManager, ICommentManager commentManager,
+        IFilmMapper filmMapper)
     {
         _filmManager = manager;
         _playlistManager = playlistManager;
         _commentManager = commentManager;
+        _filmMapper = filmMapper;
     }
 
-    public IActionResult Index(string? query = null, string? person = null, string? genre = null,
+    public IActionResult Index(string? person = null, string? genre = null,
         string? country = null)
     {
         var model = new FilmsSearchViewModel
         {
-            Query = query, Genre = genre, Country = country, Person = person,
+            Genre = genre, Country = country, Person = person,
             SortBy = Application.Abstractions.Films.Catalog.DTOs.SortBy.Date
         };
         return View(model);
@@ -44,19 +45,10 @@ public class FilmController : Controller
         if (!ModelState.IsValid) return NoContent();
         try
         {
-            var films = await _filmManager.FindAsync(new FilmSearchQueryDto(model.Query, model.MinYear,
-                model.MaxYear, model.Genre, model.Country, model.Person, model.Type, model.SortBy, model.Page,
-                model.InverseOrder));
-
+            var films = await _filmManager.FindAsync(_filmMapper.Map(model));
             if (!films.Any()) return NoContent();
-
-            var filmsModels = films.Select(x => new FilmLiteViewModel(x.Id, x.Name, x.PosterUri, x.Rating,
-                x.ShortDescription, x.Year, x.Type, x.CountSeasons, string.Join(", ", x.Genres)));
-
-            var data = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
-            var isAdmin = data.Succeeded && data.Principal.IsInRole(ApplicationConstants.AdminRoleName);
-
-            var viewModel = new FilmListViewModel(isAdmin, filmsModels);
+            var filmsModels = films.Select(_filmMapper.Map).ToList();
+            var viewModel = new FilmListViewModel(HttpContext.IsAdmin(), filmsModels);
             return Json(viewModel);
         }
         catch (Exception e)
@@ -74,12 +66,8 @@ public class FilmController : Controller
             var playlists =
                 await _playlistManager.FindAsync(new PlaylistSearchQueryDto(null, SortBy.Date, 1, false));
 
-            var playlistViewModels =
-                playlists.Select(x => new PlaylistLiteViewModel(x.Id, x.Name, x.PosterUri)).ToList();
-            var filmViewModel = new FilmViewModel(film.Id, film.Name, film.Year, film.Type, film.PosterUri,
-                film.Description,
-                film.Rating, film.Directors, film.ScreenWriters, film.Genres, film.Countries, film.Actors,
-                film.CountSeasons, film.CountEpisodes, film.Url);
+            var playlistViewModels = playlists.Select(_filmMapper.Map).ToList();
+            var filmViewModel = _filmMapper.Map(film);
 
             return View(new FilmPageViewModel(filmViewModel, playlistViewModels));
         }
@@ -90,7 +78,7 @@ public class FilmController : Controller
                 FilmNotFoundException => "Фильм не найден",
                 _ => throw new ArgumentOutOfRangeException()
             };
-            return RedirectToAction("Index", "Home", new {message = text});
+            return RedirectToAction("Index", "Home", new { message = text });
         }
     }
 
@@ -101,9 +89,7 @@ public class FilmController : Controller
         {
             var comments = await _commentManager.GetAsync(id, page);
             if (!comments.Any()) return NoContent();
-            var commentModels = comments
-                .Select(x => new CommentViewModel(x.Username, x.Text, x.CreatedAt, x.AvatarUri))
-                .ToList();
+            var commentModels = comments.Select(_filmMapper.Map).ToList();
             return Json(commentModels);
         }
         catch (Exception e)
@@ -119,9 +105,8 @@ public class FilmController : Controller
     {
         try
         {
-            var comment = await _commentManager.AddAsync(filmId, TODO, text);
-            return Json(new CommentViewModel(comment.Username, comment.Text, comment.CreatedAt,
-                comment.AvatarUri));
+            var comment = await _commentManager.AddAsync(filmId, HttpContext.GetUserId(), text);
+            return Json(_filmMapper.Map(comment));
         }
         catch (Exception e)
         {
@@ -135,7 +120,8 @@ public class FilmController : Controller
     {
         try
         {
-            await _commentManager.DeleteAsync(id, TODO);
+            var userId = HttpContext.GetUserId();
+            await _commentManager.DeleteAsync(id, userId);
             return Ok();
         }
         catch (Exception e)
@@ -159,18 +145,18 @@ public class FilmController : Controller
         }
     }
 
-    [HttpDelete]
-    [Authorize(Policy = "Admin")]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        try
-        {
-            await _filmManager.DeleteAsync(id);
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
+    // [HttpDelete]
+    // [Authorize(Policy = "Admin")]
+    // public async Task<IActionResult> Delete(Guid id)
+    // {
+    //     try
+    //     {
+    //         await _filmManager.DeleteAsync(id);
+    //         return Ok();
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         return BadRequest(e.Message);
+    //     }
+    // }
 }

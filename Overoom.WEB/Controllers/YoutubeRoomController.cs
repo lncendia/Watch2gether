@@ -11,8 +11,8 @@ using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Domain.Rooms.BaseRoom.Exceptions;
 using Overoom.Domain.Rooms.YoutubeRoom.Exceptions;
-using Overoom.WEB.Models.Room;
-using Overoom.WEB.Models.Room.YoutubeRoom;
+using Overoom.WEB.Models.Rooms;
+using Overoom.WEB.Models.Rooms.YoutubeRoom;
 using Overoom.WEB.RoomAuthentication;
 
 namespace Overoom.WEB.Controllers;
@@ -56,7 +56,7 @@ public class YoutubeRoomController : Controller
             return View(model);
         }
 
-        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, roomData.viewer, roomData.roomId,
+        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, roomData.viewer, roomData.roomId,
             RoomType.Youtube);
         return RedirectToAction("Room", new {roomData.roomId});
     }
@@ -91,7 +91,7 @@ public class YoutubeRoomController : Controller
             return View(model);
         }
 
-        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, roomData.viewer, roomData.roomId,
+        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, roomData.viewer, roomData.roomId,
             RoomType.Youtube);
         return RedirectToAction("Room", new {roomData.roomId});
     }
@@ -132,7 +132,7 @@ public class YoutubeRoomController : Controller
             return View(model);
         }
 
-        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, viewer, model.RoomId,
+        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, viewer, model.RoomId,
             RoomType.Youtube);
         return RedirectToAction("Room");
     }
@@ -159,7 +159,7 @@ public class YoutubeRoomController : Controller
             return RedirectToAction("Index", "Home", new {message = text});
         }
 
-        await RoomAuthentication.RoomAuthentication.AuthenticateAsync(HttpContext, viewer, roomId, RoomType.Youtube);
+        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, viewer, roomId, RoomType.Youtube);
         return RedirectToAction("Room");
     }
 

@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model Overoom.WEB.Models.Film.FilmPageViewModel
+@model Overoom.WEB.Models.Films.FilmPageViewModel
 @{
     ViewData["Title"] = Model.Film.Name;
     var auth = await Context.AuthenticateAsync(IdentityConstants.ApplicationScheme);

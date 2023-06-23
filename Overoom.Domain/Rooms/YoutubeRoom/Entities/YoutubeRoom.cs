@@ -4,7 +4,7 @@ namespace Overoom.Domain.Rooms.YoutubeRoom.Entities;
 
 public class YoutubeRoom : BaseRoom.Entities.Room
 {
-    public YoutubeRoom(string url, string name, string avatarUri, bool addAccess)
+    public YoutubeRoom(string url, string name, Uri avatarUri, bool addAccess)
     {
         AddAccess = addAccess;
         var id = GetId(url);
@@ -20,7 +20,7 @@ public class YoutubeRoom : BaseRoom.Entities.Room
     public IReadOnlyCollection<string> VideoIds => _ids.ToList().AsReadOnly();
     private readonly List<string> _ids = new();
 
-    public YoutubeViewer Connect(string name, string avatarUri)
+    public YoutubeViewer Connect(string name, Uri avatarUri)
     {
         var viewer = new YoutubeViewer(IdCounter, name, avatarUri, Owner.CurrentVideoId);
         AddViewer(viewer);

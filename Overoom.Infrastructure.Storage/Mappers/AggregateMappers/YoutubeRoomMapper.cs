@@ -10,13 +10,14 @@ internal class YoutubeRoomMapper : IAggregateMapperUnit<YoutubeRoom, YoutubeRoom
 {
     private static readonly Type YoutubeRoomType = typeof(YoutubeRoom);
     private static readonly Type YoutubeViewerType = typeof(YoutubeViewer);
+    private static readonly Uri MockUri = new("mock", UriKind.Relative);
 
     private static readonly FieldInfo Ids =
         YoutubeRoomType.GetField("_ids", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     public YoutubeRoom Map(YoutubeRoomModel model)
     {
-        var room = new YoutubeRoom("mockUrl", "mockName", "mockUri", model.AddAccess);
+        var room = new YoutubeRoom("mockUrl", "mockName", MockUri, model.AddAccess);
         Ids.SetValue(room, model.VideoIds.Select(x => x.VideoId).ToList());
         var viewers = model.Viewers.Cast<YoutubeViewerModel>().Select(CreateViewer);
         RoomInitializer.InitRoom(room, model, viewers, model.OwnerId);

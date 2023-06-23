@@ -2,7 +2,7 @@
 
 public class YoutubeViewerDto : ViewerDto
 {
-    public YoutubeViewerDto(string username, int id, string avatarUrl, TimeSpan time, bool onPause,
+    public YoutubeViewerDto(string username, int id, Uri avatarUrl, TimeSpan time, bool onPause,
         string currentVideoId) : base(username, id, avatarUrl, time, onPause)
     {
         CurrentVideoId = currentVideoId;

@@ -5,6 +5,6 @@ namespace Overoom.Domain.Films.Ordering.Visitor;
 
 public interface IFilmSortingVisitor : ISortingVisitor<IFilmSortingVisitor, Film>
 {
-    void Visit(OrderByRating order);
-    void Visit(OrderByDate order);
+    void Visit(FilmOrderByRating order);
+    void Visit(FilmOrderByDate order);
 }

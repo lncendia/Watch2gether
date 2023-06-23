@@ -3,10 +3,14 @@ using Overoom.Application.Abstractions.StartPage.Interfaces;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
 using Overoom.Domain.Comments.Ordering;
 using Overoom.Domain.Comments.Ordering.Visitor;
+using Overoom.Domain.Films.Entities;
+using Overoom.Domain.Films.Ordering;
 using Overoom.Domain.Films.Ordering.Visitor;
+using Overoom.Domain.Films.Specifications;
 using Overoom.Domain.Films.Specifications.Visitor;
 using Overoom.Domain.Ordering;
 using Overoom.Domain.Rooms.FilmRoom.Entities;
+using Overoom.Domain.Rooms.FilmRoom.Ordering;
 using Overoom.Domain.Rooms.FilmRoom.Ordering.Visitor;
 using Overoom.Domain.Rooms.YoutubeRoom.Entities;
 using Overoom.Domain.Rooms.YoutubeRoom.Ordering.Visitor;
@@ -14,7 +18,6 @@ using Overoom.Domain.Specifications;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Domain.Users.Specifications;
 using Overoom.Domain.Users.Specifications.Visitor;
-using Type = Overoom.Application.Abstractions.StartPage.DTOs.Type;
 
 namespace Overoom.Application.Services.StartPage;
 
@@ -32,7 +35,7 @@ public class StartPageService : IStartPageService
     public async Task<IReadOnlyCollection<FilmStartPageDto>> GetFilmsAsync()
     {
         var films = await _unitOfWork.FilmRepository.Value.FindAsync(null,
-            new DescendingOrder<Domain.Films.Entities.Film, IFilmSortingVisitor>(new OrderByDate()), take: 10);
+            new DescendingOrder<Film, IFilmSortingVisitor>(new FilmOrderByDate()), take: 10);
         return films.Select(_mapper.MapFilm).ToList();
     }
 
@@ -40,7 +43,7 @@ public class StartPageService : IStartPageService
     {
         var comments = await _unitOfWork.CommentRepository.Value.FindAsync(null,
             new DescendingOrder<Domain.Comments.Entities.Comment, ICommentSortingVisitor>(
-                new Domain.Comments.Ordering.OrderByDate()), take: 20);
+                new CommentOrderByDate()), take: 20);
 
         ISpecification<Domain.Users.Entities.User, IUserSpecificationVisitor>? spec = null;
 
@@ -57,30 +60,26 @@ public class StartPageService : IStartPageService
     public async Task<IReadOnlyCollection<RoomStartPageDto>> GetRoomsAsync()
     {
         var frooms = _unitOfWork.FilmRoomRepository.Value.FindAsync(null,
-            new DescendingOrder<FilmRoom, IFilmRoomSortingVisitor>(new OrderByLastActivityDate()), take: 5);
+            new DescendingOrder<FilmRoom, IFilmRoomSortingVisitor>(new FilmRoomOrderByLastActivityDate()), take: 5);
         var yrooms = _unitOfWork.YoutubeRoomRepository.Value.FindAsync(null,
             new DescendingOrder<YoutubeRoom, IYoutubeRoomSortingVisitor>(
-                new Domain.Rooms.YoutubeRoom.Ordering.OrderByLastActivityDate()), take: 5);
+                new Domain.Rooms.YoutubeRoom.Ordering.YoutubeRoomOrderByLastActivityDate()), take: 5);
 
         await Task.WhenAll(frooms, yrooms);
 
-        ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> spec =
-            new FilmByIdSpecification(frooms.Result[0].FilmId);
-        for (var i = 1; i < frooms.Result.Count; i++)
+        ISpecification<Film, IFilmSpecificationVisitor>? spec = null;
+        foreach (var filmRoom in frooms.Result)
         {
-            spec = new OrSpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor>(spec,
-                new FilmByIdSpecification(frooms.Result[i].FilmId));
+            spec = AddToSpecification(spec, new FilmByIdSpecification(filmRoom.FilmId));
         }
 
         var films = await _unitOfWork.FilmRepository.Value.FindAsync(spec);
 
-        var filmRooms = frooms.Result.Select(x => new RoomStartPageDto(x.Id, Type.Film, x.Viewers.Count,
-            films.FirstOrDefault(y => y.Id == x.FilmId)?.Name ?? "Фильм не найден."));
+        var filmRooms = frooms.Result.Select(x => _mapper.MapFilmRoom(x, films.First(f => f.Id == x.FilmId)));
 
-        var youtubeRooms = yrooms.Result.Select(x =>
-            new RoomStartPageDto(x.Id, Type.Youtube, x.Viewers.Count, x.Owner.CurrentVideoId));
+        var youtubeRooms = yrooms.Result.Select(_mapper.MapYoutubeRoom);
 
-        return filmRooms.Concat(youtubeRooms).OrderByDescending(x => x.CountUsers);
+        return filmRooms.Concat(youtubeRooms).OrderByDescending(x => x.CountUsers).ToList();
     }
 
 
@@ -93,12 +92,12 @@ public class StartPageService : IStartPageService
             : new AndSpecification<Domain.Users.Entities.User, IUserSpecificationVisitor>(baseSpec, newSpec);
     }
 
-    private static ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> AddToSpecification(
-        ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor>? baseSpec,
-        ISpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor> newSpec)
+    private static ISpecification<Film, IFilmSpecificationVisitor> AddToSpecification(
+        ISpecification<Film, IFilmSpecificationVisitor>? baseSpec,
+        ISpecification<Film, IFilmSpecificationVisitor> newSpec)
     {
         return baseSpec == null
             ? newSpec
-            : new AndSpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor>(baseSpec, newSpec);
+            : new AndSpecification<Film, IFilmSpecificationVisitor>(baseSpec, newSpec);
     }
 }

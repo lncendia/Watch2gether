@@ -17,7 +17,7 @@ public class CommentSortingVisitor : BaseSortingVisitor<CommentModel, ICommentSo
         return visitor.SortItems;
     }
 
-    public void Visit(OrderByDate order)
+    public void Visit(CommentOrderByDate order)
     {
         SortItems.Add(new SortData<CommentModel>(x => x.CreatedAt, false));
     }

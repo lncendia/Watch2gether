@@ -4,5 +4,5 @@ namespace Overoom.Domain.Rooms.FilmRoom.Ordering.Visitor;
 
 public interface IFilmRoomSortingVisitor : ISortingVisitor<IFilmRoomSortingVisitor, Entities.FilmRoom>
 {
-    void Visit(OrderByLastActivityDate sorting);
+    void Visit(FilmRoomOrderByLastActivityDate sorting);
 }
