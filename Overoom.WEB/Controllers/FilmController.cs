@@ -5,6 +5,7 @@ using Overoom.Application.Abstractions.Films.Catalog.Exceptions;
 using Overoom.Application.Abstractions.Films.Catalog.Interfaces;
 using Overoom.Application.Abstractions.Films.Playlist.DTOs;
 using Overoom.Application.Abstractions.Films.Playlist.Interfaces;
+using Overoom.WEB.Contracts.Films;
 using Overoom.WEB.Models.Films;
 using Overoom.WEB.RoomAuthentication;
 using IFilmMapper = Overoom.WEB.Mappers.Abstractions.IFilmMapper;
@@ -31,7 +32,7 @@ public class FilmController : Controller
     public IActionResult Index(string? person = null, string? genre = null,
         string? country = null)
     {
-        var model = new FilmsSearchViewModel
+        var model = new FilmsSearchParameters
         {
             Genre = genre, Country = country, Person = person,
             SortBy = Application.Abstractions.Films.Catalog.DTOs.SortBy.Date
@@ -40,7 +41,7 @@ public class FilmController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> FilmsList(FilmsSearchViewModel model)
+    public async Task<IActionResult> FilmsList(FilmsSearchParameters model)
     {
         if (!ModelState.IsValid) return NoContent();
         try
@@ -48,7 +49,7 @@ public class FilmController : Controller
             var films = await _filmManager.FindAsync(_filmMapper.Map(model));
             if (!films.Any()) return NoContent();
             var filmsModels = films.Select(_filmMapper.Map).ToList();
-            var viewModel = new FilmListViewModel(HttpContext.IsAdmin(), filmsModels);
+            var viewModel = new FilmListViewModel(User.IsAdmin(), filmsModels);
             return Json(viewModel);
         }
         catch (Exception e)
@@ -60,26 +61,14 @@ public class FilmController : Controller
 
     public async Task<IActionResult> Film(Guid id)
     {
-        try
-        {
-            var film = await _filmManager.GetAsync(id);
-            var playlists =
-                await _playlistManager.FindAsync(new PlaylistSearchQueryDto(null, SortBy.Date, 1, false));
+        var film = await _filmManager.GetAsync(id);
+        var playlists =
+            await _playlistManager.FindAsync(new PlaylistSearchQueryDto(null, SortBy.Date, 1, false));
 
-            var playlistViewModels = playlists.Select(_filmMapper.Map).ToList();
-            var filmViewModel = _filmMapper.Map(film);
+        var playlistViewModels = playlists.Select(_filmMapper.Map).ToList();
+        var filmViewModel = _filmMapper.Map(film);
 
-            return View(new FilmPageViewModel(filmViewModel, playlistViewModels));
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                FilmNotFoundException => "Фильм не найден",
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            return RedirectToAction("Index", "Home", new { message = text });
-        }
+        return View(new FilmPageViewModel(filmViewModel, playlistViewModels));
     }
 
     [HttpGet]
@@ -105,7 +94,7 @@ public class FilmController : Controller
     {
         try
         {
-            var comment = await _commentManager.AddAsync(filmId, HttpContext.GetUserId(), text);
+            var comment = await _commentManager.AddAsync(filmId, User.GetId(), text);
             return Json(_filmMapper.Map(comment));
         }
         catch (Exception e)
@@ -120,7 +109,7 @@ public class FilmController : Controller
     {
         try
         {
-            var userId = HttpContext.GetUserId();
+            var userId = User.GetId();
             await _commentManager.DeleteAsync(id, userId);
             return Ok();
         }

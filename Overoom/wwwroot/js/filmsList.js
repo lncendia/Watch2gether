@@ -3,6 +3,10 @@ let inverseOrder = true;
 let data = $('#dataForm')
 GetFormData();
 
+let scroller = new InfiniteAjaxScroll('.films', {
+    item: '.film', next: nextHandler, spinner: '.spinner', delay: 600
+});
+
 let nextHandler = async function (pageIndex) {
     try {
         let data = await GetList(pageIndex + 1);
@@ -12,10 +16,6 @@ let nextHandler = async function (pageIndex) {
         return false;
     }
 }
-
-let scroller = new InfiniteAjaxScroll('.films', {
-    item: '.film', next: nextHandler, spinner: '.spinner', delay: 600
-});
 
 async function GetList(page) {
     $data.set('page', page)
@@ -84,10 +84,10 @@ async function del(el) {
     let id = $(el).attr('data-id');
     let res = await fetch('/Film/Delete?id=' + id, {method: 'DELETE'});
     if (res.ok) $(el).parent().parent().parent().parent().remove(); else alert('Ошибка при удалении');
-};
+}
 
 function update(el) {
     let title = $(el).attr('data-title');
     window.open('/FilmDownloader?title=' + title, '_blank');
     return false;
-};
+}

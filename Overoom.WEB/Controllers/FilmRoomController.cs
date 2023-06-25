@@ -4,15 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Films.Catalog.Exceptions;
 using Overoom.Application.Abstractions.Rooms.DTOs;
-using Overoom.Application.Abstractions.Rooms.DTOs.Film;
-using Overoom.Application.Abstractions.Rooms.Exceptions;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
-using Overoom.Application.Abstractions.Users.Exceptions;
-using Overoom.Domain.Rooms.BaseRoom.Exceptions;
-using Overoom.WEB.Models.Rooms;
-using Overoom.WEB.Models.Rooms.FilmRoom;
+using Overoom.WEB.Contracts.Rooms;
 using Overoom.WEB.RoomAuthentication;
 
 namespace Overoom.WEB.Controllers;
@@ -20,71 +14,45 @@ namespace Overoom.WEB.Controllers;
 public class FilmRoomController : Controller
 {
     private readonly IFilmRoomManager _roomService;
+    private readonly Mappers.Abstractions.IFilmRoomMapper _mapper;
 
-    public FilmRoomController(IFilmRoomManager roomService) => _roomService = roomService;
+    public FilmRoomController(IFilmRoomManager roomService, Mappers.Abstractions.IFilmRoomMapper mapper)
+    {
+        _roomService = roomService;
+        _mapper = mapper;
+    }
 
     [HttpGet]
     public async Task<IActionResult> CreateRoom(Guid filmId)
     {
         var data = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
-        return RedirectToAction(data.None ? "CreateDefault" : "CreateUser", new {filmId});
+        return RedirectToAction(data.None ? "CreateDefault" : "CreateUser", new { filmId });
     }
 
     [HttpGet]
     [Authorize(Policy = "Identity.Application")]
     public async Task<ActionResult> CreateUser(Guid filmId)
     {
-        (Guid roomId, ViewerDto viewer) roomData;
-        try
-        {
-            roomData = await _roomService.CreateForUserAsync(filmId, User.Identity!.Name!);
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                UserNotFoundException => "Пользователь с таким email не найден",
-                FilmNotFoundException => "Фильм не найден",
-                ViewerInvalidNicknameException => "Неверный формат имени",
-                _ => "Произошла ошибка при создании комнаты"
-            };
-            return RedirectToAction("Index", "Home", new {message = text});
-        }
-
-        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, roomData.viewer, roomData.roomId,
-            RoomType.Film);
-        return RedirectToAction("Room", new {roomData.roomId});
+        var roomData = await _roomService.CreateForUserAsync(filmId, User.Identity!.Name!);
+        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, roomData.viewer,
+            roomData.roomId, RoomType.Film);
+        return RedirectToAction("Room", new { roomData.roomId });
     }
 
 
     [HttpGet]
-    public ActionResult CreateDefault(Guid filmId) => View(new CreateFilmRoomViewModel {FilmId = filmId});
+    public ActionResult CreateDefault(Guid filmId) => View(new CreateFilmRoomParameters { FilmId = filmId });
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateDefault(CreateFilmRoomViewModel model)
+    public async Task<IActionResult> CreateDefault(CreateFilmRoomParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        (Guid roomId, ViewerDto viewer) roomData;
-        try
-        {
-            roomData = await _roomService.CreateAsync(model.FilmId, model.Name);
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                FilmNotFoundException => "Фильм не найден",
-                ViewerInvalidNicknameException => "Неверный формат имени",
-                _ => "Произошла ошибка при создании комнаты"
-            };
-            ModelState.AddModelError("", text);
-            return View(model);
-        }
+        var roomData = await _roomService.CreateAsync(model.FilmId, model.Cdn, model.Name);
 
-        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, roomData.viewer, roomData.roomId,
-            RoomType.Film);
-        return RedirectToAction("Room", new {roomData.roomId});
+        await HttpContext.SetAuthenticationDataAsync(roomData.viewer.Username, roomData.viewer.Id,
+            roomData.viewer.AvatarUrl, roomData.roomId, RoomType.Film);
+        return RedirectToAction("Room", new { roomData.roomId });
     }
 
 
@@ -95,62 +63,27 @@ public class FilmRoomController : Controller
         if (!roomData.None && roomData.Principal.FindFirstValue("RoomId") == roomId.ToString())
             return RedirectToAction("Room");
         var data = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
-        return RedirectToAction(data.None ? "ConnectDefault" : "ConnectUser", new {roomId});
+        return RedirectToAction(data.None ? "ConnectDefault" : "ConnectUser", new { roomId });
     }
 
     [HttpGet]
-    public ActionResult ConnectDefault(Guid roomId) => View(new ConnectToRoomViewModel {RoomId = roomId});
+    public ActionResult ConnectDefault(Guid roomId) => View(new ConnectRoomParameters { RoomId = roomId });
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ConnectDefault(ConnectToRoomViewModel model)
+    public async Task<IActionResult> ConnectDefault(ConnectRoomParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        ViewerDto viewer;
-        try
-        {
-            viewer = await _roomService.ConnectAsync(model.RoomId, model.Name);
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                RoomNotFoundException => "Комната не найдена",
-                ViewerInvalidNicknameException => "Неверный формат имени",
-                RoomIsFullException => "Комната заполнена",
-                FilmNotFoundException => "Фильм не найден",
-                _ => "Произошла ошибка при подключении"
-            };
-            ModelState.AddModelError("", text);
-            return View(model);
-        }
-
-        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, viewer, model.RoomId, RoomType.Film);
+        ViewerDto viewer = await _roomService.ConnectAsync(model.RoomId, model.Name);
+        await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, viewer, model.RoomId,
+            RoomType.Film);
         return RedirectToAction("Room");
     }
 
     [HttpGet]
     public async Task<ActionResult> ConnectUser(Guid roomId)
     {
-        ViewerDto viewer;
-        try
-        {
-            viewer = await _roomService.ConnectForUserAsync(roomId, User.Identity!.Name!);
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                UserNotFoundException => "Пользователь с таким email не найден",
-                RoomNotFoundException => "Комната не найдена",
-                ViewerInvalidNicknameException => "Неверный формат имени",
-                RoomIsFullException => "Комната заполнена",
-                FilmNotFoundException => "Фильм не найден",
-                _ => "Произошла ошибка при подключении"
-            };
-            return RedirectToAction("Index", "Home", new {message = text});
-        }
-
+        ViewerDto viewer = await _roomService.ConnectForUserAsync(roomId, User.Identity!.Name!);
         await RoomAuthentication.RoomAuthentication.AuthenticateViewerAsync(HttpContext, viewer, roomId, RoomType.Film);
         return RedirectToAction("Room");
     }
@@ -158,41 +91,20 @@ public class FilmRoomController : Controller
     [Authorize(Policy = "FilmRoom")]
     public async Task<IActionResult> Room()
     {
-        var id = Guid.Parse(User.FindFirstValue("RoomId"));
-        var viewerId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        try
-        {
-            var roomDto = await _roomService.GetAsync(id);
-            return View(Map(roomDto, viewerId,
-                Url.Action("Connect", "FilmRoom", new {roomId = id}, HttpContext.Request.Scheme)!));
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                FilmNotFoundException => "Фильм не найден",
-                ViewerInvalidNicknameException => "Неверный формат имени",
-                _ => "Произошла ошибка при создании комнаты"
-            };
-            return RedirectToAction("Index", "Home", new {message = text});
-        }
+        var id = User.GetRoomId();
+        var viewerId = User.GetId();
+        var roomDto = await _roomService.GetAsync(id);
+        var model = _mapper.Map(roomDto, viewerId,
+            Url.Action("Connect", "FilmRoom", new { roomId = id }, HttpContext.Request.Scheme)!);
+        return View(model);
     }
 
 
-    private static FilmRoomViewModel Map(FilmRoomDto dto, Guid id, string url)
-    {
-        var messages = dto.Messages.Select(Map);
-        var viewers = dto.Viewers.Select(Map);
-        var film = new FilmViewModel(dto.Film.Name, dto.Film.Url, dto.Film.Type);
-        return new FilmRoomViewModel(messages, viewers, film, url, dto.OwnerId, id);
-    }
-
-    private static FilmViewerViewModel Map(FilmViewerDto dto) =>
-        new(dto.Id, dto.Username, dto.AvatarUrl, dto.OnPause, dto.Time, dto.Season, dto.Series);
-
-    private static FilmMessageViewModel Map(FilmMessageDto dto)
-    {
-        var viewer = Map(dto.Viewer);
-        return new FilmMessageViewModel(dto.Text, dto.CreatedAt, viewer);
-    }
+    // private static FilmRoomViewModel Map(FilmRoomDto dto, Guid id, string url)
+    // {
+    //     var messages = dto.Messages.Select(Map);
+    //     var viewers = dto.Viewers.Select(Map);
+    //     var film = new FilmViewModel(dto.Film.Name, dto.Film.Url, dto.Film.Type);
+    //     return new FilmRoomViewModel(messages, viewers, film, url, dto.OwnerId, id);
+    // }
 }

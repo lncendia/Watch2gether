@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Overoom.WEB.Models.Accounts;
+namespace Overoom.WEB.Contracts.Accounts;
 
-public class RegisterViewModel
+public class RegisterParameters
 {
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [Display(Name = "Введите имя пользователя")]

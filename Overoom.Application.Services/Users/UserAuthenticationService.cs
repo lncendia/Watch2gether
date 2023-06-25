@@ -6,6 +6,7 @@ using Overoom.Application.Abstractions.Users.Entities;
 using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Application.Abstractions.Users.Interfaces;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
+using Overoom.Domain.Users.Entities;
 using Overoom.Domain.Users.Exceptions;
 
 namespace Overoom.Application.Services.Users;
@@ -60,8 +61,10 @@ public class UserAuthenticationService : IUserAuthenticationService
         CheckResult(result, user);
 
         await _userManager.AddLoginAsync(user, info);
-        var userDomain = new Domain.Users.Entities.User(user.UserName!, user.Email!, ApplicationConstants.DefaultAvatar);
+        var userDomain = new User(user.UserName!, user.Email!, ApplicationConstants.DefaultAvatar);
         await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, userDomain.Id.ToString()));
+        await _userManager.AddClaimAsync(user,
+            new Claim(ApplicationConstants.AvatarClaimType, userDomain.AvatarUri.ToString()));
         await AddAsync(userDomain);
 
         return user;
@@ -73,9 +76,20 @@ public class UserAuthenticationService : IUserAuthenticationService
         if (user is null) throw new UserNotFoundException();
         var result = await _userManager.ConfirmEmailAsync(user, code);
         if (!result.Succeeded) throw new InvalidCodeException();
-        var userDomain = new Domain.Users.Entities.User(user.UserName!, user.Email!, ApplicationConstants.DefaultAvatar);
+        var userDomain = new User(user.UserName!, user.Email!, ApplicationConstants.DefaultAvatar);
         await AddAsync(userDomain);
         await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, userDomain.Id.ToString()));
+        await _userManager.AddClaimAsync(user,
+            new Claim(ApplicationConstants.AvatarClaimType, userDomain.AvatarUri.ToString()));
+        return user;
+    }
+    
+    public async Task<UserData> PasswordAuthenticateAsync(string username, string password)
+    {
+        var user = await _userManager.FindByEmailAsync(username);
+        if (user == null) throw new UserNotFoundException();
+        var success = await _userManager.CheckPasswordAsync(user, password);
+        if (!success) throw new InvalidPasswordException();
         return user;
     }
 
@@ -96,6 +110,7 @@ public class UserAuthenticationService : IUserAuthenticationService
             throw new EmailException(ex);
         }
     }
+    
 
     public async Task ResetPasswordAsync(string email, string code, string newPassword)
     {
@@ -105,16 +120,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         if (!result.Succeeded) throw new InvalidCodeException();
     }
 
-    public async Task<UserData> AuthenticateAsync(string username, string password)
-    {
-        var user = await _userManager.FindByEmailAsync(username);
-        if (user == null) throw new UserNotFoundException();
-        var success = await _userManager.CheckPasswordAsync(user, password);
-        if (!success) throw new InvalidPasswordException();
-        return user;
-    }
-
-    private async Task AddAsync(Domain.Users.Entities.User user)
+    private async Task AddAsync(User user)
     {
         await _unitOfWork.UserRepository.Value.AddAsync(user);
         await _unitOfWork.SaveChangesAsync();

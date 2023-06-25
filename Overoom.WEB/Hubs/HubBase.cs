@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.SignalR;
+using Overoom.Application.Abstractions.Rooms.DTOs;
 using Overoom.Application.Abstractions.Rooms.Exceptions;
+using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Domain.Rooms.BaseRoom.Exceptions;
 using Overoom.WEB.Hubs.Models;
 
@@ -8,8 +10,9 @@ namespace Overoom.WEB.Hubs;
 
 public abstract class HubBase : Hub
 {
-    private readonly IRoomManager _roomManager;
-    protected HubBase(IRoomManager roomManager) => _roomManager = roomManager;
+    private readonly IRoomManager<RoomDto, ViewerDto> _roomManager;
+
+    protected HubBase(IRoomManager<RoomDto, ViewerDto> roomManager) => _roomManager = roomManager;
 
     public async Task Send(string message)
     {

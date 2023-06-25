@@ -1,33 +1,58 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Rooms.DTOs;
 
 namespace Overoom.WEB.RoomAuthentication;
 
 public static class Extensions
 {
-    public static async Task AuthenticateViewerAsync(this HttpContext context, ViewerDto viewer, Guid roomId,
+    public static async Task SetAuthenticationDataAsync(this HttpContext context, string name, int id, Uri avatar,
+        Guid roomId,
         RoomType type)
     {
         await context.SignInAsync(ApplicationConstants.RoomScheme,
             new ClaimsPrincipal(new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.Name, viewer.Username),
-                new Claim(ClaimTypes.NameIdentifier, viewer.Id.ToString()),
-                new Claim(ClaimTypes.Thumbprint, viewer.AvatarUrl.ToString()),
+                new Claim(ClaimTypes.Name, name),
+                new Claim(ClaimTypes.NameIdentifier, id.ToString()),
+                new Claim(ApplicationConstants.AvatarClaimType, avatar.ToString()),
                 new Claim("RoomId", roomId.ToString()),
                 new Claim("RoomType", type.ToString())
             }, ApplicationConstants.RoomScheme)));
     }
 
-    public static Guid GetUserId(this HttpContext context)
+    public static Guid GetId(this ClaimsPrincipal user)
     {
-        return Guid.Parse(context.User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        return Guid.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!);
     }
     
-    public static bool IsAdmin(this HttpContext context)
+    public static int GetViewerId(this ClaimsPrincipal user)
     {
-        return context.User.IsInRole(ApplicationConstants.AdminRoleName);
+        return int.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!);
+    }
+
+    public static string GetName(this ClaimsPrincipal user)
+    {
+        return user.FindFirstValue(ClaimTypes.Name)!;
+    }
+
+    public static Uri GetAvatar(this ClaimsPrincipal user)
+    {
+        return new Uri(user.FindFirstValue(ApplicationConstants.AvatarClaimType)!, UriKind.Relative);
+    }
+
+    public static bool IsAdmin(this ClaimsPrincipal user)
+    {
+        return user.IsInRole(ApplicationConstants.AdminRoleName);
+    }
+
+    public static Guid GetRoomId(this ClaimsPrincipal user)
+    {
+        return Guid.Parse(user.FindFirstValue("RoomId")!);
+    }
+
+    public static RoomType GetRoomType(this ClaimsPrincipal user)
+    {
+        return Enum.Parse<RoomType>(user.FindFirstValue("RoomType")!);
     }
 }

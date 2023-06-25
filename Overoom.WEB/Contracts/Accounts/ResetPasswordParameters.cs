@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Overoom.WEB.Models.Accounts;
+namespace Overoom.WEB.Contracts.Accounts;
 
-public class ResetPasswordViewModel
+public class ResetPasswordParameters
 {
     [StringLength(400, ErrorMessage = "Не больше 400 символов")]
     [Required(ErrorMessage = "Поле не должно быть пустым")]

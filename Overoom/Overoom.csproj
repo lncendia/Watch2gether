@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Overoom.Application.Services\Overoom.Application.Services.csproj" />
       <ProjectReference Include="..\Overoom.Domain.Abstractions\Overoom.Domain.Abstractions.csproj" />
       <ProjectReference Include="..\Overoom.Domain\Overoom.Domain.csproj" />
@@ -31,6 +27,10 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\FilmDownloader\Index.cshtml" />
     </ItemGroup>
 
 </Project>

@@ -1,8 +1,14 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Overoom.Application.Abstractions.Films.Catalog.Exceptions;
+using Overoom.Application.Abstractions.Rooms.Exceptions;
 using Overoom.Application.Abstractions.StartPage.Interfaces;
+using Overoom.Application.Abstractions.Users.Exceptions;
+using Overoom.Domain.Rooms.BaseRoom.Exceptions;
+using Overoom.Domain.Rooms.YoutubeRoom.Exceptions;
+using Overoom.Domain.Users.Exceptions;
 using Overoom.WEB.Mappers.Abstractions;
-using Overoom.WEB.Models;
 using Overoom.WEB.Models.Home;
 
 namespace Overoom.WEB.Controllers;
@@ -47,6 +53,29 @@ public class HomeController : Controller
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
+        if (context == null) return Ok();
+        var ex = context.Error;
+        var text = ex switch
+        {
+            UserNotFoundException => "Пользователь не найден",
+            InvalidCodeException => "Ссылка недействительна",
+            UserAlreadyExistException => "Пользователь с таким логином уже существует",
+            InvalidEmailException => "Неверный формат почты",
+            InvalidNicknameException => "Неверный формат имени пользователя",
+            EmailException => "Произошла ошибка при отправке письма",
+            FilmNotFoundException => "Фильм не найден",
+            ArgumentException => "Некорректные данные",
+            ThumbnailSaveException => "Некорректный формат изображения",
+            ViewerInvalidNicknameException => "Неверный формат имени",
+            RoomNotFoundException => "Комната не найдена",
+            RoomIsFullException => "Комната заполнена",
+            UriFormatException => "Неверный формат ссылки",
+            InvalidVideoUrlException => "Неверный формат ссылки на видео",
+
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        return View(new ErrorViewModel(text, Activity.Current?.Id ?? HttpContext.TraceIdentifier));
     }
 }

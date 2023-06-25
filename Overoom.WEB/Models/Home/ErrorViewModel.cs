@@ -1,8 +1,15 @@
-namespace Overoom.WEB.Models;
+namespace Overoom.WEB.Models.Home;
 
 public class ErrorViewModel
 {
-    public string? RequestId { get; set; }
+    public ErrorViewModel(string? message, string? requestId)
+    {
+        Message = message;
+        RequestId = requestId;
+    }
+
+    public string? Message { get; }
+    public string? RequestId { get; }
 
     public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 }

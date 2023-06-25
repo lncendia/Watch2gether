@@ -6,8 +6,7 @@ using Overoom.Application.Abstractions.Users.DTOs;
 using Overoom.Application.Abstractions.Users.Entities;
 using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Application.Abstractions.Users.Interfaces;
-using Overoom.Domain.Users.Exceptions;
-using Overoom.WEB.Models.Accounts;
+using Overoom.WEB.Contracts.Accounts;
 
 namespace Overoom.WEB.Controllers;
 
@@ -24,15 +23,14 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    public IActionResult Register(string? message)
+    public IActionResult Register()
     {
-        if (!string.IsNullOrEmpty(message)) ViewData["Alert"] = message;
         return View();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterViewModel model)
+    public async Task<IActionResult> Register(RegisterParameters model)
     {
         if (!ModelState.IsValid) return View(model);
         try
@@ -50,17 +48,8 @@ public class AccountController : Controller
                 case UserAlreadyExistException:
                     ModelState.AddModelError("", "Пользователь с таким логином уже существует");
                     break;
-                case InvalidEmailException:
-                    ModelState.AddModelError("", "Неверный формат почты");
-                    break;
-                case InvalidNicknameException:
-                    ModelState.AddModelError("", "Неверный формат имени пользователя");
-                    break;
                 case EmailException:
                     ModelState.AddModelError("", "Не удалось отправить сообщение вам на почту");
-                    break;
-                default:
-                    ModelState.AddModelError("", "Произошла ошибка при регистрации");
                     break;
             }
 
@@ -74,29 +63,12 @@ public class AccountController : Controller
     {
         if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(email))
         {
-            return RedirectToAction("Index", "Home",
-                new { message = "Ссылка недействительна." });
+            return RedirectToAction("Index", "Home", new { message = "Ссылка недействительна." });
         }
 
-        try
-        {
-            var user = await _userAuthenticationService.CodeAuthenticateAsync(email, code);
-            await _signInManager.SignInAsync(user, true);
-            return RedirectToAction("Index", "Home",
-                new { message = "Почта успешно подтверждена." });
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                UserNotFoundException => "Пользователь с таким email не найден",
-                InvalidCodeException => "Ссылка недействительна",
-                _ => "Произошла ошибка при подтверждении почты"
-            };
-
-            return RedirectToAction("Index", "Home",
-                new { message = text });
-        }
+        var user = await _userAuthenticationService.CodeAuthenticateAsync(email, code);
+        await _signInManager.SignInAsync(user, true);
+        return RedirectToAction("Index", "Home", new { message = "Почта успешно подтверждена." });
     }
 
     public IActionResult LoginOauth(string provider, string returnUrl = "/")
@@ -110,40 +82,24 @@ public class AccountController : Controller
     {
         var info = await _signInManager.GetExternalLoginInfoAsync();
         if (info == null) return RedirectToAction(nameof(Login));
-
-        try
-        {
-            var user = await _userAuthenticationService.ExternalAuthenticateAsync(info);
-            await _signInManager.SignInAsync(user, true);
-            await HttpContext.SignOutAsync(info.AuthenticationProperties);
-            return Redirect(returnUrl);
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                UserAlreadyExistException => "Пользователь с таким логином уже существует",
-                InvalidEmailException => "Неверный формат почты",
-                InvalidNicknameException => "Неверный формат имени пользователя",
-                _ => "Произошла ошибка при входе"
-            };
-            return RedirectToAction("Login", "Account", new { message = text });
-        }
+        var user = await _userAuthenticationService.ExternalAuthenticateAsync(info);
+        await _signInManager.SignInAsync(user, true);
+        await HttpContext.SignOutAsync(info.AuthenticationProperties);
+        return Redirect(returnUrl);
     }
 
     [HttpGet]
-    public IActionResult Login(string message, string returnUrl = "/")
+    public IActionResult Login(string returnUrl = "/")
     {
-        if (!string.IsNullOrEmpty(message)) ViewData["Alert"] = message;
-        return View(new LoginViewModel { ReturnUrl = returnUrl });
+        return View(new LoginParameters { ReturnUrl = returnUrl });
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(LoginViewModel model)
+    public async Task<IActionResult> Login(LoginParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        var user = await _userAuthenticationService.AuthenticateAsync(model.Email, model.Password);
+        var user = await _userAuthenticationService.PasswordAuthenticateAsync(model.Email, model.Password);
         try
         {
             await _signInManager.SignInAsync(user, model.RememberMe);
@@ -151,13 +107,16 @@ public class AccountController : Controller
         }
         catch (Exception ex)
         {
-            var text = ex switch
+            switch (ex)
             {
-                UserNotFoundException => "Пользователь с таким email не найден",
-                InvalidPasswordException => "еверный пароль",
-                _ => "Произошла ошибка при входе"
-            };
-            ModelState.AddModelError("", text);
+                case UserNotFoundException:
+                    ModelState.AddModelError("", "Пользователь с таким email не найден");
+                    break;
+                case InvalidPasswordException:
+                    ModelState.AddModelError("", "Неверный пароль");
+                    break;
+            }
+
             return View(model);
         }
     }
@@ -166,8 +125,7 @@ public class AccountController : Controller
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
-        return RedirectToAction("Index", "Home",
-            new { message = "Вы вышли из аккаунта." });
+        return RedirectToAction("Index", "Home", new { message = "Вы вышли из аккаунта." });
     }
 
     [HttpGet]
@@ -178,33 +136,16 @@ public class AccountController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+    public async Task<IActionResult> ResetPassword(ResetPasswordParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        try
+        await _userAuthenticationService.RequestResetPasswordAsync(model.Email, Url.Action(
+            "NewPassword", "Account", null, HttpContext.Request.Scheme)!);
+        return RedirectToAction("Login", new
         {
-            await _userAuthenticationService.RequestResetPasswordAsync(model.Email, Url.Action(
-                "NewPassword",
-                "Account", null,
-                HttpContext.Request.Scheme)!);
-            return RedirectToAction("Login", new
-            {
-                message =
-                    "Для восстановления пароля проверьте электронную почту и перейдите по ссылке, указанной в письме."
-            });
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                UserNotFoundException => "Пользователь с таким email не найден",
-                EmailException => "Произошла ошибка при отправке письма",
-                _ => "Произошла ошибка при восстановлении пароля"
-            };
-            ModelState.AddModelError("", text);
-
-            return View(model);
-        }
+            message =
+                "Для восстановления пароля проверьте электронную почту и перейдите по ссылке, указанной в письме."
+        });
     }
 
     [HttpGet]
@@ -215,31 +156,15 @@ public class AccountController : Controller
             return RedirectToAction("Login", new { message = "Ссылка недействительна." });
         }
 
-        return View(new EnterNewPasswordViewModel { Email = email!, Code = code! });
+        return View(new NewPasswordParameters { Email = email!, Code = code! });
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> NewPassword(EnterNewPasswordViewModel model)
+    public async Task<IActionResult> NewPassword(NewPasswordParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        try
-        {
-            await _userAuthenticationService.ResetPasswordAsync(model.Email, model.Code, model.Password);
-            return RedirectToAction("Login", new { message = "Пароль успешно изменен." });
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                UserNotFoundException => "Пользователь с таким email не найден",
-                InvalidCodeException => "Ссылка недействительна",
-                _ => "Произошла ошибка при восстановлении пароля"
-            };
-            ModelState.AddModelError("", text);
-
-
-            return View(model);
-        }
+        await _userAuthenticationService.ResetPasswordAsync(model.Email, model.Code, model.Password);
+        return RedirectToAction("Login", new { message = "Пароль успешно изменен." });
     }
 }

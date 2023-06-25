@@ -2,9 +2,9 @@
 using Overoom.Application.Abstractions.Films.Catalog.DTOs;
 using Overoom.Domain.Films.Enums;
 
-namespace Overoom.WEB.Models.Films;
+namespace Overoom.WEB.Contracts.Films;
 
-public class FilmsSearchViewModel
+public class FilmsSearchParameters
 {
     [Display(Name = "Название фильма")] public string? Query { get; set; }
 

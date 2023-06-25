@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Overoom.WEB.Models.Accounts;
+namespace Overoom.WEB.Contracts.Accounts;
 
-public class EnterNewPasswordViewModel
+public class NewPasswordParameters
 {
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [DataType(DataType.Password)]

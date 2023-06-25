@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Overoom.WEB.Models.Settings
+namespace Overoom.WEB.Contracts.Settings
 {
-    public class ChangeNameViewModel
+    public class ChangeNameParameters
     {
         [Required(ErrorMessage = "Поле не должно быть пустым")]
         [DataType(DataType.Text)]

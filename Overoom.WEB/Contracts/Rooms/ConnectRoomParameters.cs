@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Overoom.WEB.Models.Rooms;
+namespace Overoom.WEB.Contracts.Rooms;
 
-public class ConnectToRoomViewModel
+public class ConnectRoomParameters
 {
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [Display(Name = "Введите имя пользователя")]

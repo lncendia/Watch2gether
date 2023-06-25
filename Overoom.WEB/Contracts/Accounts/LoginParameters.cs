@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Overoom.WEB.Models.Accounts;
+namespace Overoom.WEB.Contracts.Accounts;
 
-public class LoginViewModel
+public class LoginParameters
 {
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [StringLength(50, ErrorMessage = "Не больше 50 символов")]

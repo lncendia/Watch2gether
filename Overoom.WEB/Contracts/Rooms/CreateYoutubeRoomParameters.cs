@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Overoom.WEB.Models.Rooms.YoutubeRoom;
+namespace Overoom.WEB.Contracts.Rooms;
 
-public class CreateYoutubeRoomViewModel : CreateYoutubeRoomForUserViewModel
+public class CreateYoutubeRoomParameters : CreateYoutubeRoomForUserParameters
 {
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [Display(Name = "Введите имя пользователя")]

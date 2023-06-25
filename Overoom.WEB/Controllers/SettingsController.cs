@@ -1,89 +1,59 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Overoom.Application.Abstractions.Users.Exceptions;
-using Overoom.Domain.Users.Exceptions;
-using Overoom.WEB.Models.Settings;
+using Overoom.Application.Abstractions;
+using Overoom.Application.Abstractions.Users.Interfaces;
+using Overoom.WEB.Contracts.Settings;
+using Overoom.WEB.RoomAuthentication;
 
 namespace Overoom.WEB.Controllers;
 
 [Authorize(Policy = "Identity.Application")]
 public class SettingsController : Controller
 {
-    private readonly IUserSecurityService _userSettingsService;
-    private readonly IUserParametersService _userService;
+    private readonly IUserProfileService _userService;
 
-    public SettingsController(IUserParametersService userService, IUserSecurityService userSettingsService)
+    public SettingsController(IUserProfileService userService)
     {
         _userService = userService;
-        _userSettingsService = userSettingsService;
     }
+
 
     [HttpGet]
     public IActionResult ChangeEmail(string message)
     {
         if (!string.IsNullOrEmpty(message)) ViewData["Alert"] = message;
-        return View(new ChangeEmailViewModel {Email = User.Identity!.Name!});
+        return View(new ChangeEmailParameters { Email = User.Identity!.Name! });
     }
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<IActionResult> ChangeEmail(ChangeEmailViewModel model)
+    public async Task<IActionResult> ChangeEmail(ChangeEmailParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        try
-        {
-            await _userSettingsService.RequestResetEmailAsync(User.Identity!.Name!, model.Email, Url.Action(
-                "AcceptChangeEmail",
-                "Settings", null,
-                HttpContext.Request.Scheme)!);
+        await _userService.RequestResetEmailAsync(User.GetId(), model.Email, Url.Action(
+            "AcceptChangeEmail", "Settings", null, HttpContext.Request.Scheme)!);
 
-            return RedirectToAction("ChangeEmail",
-                new
-                {
-                    message = "Для завершения проверьте электронную почту и перейдите по ссылке, указанной в письме."
-                });
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
+        return RedirectToAction("ChangeEmail",
+            new
             {
-                UserNotFoundException => "Пользователь не найден",
-                EmailException => "Произошла ошибка при отправке письма",
-                ArgumentException => "Некорректные данные",
-                _ => "Произошла ошибка при изменении почты"
-            };
-
-            ModelState.AddModelError("", text);
-            return View(model);
-        }
+                message = "Для завершения проверьте электронную почту и перейдите по ссылке, указанной в письме."
+            });
     }
 
     [HttpGet]
-    public async Task<IActionResult> AcceptChangeEmail(string? email, string? code)
+    public async Task<IActionResult> AcceptChangeEmail(AcceptChangeEmailParameters model)
     {
-        if (code == null || email == null)
-            return RedirectToAction("ChangeEmail", new {message = "Ссылка недействительна."});
-
-        try
-        {
-            await _userSettingsService.ResetEmailAsync(User.Identity!.Name!, email, code);
-            return RedirectToAction("ChangeEmail", new {message = "Почта успешно изменена."});
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                UserNotFoundException => "Пользователь с таким email не найден",
-                InvalidCodeException => "Ссылка недействительна",
-                _ => "Произошла ошибка при смене почты"
-            };
-
-            return RedirectToAction("ChangeEmail", new {message = text});
-        }
+        if (!ModelState.IsValid)  return RedirectToAction("ChangeEmail", new { message = "Некорректная ссылка." });
+        await _userService.ResetEmailAsync(User.GetId(), model.Email, model.Code);
+        await UpdateEmailAsync(model.Email);
+        return RedirectToAction("ChangeEmail", new { message = "Почта успешно изменена." });
     }
 
     [HttpGet]
-    public IActionResult ChangePassword(string message)
+    public IActionResult ChangePassword(string? message)
     {
         if (!string.IsNullOrEmpty(message)) ViewData["Alert"] = message;
         return View();
@@ -91,27 +61,11 @@ public class SettingsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+    public async Task<IActionResult> ChangePassword(ChangePasswordParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        try
-        {
-            await _userSettingsService.ChangePasswordAsync(User.Identity!.Name!, model.OldPassword,
-                model.Password);
-            return RedirectToAction("ChangePassword", new {message = "Пароль успешно изменен."});
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                UserNotFoundException => "Пользователь не найден",
-                ArgumentException => "Некорректные данные",
-                _ => "Произошла ошибка при изменении пароля"
-            };
-
-            ModelState.AddModelError("", text);
-            return View(model);
-        }
+        await _userService.ChangePasswordAsync(User.GetId(), model.OldPassword, model.Password);
+        return RedirectToAction("ChangePassword", new { message = "Пароль успешно изменен." });
     }
 
     [HttpGet]
@@ -123,26 +77,12 @@ public class SettingsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ChangeName(ChangeNameViewModel model)
+    public async Task<IActionResult> ChangeName(ChangeNameParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        try
-        {
-            await _userService.ChangeNameAsync(TODO, model.Name);
-            return RedirectToAction("ChangeName", new {message = "Имя успешно изменено."});
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                UserNotFoundException => "Пользователь не найден",
-                InvalidNicknameException => "Некорректные данные",
-                _ => "Произошла ошибка при изменении имени"
-            };
-
-            ModelState.AddModelError("", text);
-            return View(model);
-        }
+        await _userService.ChangeNameAsync(User.GetId(), model.Name);
+        await UpdateNameAsync(model.Name);
+        return RedirectToAction("ChangeName", new { message = "Имя успешно изменено." });
     }
 
     [HttpGet]
@@ -156,23 +96,40 @@ public class SettingsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> ChangeAvatar(IFormFile uploadedFile)
     {
-        try
-        {
-            await using var stream = uploadedFile.OpenReadStream();
-            await _userService.ChangeAvatarAsync(TODO, stream);
-            return RedirectToAction("ChangeAvatar", new {message = "Аватар успешно изменён."});
-        }
-        catch (Exception ex)
-        {
-            var text = ex switch
-            {
-                UserNotFoundException => "Пользователь не найден",
-                ThumbnailSaveException => "Некорректный формат изображения",
-                _ => "Произошла ошибка при изменении аватара"
-            };
+        await using var stream = uploadedFile.OpenReadStream();
+        var uri = await _userService.ChangeAvatarAsync(User.GetId(), stream);
+        await UpdateThumbnailAsync(uri);
+        return RedirectToAction("ChangeAvatar", new { message = "Аватар успешно изменён." });
+    }
 
-            ModelState.AddModelError("", text);
-            return View();
-        }
+
+    private async Task UpdateNameAsync(string name)
+    {
+        var claims = User.Claims.ToList();
+        var nameClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
+        if (nameClaim != null) claims.Remove(nameClaim);
+        claims.Add(new Claim(ClaimTypes.Name, name));
+        await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
+            new ClaimsPrincipal(new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme)));
+    }
+
+    private async Task UpdateEmailAsync(string email)
+    {
+        var claims = User.Claims.ToList();
+        var nameClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+        if (nameClaim != null) claims.Remove(nameClaim);
+        claims.Add(new Claim(ClaimTypes.Email, email));
+        await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
+            new ClaimsPrincipal(new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme)));
+    }
+
+    private async Task UpdateThumbnailAsync(Uri uri)
+    {
+        var claims = User.Claims.ToList();
+        var nameClaim = claims.FirstOrDefault(x => x.Type == ApplicationConstants.AvatarClaimType);
+        if (nameClaim != null) claims.Remove(nameClaim);
+        claims.Add(new Claim(ApplicationConstants.AvatarClaimType, uri.ToString()));
+        await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
+            new ClaimsPrincipal(new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme)));
     }
 }

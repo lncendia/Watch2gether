@@ -2,8 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Identity;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.User.Entities.Role;
-using Overoom.Application.Abstractions.User.Entities.User;
+using Overoom.Application.Abstractions.Users.Entities;
 using Overoom.Application.Abstractions.Users.Interfaces;
 using Overoom.Application.Services.Users;
 using Overoom.Infrastructure.ApplicationData;
@@ -45,7 +44,7 @@ public static class AuthenticationServices
                 policy.RequireClaim("RoomId");
                 policy.RequireClaim(ClaimTypes.NameIdentifier);
                 policy.RequireClaim(ClaimTypes.Name);
-                policy.RequireClaim(ClaimTypes.Thumbprint);
+                policy.RequireClaim(ApplicationConstants.AvatarClaimType);
                 policy.RequireClaim("RoomType", RoomType.Film.ToString());
             });
             options.AddPolicy("YoutubeRoom", policy =>
@@ -55,7 +54,7 @@ public static class AuthenticationServices
                 policy.RequireClaim("RoomId");
                 policy.RequireClaim(ClaimTypes.NameIdentifier);
                 policy.RequireClaim(ClaimTypes.Name);
-                policy.RequireClaim(ClaimTypes.Thumbprint);
+                policy.RequireClaim(ApplicationConstants.AvatarClaimType);
                 policy.RequireClaim("RoomType", RoomType.Youtube.ToString());
             });
             options.AddPolicy("Identity.Application", policy =>
@@ -63,6 +62,8 @@ public static class AuthenticationServices
                 policy.RequireAuthenticatedUser();
                 policy.AddAuthenticationSchemes(IdentityConstants.ApplicationScheme);
                 policy.RequireClaim(ClaimTypes.Name);
+                policy.RequireClaim(ApplicationConstants.AvatarClaimType);
+                policy.RequireClaim(ClaimTypes.NameIdentifier);
             });
             options.AddPolicy("Admin", policy =>
             {
@@ -70,6 +71,8 @@ public static class AuthenticationServices
                 policy.AddAuthenticationSchemes(IdentityConstants.ApplicationScheme);
                 policy.RequireClaim(ClaimTypes.Name);
                 policy.RequireRole(ApplicationConstants.AdminRoleName);
+                policy.RequireClaim(ApplicationConstants.AvatarClaimType);
+                policy.RequireClaim(ClaimTypes.NameIdentifier);
             });
         });
 

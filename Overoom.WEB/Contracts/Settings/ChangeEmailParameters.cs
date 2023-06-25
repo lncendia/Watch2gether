@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Overoom.WEB.Models.Settings
+namespace Overoom.WEB.Contracts.Settings
 {
-    public class ChangeEmailViewModel
+    public class ChangeEmailParameters
     {
         [Required(ErrorMessage = "Поле не должно быть пустым")]
         [DataType(DataType.EmailAddress)]
