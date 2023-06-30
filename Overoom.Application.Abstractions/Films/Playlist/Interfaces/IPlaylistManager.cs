@@ -4,6 +4,7 @@ namespace Overoom.Application.Abstractions.Films.Playlist.Interfaces;
 
 public interface IPlaylistManager
 {
-    Task<List<PlaylistDto>> FindAsync(PlaylistSearchQueryDto searchQueryDto);
+    Task<List<PlaylistShortDto>> FindAsync(PlaylistSearchQueryDto searchQueryDto);
+    Task<List<PlaylistShortDto>> FindByGenresAsync(IReadOnlyCollection<string> genres);
     Task<PlaylistDto> GetAsync(Guid id);
 }

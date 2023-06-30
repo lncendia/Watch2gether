@@ -7,7 +7,6 @@ using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
 using Overoom.Domain.Films.Enums;
 using Overoom.Domain.Rooms.FilmRoom.Entities;
-using Overoom.Domain.Users.Specifications;
 
 namespace Overoom.Application.Services.Rooms;
 
@@ -55,11 +54,10 @@ public class FilmRoomManager : IFilmRoomManager
         return await ConnectAsync(room, name, ApplicationConstants.DefaultAvatar);
     }
 
-    public async Task<FilmViewerDto> ConnectForUserAsync(Guid roomId, string email)
+    public async Task<FilmViewerDto> ConnectForUserAsync(Guid roomId, Guid userId)
     {
         var room = await GetRoomAsync(roomId);
-        var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
-            .FirstOrDefault();
+        var user = await _unitOfWork.UserRepository.Value.GetAsync(userId);
         if (user == null) throw new UserNotFoundException();
         user.AddFilmToHistory(room.FilmId);
         await _unitOfWork.UserRepository.Value.UpdateAsync(user);

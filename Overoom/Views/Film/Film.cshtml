@@ -12,7 +12,7 @@
         <div class="blockBackground mb-4">
             <div class="row">
                 <div class="col-xl-3 col-md-4 text-center mb-3">
-                    <img class="filmAvatar" src="~/img/Posters/@Model.Film.PosterUri" alt="">
+                    <img class="filmAvatar" src="~/@Model.Film.PosterUri" alt="">
                 </div>
                 <div class="col-xl-9 col-md-8">
                     <div class="mb-3">
@@ -28,7 +28,7 @@
                             var count = Model.Film.Countries.Count - 1;
                             for (var index = 0; index < Model.Film.Countries.Count; index++)
                             {
-                                var el = Model.Film.Countries[index];
+                                var el = Model.Film.Countries.ElementAt(index);
                                 var elString = index != count ? el + ", " : el;
                                 <a class="filmsSearchLink" asp-action="Index" asp-route-country="@el">@elString</a>
                             }
@@ -40,7 +40,7 @@
                             count = Model.Film.Genres.Count - 1;
                             for (var index = 0; index < Model.Film.Genres.Count; index++)
                             {
-                                var el = Model.Film.Genres[index];
+                                var el = Model.Film.Genres.ElementAt(index);
                                 var elString = index != count ? el + ", " : el;
                                 <a class="filmsSearchLink" asp-action="Index" asp-route-genre="@el">@elString</a>
                             }
@@ -52,7 +52,7 @@
                             count = Model.Film.Directors.Count - 1;
                             for (var index = 0; index < Model.Film.Directors.Count; index++)
                             {
-                                var el = Model.Film.Directors[index];
+                                var el = Model.Film.Directors.ElementAt(index);
                                 var elString = index != count ? el + ", " : el;
                                 <a class="filmsSearchLink" asp-action="Index" asp-route-person="@el">@elString</a>
                             }
@@ -64,7 +64,7 @@
                             count = Model.Film.ScreenWriters.Count - 1;
                             for (var index = 0; index < Model.Film.ScreenWriters.Count; index++)
                             {
-                                var el = Model.Film.ScreenWriters[index];
+                                var el = Model.Film.ScreenWriters.ElementAt(index);
                                 var elString = index != count ? el + ", " : el;
                                 <a class="filmsSearchLink" asp-action="Index" asp-route-person="@el">@elString</a>
                             }
@@ -76,7 +76,7 @@
                             count = Model.Film.Actors.Count - 1;
                             for (var index = 0; index < Model.Film.Actors.Count; index++)
                             {
-                                var el = Model.Film.Actors[index];
+                                var el = Model.Film.Actors.ElementAt(index);
                                 var elString = index != count ? el.name + ", " : el.name;
                                 <a class="filmsSearchLink" asp-action="Index" asp-route-person="@el.name" title="@el.desc">@elString</a>
                             }
@@ -101,7 +101,6 @@
         <div class="blockBackground mb-4">
             <a class="btn btn-outline-danger d-block" asp-controller="FilmRoom" asp-action="CreateRoom" asp-route-filmId="@Model.Film.Id">Создать комнату</a>
         </div>
-        <iframe class="frame mb-4" src="@Model.Film.Url" allowfullscreen></iframe>
         <div class="blockBackground mb-4" style="min-height: 300px">
             <h3>Комментарии</h3>
             <div class="my-4">

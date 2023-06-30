@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions.Comments.Interfaces;
-using Overoom.Application.Abstractions.Films.Catalog.Exceptions;
 using Overoom.Application.Abstractions.Films.Catalog.Interfaces;
 using Overoom.Application.Abstractions.Films.Playlist.DTOs;
 using Overoom.Application.Abstractions.Films.Playlist.Interfaces;

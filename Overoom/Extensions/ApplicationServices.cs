@@ -6,7 +6,7 @@ using Overoom.Application.Abstractions.StartPage.Interfaces;
 using Overoom.Application.Services.Comments;
 using Overoom.Application.Services.Film;
 using Overoom.Application.Services.Films.Catalog;
-using Overoom.Application.Services.Films.Playlist;
+using Overoom.Application.Services.Films.Playlists;
 using Overoom.Application.Services.Kinopoisk;
 using Overoom.Application.Services.Rooms;
 using Overoom.Application.Services.StartPage;

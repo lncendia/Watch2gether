@@ -4,29 +4,24 @@ namespace Overoom.Domain.Playlists.Entities;
 
 public class Playlist : AggregateRoot
 {
-    public Playlist(string posterUri, string name, string description)
+    public Playlist(Uri posterUri, string name, string description, IEnumerable<string> genres)
     {
         PosterUri = posterUri;
         Name = name;
         Description = description;
-    }
-
-    public Playlist(IEnumerable<Guid> films, string posterUri, string name, string description)
-    {
-        PosterUri = posterUri;
-        Name = name;
-        Description = description;
-        foreach (var film in films) AddFilm(film);
+        _genres = genres.Distinct().ToList();
     }
 
     public string Name { get; }
     public string Description { get; }
     public DateTime Updated { get; } = DateTime.UtcNow;
-    public string PosterUri { get; }
+    public Uri PosterUri { get; }
 
     private readonly List<Guid> _films = new();
+    private readonly List<string> _genres;
 
     public IReadOnlyCollection<Guid> Films => _films.AsReadOnly();
+    public IReadOnlyCollection<string> Genres => _genres.AsReadOnly();
 
     public void AddFilm(Guid filmId)
     {

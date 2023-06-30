@@ -13,12 +13,10 @@ namespace Overoom.WEB.Hubs;
 public class YoutubeRoomHub : HubBase
 {
     private readonly IYoutubeRoomManager _roomManager;
-    private readonly IRoomDeleterManager _roomDeleterManager;
 
-    public YoutubeRoomHub(IYoutubeRoomManager roomService, IRoomDeleterManager roomDeleterManager) : base(roomService)
+    public YoutubeRoomHub(IYoutubeRoomManager roomService) : base(roomService)
     {
         _roomManager = roomService;
-        _roomDeleterManager = roomDeleterManager;
     }
 
     public async Task ChangeVideo(string id)

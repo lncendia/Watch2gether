@@ -1,18 +1,17 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.SignalR;
-using Overoom.Application.Abstractions.Rooms.DTOs;
+﻿using Microsoft.AspNetCore.SignalR;
 using Overoom.Application.Abstractions.Rooms.Exceptions;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Domain.Rooms.BaseRoom.Exceptions;
 using Overoom.WEB.Hubs.Models;
+using Overoom.WEB.RoomAuthentication;
 
 namespace Overoom.WEB.Hubs;
 
 public abstract class HubBase : Hub
 {
-    private readonly IRoomManager<RoomDto, ViewerDto> _roomManager;
+    private readonly IRoomManager _roomManager;
 
-    protected HubBase(IRoomManager<RoomDto, ViewerDto> roomManager) => _roomManager = roomManager;
+    protected HubBase(IRoomManager roomManager) => _roomManager = roomManager;
 
     public async Task Send(string message)
     {
@@ -95,10 +94,10 @@ public abstract class HubBase : Hub
 
     protected DataModel GetData()
     {
-        var id = Context.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-        var username = Context.User.FindFirstValue(ClaimTypes.Name)!;
-        var avatar = Context.User.FindFirstValue(ClaimTypes.Thumbprint)!;
-        var roomId = Context.User.FindFirstValue("RoomId")!;
-        return new DataModel(Guid.Parse(id), roomId, username, avatar);
+        var id = Context.User!.GetViewerId();
+        var username = Context.User!.GetName();
+        var avatar = Context.User!.GetAvatar();
+        var roomId = Context.User!.GetRoomId();
+        return new DataModel(id, roomId, username, avatar);
     }
 }

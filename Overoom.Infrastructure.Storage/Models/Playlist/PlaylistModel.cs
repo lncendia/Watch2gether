@@ -8,6 +8,7 @@ public class PlaylistModel : IAggregateModel
     public string Name { get; set; } = null!;
     public string Description { get; set; } = null!;
     public List<PlaylistFilmModel> Films { get; set; } = new();
+    public List<PlaylistGenreModel> Genres { get; set; } = new();
     public DateTime Updated { get; set; }
-    public string PosterUri { get; set; } = null!;
+    public Uri PosterUri { get; set; } = null!;
 }

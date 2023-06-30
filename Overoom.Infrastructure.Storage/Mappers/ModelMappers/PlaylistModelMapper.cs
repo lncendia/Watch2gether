@@ -18,8 +18,11 @@ internal class PlaylistModelMapper : IModelMapperUnit<PlaylistModel, Playlist>
         if (playlist != null)
         {
             await _context.Entry(playlist).Collection(x => x.Films).LoadAsync();
+            await _context.Entry(playlist).Collection(x => x.Genres).LoadAsync();
         }
-        else playlist = new PlaylistModel { Id = entity.Id };
+        else
+            playlist = new PlaylistModel
+                { Id = entity.Id, Genres = entity.Genres.Select(x => new PlaylistGenreModel { Name = x }).ToList() };
 
         playlist.Name = entity.Name;
         playlist.Description = entity.Description;
@@ -29,6 +32,7 @@ internal class PlaylistModelMapper : IModelMapperUnit<PlaylistModel, Playlist>
         var newFilms = entity.Films.Where(x => playlist.Films.All(m => m.FilmId != x));
         playlist.Films.AddRange(newFilms.Select(x => new PlaylistFilmModel { FilmId = x }));
         playlist.Films.RemoveAll(x => entity.Films.All(m => m != x.FilmId));
+
 
         return playlist;
     }

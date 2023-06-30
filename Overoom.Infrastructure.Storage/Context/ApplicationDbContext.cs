@@ -36,6 +36,7 @@ public class ApplicationDbContext : DbContext
 
     internal DbSet<PlaylistModel> Playlists { get; set; } = null!;
     internal DbSet<PlaylistFilmModel> PlaylistFilms { get; set; } = null!;
+    internal DbSet<PlaylistGenreModel> PlaylistGenres { get; set; } = null!;
 
     internal DbSet<CommentModel> Comments { get; set; } = null!;
 
@@ -89,12 +90,14 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<PlaylistModel>().HasMany(x => x.Films).WithOne().OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<PlaylistFilmModel>().HasOne(x => x.Film).WithMany().HasForeignKey(x => x.FilmId)
             .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<PlaylistGenreModel>().HasOne(x => x.PlaylistModel).WithMany(x => x.Genres)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<RatingModel>().HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.SetNull);
         modelBuilder.Entity<RatingModel>().HasOne(x => x.Film).WithMany().HasForeignKey(x => x.FilmId)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         modelBuilder.Entity<CommentModel>().HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.SetNull);
         modelBuilder.Entity<CommentModel>().HasOne(x => x.Film).WithMany().HasForeignKey(x => x.FilmId)

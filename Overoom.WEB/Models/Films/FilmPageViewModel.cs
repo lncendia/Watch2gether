@@ -2,12 +2,12 @@
 
 public class FilmPageViewModel
 {
-    public FilmPageViewModel(FilmViewModel film, IReadOnlyCollection<PlaylistViewModel> playlists)
+    public FilmPageViewModel(FilmViewModel film, IReadOnlyCollection<PlaylistShortViewModel> playlists)
     {
         Film = film;
         Playlists = playlists;
     }
 
     public FilmViewModel Film { get; }
-    public IReadOnlyCollection<PlaylistViewModel> Playlists { get; }
+    public IReadOnlyCollection<PlaylistShortViewModel> Playlists { get; }
 }

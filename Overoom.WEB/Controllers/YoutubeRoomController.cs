@@ -21,16 +21,7 @@ public class YoutubeRoomController : Controller
         _roomService = roomService;
         _mapper = mapper;
     }
-
-    [HttpGet]
-    public async Task<IActionResult> CreateRoom()
-    {
-        var data = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
-        return RedirectToAction(data.None ? "CreateDefault" : "CreateUser");
-    }
-
-    [HttpGet]
-    public ActionResult CreateDefault() => View();
+    
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -43,10 +34,6 @@ public class YoutubeRoomController : Controller
             roomData.viewer.AvatarUrl, roomData.roomId, RoomType.Youtube);
         return RedirectToAction("Room", new { roomData.roomId });
     }
-
-    [HttpGet]
-    [Authorize(Policy = "Identity.Application")]
-    public ActionResult CreateUser() => View();
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -72,16 +59,12 @@ public class YoutubeRoomController : Controller
         return RedirectToAction(data.None ? "ConnectDefault" : "ConnectUser", new { roomId });
     }
 
-    [HttpGet]
-    public ActionResult ConnectDefault(Guid roomId) => View(new ConnectRoomParameters { RoomId = roomId });
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ConnectDefault(ConnectRoomParameters model)
     {
         if (!ModelState.IsValid) return View(model);
         ViewerDto viewer = await _roomService.ConnectAsync(model.RoomId, model.Name);
-
         await HttpContext.SetAuthenticationDataAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, model.RoomId,
             RoomType.Youtube);
         return RedirectToAction("Room");
@@ -92,8 +75,7 @@ public class YoutubeRoomController : Controller
     [Authorize(Policy = "Identity.Application")]
     public async Task<ActionResult> ConnectUser(Guid roomId)
     {
-        ViewerDto viewer = await _roomService.ConnectForUserAsync(roomId, User.Identity!.Name!);
-
+        ViewerDto viewer = await _roomService.ConnectForUserAsync(roomId, User.GetId());
         await HttpContext.SetAuthenticationDataAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomId,
             RoomType.Youtube);
         return RedirectToAction("Room");

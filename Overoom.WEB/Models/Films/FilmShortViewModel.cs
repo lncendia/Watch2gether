@@ -4,8 +4,8 @@ namespace Overoom.WEB.Models.Films;
 
 public class FilmShortViewModel
 {
-      public FilmShortViewModel(Guid id, string name, string posterUri, double rating, string description, int year,
-        FilmType type, int? countSeasons, string genres)
+    public FilmShortViewModel(Guid id, string name, Uri posterUri, double rating, string description, int year,
+        FilmType type, int? countSeasons, IReadOnlyCollection<string> genres)
     {
         Id = id;
         Name = name;
@@ -19,12 +19,12 @@ public class FilmShortViewModel
             FilmType.Film => "Фильм",
             _ => throw new NotImplementedException()
         };
-        Genres = genres;
+        Genres = string.Join(", ", genres);
     }
 
     public Guid Id { get; }
     public string Name { get; }
-    public string PosterUri { get; }
+    public Uri PosterUri { get; }
     public double Rating { get; }
     public string Description { get; }
     public string Type { get; }

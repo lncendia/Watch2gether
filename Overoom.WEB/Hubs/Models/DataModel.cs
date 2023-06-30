@@ -2,17 +2,17 @@
 
 public class DataModel
 {
-    public Guid Id { get; }
+    public int Id { get; }
     public Guid RoomId { get; }
     public string RoomIdString { get; }
     public string Username { get; }
-    public string AvatarUri { get; }
+    public Uri AvatarUri { get; }
 
-    public DataModel(Guid id, string roomId, string username, string avatarUri)
+    public DataModel(int id, Guid roomId, string username, Uri avatarUri)
     {
         Id = id;
-        RoomIdString = roomId;
-        RoomId = Guid.Parse(roomId);
+        RoomIdString = roomId.ToString();
+        RoomId = roomId;
         Username = username;
         AvatarUri = avatarUri;
     }

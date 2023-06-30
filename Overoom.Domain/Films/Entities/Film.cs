@@ -25,7 +25,7 @@ public class Film : AggregateRoot
         Type = type;
         if (countSeasons != null && countEpisodes != null) UpdateSeriesInfo(countSeasons.Value, countEpisodes.Value);
 
-        _cdnList = cdn.Select(MapCdn).ToList();
+        _cdnList = cdn.DistinctBy(x=>x.Type).Select(MapCdn).ToList();
         if (!_cdnList.Any()) throw new ArgumentException("Cdn list is empty");
     }
 

@@ -2,7 +2,7 @@
 
 public class ViewerModel
 {
-    public ViewerModel(Guid id, string username, string avatar, int time)
+    public ViewerModel(int id, string username, Uri avatar, int time)
     {
         Id = id;
         Username = username;
@@ -10,8 +10,8 @@ public class ViewerModel
         Time = time;
     }
 
-    public Guid Id { get; }
+    public int Id { get; }
     public string Username { get; }
     public int Time { get; }
-    public string Avatar { get; }
+    public Uri Avatar { get; }
 }

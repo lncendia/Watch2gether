@@ -8,11 +8,11 @@ public class FilmTags
         IEnumerable<(string name, string description)> actors, IEnumerable<string> screenwriters,
         IEnumerable<string> directors)
     {
-        _genres = genres.ToList();
-        _countries = countries.ToList();
-        _actors = actors.Select(x => new ActorData(x.name, x.description)).ToList();
-        _directors = directors.ToList();
-        _screenwriters = screenwriters.ToList();
+        _genres = genres.Distinct().ToList();
+        _countries = countries.Distinct().ToList();
+        _actors = actors.Distinct().Select(x => new ActorData(x.name, x.description)).ToList();
+        _directors = directors.Distinct().ToList();
+        _screenwriters = screenwriters.Distinct().ToList();
 
         if (_genres.Any()) throw new EmptyTagsCollectionException();
         if (_actors.Any()) throw new EmptyTagsCollectionException();

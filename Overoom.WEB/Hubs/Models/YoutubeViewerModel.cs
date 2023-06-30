@@ -2,7 +2,7 @@
 
 public class YoutubeViewerModel : ViewerModel
 {
-    public YoutubeViewerModel(Guid id, string username, string avatar, int time, string videoId) : base(id, username,
+    public YoutubeViewerModel(int id, string username, Uri avatar, int time, string videoId) : base(id, username,
         avatar, time)
     {
         VideoId = videoId;

@@ -22,8 +22,9 @@ public class FilmsSearchParameters
 
     [Display(Name = "Инверсия сортировки")]
     public bool InverseOrder { get; set; }
-
-    [Display(Name = "Страница")]
+    
+    public Guid? PlaylistId { get; set; } //todo: use this
+    
     [Required]
     public int Page { get; set; } = 1;
 }

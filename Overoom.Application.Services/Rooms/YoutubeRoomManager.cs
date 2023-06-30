@@ -5,7 +5,6 @@ using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
 using Overoom.Domain.Rooms.YoutubeRoom.Entities;
-using Overoom.Domain.Users.Specifications;
 
 namespace Overoom.Application.Services.Rooms;
 
@@ -69,11 +68,10 @@ public class YoutubeRoomManager : IYoutubeRoomManager
         return await ConnectAsync(room, name, ApplicationConstants.DefaultAvatar);
     }
 
-    public async Task<YoutubeViewerDto> ConnectForUserAsync(Guid roomId, string email)
+    public async Task<YoutubeViewerDto> ConnectForUserAsync(Guid roomId, Guid userId)
     {
         var room = await GetRoomAsync(roomId);
-        var user = (await _unitOfWork.UserRepository.Value.FindAsync(new UserByEmailSpecification(email), null, 0, 1))
-            .FirstOrDefault();
+        var user = await _unitOfWork.UserRepository.Value.GetAsync(userId);
         if (user == null) throw new UserNotFoundException();
         return await ConnectAsync(room, user.Name, user.AvatarUri);
     }
