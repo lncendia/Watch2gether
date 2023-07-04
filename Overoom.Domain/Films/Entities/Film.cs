@@ -28,8 +28,19 @@ public class Film : AggregateRoot
         _cdnList = cdn.DistinctBy(x=>x.Type).Select(MapCdn).ToList();
         if (!_cdnList.Any()) throw new ArgumentException("Cdn list is empty");
     }
+    
+    
+    private string _name = null!;
 
-    public string Name { get; }
+    public string Name
+    {
+        get => _name;
+        set
+        {
+            if (value.Length > 200) throw new NameTooLongException();
+            _name = value;
+        }
+    }
     public int Year { get; }
     public FilmType Type { get; }
 

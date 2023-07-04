@@ -5,7 +5,7 @@ namespace Overoom.Application.Abstractions.Films.Load.DTOs;
 public class FilmLoadDto
 {
     public FilmLoadDto(string name, string description, string? shortDescription, double ratingKp, int year,
-        FilmType type, Uri posterUri, IReadOnlyCollection<string> genres,
+        FilmType type, Uri? posterUri, Stream? posterStream, IReadOnlyCollection<string> genres,
         IReadOnlyCollection<(string name, string description)> actors,
         IReadOnlyCollection<string> countries, IReadOnlyCollection<string> directors,
         IReadOnlyCollection<string> screenwriters, IReadOnlyCollection<CdnDto> cdnList,
@@ -15,6 +15,7 @@ public class FilmLoadDto
         Year = year;
         Type = type;
         PosterUri = posterUri;
+        PosterStream = posterStream;
         CountSeasons = countSeasons;
         CountEpisodes = countEpisodes;
         CdnList = cdnList;
@@ -31,7 +32,8 @@ public class FilmLoadDto
     public string Description { get; }
     public string? ShortDescription { get; }
     public FilmType Type { get; }
-    public Uri PosterUri { get; }
+    public Uri? PosterUri { get; }
+    public Stream? PosterStream { get; }
     public string Name { get; }
     public int Year { get; }
     public double RatingKp { get; }

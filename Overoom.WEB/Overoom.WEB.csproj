@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Overoom.Application.Abstractions\Overoom.Application.Abstractions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Models\FilmLoad\" />
+    </ItemGroup>
+
 </Project>

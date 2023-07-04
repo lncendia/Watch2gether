@@ -18,7 +18,7 @@ public static class InfrastructureServices
         services.AddScoped<IUserThumbnailService, UserThumbnailService>(
             _ => new UserThumbnailService(rootPath, "img/avatars"));
         services.AddScoped<IFilmPosterService, FilmPosterService>(
-            _ => new FilmPosterService(Path.Combine(rootPath, "img/posters")));
+            _ => new FilmPosterService(rootPath, "img/posters"));
 
 
         services.AddScoped<IResponseParser, ResponseParser>();

@@ -3,10 +3,6 @@ let inverseOrder = true;
 let data = $('#dataForm')
 GetFormData();
 
-let scroller = new InfiniteAjaxScroll('.films', {
-    item: '.film', next: nextHandler, spinner: '.spinner', delay: 600
-});
-
 let nextHandler = async function (pageIndex) {
     try {
         let data = await GetList(pageIndex + 1);
@@ -16,6 +12,10 @@ let nextHandler = async function (pageIndex) {
         return false;
     }
 }
+
+let scroller = new InfiniteAjaxScroll('.films', {
+    item: '.film', next: nextHandler, spinner: '.spinner', delay: 600
+});
 
 async function GetList(page) {
     $data.set('page', page)
