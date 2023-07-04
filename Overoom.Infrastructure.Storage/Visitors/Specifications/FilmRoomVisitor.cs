@@ -3,7 +3,7 @@ using Overoom.Domain.Rooms.FilmRoom.Entities;
 using Overoom.Domain.Rooms.FilmRoom.Specifications;
 using Overoom.Domain.Rooms.FilmRoom.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
-using Overoom.Infrastructure.Storage.Models.Room.FilmRoom;
+using Overoom.Infrastructure.Storage.Models.FilmRoom;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Specifications;
 

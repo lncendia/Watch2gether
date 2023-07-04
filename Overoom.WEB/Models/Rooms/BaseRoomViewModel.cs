@@ -2,41 +2,46 @@
 
 public abstract class BaseRoomViewModel
 {
-    protected BaseRoomViewModel(IEnumerable<MessageViewModel> messages, IEnumerable<ViewerViewModel> viewers,
-        string connectUrl, Guid ownerId, Guid currentViewerId)
+    protected BaseRoomViewModel(IReadOnlyCollection<MessageViewModel> messages,
+        IReadOnlyCollection<ViewerViewModel> viewers,
+        string connectUrl, int ownerId, int currentViewerId)
     {
-        Messages = messages.ToList();
+        Messages = messages;
         ConnectUrl = connectUrl;
         OwnerId = ownerId;
-        Viewers = viewers.ToList();
+        Viewers = viewers;
         CurrentViewerId = currentViewerId;
     }
 
-    protected readonly List<MessageViewModel> Messages;
-    protected readonly List<ViewerViewModel> Viewers;
-    
-    public Guid CurrentViewerId { get; }
-    public Guid OwnerId { get; }
+    public IReadOnlyCollection<MessageViewModel> Messages { get; }
+    protected readonly IReadOnlyCollection<ViewerViewModel> Viewers;
+
+    public int CurrentViewerId { get; }
+    public int OwnerId { get; }
     public string ConnectUrl { get; }
 }
 
-public abstract class MessageViewModel
+public class MessageViewModel
 {
-    protected MessageViewModel(string text, DateTime createdAt, ViewerViewModel viewer)
+    public MessageViewModel(string text, DateTime createdAt, int viewerId, Uri avatarUri, string username)
     {
         Text = text;
+        ViewerId = viewerId;
+        AvatarUri = avatarUri;
+        Username = username;
         CreatedAt = createdAt.ToLocalTime().ToString("T");
-        Viewer = viewer;
     }
 
-    public readonly ViewerViewModel Viewer;
+    public string Username { get; }
+    public int ViewerId { get; }
+    public Uri AvatarUri { get; }
     public string CreatedAt { get; }
     public string Text { get; }
 }
 
 public abstract class ViewerViewModel
 {
-    protected ViewerViewModel(Guid id, string username, string avatarUri, bool onPause, TimeSpan time)
+    protected ViewerViewModel(int id, string username, Uri avatarUri, bool onPause, TimeSpan time)
     {
         Id = id;
         Username = username;
@@ -45,8 +50,8 @@ public abstract class ViewerViewModel
         Time = time;
     }
 
-    public Guid Id { get; }
-    public string AvatarUri { get; }
+    public int Id { get; }
+    public Uri AvatarUri { get; }
     public string Username { get; }
     public bool OnPause { get; }
     public TimeSpan Time { get; }

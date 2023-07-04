@@ -2,6 +2,9 @@
 @using Overoom.Application.Abstractions
 <footer class="nav-background">
     <div class="container">
-        &copy; @DateTime.UtcNow.Year - @ApplicationConstants.ProjectName <a asp-controller="Home" asp-action="About">О нас</a>
+        <div class="d-flex justify-content-between">
+            <span>&copy; @DateTime.UtcNow.Year - @ApplicationConstants.ProjectName</span>
+            <a asp-controller="Home" asp-action="About">О нас</a>
+        </div>
     </div>
 </footer>

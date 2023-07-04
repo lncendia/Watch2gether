@@ -2,7 +2,7 @@
 using Overoom.Domain.Rooms.FilmRoom.Entities;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Mappers.StaticMethods;
-using Overoom.Infrastructure.Storage.Models.Room.FilmRoom;
+using Overoom.Infrastructure.Storage.Models.FilmRoom;
 
 namespace Overoom.Infrastructure.Storage.Mappers.AggregateMappers;
 
@@ -14,8 +14,10 @@ internal class FilmRoomMapper : IAggregateMapperUnit<FilmRoom, FilmRoomModel>
     public FilmRoom Map(FilmRoomModel model)
     {
         var room = new FilmRoom(model.FilmId, "mockName", MockUri, model.CdnType);
-        var viewers = model.Viewers.Cast<FilmViewerModel>().Select(CreateViewer);
-        RoomInitializer.InitRoom(room, model, viewers, model.OwnerId);
+        var viewers = model.Viewers.Select(CreateViewer);
+        var messages = model.Messages.Select(x =>
+            RoomInitializer.CreateMessage(x.ViewerEntityId, x.Text, x.RoomId, x.CreatedAt));
+        RoomInitializer.InitRoom(room, model.LastActivity, model.IdCounter, viewers, model.OwnerId, messages);
         return room;
     }
 
@@ -25,7 +27,7 @@ internal class FilmRoomMapper : IAggregateMapperUnit<FilmRoom, FilmRoomModel>
         var element = (FilmViewer)FilmViewerType.Assembly.CreateInstance(
             FilmViewerType.FullName!, false, BindingFlags.Instance | BindingFlags.NonPublic, null, args!,
             null, null)!;
-        RoomInitializer.InitViewer(element, model);
+        RoomInitializer.InitViewer(element, model.Online, model.OnPause, model.TimeLine);
         return element;
     }
 }

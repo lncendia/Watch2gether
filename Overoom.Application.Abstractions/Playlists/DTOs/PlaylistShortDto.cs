@@ -1,4 +1,4 @@
-﻿namespace Overoom.Application.Abstractions.Films.Playlist.DTOs;
+﻿namespace Overoom.Application.Abstractions.Playlists.DTOs;
 
 public class PlaylistShortDto
 {

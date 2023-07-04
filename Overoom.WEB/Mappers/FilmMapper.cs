@@ -1,6 +1,6 @@
 using Overoom.Application.Abstractions.Comments.DTOs;
 using Overoom.Application.Abstractions.Films.Catalog.DTOs;
-using Overoom.Application.Abstractions.Films.Playlist.DTOs;
+using Overoom.Application.Abstractions.Playlists.DTOs;
 using Overoom.WEB.Contracts.Films;
 using Overoom.WEB.Mappers.Abstractions;
 using Overoom.WEB.Models.Films;

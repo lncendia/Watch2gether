@@ -48,12 +48,12 @@
                         <div id="chatScroll" class="pe-2">
                             @foreach (var message in Model.Messages)
                             {
-                                if (message.Viewer.Id != Model.CurrentViewerId)
+                                if (message.ViewerId != Model.CurrentViewerId)
                                 {
                                     <div class="d-flex flex-row justify-content-start mb-4">
-                                        <img src="~/img/Avatars/@message.Viewer.AvatarUri" class="messageAvatar" alt="">
+                                        <img src="~/@message.AvatarUri" class="messageAvatar" alt="">
                                         <div class="message messageOther">
-                                            <p style="font-size: 12px" class="additionalText">@message.Viewer.Username</p>
+                                            <p style="font-size: 12px" class="additionalText">@message.Username</p>
                                             <p class="small mb-0">@message.Text</p>
                                             <p style="font-size: 10px;" class="text-end additionalText">@message.CreatedAt</p>
                                         </div>
@@ -63,11 +63,11 @@
                                 {
                                     <div class="d-flex flex-row justify-content-end mb-4">
                                         <div class="message messageMe">
-                                            <p style="font-size: 12px;" class="text-end additionalText">@message.Viewer.Username</p>
+                                            <p style="font-size: 12px;" class="text-end additionalText">@message.Username</p>
                                             <p class="small mb-0">@message.Text</p>
                                             <p style="font-size: 10px" class="additionalText">@message.CreatedAt</p>
                                         </div>
-                                        <img src="~/img/Avatars/@message.Viewer.AvatarUri" class="messageAvatar" alt="">
+                                        <img src="~/@message.AvatarUri" class="messageAvatar" alt="">
                                     </div>
                                 }
                             }

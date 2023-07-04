@@ -11,7 +11,7 @@ public class FilmPosterService : IFilmPosterService
 
     public FilmPosterService(string basePath, HttpClient? client = null)
     {
-        _basePath = Path.Combine(basePath, "Posters");
+        _basePath = Path.Combine(basePath, "posters");
         _client = client == null ? new RestClient() : new RestClient(client, true);
         _client = new RestClient();
     }

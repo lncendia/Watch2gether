@@ -1,4 +1,4 @@
-﻿namespace Overoom.Application.Abstractions.Films.Playlist.Exceptions;
+﻿namespace Overoom.Application.Abstractions.Playlists.Exceptions;
 
 public class PlaylistNotFoundException : Exception
 {

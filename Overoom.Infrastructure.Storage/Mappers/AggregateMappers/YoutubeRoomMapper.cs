@@ -2,7 +2,7 @@
 using Overoom.Domain.Rooms.YoutubeRoom.Entities;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Mappers.StaticMethods;
-using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
+using Overoom.Infrastructure.Storage.Models.YoutubeRoom;
 
 namespace Overoom.Infrastructure.Storage.Mappers.AggregateMappers;
 
@@ -19,8 +19,10 @@ internal class YoutubeRoomMapper : IAggregateMapperUnit<YoutubeRoom, YoutubeRoom
     {
         var room = new YoutubeRoom("mockUrl", "mockName", MockUri, model.AddAccess);
         Ids.SetValue(room, model.VideoIds.Select(x => x.VideoId).ToList());
-        var viewers = model.Viewers.Cast<YoutubeViewerModel>().Select(CreateViewer);
-        RoomInitializer.InitRoom(room, model, viewers, model.OwnerId);
+        var viewers = model.Viewers.Select(CreateViewer);
+        var messages = model.Messages.Select(x =>
+            RoomInitializer.CreateMessage(x.ViewerEntityId, x.Text, x.RoomId, x.CreatedAt));
+        RoomInitializer.InitRoom(room, model.LastActivity, model.IdCounter, viewers, model.OwnerId, messages);
         return room;
     }
 
@@ -30,7 +32,7 @@ internal class YoutubeRoomMapper : IAggregateMapperUnit<YoutubeRoom, YoutubeRoom
         var element = (YoutubeViewer)YoutubeViewerType.Assembly.CreateInstance(
             YoutubeViewerType.FullName!, false, BindingFlags.Instance | BindingFlags.NonPublic, null, args!,
             null, null)!;
-        RoomInitializer.InitViewer(element, model);
+        RoomInitializer.InitViewer(element, model.Online, model.OnPause, model.TimeLine);
         return element;
     }
 }

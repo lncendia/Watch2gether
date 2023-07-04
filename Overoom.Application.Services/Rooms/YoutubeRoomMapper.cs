@@ -1,3 +1,4 @@
+using Overoom.Application.Abstractions.Rooms.DTOs;
 using Overoom.Application.Abstractions.Rooms.DTOs.Youtube;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Domain.Rooms.YoutubeRoom.Entities;
@@ -10,7 +11,11 @@ public class YoutubeRoomMapper : IYoutubeRoomMapper
     {
         var viewers = room.Viewers.Where(x => x.Online).Select(Map).ToList();
         var messages = room.Messages
-            .Select(m => new YoutubeMessageDto(m.Text, m.CreatedAt, viewers.First(x => x.Id == m.ViewerId))).ToList();
+            .Select(m =>
+            {
+                var viewer = viewers.First(x => x.Id == m.ViewerId);
+                return new MessageDto(m.Text, m.CreatedAt, viewer.Id, viewer.AvatarUrl, viewer.Username);
+            }).ToList();
         return new YoutubeRoomDto(room.VideoIds, messages, viewers, room.Owner.Id, room.AddAccess);
     }
 

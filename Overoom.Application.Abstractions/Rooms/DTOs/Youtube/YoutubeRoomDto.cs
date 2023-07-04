@@ -6,9 +6,8 @@ public class YoutubeRoomDto : RoomDto
     public bool AddAccess { get; }
 
     public new IReadOnlyCollection<YoutubeViewerDto> Viewers => base.Viewers.Cast<YoutubeViewerDto>().ToList();
-    public new IReadOnlyCollection<YoutubeMessageDto> Messages => base.Messages.Cast<YoutubeMessageDto>().ToList();
 
-    public YoutubeRoomDto(IReadOnlyCollection<string> ids, IReadOnlyCollection<YoutubeMessageDto> messages, IReadOnlyCollection<YoutubeViewerDto> viewers,
+    public YoutubeRoomDto(IReadOnlyCollection<string> ids, IReadOnlyCollection<MessageDto> messages, IReadOnlyCollection<YoutubeViewerDto> viewers,
         int ownerId, bool addAccess) : base(messages, viewers, ownerId)
     {
         Ids = ids;

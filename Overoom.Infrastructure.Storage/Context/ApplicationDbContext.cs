@@ -2,18 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using Overoom.Infrastructure.Storage.Models.Comment;
 using Overoom.Infrastructure.Storage.Models.Film;
+using Overoom.Infrastructure.Storage.Models.FilmRoom;
 using Overoom.Infrastructure.Storage.Models.Playlist;
 using Overoom.Infrastructure.Storage.Models.Rating;
-using Overoom.Infrastructure.Storage.Models.Room.Base;
-using Overoom.Infrastructure.Storage.Models.Room.FilmRoom;
 using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
 using Overoom.Infrastructure.Storage.Models.User;
+using Overoom.Infrastructure.Storage.Models.YoutubeRoom;
 
 namespace Overoom.Infrastructure.Storage.Context;
 
 public class ApplicationDbContext : DbContext
 {
-    internal ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
@@ -44,12 +44,11 @@ public class ApplicationDbContext : DbContext
 
     internal DbSet<FilmRoomModel> FilmRooms { get; set; } = null!;
     internal DbSet<FilmViewerModel> FilmViewers { get; set; } = null!;
+    internal DbSet<FilmMessageModel> FilmMessages { get; set; } = null!;
     internal DbSet<YoutubeRoomModel> YoutubeRooms { get; set; } = null!;
     internal DbSet<YoutubeViewerModel> YoutubeViewers { get; set; } = null!;
+    internal DbSet<YoutubeMessageModel> YoutubeMessages { get; set; } = null!;
     internal DbSet<VideoIdModel> VideoIds { get; set; } = null!;
-
-
-    internal DbSet<MessageModel> Messages { get; set; } = null!;
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -63,13 +62,20 @@ public class ApplicationDbContext : DbContext
             .OnDelete(DeleteBehavior.Restrict);
 
 
-        modelBuilder.Entity<RoomModel>().HasMany(x => x.Messages).WithOne(x => x.Room).HasForeignKey(x => x.RoomId)
+        modelBuilder.Entity<FilmRoomModel>().HasMany(x => x.Messages).WithOne(x => x.Room).HasForeignKey(x => x.RoomId)
             .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<RoomModel>().HasMany(x => x.Viewers).WithOne(x => x.Room).HasForeignKey(x => x.RoomId)
+        modelBuilder.Entity<FilmRoomModel>().HasMany(x => x.Viewers).WithOne(x => x.Room).HasForeignKey(x => x.RoomId)
             .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<MessageModel>().HasOne(x => x.Viewer).WithMany().HasForeignKey(x => x.ViewerId)
+        modelBuilder.Entity<FilmMessageModel>().HasOne(x => x.Viewer).WithMany().HasForeignKey(x => x.ViewerId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        
+        modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.Messages).WithOne(x => x.Room).HasForeignKey(x => x.RoomId)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.Viewers).WithOne(x => x.Room).HasForeignKey(x => x.RoomId)
+            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<YoutubeMessageModel>().HasOne(x => x.Viewer).WithMany().HasForeignKey(x => x.ViewerId)
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.VideoIds).WithOne(x => x.Room)
             .HasForeignKey(x => x.RoomId).OnDelete(DeleteBehavior.Cascade);
 
@@ -102,9 +108,5 @@ public class ApplicationDbContext : DbContext
             .OnDelete(DeleteBehavior.SetNull);
         modelBuilder.Entity<CommentModel>().HasOne(x => x.Film).WithMany().HasForeignKey(x => x.FilmId)
             .OnDelete(DeleteBehavior.Restrict);
-
-
-        modelBuilder.Entity<RoomModel>().UseTpcMappingStrategy();
-        modelBuilder.Entity<ViewerModel>().UseTpcMappingStrategy();
     }
 }

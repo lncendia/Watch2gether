@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions.Comments.Interfaces;
 using Overoom.Application.Abstractions.Films.Catalog.Interfaces;
-using Overoom.Application.Abstractions.Films.Playlist.DTOs;
-using Overoom.Application.Abstractions.Films.Playlist.Interfaces;
+using Overoom.Application.Abstractions.Playlists.DTOs;
+using Overoom.Application.Abstractions.Playlists.Interfaces;
 using Overoom.WEB.Contracts.Films;
 using Overoom.WEB.Models.Films;
 using Overoom.WEB.RoomAuthentication;
 using IFilmMapper = Overoom.WEB.Mappers.Abstractions.IFilmMapper;
-using SortBy = Overoom.Application.Abstractions.Films.Playlist.DTOs.SortBy;
+using SortBy = Overoom.Application.Abstractions.Playlists.DTOs.SortBy;
 
 namespace Overoom.WEB.Controllers;
 

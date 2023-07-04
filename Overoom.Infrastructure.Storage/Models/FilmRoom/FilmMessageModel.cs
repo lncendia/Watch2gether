@@ -1,14 +1,14 @@
-﻿namespace Overoom.Infrastructure.Storage.Models.Room.Base;
+﻿namespace Overoom.Infrastructure.Storage.Models.FilmRoom;
 
-public class MessageModel
+public class FilmMessageModel
 {
     public long Id { get; set; }
     public int ViewerEntityId { get; set; }
     public long ViewerId { get; set; }
-    public ViewerModel Viewer { get; set; } = null!;
+    public FilmViewerModel Viewer { get; set; } = null!;
 
     public Guid RoomId { get; set; }
-    public RoomModel Room { get; set; } = null!;
+    public FilmRoomModel Room { get; set; } = null!;
 
     public DateTime CreatedAt { get; set; }
     public string Text { get; set; } = null!;

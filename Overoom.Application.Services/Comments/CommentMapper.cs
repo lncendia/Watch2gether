@@ -1,12 +1,14 @@
 using Overoom.Application.Abstractions;
 using Overoom.Application.Abstractions.Comments.DTOs;
 using Overoom.Application.Abstractions.Comments.Interfaces;
+using Overoom.Domain.Comments.Entities;
+using Overoom.Domain.Users.Entities;
 
 namespace Overoom.Application.Services.Comments;
 
 public class CommentMapper : ICommentMapper
 {
-    public CommentDto Map(Domain.Comments.Entities.Comment comment, Domain.Users.Entities.User? user)
+    public CommentDto Map(Comment comment, User? user)
     {
         string? name;
         Uri? avatar;

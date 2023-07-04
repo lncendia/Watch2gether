@@ -22,7 +22,7 @@ public class FilmMapper : IFilmMapper
             .WithGenres(film.FilmTags.Genres)
             .WithCountries(film.FilmTags.Countries)
             .WithActors(film.FilmTags.Actors.Select(x => (x.ActorName, x.ActorDescription)).ToList())
-            .WithCdn(film.CdnList.Select(x => new CdnDto(x.Type, x.Uri, x.Quality, x.Voices)).ToList());
+            .WithCdn(film.CdnList.Select(x => new CdnDto(x.Type, x.Quality, x.Voices)).ToList());
 
         if (film.Type == FilmType.Serial)
             x = x.WithEpisodes(film.CountSeasons!.Value, film.CountEpisodes!.Value);

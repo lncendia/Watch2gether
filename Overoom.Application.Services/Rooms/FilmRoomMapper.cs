@@ -1,3 +1,4 @@
+using Overoom.Application.Abstractions.Rooms.DTOs;
 using Overoom.Application.Abstractions.Rooms.DTOs.Film;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Domain.Rooms.FilmRoom.Entities;
@@ -11,10 +12,14 @@ public class FilmRoomMapper : IFilmRoomMapper
         var viewers = room.Viewers.Where(x => x.Online).Select(Map).ToList();
 
         var messages = room.Messages
-            .Select(m => new FilmMessageDto(m.Text, m.CreatedAt, viewers.First(x => x.Id == m.ViewerId))).ToList();
+            .Select(m =>
+            {
+                var viewer = viewers.First(x => x.Id == m.ViewerId);
+                return new MessageDto(m.Text, m.CreatedAt, viewer.Id, viewer.AvatarUrl, viewer.Username);
+            }).ToList();
 
         var filmDto = new FilmDataDto(film.Id, film.Name, film.CdnList.First(x => x.Type == room.CdnType).Uri,
-            film.Type);
+            film.Type, room.CdnType);
 
         return new FilmRoomDto(filmDto, messages, viewers, room.Owner.Id);
     }

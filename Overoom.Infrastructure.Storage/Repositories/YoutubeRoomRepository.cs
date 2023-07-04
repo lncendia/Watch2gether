@@ -8,6 +8,7 @@ using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
+using Overoom.Infrastructure.Storage.Models.YoutubeRoom;
 using Overoom.Infrastructure.Storage.Visitors.Sorting;
 using Overoom.Infrastructure.Storage.Visitors.Specifications;
 

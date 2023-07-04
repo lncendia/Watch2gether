@@ -10,20 +10,24 @@ public abstract class RoomDto
     }
 
     public int OwnerId { get; }
-    protected readonly IReadOnlyCollection<MessageDto> Messages;
+    public IReadOnlyCollection<MessageDto> Messages { get; }
     protected readonly IReadOnlyCollection<ViewerDto> Viewers;
 }
 
-public abstract class MessageDto
+public class MessageDto
 {
-    protected MessageDto(string text, DateTime createdAt, ViewerDto viewer)
+    public MessageDto(string text, DateTime createdAt, int viewerId, Uri avatarUri, string username)
     {
         Text = text;
         CreatedAt = createdAt;
-        Viewer = viewer;
+        ViewerId = viewerId;
+        AvatarUri = avatarUri;
+        Username = username;
     }
 
-    protected readonly ViewerDto Viewer;
+    public string Username { get; }
+    public int ViewerId { get; }
+    public Uri AvatarUri { get; }
     public DateTime CreatedAt { get; }
     public string Text { get; }
 }

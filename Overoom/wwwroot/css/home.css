@@ -75,10 +75,30 @@ video {
 }
 
 .logo{
-    margin-top: 10px;
-    margin-left: 15%;
+    width: 70%;
+    margin: 30px auto 0;
+    text-align: center;
 }
 
+
+@media (min-width: 1020px) {
+    .logo{
+        width: 35%;
+        margin-left: 10%;
+    }
+}
+
+.line{
+    width: 300px;
+    margin: 0 auto 10px;
+    border-top: 4px solid white;
+}
+
+.alert{
+    position:absolute;
+    bottom:10px;
+    right:20px;
+}
 a.nav-link, a.navbar-brand{
     color: #d2d2d2 !important;
 }

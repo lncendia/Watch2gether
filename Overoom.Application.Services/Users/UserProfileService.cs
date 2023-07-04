@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using Overoom.Application.Abstractions;
 using Overoom.Application.Abstractions.Users.Entities;
 using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Application.Abstractions.Users.Interfaces;
@@ -40,13 +41,18 @@ public class UserProfileService : IUserProfileService
     {
         var user = await _unitOfWork.UserRepository.Value.GetAsync(id);
         if (user == null) throw new UserNotFoundException();
-        var t1 = _thumbnailService.DeleteAsync(user.AvatarUri);
-        var t2 = _thumbnailService.SaveAsync(avatar);
-        await Task.WhenAll(t1, t2);
-        user.AvatarUri = t2.Result;
+        var userData = await _userManager.FindByEmailAsync(user.Email);
+        if (userData == null) throw new UserNotFoundException();
+        if (user.AvatarUri.ToString() != ApplicationConstants.DefaultAvatar.ToString())
+            await _thumbnailService.DeleteAsync(user.AvatarUri);
+        user.AvatarUri = await _thumbnailService.SaveAsync(avatar);
+        var claims = await _userManager.GetClaimsAsync(userData);
+        await _userManager.ReplaceClaimAsync(userData,
+            claims.First(x => x.Type == ApplicationConstants.AvatarClaimType),
+            new Claim(ApplicationConstants.AvatarClaimType, user.AvatarUri.ToString()));
         await _unitOfWork.UserRepository.Value.UpdateAsync(user);
         await _unitOfWork.SaveChangesAsync();
-        return t2.Result;
+        return user.AvatarUri;
     }
 
     public async Task RequestResetEmailAsync(Guid id, string newEmail, string resetUrl)

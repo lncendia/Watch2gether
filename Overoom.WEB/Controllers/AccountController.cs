@@ -99,9 +99,9 @@ public class AccountController : Controller
     public async Task<IActionResult> Login(LoginParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        var user = await _userAuthenticationService.PasswordAuthenticateAsync(model.Email, model.Password);
         try
         {
+            var user = await _userAuthenticationService.PasswordAuthenticateAsync(model.Email, model.Password);
             await _signInManager.SignInAsync(user, model.RememberMe);
             return Redirect(model.ReturnUrl);
         }

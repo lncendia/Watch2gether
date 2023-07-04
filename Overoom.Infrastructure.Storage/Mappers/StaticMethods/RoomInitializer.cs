@@ -1,7 +1,6 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Overoom.Domain.Rooms.BaseRoom.Entities;
 using Overoom.Domain.Rooms.BaseRoom.ValueObject;
-using Overoom.Infrastructure.Storage.Models.Room.Base;
 
 namespace Overoom.Infrastructure.Storage.Mappers.StaticMethods;
 
@@ -28,31 +27,31 @@ internal static class RoomInitializer
     private static readonly FieldInfo CreatedAt =
         MessageType.GetField("<CreatedAt>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
-    internal static void InitRoom(Room entity, RoomModel model, IEnumerable<Viewer> viewers, int ownerId)
+    internal static void InitRoom(Room entity, DateTime lastActivity, int idCounter, IEnumerable<Viewer> viewers,
+        int ownerId, IEnumerable<Message> messages)
     {
-        LastActivity.SetValue(entity, model.LastActivity);
-        IdCounter.SetValue(entity, model.IdCounter);
+        LastActivity.SetValue(entity, lastActivity);
+        IdCounter.SetValue(entity, idCounter);
         var viewersList = viewers.ToList();
         ViewersList.SetValue(entity, viewersList);
         Owner.SetValue(entity, viewersList.First(x => x.Id == ownerId));
-        var messages = model.Messages.Select(GetMessage).ToList();
-        MessagesList.SetValue(entity, messages);
+        MessagesList.SetValue(entity, messages.ToList());
     }
 
-    private static Message GetMessage(MessageModel model)
+    internal static Message CreateMessage(int entityId, string text, Guid roomId, DateTime createdAt)
     {
-        object?[] args = { model.ViewerEntityId, model.Text, model.RoomId };
+        object?[] args = { entityId, text, roomId };
         var element = (Message)MessageType.Assembly.CreateInstance(
             MessageType.FullName!, false, BindingFlags.Instance | BindingFlags.NonPublic, null, args!,
             null, null)!;
-        CreatedAt.SetValue(element, CreatedAt);
+        CreatedAt.SetValue(element, createdAt);
         return element;
     }
 
-    internal static void InitViewer(Viewer entity, ViewerModel model)
+    internal static void InitViewer(Viewer entity, bool online, bool onPause, TimeSpan timeLine)
     {
-        entity.Online = model.Online;
-        entity.OnPause = model.OnPause;
-        entity.TimeLine = model.TimeLine;
+        entity.Online = online;
+        entity.OnPause = onPause;
+        entity.TimeLine = timeLine;
     }
 }

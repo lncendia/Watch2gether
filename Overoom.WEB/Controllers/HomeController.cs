@@ -72,10 +72,11 @@ public class HomeController : Controller
             RoomIsFullException => "Комната заполнена",
             UriFormatException => "Неверный формат ссылки",
             InvalidVideoUrlException => "Неверный формат ссылки на видео",
-
-            _ => throw new ArgumentOutOfRangeException()
+            _ => null
         };
 
-        return View(new ErrorViewModel(text, Activity.Current?.Id ?? HttpContext.TraceIdentifier));
+        if (text != null) return RedirectToAction("Index", new { message = text });
+
+        return View(new ErrorViewModel(ex.Message, Activity.Current?.Id ?? HttpContext.TraceIdentifier));
     }
 }

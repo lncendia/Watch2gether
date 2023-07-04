@@ -5,11 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDomainServices();
 builder.Services.AddApplicationServices();
+builder.Services.AddApplicationMappers();
+builder.Services.AddControllerMappers();
 builder.Services.AddAuthenticationServices();
 builder.Services.AddInfrastructureServices(builder.Environment.WebRootPath);
-builder.Services.AddPersistenceServices(connectionString);
+builder.Services.AddPersistenceServices(connectionString!);
+builder.Services.AddEventHandlers();
 
 builder.Services.AddSignalR();
 builder.Services.AddControllersWithViews();
@@ -40,9 +42,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.UseEndpoints(x =>
-{
-    x.MapHub<FilmRoomHub>("/filmRoom");
-    x.MapHub<YoutubeRoomHub>("/youtubeRoom");
-});
+app.MapHub<FilmRoomHub>("/filmRoom");
+app.MapHub<YoutubeRoomHub>("/youtubeRoom");
 app.Run();

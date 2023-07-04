@@ -4,6 +4,7 @@ using Overoom.Domain.Rooms.YoutubeRoom.Specifications;
 using Overoom.Domain.Rooms.YoutubeRoom.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
+using Overoom.Infrastructure.Storage.Models.YoutubeRoom;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Specifications;
 

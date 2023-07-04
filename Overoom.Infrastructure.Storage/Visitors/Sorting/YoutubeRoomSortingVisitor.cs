@@ -3,6 +3,7 @@ using Overoom.Domain.Rooms.YoutubeRoom.Entities;
 using Overoom.Domain.Rooms.YoutubeRoom.Ordering;
 using Overoom.Domain.Rooms.YoutubeRoom.Ordering.Visitor;
 using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
+using Overoom.Infrastructure.Storage.Models.YoutubeRoom;
 using Overoom.Infrastructure.Storage.Visitors.Sorting.Models;
 
 namespace Overoom.Infrastructure.Storage.Visitors.Sorting;

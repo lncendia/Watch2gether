@@ -1,4 +1,4 @@
-using Overoom.Application.Abstractions.Films.Playlist.DTOs;
+using Overoom.Application.Abstractions.Playlists.DTOs;
 
 namespace Overoom.WEB.Contracts.Films;
 

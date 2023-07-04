@@ -14,11 +14,14 @@ public static class AuthenticationServices
 {
     public static void AddAuthenticationServices(this IServiceCollection services)
     {
-        services.AddIdentity<UserData, RoleData>(options => { options.SignIn.RequireConfirmedAccount = true; })
-            .AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
-        
+        services.AddIdentity<UserData, RoleData>(options =>
+        {
+            options.SignIn.RequireConfirmedAccount = true;
+            options.ClaimsIdentity.UserIdClaimType = ClaimTypes.Sid;
+        }).AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
+
         services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
-        
+
         services.AddAuthentication()
             .AddVkontakte(options =>
             {
@@ -75,6 +78,5 @@ public static class AuthenticationServices
                 policy.RequireClaim(ClaimTypes.NameIdentifier);
             });
         });
-
     }
 }

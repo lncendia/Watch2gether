@@ -84,9 +84,9 @@ public class UserAuthenticationService : IUserAuthenticationService
         return user;
     }
     
-    public async Task<UserData> PasswordAuthenticateAsync(string username, string password)
+    public async Task<UserData> PasswordAuthenticateAsync(string email, string password)
     {
-        var user = await _userManager.FindByEmailAsync(username);
+        var user = await _userManager.FindByEmailAsync(email);
         if (user == null) throw new UserNotFoundException();
         var success = await _userManager.CheckPasswordAsync(user, password);
         if (!success) throw new InvalidPasswordException();

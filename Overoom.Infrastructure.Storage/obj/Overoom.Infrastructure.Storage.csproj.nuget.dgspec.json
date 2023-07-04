@@ -1,33 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj": {}
+    "D:\\Projects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj": {
+    "D:\\Projects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj",
+        "projectUniqueName": "D:\\Projects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj",
         "projectName": "Overoom.Domain.Abstractions",
-        "projectPath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj",
+        "projectPath": "D:\\Projects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj",
         "packagesPath": "C:\\Users\\egorl\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain.Abstractions\\obj\\",
+        "outputPath": "D:\\Projects\\Overoom\\Overoom.Domain.Abstractions\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\egorl\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\egorl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain\\Overoom.Domain.csproj": {
-                "projectPath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain\\Overoom.Domain.csproj"
+              "D:\\Projects\\Overoom\\Overoom.Domain\\Overoom.Domain.csproj": {
+                "projectPath": "D:\\Projects\\Overoom\\Overoom.Domain\\Overoom.Domain.csproj"
               }
             }
           }
@@ -57,26 +59,28 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain\\Overoom.Domain.csproj": {
+    "D:\\Projects\\Overoom\\Overoom.Domain\\Overoom.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain\\Overoom.Domain.csproj",
+        "projectUniqueName": "D:\\Projects\\Overoom\\Overoom.Domain\\Overoom.Domain.csproj",
         "projectName": "Overoom.Domain",
-        "projectPath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain\\Overoom.Domain.csproj",
+        "projectPath": "D:\\Projects\\Overoom\\Overoom.Domain\\Overoom.Domain.csproj",
         "packagesPath": "C:\\Users\\egorl\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain\\obj\\",
+        "outputPath": "D:\\Projects\\Overoom\\Overoom.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\egorl\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\egorl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -116,34 +120,36 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj": {
+    "D:\\Projects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj",
+        "projectUniqueName": "D:\\Projects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj",
         "projectName": "Overoom.Infrastructure.Storage",
-        "projectPath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj",
+        "projectPath": "D:\\Projects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj",
         "packagesPath": "C:\\Users\\egorl\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Infrastructure.Storage\\obj\\",
+        "outputPath": "D:\\Projects\\Overoom\\Overoom.Infrastructure.Storage\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\egorl\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\egorl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj": {
-                "projectPath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj"
+              "D:\\Projects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj": {
+                "projectPath": "D:\\Projects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj"
               }
             }
           }
@@ -160,11 +166,11 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[7.0.3, )"
+              "version": "[7.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
-              "version": "[7.0.3, )"
+              "version": "[7.0.8, )"
             }
           },
           "imports": [
@@ -183,7 +189,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

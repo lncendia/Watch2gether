@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="RestSharp" Version="108.0.1" />
+      <PackageReference Include="RestSharp" Version="110.2.0" />
       <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
     </ItemGroup>
 

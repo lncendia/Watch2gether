@@ -5,7 +5,7 @@ for details on configuring this project to bundle and minify static web assets. 
     padding: 20px;
     background: #111111 !important;
     border-radius: 15px;
-    box-shadow: 0 0 15px #252525;
+    box-shadow: 0 0 10px #252525;
 }
 .nav-background {
     background: #111111 !important;

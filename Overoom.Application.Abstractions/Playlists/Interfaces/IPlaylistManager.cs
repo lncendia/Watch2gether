@@ -1,6 +1,6 @@
-﻿using Overoom.Application.Abstractions.Films.Playlist.DTOs;
+﻿using Overoom.Application.Abstractions.Playlists.DTOs;
 
-namespace Overoom.Application.Abstractions.Films.Playlist.Interfaces;
+namespace Overoom.Application.Abstractions.Playlists.Interfaces;
 
 public interface IPlaylistManager
 {

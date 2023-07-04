@@ -15,7 +15,7 @@ public class FilmRoomManager : IFilmRoomManager
     private readonly IUnitOfWork _unitOfWork;
     private readonly IFilmRoomMapper _mapper;
 
-    protected FilmRoomManager(IUnitOfWork unitOfWork, IFilmRoomMapper mapper)
+    public FilmRoomManager(IUnitOfWork unitOfWork, IFilmRoomMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;

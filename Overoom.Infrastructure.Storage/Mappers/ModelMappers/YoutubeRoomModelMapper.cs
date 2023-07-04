@@ -1,15 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using Overoom.Domain.Rooms.BaseRoom.Entities;
 using Overoom.Domain.Rooms.YoutubeRoom.Entities;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
-using Overoom.Infrastructure.Storage.Mappers.StaticMethods;
 using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
+using Overoom.Infrastructure.Storage.Models.YoutubeRoom;
 
 namespace Overoom.Infrastructure.Storage.Mappers.ModelMappers;
 
 internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, YoutubeRoom>
 {
     private readonly ApplicationDbContext _context;
+
+    private static readonly FieldInfo IdCounter =
+        typeof(Room).GetField("IdCounter", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     public YoutubeRoomModelMapper(ApplicationDbContext context) => _context = context;
 
@@ -30,7 +35,16 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
             };
         }
 
-        RoomModelInitializer.InitRoomModel(youtubeRoom, entity);
+        youtubeRoom.IsOpen = entity.IsOpen;
+        youtubeRoom.LastActivity = entity.LastActivity;
+        youtubeRoom.IdCounter = (int)IdCounter.GetValue(entity)!;
+
+        var newMessages = entity.Messages.Where(x =>
+            youtubeRoom.Messages.All(m => m.ViewerEntityId != x.ViewerId && m.CreatedAt != x.CreatedAt));
+        youtubeRoom.Messages.AddRange(newMessages.Select(x => new YoutubeMessageModel
+            { ViewerEntityId = x.ViewerId, Text = x.Text, CreatedAt = x.CreatedAt }));
+        youtubeRoom.Messages.RemoveAll(x =>
+            entity.Messages.All(m => m.ViewerId != x.ViewerEntityId && m.CreatedAt != x.CreatedAt));
         youtubeRoom.AddAccess = entity.AddAccess;
 
         var newIds = entity.VideoIds.Where(x => youtubeRoom.VideoIds.All(m => m.VideoId != x));
@@ -44,10 +58,17 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
         foreach (var viewer in entity.Viewers)
         {
             var viewerModel =
-                youtubeRoom.Viewers.Cast<YoutubeViewerModel>().FirstOrDefault(x => x.EntityId == viewer.Id) ??
-                new YoutubeViewerModel();
+                youtubeRoom.Viewers.FirstOrDefault(x => x.EntityId == viewer.Id) ??
+                new YoutubeViewerModel
+                {
+                    EntityId = viewer.Id,
+                    Name = viewer.Name,
+                    AvatarUri = viewer.AvatarUri
+                };
             viewerModel.CurrentVideoId = viewer.CurrentVideoId;
-            RoomModelInitializer.InitViewerModel(viewerModel, viewer);
+            viewerModel.Online = viewer.Online;
+            viewerModel.OnPause = viewer.OnPause;
+            viewerModel.TimeLine = viewer.TimeLine;
             if (viewerModel.Id == default) youtubeRoom.Viewers.Add(viewerModel);
         }
 
