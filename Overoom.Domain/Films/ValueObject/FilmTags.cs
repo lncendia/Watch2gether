@@ -5,7 +5,7 @@ namespace Overoom.Domain.Films.ValueObject;
 public class FilmTags
 {
     internal FilmTags(IEnumerable<string> genres, IEnumerable<string> countries,
-        IEnumerable<(string name, string description)> actors, IEnumerable<string> screenwriters,
+        IEnumerable<(string name, string? description)> actors, IEnumerable<string> screenwriters,
         IEnumerable<string> directors)
     {
         _genres = genres.Distinct().ToList();
@@ -14,11 +14,11 @@ public class FilmTags
         _directors = directors.Distinct().ToList();
         _screenwriters = screenwriters.Distinct().ToList();
 
-        if (_genres.Any()) throw new EmptyTagsCollectionException();
-        if (_actors.Any()) throw new EmptyTagsCollectionException();
-        if (_directors.Any()) throw new EmptyTagsCollectionException();
-        if (_screenwriters.Any()) throw new EmptyTagsCollectionException();
-        if (_countries.Any()) throw new EmptyTagsCollectionException();
+        if (!_genres.Any()) throw new EmptyTagsCollectionException();
+        if (!_actors.Any()) throw new EmptyTagsCollectionException();
+        if (!_directors.Any()) throw new EmptyTagsCollectionException();
+        if (!_screenwriters.Any()) throw new EmptyTagsCollectionException();
+        if (!_countries.Any()) throw new EmptyTagsCollectionException();
     }
 
     private readonly List<string> _countries;

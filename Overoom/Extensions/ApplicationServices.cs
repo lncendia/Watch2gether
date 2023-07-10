@@ -29,5 +29,6 @@ public static class ApplicationServices
         services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
         services.AddScoped<IUserManager, UserManager>();
         services.AddScoped<IUserProfileService, UserProfileService>();
+        services.AddScoped<IFilmInfoService, FilmInfoService>();
     }
 }

@@ -10,10 +10,10 @@ namespace Overoom.Infrastructure.Storage.Mappers.AggregateMappers;
 internal class CommentMapper : IAggregateMapperUnit<Comment, CommentModel>
 {
     private static readonly FieldInfo CreatedAt =
-        typeof(Film).GetField("<CreatedAt>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        typeof(Comment).GetField("<CreatedAt>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     private static readonly FieldInfo UserId =
-        typeof(Film).GetField("<UserId>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        typeof(Comment).GetField("<UserId>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     public Comment Map(CommentModel model)
     {

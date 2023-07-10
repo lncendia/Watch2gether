@@ -1,0 +1,8 @@
+@model 
+<form asp-action="AddComment" method="Post" id="commentForm" class="form-horizontal">
+    <input type="hidden" id="id" name="filmId" value="@Model.Film.Id">
+    <label class="form-label" for="comment">Введите комментарий</label>
+    <textarea class="form-control valid" id="comment" name="text" rows="2"></textarea>
+    <span class="text-danger field-validation-valid d-block" data-valmsg-for="comment"></span>
+    <button id="commentButton" type="button" class="btn btn-outline-danger mt-2">Отправить</button>
+</form>

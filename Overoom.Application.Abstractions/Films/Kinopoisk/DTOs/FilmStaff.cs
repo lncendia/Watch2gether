@@ -3,7 +3,7 @@ namespace Overoom.Application.Abstractions.Films.Kinopoisk.DTOs;
 public class FilmStaff
 {
     public FilmStaff(IReadOnlyCollection<string> directors, IReadOnlyCollection<string> screenWriters,
-        IReadOnlyCollection<(string name, string desc)> actors)
+        IReadOnlyCollection<(string name, string? desc)> actors)
     {
         Directors = directors;
         ScreenWriters = screenWriters;
@@ -12,5 +12,5 @@ public class FilmStaff
 
     public IReadOnlyCollection<string> Directors { get; }
     public IReadOnlyCollection<string> ScreenWriters { get; }
-    public IReadOnlyCollection<(string name, string desc)> Actors { get; }
+    public IReadOnlyCollection<(string name, string? desc)> Actors { get; }
 }

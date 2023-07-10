@@ -17,7 +17,7 @@ public class FilmBuilder
     private FilmType? _type;
     private IEnumerable<CdnDto>? _cdnList;
     private IEnumerable<string>? _genres;
-    private IEnumerable<(string name, string description)>? _actors;
+    private IEnumerable<(string name, string? description)>? _actors;
     private IEnumerable<string>? _directors;
     private IEnumerable<string>? _screenwriters;
     private IEnumerable<string>? _countries;
@@ -75,7 +75,7 @@ public class FilmBuilder
         return this;
     }
 
-    public FilmBuilder WithActors(IEnumerable<(string name, string description)> actors)
+    public FilmBuilder WithActors(IEnumerable<(string name, string? description)> actors)
     {
         _actors = actors;
         return this;

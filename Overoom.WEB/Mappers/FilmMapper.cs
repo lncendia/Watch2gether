@@ -20,7 +20,7 @@ public class FilmMapper : IFilmMapper
     {
         var cdnList = film.CdnList.Select(x => new CdnViewModel(x.Type, x.Voices, x.Quality)).ToList();
         return new FilmViewModel(film.Id, film.Name, film.Year, film.Type, film.PosterUri, film.Description,
-            film.RatingKp, film.Directors, film.ScreenWriters, film.Genres, film.Countries, film.Actors,
+            film.Rating, film.Directors, film.ScreenWriters, film.Genres, film.Countries, film.Actors,
             film.CountSeasons, film.CountEpisodes, cdnList);
     }
 

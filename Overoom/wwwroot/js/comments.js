@@ -78,7 +78,7 @@ async function AddComment() {
 let comments = $('.comments');
 
 function ShowComment(el, prepend = false) {
-    let text = '<div class="comment"><div class="card comment-card mb-3"><div class="card-header comment-header"><span class="float-start">' + el.username + '</span><span class="float-end">' + el.createdAt + '</span></div><div class="card-body d-flex"><img src="/img/Avatars/' + el.avatarUri + '" alt="" class="commentAvatar"><p class="card-text">' + el.text + '</p></div></div></div>';
+    let text = '<div class="comment"><div class="card comment-card mb-3"><div class="card-header comment-header"><span class="float-start">' + el.username + '</span><span class="float-end">' + el.createdAt + '</span></div><div class="card-body d-flex"><img src="/' + el.avatarUri + '" alt="" class="commentAvatar"><p class="card-text">' + el.text + '</p></div></div></div>';
     if (prepend) comments.prepend(text);
     else comments.append(text);
 }

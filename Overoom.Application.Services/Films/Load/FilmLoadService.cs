@@ -20,12 +20,15 @@ public class FilmLoadService : IFilmLoadService
 
     public async Task LoadAsync(FilmLoadDto film)
     {
-        var poster = await _filmPosterService.SaveAsync(film.PosterUri);
+        Uri? poster = null;
+        if (film.PosterUri != null) poster = await _filmPosterService.SaveAsync(film.PosterUri);
+        else if (film.PosterStream != null) poster = await _filmPosterService.SaveAsync(film.PosterStream);
+        else throw new ArgumentException(""); //todo: exception
         var builder = FilmBuilder.Create()
             .WithName(film.Name)
             .WithDescription(film.Description)
             .WithYear(film.Year)
-            .WithRating(film.RatingKp)
+            .WithRating(film.Rating)
             .WithType(film.Type)
             .WithCdn(film.CdnList.Select(x => new CdnDto(x.Type, x.Uri, x.Quality, x.Voices)))
             .WithGenres(film.Genres)
@@ -47,7 +50,7 @@ public class FilmLoadService : IFilmLoadService
         if (film == null) throw new FilmNotFoundException();
         if (!string.IsNullOrEmpty(filmToChange.Description)) film.Description = filmToChange.Description;
         if (!string.IsNullOrEmpty(filmToChange.ShortDescription)) film.ShortDescription = filmToChange.ShortDescription;
-        if (filmToChange.RatingKp.HasValue) film.RatingKp = filmToChange.RatingKp.Value;
+        if (filmToChange.Rating.HasValue) film.Rating = filmToChange.Rating.Value;
         if (filmToChange is { CountSeasons: not null, CountEpisodes: not null })
             film.UpdateSeriesInfo(filmToChange.CountSeasons.Value, filmToChange.CountEpisodes.Value);
 

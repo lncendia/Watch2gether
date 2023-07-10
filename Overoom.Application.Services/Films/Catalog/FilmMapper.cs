@@ -15,7 +15,7 @@ public class FilmMapper : IFilmMapper
             .WithType(film.Type)
             .WithPoster(film.PosterUri)
             .WithDescription(film.Description)
-            .WithRatingKp(film.RatingKp)
+            .WithRating(film.Rating)
             .WithUserRating(film.UserRating)
             .WithDirectors(film.FilmTags.Directors)
             .WithScreenwriters(film.FilmTags.Screenwriters)
@@ -35,7 +35,7 @@ public class FilmMapper : IFilmMapper
             ? film.ShortDescription
             : film.Description[..100] + "...";
 
-        return new FilmShortDto(film.Id, film.Name, film.PosterUri, film.RatingKp,
+        return new FilmShortDto(film.Id, film.Name, film.PosterUri, film.Rating,
             description, film.Year, film.Type, film.CountSeasons, film.FilmTags.Genres);
     }
 }

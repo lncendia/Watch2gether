@@ -88,7 +88,7 @@ public class FilmController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Policy = "Identity.Application")]
+    [Authorize(Policy = "User")]
     public async Task<IActionResult> AddComment(Guid filmId, string text)
     {
         try
@@ -103,7 +103,7 @@ public class FilmController : Controller
     }
 
     [HttpDelete]
-    [Authorize(Policy = "Identity.Application")]
+    [Authorize(Policy = "User")]
     public async Task<IActionResult> DeleteComment(Guid id)
     {
         try

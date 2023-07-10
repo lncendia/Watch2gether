@@ -14,19 +14,21 @@ public static class AuthenticationServices
 {
     public static void AddAuthenticationServices(this IServiceCollection services)
     {
+        
+        services.AddTransient<IUserValidator<UserData>, UserValidator>();
         services.AddIdentity<UserData, RoleData>(options =>
         {
             options.SignIn.RequireConfirmedAccount = true;
             options.ClaimsIdentity.UserIdClaimType = ClaimTypes.Sid;
         }).AddEntityFrameworkStores<ApplicationContext>().AddDefaultTokenProviders();
-
+        
         services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 
         services.AddAuthentication()
             .AddVkontakte(options =>
             {
-                options.ClientId = "7482215";
-                options.ClientSecret = "Cq44grlZooUDOvLsJJEh";
+                options.ClientId = "51581170";
+                options.ClientSecret = "IBStj9xwbmbf1j4ouzoj";
                 options.Scope.Add("email");
                 options.Scope.Add("photos");
             }).AddYandex(options =>
@@ -60,7 +62,7 @@ public static class AuthenticationServices
                 policy.RequireClaim(ApplicationConstants.AvatarClaimType);
                 policy.RequireClaim("RoomType", RoomType.Youtube.ToString());
             });
-            options.AddPolicy("Identity.Application", policy =>
+            options.AddPolicy("User", policy =>
             {
                 policy.RequireAuthenticatedUser();
                 policy.AddAuthenticationSchemes(IdentityConstants.ApplicationScheme);

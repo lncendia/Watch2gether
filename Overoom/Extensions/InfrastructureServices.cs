@@ -16,12 +16,12 @@ public static class InfrastructureServices
             new EmailService("egor.lazeba@yandex.ru", "ilizzhetwisfwirw", "smtp.yandex.ru", 587));
 
         services.AddScoped<IUserThumbnailService, UserThumbnailService>(
-            _ => new UserThumbnailService(rootPath, "img/avatars"));
+            _ => new UserThumbnailService(rootPath, Path.Combine("img", "avatars")));
         services.AddScoped<IFilmPosterService, FilmPosterService>(
-            _ => new FilmPosterService(rootPath, "img/posters"));
+            _ => new FilmPosterService(rootPath, Path.Combine("img", "posters")));
 
 
         services.AddScoped<IResponseParser, ResponseParser>();
-        services.AddScoped<IKpApiService, KpApi>(s => new KpApi("dd", s.GetRequiredService<IResponseParser>()));
+        services.AddScoped<IKpApiService, KpApi>(s => new KpApi("e2f56e43-04aa-4388-8852-addef6f31247", s.GetRequiredService<IResponseParser>()));
     }
 }

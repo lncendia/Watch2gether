@@ -12,7 +12,7 @@ public class FilmModel : IAggregateModel
     public string Description { get; set; } = null!;
     public string? ShortDescription { get; set; }
     public int Year { get; set; }
-    public double RatingKp { get; set; }
+    public double Rating { get; set; }
     public double UserRating { get; set; }
 
     public int? CountSeasons { get; set; }

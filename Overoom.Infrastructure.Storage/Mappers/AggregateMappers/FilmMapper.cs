@@ -26,7 +26,7 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
             .WithGenres(model.Genres.Select(x => x.Name))
             .WithName(model.Name)
             .WithPoster(model.PosterUri)
-            .WithRating(model.RatingKp)
+            .WithRating(model.Rating)
             .WithScreenwriters(model.ScreenWriters.Select(x => x.Name))
             .WithType(model.Type);
 

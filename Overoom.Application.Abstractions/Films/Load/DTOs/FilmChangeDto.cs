@@ -2,7 +2,7 @@
 
 public class FilmChangeDto
 {
-    public FilmChangeDto(Guid filmId, string? description, string? shortDescription, Uri? posterUri, double? ratingKp,
+    public FilmChangeDto(Guid filmId, string? description, string? shortDescription, Uri? posterUri, double? rating,
         IReadOnlyCollection<CdnDto>? cdnList, int? countSeasons, int? countEpisodes)
     {
         CountSeasons = countSeasons;
@@ -11,7 +11,7 @@ public class FilmChangeDto
         FilmId = filmId;
         CdnList = cdnList;
         Description = description;
-        RatingKp = ratingKp;
+        Rating = rating;
         ShortDescription = shortDescription;
     }
 
@@ -19,7 +19,7 @@ public class FilmChangeDto
     public string? Description { get; }
     public string? ShortDescription { get; }
     public Uri? PosterUri { get; }
-    public double? RatingKp { get; }
+    public double? Rating { get; }
     public int? CountSeasons { get; }
     public int? CountEpisodes { get; }
     public IReadOnlyCollection<CdnDto>? CdnList { get; }

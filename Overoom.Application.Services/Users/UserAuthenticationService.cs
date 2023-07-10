@@ -16,13 +16,15 @@ public class UserAuthenticationService : IUserAuthenticationService
     private readonly UserManager<UserData> _userManager;
     private readonly IEmailService _emailService;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserThumbnailService _thumbnailService;
 
     public UserAuthenticationService(UserManager<UserData> userManager, IEmailService emailService,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork, IUserThumbnailService thumbnailService)
     {
         _userManager = userManager;
         _emailService = emailService;
         _unitOfWork = unitOfWork;
+        _thumbnailService = thumbnailService;
     }
 
     public async Task CreateAsync(UserCreateDto userDto, string confirmUrl)
@@ -50,6 +52,15 @@ public class UserAuthenticationService : IUserAuthenticationService
         var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
         if (user != null) return user;
 
+        var avatarUri = info.LoginProvider switch
+        {
+            "Vkontakte" => await _thumbnailService.SaveAsync(
+                new Uri(info.Principal.FindFirstValue("urn:vkontakte:photo:link")!)),
+            "Yandex" => await _thumbnailService.SaveAsync(new Uri(
+                @$"https://avatars.yandex.net/get-yapic/{info.Principal.FindFirstValue("urn:yandex:user:avatar")}/islands-75")),
+            _ => ApplicationConstants.DefaultAvatar
+        };
+
         user = new UserData(
             info.Principal.FindFirstValue(ClaimTypes.GivenName) + ' ' +
             info.Principal.FindFirstValue(ClaimTypes.Surname),
@@ -61,10 +72,10 @@ public class UserAuthenticationService : IUserAuthenticationService
         CheckResult(result, user);
 
         await _userManager.AddLoginAsync(user, info);
-        var userDomain = new User(user.UserName!, user.Email!, ApplicationConstants.DefaultAvatar);
+        var userDomain = new User(user.UserName!, user.Email!, avatarUri);
         await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, userDomain.Id.ToString()));
         await _userManager.AddClaimAsync(user,
-            new Claim(ApplicationConstants.AvatarClaimType, userDomain.AvatarUri.ToString()));
+            new Claim(ApplicationConstants.AvatarClaimType, avatarUri.ToString()));
         await AddAsync(userDomain);
 
         return user;
@@ -83,7 +94,7 @@ public class UserAuthenticationService : IUserAuthenticationService
             new Claim(ApplicationConstants.AvatarClaimType, userDomain.AvatarUri.ToString()));
         return user;
     }
-    
+
     public async Task<UserData> PasswordAuthenticateAsync(string email, string password)
     {
         var user = await _userManager.FindByEmailAsync(email);
@@ -110,7 +121,7 @@ public class UserAuthenticationService : IUserAuthenticationService
             throw new EmailException(ex);
         }
     }
-    
+
 
     public async Task ResetPasswordAsync(string email, string code, string newPassword)
     {

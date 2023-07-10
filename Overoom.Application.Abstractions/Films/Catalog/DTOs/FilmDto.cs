@@ -5,9 +5,9 @@ namespace Overoom.Application.Abstractions.Films.Catalog.DTOs;
 public class FilmDto
 {
     public FilmDto(Guid id, string name, int year, FilmType type, Uri posterUri,
-        string description, double ratingKp, double userRating, IReadOnlyCollection<string> directors,
+        string description, double rating, double userRating, IReadOnlyCollection<string> directors,
         IReadOnlyCollection<string> screenWriters, IReadOnlyCollection<string> genres,
-        IReadOnlyCollection<string> countries, IReadOnlyCollection<(string name, string desc)> actors,
+        IReadOnlyCollection<string> countries, IReadOnlyCollection<(string name, string? desc)> actors,
         int? countSeasons, int? countEpisodes, IReadOnlyCollection<CdnDto> cdn)
     {
         Name = name;
@@ -16,7 +16,7 @@ public class FilmDto
         PosterUri = posterUri;
         Description = description;
         UserRating = userRating;
-        RatingKp = ratingKp;
+        Rating = rating;
         Directors = directors;
         Genres = genres;
         Countries = countries;
@@ -34,7 +34,7 @@ public class FilmDto
     public string Name { get; }
     public Uri PosterUri { get; }
     public int Year { get; }
-    public double RatingKp { get; }
+    public double Rating { get; }
     public double UserRating { get; }
     public IReadOnlyCollection<CdnDto> CdnList { get; }
     public int? CountSeasons { get; }
@@ -44,5 +44,5 @@ public class FilmDto
     public IReadOnlyCollection<string> Countries { get; }
     public IReadOnlyCollection<string> Directors { get; }
     public IReadOnlyCollection<string> ScreenWriters { get; }
-    public IReadOnlyCollection<(string name, string desc)> Actors { get; }
+    public IReadOnlyCollection<(string name, string? desc)> Actors { get; }
 }

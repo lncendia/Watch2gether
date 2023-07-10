@@ -22,7 +22,7 @@ public class FilmRoomController : Controller
     }
 
     [HttpPost]
-    [Authorize(Policy = "Identity.Application")]
+    [Authorize(Policy = "User")]
     public async Task<ActionResult> CreateUser(CreateFilmRoomForUserParameters model)
     {
         if (!ModelState.IsValid) return RedirectToAction("Film", "Film", new { id = model.FilmId });

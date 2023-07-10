@@ -37,7 +37,7 @@ public class YoutubeRoomController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Policy = "Identity.Application")]
+    [Authorize(Policy = "User")]
     public async Task<IActionResult> CreateUser(CreateYoutubeRoomForUserParameters model)
     {
         if (!ModelState.IsValid) return View(model);
@@ -72,7 +72,7 @@ public class YoutubeRoomController : Controller
 
 
     [HttpGet]
-    [Authorize(Policy = "Identity.Application")]
+    [Authorize(Policy = "User")]
     public async Task<ActionResult> ConnectUser(Guid roomId)
     {
         ViewerDto viewer = await _roomService.ConnectForUserAsync(roomId, User.GetId());

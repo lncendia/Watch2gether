@@ -1,4 +1,5 @@
 using Overoom.Domain.Films.Enums;
+using Overoom.Domain.Films.Exceptions;
 
 namespace Overoom.Domain.Films.ValueObject;
 
@@ -10,6 +11,7 @@ public class Cdn
         Uri = uri;
         Quality = quality;
         _voices = voices;
+        if (!Voices.Any()) throw new EmptyVoicesCollectionException();
     }
 
     public CdnType Type { get; }

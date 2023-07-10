@@ -72,6 +72,7 @@ public class HomeController : Controller
             RoomIsFullException => "Комната заполнена",
             UriFormatException => "Неверный формат ссылки",
             InvalidVideoUrlException => "Неверный формат ссылки на видео",
+            UserCreationException => ex.Message,
             _ => null
         };
 

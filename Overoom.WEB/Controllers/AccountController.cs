@@ -51,6 +51,8 @@ public class AccountController : Controller
                 case EmailException:
                     ModelState.AddModelError("", "Не удалось отправить сообщение вам на почту");
                     break;
+                default:
+                    throw;
             }
 
             return View(model);
@@ -115,13 +117,15 @@ public class AccountController : Controller
                 case InvalidPasswordException:
                     ModelState.AddModelError("", "Неверный пароль");
                     break;
+                default:
+                    throw;
             }
 
             return View(model);
         }
     }
 
-    [Authorize(Policy = "Identity.Application")]
+    [Authorize(Policy = "User")]
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();

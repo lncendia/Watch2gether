@@ -10,7 +10,7 @@ using Overoom.WEB.RoomAuthentication;
 
 namespace Overoom.WEB.Controllers;
 
-[Authorize(Policy = "Identity.Application")]
+[Authorize(Policy = "User")]
 public class SettingsController : Controller
 {
     private readonly IUserProfileService _userService;

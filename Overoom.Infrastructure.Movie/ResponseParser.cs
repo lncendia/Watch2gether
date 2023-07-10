@@ -30,7 +30,7 @@ public class ResponseParser : IResponseParser
         var directors = persons.Where(x => x.Profession == Profession.Director)
             .Select(x => GetName(x.Name, x.NameEn)).ToList();
         var actors = persons.Where(x => x.Profession == Profession.Actor)
-            .Select(x => (GetName(x.Name, x.NameEn), x.Description!)).ToList();
+            .Select(x => (GetName(x.Name, x.NameEn), x.Description)).ToList();
         var screenwriters = persons.Where(x => x.Profession == Profession.Writer)
             .Select(x => GetName(x.Name, x.NameEn)).ToList();
         return new FilmStaff(directors, screenwriters, actors);
@@ -39,8 +39,9 @@ public class ResponseParser : IResponseParser
     public Film GetFilm(string json)
     {
         var film = JsonConvert.DeserializeObject<FilmData>(json, _settings)!;
+        var poster = string.IsNullOrEmpty(film.PosterUrl) ? null : new Uri(film.PosterUrl);
         return new Film(film.KpId, film.ImdbId, GetName(film.NameRu, film.NameEn), film.Year, film.Serial,
-            film.Description, film.ShortDescription, new Uri(film.PosterUrl), film.RatingKinopoisk, film.RatingImdb,
+            film.Description, film.ShortDescription, poster, film.RatingKinopoisk, film.RatingImdb,
             film.Countries, film.Genres);
     }
 

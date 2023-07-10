@@ -12,12 +12,12 @@ public class FilmDtoBuilder
     private string? _name;
     private string? _description;
     private int? _year;
-    private double? _ratingKp;
+    private double? _rating;
     private double? _userRating;
     private FilmType? _type;
     private IReadOnlyCollection<CdnDto>? _cdnList;
     private IReadOnlyCollection<string>? _genres;
-    private IReadOnlyCollection<(string name, string description)>? _actors;
+    private IReadOnlyCollection<(string name, string? description)>? _actors;
     private IReadOnlyCollection<string>? _directors;
     private IReadOnlyCollection<string>? _screenwriters;
     private IReadOnlyCollection<string>? _countries;
@@ -51,9 +51,9 @@ public class FilmDtoBuilder
         return this;
     }
 
-    public FilmDtoBuilder WithRatingKp(double rating)
+    public FilmDtoBuilder WithRating(double rating)
     {
-        _ratingKp = rating;
+        _rating = rating;
         return this;
     }
 
@@ -81,7 +81,7 @@ public class FilmDtoBuilder
         return this;
     }
 
-    public FilmDtoBuilder WithActors(IReadOnlyCollection<(string name, string description)> actors)
+    public FilmDtoBuilder WithActors(IReadOnlyCollection<(string name, string? description)> actors)
     {
         _actors = actors;
         return this;
@@ -124,7 +124,7 @@ public class FilmDtoBuilder
         if (string.IsNullOrEmpty(_description)) throw new InvalidOperationException("builder not formed");
         if (_id == null) throw new InvalidOperationException("builder not formed");
         if (_year == null) throw new InvalidOperationException("builder not formed");
-        if (_ratingKp == null) throw new InvalidOperationException("builder not formed");
+        if (_rating == null) throw new InvalidOperationException("builder not formed");
         if (_userRating == null) throw new InvalidOperationException("builder not formed");
         if (_type == null) throw new InvalidOperationException("builder not formed");
         if (_cdnList == null) throw new InvalidOperationException("builder not formed");
@@ -135,7 +135,7 @@ public class FilmDtoBuilder
         if (_screenwriters == null) throw new InvalidOperationException("builder not formed");
         if (_countries == null) throw new InvalidOperationException("builder not formed");
 
-        return new FilmDto(_id.Value, _name, _year.Value, _type.Value, _posterUri, _description, _ratingKp.Value,
+        return new FilmDto(_id.Value, _name, _year.Value, _type.Value, _posterUri, _description, _rating.Value,
             _userRating.Value, _directors, _screenwriters, _genres, _countries, _actors, _countSeasons, _countEpisodes,
             _cdnList);
     }

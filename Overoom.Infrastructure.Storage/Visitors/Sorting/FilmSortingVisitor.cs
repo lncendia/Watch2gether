@@ -9,7 +9,7 @@ namespace Overoom.Infrastructure.Storage.Visitors.Sorting;
 
 public class FilmSortingVisitor : BaseSortingVisitor<FilmModel, IFilmSortingVisitor, Film>, IFilmSortingVisitor
 {
-    public void Visit(FilmOrderByRating order) => SortItems.Add(new SortData<FilmModel>(x => x.RatingKp, false));
+    public void Visit(FilmOrderByRating order) => SortItems.Add(new SortData<FilmModel>(x => x.Rating, false));
 
     public void Visit(FilmOrderByDate order) => SortItems.Add(new SortData<FilmModel>(x => x.Year, false));
 

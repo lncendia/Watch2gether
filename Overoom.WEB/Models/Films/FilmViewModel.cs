@@ -7,7 +7,7 @@ public class FilmViewModel
     public FilmViewModel(Guid id, string name, int year, FilmType type, Uri posterUri,
         string description, double rating, IReadOnlyCollection<string> directors,
         IReadOnlyCollection<string> screenWriters, IReadOnlyCollection<string> genres,
-        IReadOnlyCollection<string> countries, IReadOnlyCollection<(string name, string desc)> actors,
+        IReadOnlyCollection<string> countries, IReadOnlyCollection<(string name, string? desc)> actors,
         int? countSeasons, int? countEpisodes, IReadOnlyCollection<CdnViewModel> cndList)
     {
         Name = name + " (" + year + ")";
@@ -45,5 +45,5 @@ public class FilmViewModel
     public IReadOnlyCollection<string> Countries { get; }
     public IReadOnlyCollection<string> Directors { get; }
     public IReadOnlyCollection<string> ScreenWriters { get; }
-    public IReadOnlyCollection<(string name, string desc)> Actors { get; }
+    public IReadOnlyCollection<(string name, string? desc)> Actors { get; }
 }

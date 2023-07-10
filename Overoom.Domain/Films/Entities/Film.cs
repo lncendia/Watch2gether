@@ -9,7 +9,7 @@ namespace Overoom.Domain.Films.Entities;
 public class Film : AggregateRoot
 {
     public Film(string name, string description, string? shortDescription, int year, double rating, FilmType type,
-        IEnumerable<CdnDto> cdn, IEnumerable<string> genres, IEnumerable<(string name, string description)> actors,
+        IEnumerable<CdnDto> cdn, IEnumerable<string> genres, IEnumerable<(string name, string? description)> actors,
         IEnumerable<string> directors, IEnumerable<string> screenwriters, IEnumerable<string> countries,
         Uri posterUri, int? countSeasons = null, int? countEpisodes = null)
     {
@@ -19,17 +19,22 @@ public class Film : AggregateRoot
         Name = name;
         PosterUri = posterUri;
         Year = year;
-        RatingKp = rating;
+        Rating = rating;
         Description = description;
         ShortDescription = shortDescription;
         Type = type;
-        if (countSeasons != null && countEpisodes != null) UpdateSeriesInfo(countSeasons.Value, countEpisodes.Value);
+        if (type == FilmType.Serial)
+        {
+            if (countSeasons == null || countEpisodes == null) throw new SerialException();
+            CountSeasons = countSeasons;
+            CountEpisodes = countEpisodes;
+        }
 
-        _cdnList = cdn.DistinctBy(x=>x.Type).Select(MapCdn).ToList();
-        if (!_cdnList.Any()) throw new ArgumentException("Cdn list is empty");
+        _cdnList = cdn.DistinctBy(x => x.Type).Select(MapCdn).ToList();
+        if (!_cdnList.Any()) throw new EmptyCdnsCollectionException();
     }
-    
-    
+
+
     private string _name = null!;
 
     public string Name
@@ -41,6 +46,7 @@ public class Film : AggregateRoot
             _name = value;
         }
     }
+
     public int Year { get; }
     public FilmType Type { get; }
 
@@ -69,7 +75,7 @@ public class Film : AggregateRoot
         get => _description;
         set
         {
-            if (value.Length > 1500) throw new DescriptionTooLongException();
+            if (value.Length > 1500) throw new DescriptionLengthException();
             _description = value;
         }
     }
@@ -91,7 +97,7 @@ public class Film : AggregateRoot
 
     private double _rating;
 
-    public double RatingKp
+    public double Rating
     {
         get => _rating;
         set
@@ -104,8 +110,7 @@ public class Film : AggregateRoot
 
     public void UpdateSeriesInfo(int countSeasons, int countEpisodes)
     {
-        if (Type != FilmType.Serial)
-            throw new InvalidOperationException("Count of episodes must be specified for serials");
+        if (Type != FilmType.Serial) throw new NotSerialException();
 
         CountSeasons = countSeasons;
         CountEpisodes = countEpisodes;

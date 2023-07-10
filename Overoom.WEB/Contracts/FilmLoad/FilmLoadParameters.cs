@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Overoom.Application.Abstractions.Films.Load.DTOs;
 using Overoom.Domain.Films.Enums;
 
 namespace Overoom.WEB.Contracts.FilmLoad;
@@ -20,10 +19,12 @@ public class FilmLoadParameters
     public FilmType Type { get; set; }
 
     [Display(Name = "Ссылка на постер")]
-    [DataType(DataType.Url)]
+    [DataType(DataType.ImageUrl)]
     public string? PosterUri { get; set; }
 
-    [Display(Name = "Постер")] public IFormFile? Poster { get; set; }
+    [Display(Name = "Постер")]
+    [DataType(DataType.Upload)]
+    public IFormFile? Poster { get; set; }
 
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [StringLength(200, ErrorMessage = "Не больше 200 символов")]
@@ -33,33 +34,43 @@ public class FilmLoadParameters
 
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [Display(Name = "Год")]
-    [Range(1800, 2100)]
+    [Range(1800, 2100, ErrorMessage = "Введите корректный год выхода")]
     public int Year { get; set; }
 
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [Display(Name = "Рейтинг")]
-    [Range(0, 10)]
-    public double RatingKp { get; set; }
+    [Range(0d, 10d, ErrorMessage = "Рейтинг должен быть в диапазоне от 0 до 10")]
+    public double Rating { get; set; }
 
     [Required(ErrorMessage = "Поле не должно быть пустым")]
-    [StringLength(50, ErrorMessage = "Не больше 50 символов")]
-    [Display(Name = "Почта")]
+    [Display(Name = "Количество сезонов")]
     public int? CountSeasons { get; set; }
 
     [Required(ErrorMessage = "Поле не должно быть пустым")]
-    [StringLength(50, ErrorMessage = "Не больше 50 символов")]
-    [Display(Name = "Почта")]
+    [Display(Name = "Количество серий")]
     public int? CountEpisodes { get; set; }
 
     [Required(ErrorMessage = "Поле не должно быть пустым")]
-    [StringLength(50, ErrorMessage = "Не больше 50 символов")]
-    [Display(Name = "Почта")]
+    [Display(Name = "Cdn")]
+    public List<CdnParameters> Cdns { get; set; } = null!;
 
-    public IReadOnlyCollection<CdnDto> CdnList { get; }
+    [Required(ErrorMessage = "Поле не должно быть пустым")]
+    [Display(Name = "Страны")]
+    public List<TitleParameters> Countries { get; set; } = null!;
 
-    public IReadOnlyCollection<string> Countries { get; }
-    public IReadOnlyCollection<(string name, string description)> Actors { get; }
-    public IReadOnlyCollection<string> Directors { get; }
-    public IReadOnlyCollection<string> Genres { get; }
-    public IReadOnlyCollection<string> Screenwriters { get; }
+    [Required(ErrorMessage = "Поле не должно быть пустым")]
+    [Display(Name = "Актёры")]
+    public List<ActorParameters> Actors { get; set; } = null!;
+
+    [Required(ErrorMessage = "Поле не должно быть пустым")]
+    [Display(Name = "Режиссёры")]
+    public List<PersonParameters> Directors { get; set; } = null!;
+
+    [Required(ErrorMessage = "Поле не должно быть пустым")]
+    [Display(Name = "Жанры")]
+    public List<TitleParameters> Genres { get; set; } = null!;
+
+    [Required(ErrorMessage = "Поле не должно быть пустым")]
+    [Display(Name = "Сценаристы")]
+    public List<PersonParameters> Screenwriters { get; set; } = null!;
 }
