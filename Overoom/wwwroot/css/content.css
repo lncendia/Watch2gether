@@ -1,0 +1,38 @@
+﻿
+.poster {
+    display: block;
+    height: 250px;
+    max-width: 180px;
+    margin: 0 auto;
+    box-shadow: 0 3px 8px var(--shadow-red);
+}
+
+.film-card {
+    height: 100%;
+    margin: 0 auto;
+    --bs-card-bg: #1e1e21;
+    --bs-card-cap-bg: #101010;
+    box-shadow: 0 0 15px var(--shadow-dark);
+}
+
+.film-link {
+    --bs-link-color: #eeeeee;
+    text-decoration: none;
+    height: 100%;
+}
+
+.film-link:hover {
+    color: #eeeeee;
+}
+
+
+.film-description {
+    color: #919191;
+}
+
+.block-background {
+    padding: 15px;
+    background: var(--color-dark);
+    border-radius: 15px;
+    box-shadow: 0 0 10px var(--shadow-dark);
+}

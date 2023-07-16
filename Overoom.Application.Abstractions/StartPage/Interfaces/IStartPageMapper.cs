@@ -9,9 +9,9 @@ namespace Overoom.Application.Abstractions.StartPage.Interfaces;
 
 public interface IStartPageMapper
 {
-    CommentStartPageDto MapComment(Comment comment, User? user);
+    CommentDto MapComment(Comment comment, User? user);
 
-    RoomStartPageDto MapFilmRoom(FilmRoom room, Film film);
-    RoomStartPageDto MapYoutubeRoom(YoutubeRoom room);
-    FilmStartPageDto MapFilm(Film film);
+    RoomDto MapFilmRoom(FilmRoom room, Film film);
+    RoomDto MapYoutubeRoom(YoutubeRoom room);
+    FilmDto MapFilm(Film film);
 }

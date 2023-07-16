@@ -9,7 +9,9 @@ public class FilmByActorSpecification : ISpecification<Film, IFilmSpecificationV
     public FilmByActorSpecification(string actor) => Actor = actor;
 
     public string Actor { get; }
-    public bool IsSatisfiedBy(Film item) => item.FilmTags.Actors.Any(x => x.ActorName == Actor);
+
+    public bool IsSatisfiedBy(Film item) =>
+        item.FilmTags.Actors.Any(x => x.ActorName.ToUpper().Contains(Actor.ToUpper()));
 
     public void Accept(IFilmSpecificationVisitor visitor) => visitor.Visit(this);
 }

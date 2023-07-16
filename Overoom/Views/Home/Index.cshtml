@@ -54,8 +54,8 @@
                     @foreach (var film in Model.Films)
                     {
                         <div class="film col-xxl-3 col-lg-4 col-md-6 col-12">
-                            <div class="card filmCard">
-                                <a class="filmLink" href="/Film/Film?id=@film.Id">
+                            <div class="card film-card">
+                                <a class="film-link" href="/Film/Film?id=@film.Id">
                                     <img src="~/@film.PosterUri" class="card-img-top poster" alt="">
                                     <div class="card-body">
                                         <h5 class="card-title">@film.Name</h5>
@@ -76,14 +76,14 @@
                 <h5 class="mb-4">Последние комментарии:</h5>
                 @foreach (var comment in Model.Comments)
                 {
-                    <a asp-controller="Film" asp-action="Film" asp-route-id="@comment.FilmId" class="text-decoration-none">
+                    <a asp-controller="Film" asp-action="Index" asp-route-id="@comment.FilmId" class="text-decoration-none">
                         <div class="comment">
                             <div class="card comment-card bg-comment mb-3">
-                                <div class="card-header comment-header">
+                                <div class="card-header">
                                     <span class="float-start">@comment.Name</span><span class="float-end">@comment.DateTime</span>
                                 </div>
                                 <div class="card-body d-flex">
-                                    <img src="~/@comment.AvatarUri" alt="" class="commentAvatar">
+                                    <img src="~/@comment.AvatarUri" alt="" class="comment-avatar">
                                     <span class="card-text">@comment.Text</span>
                                 </div>
                             </div>

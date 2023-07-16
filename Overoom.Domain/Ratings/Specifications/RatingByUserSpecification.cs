@@ -3,7 +3,7 @@ using Overoom.Domain.Specifications.Abstractions;
 
 namespace Overoom.Domain.Ratings.Specifications;
 
-public abstract class RatingByUserSpecification : ISpecification<Rating, IRatingSpecificationVisitor>
+public class RatingByUserSpecification : ISpecification<Rating, IRatingSpecificationVisitor>
 {
     public RatingByUserSpecification(Guid userId) => UserId = userId;
 

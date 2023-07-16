@@ -7,6 +7,7 @@ using Overoom.Application.Abstractions;
 using Overoom.Application.Abstractions.Users.Interfaces;
 using Overoom.WEB.Contracts.Settings;
 using Overoom.WEB.RoomAuthentication;
+using IProfileMapper = Overoom.WEB.Mappers.Abstractions.IProfileMapper;
 
 namespace Overoom.WEB.Controllers;
 
@@ -14,18 +15,35 @@ namespace Overoom.WEB.Controllers;
 public class SettingsController : Controller
 {
     private readonly IUserProfileService _userService;
+    private readonly IProfileMapper _mapper;
 
-    public SettingsController(IUserProfileService userService)
+    public SettingsController(IUserProfileService userService, IProfileMapper mapper)
     {
         _userService = userService;
+        _mapper = mapper;
     }
 
 
-    [HttpGet]
-    public IActionResult ChangeEmail(string message)
+    public async Task<IActionResult> Profile(string? message)
     {
-        if (!string.IsNullOrEmpty(message)) ViewData["Alert"] = message;
-        return View(new ChangeEmailParameters { Email = User.Identity!.Name! });
+        ViewData["Alert"] = message;
+        var profile = await _userService.GetProfileAsync(User.GetId());
+        return View(_mapper.Map(profile));
+    }
+
+    public async Task<IActionResult> Ratings(int page)
+    {
+        try
+        {
+            var ratings = await _userService.GetRatingsAsync(User.GetId(), page);
+            if (!ratings.Any()) return NoContent();
+            var ratingModels = ratings.Select(_mapper.Map).ToList();
+            return Json(ratingModels);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
     [ValidateAntiForgeryToken]
@@ -33,7 +51,7 @@ public class SettingsController : Controller
     public async Task<IActionResult> ChangeEmail(ChangeEmailParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        await _userService.RequestResetEmailAsync(User.GetId(), model.Email, Url.Action(
+        await _userService.RequestResetEmailAsync(User.GetId(), model.Email!, Url.Action(
             "AcceptChangeEmail", "Settings", null, HttpContext.Request.Scheme)!);
 
         return RedirectToAction("ChangeEmail",
@@ -46,50 +64,31 @@ public class SettingsController : Controller
     [HttpGet]
     public async Task<IActionResult> AcceptChangeEmail(AcceptChangeEmailParameters model)
     {
-        if (!ModelState.IsValid)  return RedirectToAction("ChangeEmail", new { message = "Некорректная ссылка." });
-        await _userService.ResetEmailAsync(User.GetId(), model.Email, model.Code);
-        await UpdateEmailAsync(model.Email);
+        if (!ModelState.IsValid) return RedirectToAction("ChangeEmail", new { message = "Некорректная ссылка." });
+        await _userService.ResetEmailAsync(User.GetId(), model.Email!, model.Code!);
+        await UpdateEmailAsync(model.Email!);
         return RedirectToAction("ChangeEmail", new { message = "Почта успешно изменена." });
     }
 
-    [HttpGet]
-    public IActionResult ChangePassword(string? message)
-    {
-        if (!string.IsNullOrEmpty(message)) ViewData["Alert"] = message;
-        return View();
-    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChangePassword(ChangePasswordParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        await _userService.ChangePasswordAsync(User.GetId(), model.OldPassword, model.Password);
+        await _userService.ChangePasswordAsync(User.GetId(), model.OldPassword!, model.Password!);
         return RedirectToAction("ChangePassword", new { message = "Пароль успешно изменен." });
     }
 
-    [HttpGet]
-    public IActionResult ChangeName(string message)
-    {
-        if (!string.IsNullOrEmpty(message)) ViewData["Alert"] = message;
-        return View();
-    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChangeName(ChangeNameParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        await _userService.ChangeNameAsync(User.GetId(), model.Name);
-        await UpdateNameAsync(model.Name);
+        await _userService.ChangeNameAsync(User.GetId(), model.Name!);
+        await UpdateNameAsync(model.Name!);
         return RedirectToAction("ChangeName", new { message = "Имя успешно изменено." });
-    }
-
-    [HttpGet]
-    public ActionResult ChangeAvatar(string? message)
-    {
-        if (!string.IsNullOrEmpty(message)) ViewData["Alert"] = message;
-        return View();
     }
 
     [HttpPost]

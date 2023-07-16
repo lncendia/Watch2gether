@@ -22,15 +22,10 @@
     <ItemGroup>
       <PackageReference Include="AspNet.Security.OAuth.Vkontakte" Version="7.0.2" />
       <PackageReference Include="AspNet.Security.OAuth.Yandex" Version="7.0.2" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth" Version="2.2.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.9">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Views\FilmDownloader\Index.cshtml" />
     </ItemGroup>
 
 </Project>

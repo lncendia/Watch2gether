@@ -9,7 +9,7 @@ public class FilmByDirectorSpecification : ISpecification<Film, IFilmSpecificati
     public FilmByDirectorSpecification(string director) => Director = director;
 
     public string Director { get; }
-    public bool IsSatisfiedBy(Film item) => item.FilmTags.Directors.Any(x => x == Director);
+    public bool IsSatisfiedBy(Film item) => item.FilmTags.Directors.Any(x => x.ToUpper().Contains(Director.ToUpper()));
 
     public void Accept(IFilmSpecificationVisitor visitor) => visitor.Visit(this);
 }

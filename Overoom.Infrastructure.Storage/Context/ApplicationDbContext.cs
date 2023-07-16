@@ -69,10 +69,12 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<FilmMessageModel>().HasOne(x => x.Viewer).WithMany().HasForeignKey(x => x.ViewerId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        
-        modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.Messages).WithOne(x => x.Room).HasForeignKey(x => x.RoomId)
+
+        modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.Messages).WithOne(x => x.Room)
+            .HasForeignKey(x => x.RoomId)
             .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.Viewers).WithOne(x => x.Room).HasForeignKey(x => x.RoomId)
+        modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.Viewers).WithOne(x => x.Room)
+            .HasForeignKey(x => x.RoomId)
             .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<YoutubeMessageModel>().HasOne(x => x.Viewer).WithMany().HasForeignKey(x => x.ViewerId)
             .OnDelete(DeleteBehavior.Cascade);
@@ -108,5 +110,6 @@ public class ApplicationDbContext : DbContext
             .OnDelete(DeleteBehavior.SetNull);
         modelBuilder.Entity<CommentModel>().HasOne(x => x.Film).WithMany().HasForeignKey(x => x.FilmId)
             .OnDelete(DeleteBehavior.Restrict);
+        base.OnModelCreating(modelBuilder);
     }
 }

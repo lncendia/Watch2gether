@@ -25,7 +25,7 @@ public class FilmRoomController : Controller
     [Authorize(Policy = "User")]
     public async Task<ActionResult> CreateUser(CreateFilmRoomForUserParameters model)
     {
-        if (!ModelState.IsValid) return RedirectToAction("Film", "Film", new { id = model.FilmId });
+        if (!ModelState.IsValid) return RedirectToAction("Index", "Film", new { id = model.FilmId });
         var roomData = await _roomService.CreateForUserAsync(model.FilmId, model.Cdn, User.GetId());
         await HttpContext.SetAuthenticationDataAsync(roomData.viewer.Username, roomData.viewer.Id,
             roomData.viewer.AvatarUrl, roomData.roomId, RoomType.Film);
@@ -37,8 +37,8 @@ public class FilmRoomController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateDefault(CreateFilmRoomParameters model)
     {
-        if (!ModelState.IsValid) return RedirectToAction("Film", "Film", new { id = model.FilmId });
-        var roomData = await _roomService.CreateAsync(model.FilmId, model.Cdn, model.Name);
+        if (!ModelState.IsValid) return RedirectToAction("Index", "Film", new { id = model.FilmId });
+        var roomData = await _roomService.CreateAsync(model.FilmId, model.Cdn, model.Name!);
 
         await HttpContext.SetAuthenticationDataAsync(roomData.viewer.Username, roomData.viewer.Id,
             roomData.viewer.AvatarUrl, roomData.roomId, RoomType.Film);
@@ -60,7 +60,7 @@ public class FilmRoomController : Controller
     public async Task<IActionResult> ConnectDefault(ConnectRoomParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        ViewerDto viewer = await _roomService.ConnectAsync(model.RoomId, model.Name);
+        ViewerDto viewer = await _roomService.ConnectAsync(model.RoomId, model.Name!);
         await HttpContext.SetAuthenticationDataAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, model.RoomId,
             RoomType.Film);
         return RedirectToAction("Room");

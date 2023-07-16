@@ -8,6 +8,6 @@ namespace Overoom.WEB.Contracts.Settings
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Введите новый электронный адрес")]
         [StringLength(50, ErrorMessage = "Не больше 50 символов")]
-        public string Email { get; set; } = null!;
+        public string? Email { get; set; }
     }
 }

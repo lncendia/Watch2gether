@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Overoom.Application.Abstractions.Users.DTOs;
+﻿using Overoom.Application.Abstractions.Users.DTOs;
 using Overoom.Application.Abstractions.Users.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace Overoom.Application.Abstractions.Users.Interfaces;
 

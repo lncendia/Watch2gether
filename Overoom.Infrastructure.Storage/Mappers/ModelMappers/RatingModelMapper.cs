@@ -19,6 +19,7 @@ internal class RatingModelMapper : IModelMapperUnit<RatingModel, Rating>
         rating.FilmId = entity.FilmId;
         rating.Score = entity.Score;
         rating.UserId = entity.UserId;
+        rating.Date = entity.Date;
         return rating;
     }
 }

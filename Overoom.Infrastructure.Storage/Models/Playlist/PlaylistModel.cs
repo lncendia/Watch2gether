@@ -6,6 +6,7 @@ public class PlaylistModel : IAggregateModel
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;
+    public string NameNormalized { get; set; } = null!;
     public string Description { get; set; } = null!;
     public List<PlaylistFilmModel> Films { get; set; } = new();
     public List<PlaylistGenreModel> Genres { get; set; } = new();

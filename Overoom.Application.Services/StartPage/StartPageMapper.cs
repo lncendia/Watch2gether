@@ -12,25 +12,25 @@ namespace Overoom.Application.Services.StartPage;
 
 public class StartPageMapper : IStartPageMapper
 {
-    public CommentStartPageDto MapComment(Comment comment, User? user)
+    public CommentDto MapComment(Comment comment, User? user)
     {
-        return new CommentStartPageDto(user?.Name ?? "Удаленный пользователь", comment.Text, comment.CreatedAt,
+        return new CommentDto(user?.Name ?? "Удаленный пользователь", comment.Text, comment.CreatedAt,
             comment.FilmId, user?.AvatarUri ?? ApplicationConstants.DefaultAvatar);
     }
 
-    public RoomStartPageDto MapFilmRoom(FilmRoom room, Film film)
+    public RoomDto MapFilmRoom(FilmRoom room, Film film)
     {
-        return new RoomStartPageDto(room.Id, Type.Film, room.Viewers.Count, film.Name);
+        return new RoomDto(room.Id, Type.Film, room.Viewers.Count, film.Name);
     }
 
-    public RoomStartPageDto MapYoutubeRoom(YoutubeRoom room)
+    public RoomDto MapYoutubeRoom(YoutubeRoom room)
     {
-        return new RoomStartPageDto(room.Id, Type.Film, room.Viewers.Count, room.Owner.CurrentVideoId);
+        return new RoomDto(room.Id, Type.Film, room.Viewers.Count, room.Owner.CurrentVideoId);
     }
 
 
-    public FilmStartPageDto MapFilm(Domain.Films.Entities.Film film)
+    public FilmDto MapFilm(Domain.Films.Entities.Film film)
     {
-        return new FilmStartPageDto(film.Name, film.PosterUri, film.Id, film.FilmTags.Genres);
+        return new FilmDto(film.Name, film.PosterUri, film.Id, film.FilmTags.Genres);
     }
 }

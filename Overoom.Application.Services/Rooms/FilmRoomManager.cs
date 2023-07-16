@@ -1,5 +1,5 @@
 ﻿using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Films.Catalog.Exceptions;
+using Overoom.Application.Abstractions.Movie.Exceptions;
 using Overoom.Application.Abstractions.Rooms.DTOs.Film;
 using Overoom.Application.Abstractions.Rooms.Exceptions;
 using Overoom.Application.Abstractions.Rooms.Interfaces;

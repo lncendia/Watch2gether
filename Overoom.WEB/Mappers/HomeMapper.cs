@@ -6,10 +6,10 @@ namespace Overoom.WEB.Mappers;
 
 public class HomeMapper : IHomeMapper
 {
-    public CommentStartPageViewModel Map(CommentStartPageDto dto) =>
+    public CommentStartPageViewModel Map(CommentDto dto) =>
         new(dto.Name, dto.Text, dto.DateTime, dto.FilmId, dto.AvatarUri);
 
-    public RoomStartPageViewModel Map(RoomStartPageDto dto) => new(dto.Id, dto.Type, dto.CountUsers, dto.NowPlaying);
+    public RoomStartPageViewModel Map(RoomDto dto) => new(dto.Id, dto.Type, dto.CountUsers, dto.NowPlaying);
 
-    public FilmStartPageViewModel Map(FilmStartPageDto dto) => new(dto.Name, dto.PosterUrl, dto.Id, dto.Genres);
+    public FilmStartPageViewModel Map(FilmDto dto) => new(dto.Name, dto.PosterUrl, dto.Id, dto.Genres);
 }

@@ -11,7 +11,9 @@ namespace Overoom.Infrastructure.Storage.Mappers.AggregateMappers;
 internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
 {
     private static readonly FieldInfo UserRating =
-        typeof(Film).GetField("_userRating", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        typeof(Film).GetField("<UserRating>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
+    private static readonly FieldInfo UserRatingsCount =
+        typeof(Film).GetField("<UserRatingsCount>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     public Film Map(FilmModel model)
     {
@@ -37,6 +39,7 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
         var film = builder.Build();
         IdFields.AggregateId.SetValue(film, model.Id);
         UserRating.SetValue(film, model.UserRating);
+        UserRatingsCount.SetValue(film, model.UserRatingsCount);
         return film;
     }
 }

@@ -9,7 +9,7 @@ public class UserByEmailSpecification : ISpecification<User, IUserSpecificationV
     public string Email { get; }
     public UserByEmailSpecification(string email) => Email = email;
 
-    public bool IsSatisfiedBy(User item) => item.Email == Email;
+    public bool IsSatisfiedBy(User item) => string.Equals(item.Email, Email, StringComparison.CurrentCultureIgnoreCase);
 
     public void Accept(IUserSpecificationVisitor visitor) => visitor.Visit(this);
 }

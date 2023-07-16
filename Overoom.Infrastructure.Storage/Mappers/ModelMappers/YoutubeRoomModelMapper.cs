@@ -38,22 +38,22 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
         youtubeRoom.IsOpen = entity.IsOpen;
         youtubeRoom.LastActivity = entity.LastActivity;
         youtubeRoom.IdCounter = (int)IdCounter.GetValue(entity)!;
+        youtubeRoom.AddAccess = entity.AddAccess;
 
         var newMessages = entity.Messages.Where(x =>
             youtubeRoom.Messages.All(m => m.ViewerEntityId != x.ViewerId && m.CreatedAt != x.CreatedAt));
         youtubeRoom.Messages.AddRange(newMessages.Select(x => new YoutubeMessageModel
             { ViewerEntityId = x.ViewerId, Text = x.Text, CreatedAt = x.CreatedAt }));
-        youtubeRoom.Messages.RemoveAll(x =>
-            entity.Messages.All(m => m.ViewerId != x.ViewerEntityId && m.CreatedAt != x.CreatedAt));
-        youtubeRoom.AddAccess = entity.AddAccess;
+        _context.YoutubeMessages.RemoveRange(youtubeRoom.Messages.Where(x =>
+            entity.Messages.All(m => m.ViewerId != x.ViewerEntityId && m.CreatedAt != x.CreatedAt)));
 
         var newIds = entity.VideoIds.Where(x => youtubeRoom.VideoIds.All(m => m.VideoId != x));
         youtubeRoom.VideoIds.AddRange(newIds.Select(x => new VideoIdModel { VideoId = x }));
-        youtubeRoom.VideoIds.RemoveAll(x => entity.VideoIds.All(m => m != x.VideoId));
+        _context.VideoIds.RemoveRange(youtubeRoom.VideoIds.Where(x => entity.VideoIds.All(m => m != x.VideoId)));
 
 
-        youtubeRoom.Viewers.RemoveAll(x =>
-            entity.Viewers.All(m => m.Id != x.EntityId));
+        _context.YoutubeViewers.RemoveRange(youtubeRoom.Viewers.Where(x =>
+            entity.Viewers.All(m => m.Id != x.EntityId)));
 
         foreach (var viewer in entity.Viewers)
         {
@@ -63,6 +63,7 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
                 {
                     EntityId = viewer.Id,
                     Name = viewer.Name,
+                    NameNormalized = viewer.Name.ToUpper(),
                     AvatarUri = viewer.AvatarUri
                 };
             viewerModel.CurrentVideoId = viewer.CurrentVideoId;

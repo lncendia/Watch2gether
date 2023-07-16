@@ -11,5 +11,5 @@ public class CreateYoutubeRoomForUserParameters
     [Display(Name = "Вставьте ссылку на видео")]
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [DataType(DataType.Url)]
-    public string Url { get; set; } = null!;
+    public string? Url { get; set; }
 }

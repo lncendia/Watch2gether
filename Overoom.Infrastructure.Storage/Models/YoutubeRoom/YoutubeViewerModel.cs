@@ -8,6 +8,7 @@ public class YoutubeViewerModel : IEntityModel
     public int EntityId { get; set; }
 
     public string Name { get; set; } = null!;
+    public string NameNormalized { get; set; } = null!;
     public Guid RoomId { get; set; }
     public YoutubeRoomModel Room { get; set; } = null!;
     public Uri AvatarUri { get; set; } = null!;

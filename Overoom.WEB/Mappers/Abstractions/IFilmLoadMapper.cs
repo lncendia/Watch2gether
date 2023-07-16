@@ -1,4 +1,4 @@
-using Overoom.Application.Abstractions.Films.Load.DTOs;
+using Overoom.Application.Abstractions.FilmsManagement.DTOs;
 using Overoom.WEB.Contracts.FilmLoad;
 using Overoom.WEB.Models.FilmLoad;
 
@@ -6,6 +6,6 @@ namespace Overoom.WEB.Mappers.Abstractions;
 
 public interface IFilmLoadMapper
 {
-    FilmLoadDto Map(FilmLoadParameters parameters);
+    LoadDto Map(LoadParameters parameters);
     FilmViewModel Map(FilmDto dto);
 }

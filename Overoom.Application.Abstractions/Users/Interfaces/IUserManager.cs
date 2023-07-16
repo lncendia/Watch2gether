@@ -5,7 +5,7 @@ namespace Overoom.Application.Abstractions.Users.Interfaces;
 
 public interface IUserManager
 {
-    Task<List<UserShortDto>> FindAsync(SearchQuery query);
+    Task<List<UserDto>> FindAsync(SearchQuery query);
     Task<UserData> GetAuthenticationDataAsync(Guid userId);
     Task<UserDto> GetAsync(Guid userId);
     Task EditAsync(EditUserDto editData);

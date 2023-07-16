@@ -2,7 +2,8 @@
 using Overoom.Domain.Films.DTOs;
 using Overoom.Domain.Films.Enums;
 using Overoom.Domain.Films.Exceptions;
-using Overoom.Domain.Films.ValueObject;
+using Overoom.Domain.Films.ValueObjects;
+using Overoom.Domain.Ratings;
 
 namespace Overoom.Domain.Films.Entities;
 
@@ -21,7 +22,7 @@ public class Film : AggregateRoot
         Year = year;
         Rating = rating;
         Description = description;
-        ShortDescription = shortDescription;
+        if (!string.IsNullOrEmpty(shortDescription)) ShortDescription = shortDescription;
         Type = type;
         if (type == FilmType.Serial)
         {
@@ -35,14 +36,14 @@ public class Film : AggregateRoot
     }
 
 
-    private string _name = null!;
+    private readonly string _name = null!;
 
     public string Name
     {
         get => _name;
-        set
+        private init
         {
-            if (value.Length > 200) throw new NameTooLongException();
+            if (string.IsNullOrEmpty(value) || value.Length > 200) throw new NameLengthException();
             _name = value;
         }
     }
@@ -55,18 +56,10 @@ public class Film : AggregateRoot
     public Uri PosterUri { get; set; }
     public FilmTags FilmTags { get; }
 
-    private double _userRating;
+    public double UserRating { get; private set; }
 
-    public double UserRating
-    {
-        get => _userRating;
-        set
-        {
-            if (value is < 0 or > 10)
-                throw new ArgumentException("Rating must be between 0 and 10");
-            _userRating = value;
-        }
-    }
+    public int UserRatingsCount { get; private set; }
+
 
     private string _description = null!;
 
@@ -75,7 +68,7 @@ public class Film : AggregateRoot
         get => _description;
         set
         {
-            if (value.Length > 1500) throw new DescriptionLengthException();
+            if (string.IsNullOrEmpty(value) || value.Length > 1500) throw new DescriptionLengthException();
             _description = value;
         }
     }
@@ -87,7 +80,7 @@ public class Film : AggregateRoot
         get => _shortDescription;
         set
         {
-            if (value?.Length > 500) throw new ShortDescriptionTooLongException();
+            if (string.IsNullOrEmpty(value) || value.Length > 500) throw new ShortDescriptionLengthException();
             _shortDescription = value;
         }
     }
@@ -120,6 +113,15 @@ public class Film : AggregateRoot
     {
         _cdnList.RemoveAll(x => x.Type == cdn.Type);
         _cdnList.Add(MapCdn(cdn));
+    }
+
+    public void AddRating(Rating rating, Rating? oldRating)
+    {
+        var allScore = UserRating * UserRatingsCount;
+        if (oldRating == null) UserRatingsCount++;
+        else allScore -= oldRating.Score;
+        UserRating = (allScore + rating.Score) / UserRatingsCount;
+        Console.WriteLine(UserRating);
     }
 
     private static Cdn MapCdn(CdnDto dto) => new(dto.Type, dto.Uri, dto.Quality, dto.Voices.ToList());

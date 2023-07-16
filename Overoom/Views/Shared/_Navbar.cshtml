@@ -9,9 +9,12 @@
 }
 <div class="container-fluid">
     <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-        <span>Over</span><svg width="20" height="30" fill="currentColor" class="bi bi-list-nested" viewBox="0 0 500 400">
-            <path d="M160,0c35.622-.7,99.805,39.235,72,73-14.661,17.8-42.593-7.6-64-1-23.526,7.255-53.218,65.441-59,92H392v-1c-13.412-30.072-27.337-79.882-59-91-21.586-7.58-42.917,17.092-61,4-15.05-10.9-6.777-34.677,2-46,16.088-20.756,58.284-41.262,90-22,38.939,23.649,125.567,138.851,136,190V346c-2.4,10.114-9.574,20.662-17,26-15.05,10.818-45.206,8-71,8H332c-11.974-2.9-71.042-48.193-80-58l-81,57H32c-9.552-2.692-19.766-9.791-25-17-13.427-18.494-7-88.009-7-120V198C11.164,146.59,94,37.9,132,11,140.247,5.161,149.684,4.521,160,0ZM49,212V331H157c21.428-8.719,73.666-68.53,98-64,28.706,5.344,63.036,55.29,89,64H451V212H49Zm12,20c23.283-.342,132.629-4.085,143,3,7.889,5.389,11.813,18.953,12,32l-70,50H102l-41-1V232Zm378,0q-0.5,42.5-1,85H353l-69-51c0.39-13.258,5.161-27.208,14-32C311.17,226.86,414.9,231.663,439,232Z"/>
-        </svg><span>m</span>
+        <span>
+            Over
+            <svg width="20" height="30" fill="currentColor" class="bi bi-list-nested" viewBox="0 0 500 400">
+                <path d="M160,0c35.622-.7,99.805,39.235,72,73-14.661,17.8-42.593-7.6-64-1-23.526,7.255-53.218,65.441-59,92H392v-1c-13.412-30.072-27.337-79.882-59-91-21.586-7.58-42.917,17.092-61,4-15.05-10.9-6.777-34.677,2-46,16.088-20.756,58.284-41.262,90-22,38.939,23.649,125.567,138.851,136,190V346c-2.4,10.114-9.574,20.662-17,26-15.05,10.818-45.206,8-71,8H332c-11.974-2.9-71.042-48.193-80-58l-81,57H32c-9.552-2.692-19.766-9.791-25-17-13.427-18.494-7-88.009-7-120V198C11.164,146.59,94,37.9,132,11,140.247,5.161,149.684,4.521,160,0ZM49,212V331H157c21.428-8.719,73.666-68.53,98-64,28.706,5.344,63.036,55.29,89,64H451V212H49Zm12,20c23.283-.342,132.629-4.085,143,3,7.889,5.389,11.813,18.953,12,32l-70,50H102l-41-1V232Zm378,0q-0.5,42.5-1,85H353l-69-51c0.39-13.258,5.161-27.208,14-32C311.17,226.86,414.9,231.663,439,232Z"/>
+            </svg>m
+        </span>
     </a>
     <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
         <span class="navbar-toggler-icon"></span>
@@ -19,7 +22,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav flex-grow-1">
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Film" asp-action="Index">
+                <a class="nav-link" asp-controller="Content" asp-action="Films">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-nested" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5z"/>
                     </svg>
@@ -35,7 +38,7 @@
             @*     </a> *@
             @* </li> *@
             <li class="nav-item">
-                <a class="nav-link">
+                <a class="nav-link" asp-controller="Content" asp-action="Playlists">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-binoculars" viewBox="0 0 16 16">
                         <path d="M3 2.5A1.5 1.5 0 0 1 4.5 1h1A1.5 1.5 0 0 1 7 2.5V5h2V2.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5v2.382a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V14.5a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 14.5v-3a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5v3A1.5 1.5 0 0 1 5.5 16h-3A1.5 1.5 0 0 1 1 14.5V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882V2.5zM4.5 2a.5.5 0 0 0-.5.5V3h2v-.5a.5.5 0 0 0-.5-.5h-1zM6 4H4v.882a1.5 1.5 0 0 1-.83 1.342l-.894.447A.5.5 0 0 0 2 7.118V13h4v-1.293l-.854-.853A.5.5 0 0 1 5 10.5v-1A1.5 1.5 0 0 1 6.5 8h3A1.5 1.5 0 0 1 11 9.5v1a.5.5 0 0 1-.146.354l-.854.853V13h4V7.118a.5.5 0 0 0-.276-.447l-.895-.447A1.5 1.5 0 0 1 12 4.882V4h-2v1.5a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V4zm4-1h2v-.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5V3zm4 11h-4v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V14zm-8 0H2v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5V14z"/>
                     </svg>
@@ -71,26 +74,58 @@
             }
         </ul>
         <ul class="navbar-nav">
+            <li class="nav-item">
+                <form asp-controller="Content" asp-action="Films" method="get" class="d-flex">
+                    <input type="text" name="Title" class="form-control" placeholder="Название">
+                    <input class="btn btn-outline-light btn-search" type="submit" value="Найти">
+                </form>
+            </li>
             @if (!appAuth.None)
             {
                 <li class="nav-item d-none d-md-flex align-items-center">
                     <img src="~/@User.GetAvatar()" width="35" height="35" class="rounded-circle mr-2" alt="...">
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-nowrap" asp-controller="Settings" asp-action="ChangeEmail" title="Профиль">
+                    <a class="nav-link text-nowrap" asp-controller="Settings" asp-action="Profile" title="Профиль">
                         @User.GetName()
                     </a>
                 </li>
                 @if (User.IsAdmin())
                 {
-                    <li class="nav-item">
-                        <a class="nav-link text-nowrap" asp-controller="FilmLoad" asp-action="Load">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-download" viewBox="0 0 16 16">
-                                <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/>
-                                <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
                             </svg>
-                            Загрузка
+                            Контент
                         </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item text-nowrap" asp-controller="FilmLoad" asp-action="Index">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-download" viewBox="0 0 16 16">
+                                        <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/>
+                                        <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
+                                    </svg>
+                                    Загрузка
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-nowrap" asp-controller="FilmManagement" asp-action="Index">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
+                                        <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
+                                    </svg>
+                                    Фильмы
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-nowrap" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-video" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5zm11.5 5.175 3.5 1.556V4.269l-3.5 1.556v4.35zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H2z"/>
+                                    </svg>
+                                    Подборки
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 }
                 <li class="nav-item">

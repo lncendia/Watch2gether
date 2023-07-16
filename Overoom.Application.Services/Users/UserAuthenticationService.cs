@@ -51,7 +51,7 @@ public class UserAuthenticationService : IUserAuthenticationService
     {
         var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
         if (user != null) return user;
-
+    
         var avatarUri = info.LoginProvider switch
         {
             "Vkontakte" => await _thumbnailService.SaveAsync(
@@ -60,7 +60,7 @@ public class UserAuthenticationService : IUserAuthenticationService
                 @$"https://avatars.yandex.net/get-yapic/{info.Principal.FindFirstValue("urn:yandex:user:avatar")}/islands-75")),
             _ => ApplicationConstants.DefaultAvatar
         };
-
+    
         user = new UserData(
             info.Principal.FindFirstValue(ClaimTypes.GivenName) + ' ' +
             info.Principal.FindFirstValue(ClaimTypes.Surname),
@@ -70,14 +70,14 @@ public class UserAuthenticationService : IUserAuthenticationService
         };
         var result = await _userManager.CreateAsync(user);
         CheckResult(result, user);
-
+    
         await _userManager.AddLoginAsync(user, info);
         var userDomain = new User(user.UserName!, user.Email!, avatarUri);
         await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, userDomain.Id.ToString()));
         await _userManager.AddClaimAsync(user,
             new Claim(ApplicationConstants.AvatarClaimType, avatarUri.ToString()));
         await AddAsync(userDomain);
-
+    
         return user;
     }
 
@@ -144,7 +144,7 @@ public class UserAuthenticationService : IUserAuthenticationService
         {
             "MailUsed" => new UserAlreadyExistException(),
             "MailIncorrect" => new InvalidEmailException(data.Email!),
-            "NameIncorrect" => new InvalidNicknameException(data.UserName!),
+            "NameIncorrect" => new InvalidNicknameException(),
             _ => new UserCreationException(result.Errors.First().Description)
         };
         throw ex;

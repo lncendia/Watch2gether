@@ -8,12 +8,14 @@ public class FilmModel : IAggregateModel
     public Guid Id { get; set; }
     public FilmType Type { get; set; }
     public string Name { get; set; } = null!;
+    public string NameNormalized { get; set; } = null!;
     public Uri PosterUri { get; set; } = null!;
     public string Description { get; set; } = null!;
     public string? ShortDescription { get; set; }
     public int Year { get; set; }
     public double Rating { get; set; }
     public double UserRating { get; set; }
+    public int UserRatingsCount { get; set; }
 
     public int? CountSeasons { get; set; }
     public int? CountEpisodes { get; set; }

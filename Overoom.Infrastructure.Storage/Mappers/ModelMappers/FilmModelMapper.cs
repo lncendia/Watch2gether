@@ -31,14 +31,19 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
                 Id = entity.Id,
                 Type = entity.Type,
                 Name = entity.Name,
+                NameNormalized = entity.Name.ToUpper(),
                 Year = entity.Year
             };
-            film.Countries.AddRange(entity.FilmTags.Countries.Select(x => new CountryModel { Name = x }));
-            film.Directors.AddRange(entity.FilmTags.Directors.Select(x => new DirectorModel { Name = x }));
-            film.Genres.AddRange(entity.FilmTags.Genres.Select(x => new GenreModel { Name = x }));
-            film.ScreenWriters.AddRange(entity.FilmTags.Screenwriters.Select(x => new ScreenWriterModel { Name = x }));
+            film.Countries.AddRange(entity.FilmTags.Countries.Select(x => new CountryModel
+                { Name = x, NameNormalized = x.ToUpper() }));
+            film.Directors.AddRange(entity.FilmTags.Directors.Select(x => new DirectorModel
+                { Name = x, NameNormalized = x.ToUpper() }));
+            film.Genres.AddRange(entity.FilmTags.Genres.Select(x => new GenreModel
+                { Name = x, NameNormalized = x.ToUpper() }));
+            film.ScreenWriters.AddRange(entity.FilmTags.Screenwriters.Select(x => new ScreenWriterModel
+                { Name = x, NameNormalized = x.ToUpper() }));
             film.Actors.AddRange(entity.FilmTags.Actors.Select(x => new ActorModel
-                { Name = x.ActorName, Description = x.ActorDescription }));
+                { Name = x.ActorName, Description = x.ActorDescription, NameNormalized = x.ActorName.ToUpper() }));
         }
 
         film.PosterUri = entity.PosterUri;
@@ -48,9 +53,10 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
         film.UserRating = entity.UserRating;
         film.CountSeasons = entity.CountSeasons;
         film.CountEpisodes = entity.CountEpisodes;
+        film.UserRatingsCount = entity.UserRatingsCount;
 
 
-        film.CdnList.RemoveAll(x => entity.CdnList.All(cdn => cdn.Type != x.Type));
+        _context.FilmCdn.RemoveRange(film.CdnList.Where(x => entity.CdnList.All(cdn => cdn.Type != x.Type)));
 
         foreach (var cdn in entity.CdnList)
         {
@@ -59,9 +65,10 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
             cdnModel.Uri = cdn.Uri;
             cdnModel.Quality = cdn.Quality;
 
-            var newVoices = cdn.Voices.Where(x => cdnModel.Voices.All(m => m.Info != x));
-            cdnModel.Voices.AddRange(newVoices.Select(x => new VoiceModel { Info = x }));
-            cdnModel.Voices.RemoveAll(x => cdn.Voices.All(m => m != x.Info));
+            var newVoices = cdn.Voices.Where(x => cdnModel.Voices.All(m => m.InfoNormalized != x.ToUpper()));
+            cdnModel.Voices.AddRange(newVoices.Select(x => new VoiceModel { Info = x, InfoNormalized = x.ToUpper() }));
+            _context.CdnVoices.RemoveRange(cdnModel.Voices.Where(x =>
+                cdn.Voices.All(m => m.ToUpper() != x.InfoNormalized)));
             if (cdnModel.Id == default) film.CdnList.Add(cdnModel);
         }
 

@@ -1,4 +1,4 @@
-﻿using Overoom.Application.Abstractions.Films.Load.Exceptions;
+﻿using Overoom.Application.Abstractions.FilmsManagement.Exceptions;
 using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Application.Abstractions.Users.Interfaces;
 using RestSharp;

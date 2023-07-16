@@ -8,19 +8,19 @@ namespace Overoom.WEB.Contracts.Settings
         [DataType(DataType.Password)]
         [StringLength(50, ErrorMessage = "Не больше 50 символов")]
         [Display(Name = "Старый пароль")]
-        public string OldPassword { get; set; } = null!;
+        public string? OldPassword { get; set; }
 
         [Required(ErrorMessage = "Поле не должно быть пустым")]
         [StringLength(50, ErrorMessage = "Не больше 50 символов")]
         [DataType(DataType.Password)]
         [Display(Name = "Новый пароль")]
-        public string Password { get; set; } = null!;
+        public string? Password { get; set; }
 
         [Required(ErrorMessage = "Поле не должно быть пустым")]
         [StringLength(50, ErrorMessage = "Не больше 50 символов")]
         [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         [DataType(DataType.Password)]
         [Display(Name = "Подтвердить пароль")]
-        public string PasswordConfirm { get; set; } = null!;
+        public string? PasswordConfirm { get; set; }
     }
 }

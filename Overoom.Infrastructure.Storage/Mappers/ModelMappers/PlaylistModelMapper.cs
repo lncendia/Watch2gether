@@ -22,7 +22,11 @@ internal class PlaylistModelMapper : IModelMapperUnit<PlaylistModel, Playlist>
         }
         else
             playlist = new PlaylistModel
-                { Id = entity.Id, Genres = entity.Genres.Select(x => new PlaylistGenreModel { Name = x }).ToList() };
+            {
+                Id = entity.Id,
+                Genres = entity.Genres.Select(x => new PlaylistGenreModel { Name = x, NameNormalized = x.ToUpper() })
+                    .ToList()
+            };
 
         playlist.Name = entity.Name;
         playlist.Description = entity.Description;
@@ -31,7 +35,7 @@ internal class PlaylistModelMapper : IModelMapperUnit<PlaylistModel, Playlist>
 
         var newFilms = entity.Films.Where(x => playlist.Films.All(m => m.FilmId != x));
         playlist.Films.AddRange(newFilms.Select(x => new PlaylistFilmModel { FilmId = x }));
-        playlist.Films.RemoveAll(x => entity.Films.All(m => m != x.FilmId));
+        _context.PlaylistFilms.RemoveRange(playlist.Films.Where(x => entity.Films.All(m => m != x.FilmId)));
 
 
         return playlist;

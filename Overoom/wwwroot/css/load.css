@@ -2,7 +2,7 @@
     padding: 10px 10px 30px;
     border-radius: 10px;
     margin-bottom: 50px;
-    background-color: rgb(33, 37, 41);
+    background-color: var(--color-dark);
 }
 
 .block-2 {
@@ -10,5 +10,5 @@
     border-radius: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    background-color: rgb(53, 57, 61);
+    background-color: var(--color-dark);
 }

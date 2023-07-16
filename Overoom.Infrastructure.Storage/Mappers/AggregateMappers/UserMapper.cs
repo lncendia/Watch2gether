@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Overoom.Domain.Users.Entities;
+using Overoom.Domain.Users.ValueObjects;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Mappers.StaticMethods;
 using Overoom.Infrastructure.Storage.Models.User;
@@ -14,13 +15,39 @@ internal class UserMapper : IAggregateMapperUnit<User, UserModel>
     private static readonly FieldInfo History =
         typeof(User).GetField("_history", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
+    private static readonly Type FilmNoteType = typeof(FilmNote);
+
+    private static readonly FieldInfo Date =
+        FilmNoteType.GetField("<Date>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
+
 
     public User Map(UserModel model)
     {
         var user = new User(model.Name, model.Email, model.AvatarUri);
         IdFields.AggregateId.SetValue(user, model.Id);
-        WatchList.SetValue(user, model.Watchlist.Select(x => x.FilmId).ToList());
-        History.SetValue(user, model.History.Select(x => x.FilmId).ToList());
+
+        object?[] args = new object[1];
+        var watchlist = model.Watchlist.Select(x =>
+        {
+            args[0] = x.FilmId;
+            var element = (FilmNote)FilmNoteType.Assembly.CreateInstance(
+                FilmNoteType.FullName!, false, BindingFlags.Instance | BindingFlags.NonPublic, null, args!,
+                null, null)!;
+            Date.SetValue(element, x.Date);
+            return element;
+        }).ToList();
+        var history = model.History.Select(x =>
+        {
+            args[0] = x.FilmId;
+            var element = (FilmNote)FilmNoteType.Assembly.CreateInstance(
+                FilmNoteType.FullName!, false, BindingFlags.Instance | BindingFlags.NonPublic, null, args!,
+                null, null)!;
+            Date.SetValue(element, x.Date);
+            return element;
+        }).ToList();
+
+        WatchList.SetValue(user, watchlist);
+        History.SetValue(user, history);
         return user;
     }
 }

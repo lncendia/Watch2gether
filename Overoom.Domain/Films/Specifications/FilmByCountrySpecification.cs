@@ -9,7 +9,8 @@ public class FilmByCountrySpecification : ISpecification<Film, IFilmSpecificatio
     public string Country { get; }
     public FilmByCountrySpecification(string country) => Country = country;
 
-    public bool IsSatisfiedBy(Film item) => item.FilmTags.Countries.Contains(Country);
+    public bool IsSatisfiedBy(Film item) =>
+        item.FilmTags.Countries.Any(x => string.Equals(x, Country, StringComparison.CurrentCultureIgnoreCase));
 
     public void Accept(IFilmSpecificationVisitor visitor) => visitor.Visit(this);
 }

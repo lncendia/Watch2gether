@@ -9,7 +9,7 @@ public class FilmByNameSpecification : ISpecification<Film, IFilmSpecificationVi
     public FilmByNameSpecification(string name) => Name = name;
 
     public string Name { get; }
-    public bool IsSatisfiedBy(Film item) => item.Name.Contains(Name);
+    public bool IsSatisfiedBy(Film item) => item.Name.ToUpper().Contains(Name.ToUpper());
 
     public void Accept(IFilmSpecificationVisitor visitor) => visitor.Visit(this);
 }

@@ -9,7 +9,8 @@ public class FilmByGenreSpecification : ISpecification<Film, IFilmSpecificationV
     public string Genre { get; }
     public FilmByGenreSpecification(string genre) => Genre = genre;
 
-    public bool IsSatisfiedBy(Film item) => item.FilmTags.Genres.Select(x => x.ToLower()).Contains(Genre.ToLower());
+    public bool IsSatisfiedBy(Film item) =>
+        item.FilmTags.Genres.Any(g => string.Equals(g, Genre, StringComparison.CurrentCultureIgnoreCase));
 
     public void Accept(IFilmSpecificationVisitor visitor) => visitor.Visit(this);
 }

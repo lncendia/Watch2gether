@@ -2,22 +2,25 @@
     background-color: black;
 }
 
-.comment{
+.form-control{
+    background: transparent !important;
+    color: #d2d2d2!important;
+}
+
+.comment {
     margin-top: 10px;
     color: #a4a7a8;
 }
-.comment-card{
-    background-color: #131313;
+
+.comment-card {
+    --bs-card-cap-bg: #0c0c0c;
+    --bs-card-bg: var(--color-dark);
     border-radius: 10px;
-    box-shadow: 2px 2px 12px #54014e;
-}
-
-.comment-header{
-    background-color: #0c0c0c;
+    box-shadow: 2px 2px 3px var(--shadow-purple);
 }
 
 
-.commentAvatar {
+.comment-avatar {
     width: 45px;
     height: 100%;
     border-radius: 50%;
@@ -29,18 +32,22 @@
     height: 300px;
 }
 
-.filmCard {
+.film-card {
     width: 200px;
     height: 100%;
     margin: 0 auto;
-    background: #111111;
-    box-shadow: 2px 1px 12px #54014e;
+    --bs-card-bg: var(--color-dark);
+    box-shadow: 2px 2px 7px var(--shadow-purple)
 }
 
-.filmLink {
-    color: #eeeeee !important;
+.film-link {
+    --bs-link-color: #eeeeee;
     text-decoration: none;
     height: 100%;
+}
+
+.film-link:hover {
+    color: #eeeeee;
 }
 
 .genres {
@@ -74,7 +81,7 @@ video {
     font-weight: 700;
 }
 
-.logo{
+.logo {
     width: 70%;
     margin: 30px auto 0;
     text-align: center;
@@ -82,27 +89,20 @@ video {
 
 
 @media (min-width: 1020px) {
-    .logo{
+    .logo {
         width: 35%;
         margin-left: 10%;
     }
 }
 
-.line{
+.line {
     width: 300px;
     margin: 0 auto 10px;
     border-top: 4px solid white;
 }
 
-.alert{
-    position:absolute;
-    bottom:10px;
-    right:20px;
-}
-a.nav-link, a.navbar-brand{
-    color: #d2d2d2 !important;
-}
-
-a.nav-link:hover, a.navbar-brand:hover{
-    color: #8a8a8a !important;
+.alert {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
 }

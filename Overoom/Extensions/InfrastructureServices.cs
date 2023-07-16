@@ -1,5 +1,5 @@
-using Overoom.Application.Abstractions.Films.Kinopoisk.Interfaces;
-using Overoom.Application.Abstractions.Films.Load.Interfaces;
+using Overoom.Application.Abstractions.FilmsManagement.Interfaces;
+using Overoom.Application.Abstractions.Kinopoisk.Interfaces;
 using Overoom.Application.Abstractions.Users.Interfaces;
 using Overoom.Infrastructure.Mailing;
 using Overoom.Infrastructure.Movie;

@@ -1,12 +1,12 @@
 using Newtonsoft.Json;
-using Overoom.Application.Abstractions.Films.Kinopoisk.DTOs;
-using Overoom.Application.Abstractions.Films.Kinopoisk.Exceptions;
+using Overoom.Application.Abstractions.Kinopoisk.DTOs;
+using Overoom.Application.Abstractions.Kinopoisk.Exceptions;
 using Overoom.Infrastructure.Movie.Abstractions;
 using Overoom.Infrastructure.Movie.Converters;
 using Overoom.Infrastructure.Movie.Enums;
 using Overoom.Infrastructure.Movie.Models;
-using Episode = Overoom.Application.Abstractions.Films.Kinopoisk.DTOs.Episode;
-using Season = Overoom.Application.Abstractions.Films.Kinopoisk.DTOs.Season;
+using Episode = Overoom.Application.Abstractions.Kinopoisk.DTOs.Episode;
+using Season = Overoom.Application.Abstractions.Kinopoisk.DTOs.Season;
 
 namespace Overoom.Infrastructure.Movie;
 

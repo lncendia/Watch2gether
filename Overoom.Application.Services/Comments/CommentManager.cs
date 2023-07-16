@@ -1,7 +1,7 @@
 ﻿using Overoom.Application.Abstractions.Comments.DTOs;
 using Overoom.Application.Abstractions.Comments.Exceptions;
 using Overoom.Application.Abstractions.Comments.Interfaces;
-using Overoom.Application.Abstractions.Films.Catalog.Exceptions;
+using Overoom.Application.Abstractions.Movie.Exceptions;
 using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
 using Overoom.Domain.Comments.Ordering;
@@ -61,12 +61,6 @@ public class CommentManager : ICommentManager
         if (comment == null) throw new CommentNotFoundException();
         if (comment.UserId != id) throw new CommentNotBelongToUserException();
         await _unitOfWork.CommentRepository.Value.DeleteAsync(comment.Id);
-        await _unitOfWork.SaveChangesAsync();
-    }
-
-    public async Task DeleteAsync(Guid commentId)
-    {
-        await _unitOfWork.CommentRepository.Value.DeleteAsync(commentId);
         await _unitOfWork.SaveChangesAsync();
     }
 

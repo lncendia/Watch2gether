@@ -37,7 +37,7 @@ function CopyCdn(e) {
         .replaceAll('copyVoiceVideoCdn[0]', 'copyVoiceVideoCdn' + '[' + counter + ']')
         .replaceAll(/value="(\\\\.|[^"])+"/gu, 'value=""')
     copyEl.parent().append(html)
-    let el1 = $("[copy-target='#copyVoiceVideoCdn\\[" + counter + "\\]']")
+    let el1 = $("[copy-target='.copyVoiceVideoCdn\\[" + counter + "\\]']")
     el1.click(CopyInput)
     console.log(el1)
     return false
@@ -78,11 +78,6 @@ $('#imdbIdSearch').click(async e => {
 )
 
 function Fill(model) {
-
-    if (model.type === 'Serial') {
-        $('#type').trigger('change')
-    }
-
     $("[name='Name']").val(model.name)
     $("[name='Description']").val(model.description)
     $("[name='ShortDescription']").val(model.shortDescription)
@@ -93,6 +88,10 @@ function Fill(model) {
     $("[name='Year']").val(model.year)
     $("[name='Rating']").val(model.rating)
 
+    if (model.type === 'Serial') {
+        $('#type').trigger('change')
+    }
+    
     let addGenre = $('#addGenre');
     let addCountry = $('#addCountry');
     let addActor = $('#addActor');

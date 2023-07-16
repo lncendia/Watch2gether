@@ -28,7 +28,7 @@ public class UserManager : IUserManager
         _passwordValidator = passwordValidator;
     }
 
-    public async Task<List<UserShortDto>> FindAsync(SearchQuery query)
+    public async Task<List<UserDto>> FindAsync(SearchQuery query)
     {
         ISpecification<User, IUserSpecificationVisitor>? spec = null;
         if (!string.IsNullOrEmpty(query.Email)) spec = new UserByEmailSpecification(query.Email);
@@ -42,7 +42,7 @@ public class UserManager : IUserManager
 
         var users = await _unitOfWork.UserRepository.Value.FindAsync(spec, null, (query.Page - 1) * 30,
             30);
-        return users.Select(x => new UserShortDto(x.Name, x.Email, x.Id)).ToList();
+        return users.Select(x => new UserDto(x.Name, x.Email, x.Id)).ToList();
     }
 
     public async Task<UserDto> GetAsync(Guid userId)

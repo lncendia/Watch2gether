@@ -9,7 +9,7 @@ public class FilmByScreenWriterSpecification : ISpecification<Film, IFilmSpecifi
     public FilmByScreenWriterSpecification(string screenWriter) => ScreenWriter = screenWriter;
 
     public string ScreenWriter { get; }
-    public bool IsSatisfiedBy(Film item) => item.FilmTags.Screenwriters.Any(x => x == ScreenWriter);
+    public bool IsSatisfiedBy(Film item) => item.FilmTags.Screenwriters.Any(x => x.ToUpper().Contains(ScreenWriter.ToUpper()));
 
     public void Accept(IFilmSpecificationVisitor visitor) => visitor.Visit(this);
 }

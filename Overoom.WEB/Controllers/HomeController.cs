@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Overoom.Application.Abstractions.Films.Catalog.Exceptions;
+using Overoom.Application.Abstractions.FilmsManagement.Exceptions;
+using Overoom.Application.Abstractions.Movie.Exceptions;
 using Overoom.Application.Abstractions.Rooms.Exceptions;
 using Overoom.Application.Abstractions.StartPage.Interfaces;
 using Overoom.Application.Abstractions.Users.Exceptions;
@@ -67,6 +68,7 @@ public class HomeController : Controller
             FilmNotFoundException => "Фильм не найден",
             ArgumentException => "Некорректные данные",
             ThumbnailSaveException => "Некорректный формат изображения",
+            PosterSaveException => "Некорректный формат изображения",
             ViewerInvalidNicknameException => "Неверный формат имени",
             RoomNotFoundException => "Комната не найдена",
             RoomIsFullException => "Комната заполнена",

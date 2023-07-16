@@ -1,6 +1,6 @@
 ﻿using Overoom.Domain.Abstractions;
 using Overoom.Domain.Rooms.BaseRoom.Exceptions;
-using Overoom.Domain.Rooms.BaseRoom.ValueObject;
+using Overoom.Domain.Rooms.BaseRoom.ValueObjects;
 
 namespace Overoom.Domain.Rooms.BaseRoom.Entities;
 

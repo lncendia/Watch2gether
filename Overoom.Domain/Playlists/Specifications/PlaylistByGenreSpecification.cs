@@ -9,6 +9,9 @@ public class PlaylistByGenreSpecification : ISpecification<Playlist, IPlaylistSp
     public PlaylistByGenreSpecification(string genre) => Genre = genre;
 
     public string Genre { get; }
-    public bool IsSatisfiedBy(Playlist item) => item.Genres.Select(x=>x.ToLower()).Contains(Genre.ToLower());
+
+    public bool IsSatisfiedBy(Playlist item) =>
+        item.Genres.Any(g => string.Equals(g, Genre, StringComparison.CurrentCultureIgnoreCase));
+
     public void Accept(IPlaylistSpecificationVisitor visitor) => visitor.Visit(this);
 }

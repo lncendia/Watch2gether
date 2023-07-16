@@ -23,17 +23,22 @@ internal class UserModelMapper : IModelMapperUnit<UserModel, User>
         else user = new UserModel { Id = entity.Id };
 
         user.Name = entity.Name;
+        user.NameNormalized = entity.Name.ToUpper();
         user.Email = entity.Email;
+        user.EmailNormalized = entity.Email.ToUpper();
         user.AvatarUri = entity.AvatarUri;
 
 
-        var newHistory = entity.History.Where(x => user.History.All(m => m.FilmId != x));
-        user.History.AddRange(newHistory.Select(x => new HistoryModel { FilmId = x }));
-        user.History.RemoveAll(x => entity.History.All(m => m != x.FilmId));
+        var newHistory = entity.History.Where(x => user.History.All(m => m.FilmId != x.FilmId || m.Date != x.Date));
+        user.History.AddRange(newHistory.Select(x => new HistoryModel { FilmId = x.FilmId, Date = x.Date }));
+        _context.UserHistory.RemoveRange(user.History.Where(x =>
+            entity.History.All(m => m.FilmId != x.FilmId || m.Date != x.Date)));
 
-        var newWatchlist = entity.Watchlist.Where(x => user.Watchlist.All(m => m.FilmId != x));
-        user.Watchlist.AddRange(newWatchlist.Select(x => new WatchlistModel { FilmId = x }));
-        user.Watchlist.RemoveAll(x => entity.Watchlist.All(m => m != x.FilmId));
+        var newWatchlist =
+            entity.Watchlist.Where(x => user.Watchlist.All(m => m.FilmId != x.FilmId || m.Date != x.Date));
+        user.Watchlist.AddRange(newWatchlist.Select(x => new WatchlistModel { FilmId = x.FilmId, Date = x.Date }));
+        _context.UserWatchlist.RemoveRange(user.Watchlist.Where(x =>
+            entity.Watchlist.All(m => m.FilmId != x.FilmId || m.Date != x.Date)));
 
         return user;
     }

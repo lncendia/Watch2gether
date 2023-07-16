@@ -35,7 +35,7 @@ public class AccountController : Controller
         if (!ModelState.IsValid) return View(model);
         try
         {
-            await _userAuthenticationService.CreateAsync(new UserCreateDto(model.Name, model.Password, model.Email),
+            await _userAuthenticationService.CreateAsync(new UserCreateDto(model.Name!, model.Password!, model.Email!),
                 Url.Action("AcceptCode", "Account", null, HttpContext.Request.Scheme)!);
 
             return RedirectToAction("Index", "Home",
@@ -103,7 +103,7 @@ public class AccountController : Controller
         if (!ModelState.IsValid) return View(model);
         try
         {
-            var user = await _userAuthenticationService.PasswordAuthenticateAsync(model.Email, model.Password);
+            var user = await _userAuthenticationService.PasswordAuthenticateAsync(model.Email!, model.Password!);
             await _signInManager.SignInAsync(user, model.RememberMe);
             return Redirect(model.ReturnUrl);
         }
@@ -143,7 +143,7 @@ public class AccountController : Controller
     public async Task<IActionResult> ResetPassword(ResetPasswordParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        await _userAuthenticationService.RequestResetPasswordAsync(model.Email, Url.Action(
+        await _userAuthenticationService.RequestResetPasswordAsync(model.Email!, Url.Action(
             "NewPassword", "Account", null, HttpContext.Request.Scheme)!);
         return RedirectToAction("Login", new
         {
@@ -168,7 +168,7 @@ public class AccountController : Controller
     public async Task<IActionResult> NewPassword(NewPasswordParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        await _userAuthenticationService.ResetPasswordAsync(model.Email, model.Code, model.Password);
+        await _userAuthenticationService.ResetPasswordAsync(model.Email!, model.Code!, model.Password!);
         return RedirectToAction("Login", new { message = "Пароль успешно изменен." });
     }
 }

@@ -1,22 +1,8 @@
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-.blockBackground {
-    padding: 20px;
-    background: #111111 !important;
-    border-radius: 15px;
-    box-shadow: 0 0 10px #252525;
-}
 .nav-background {
-    background: #111111 !important;
-}
-
-a.navbar-brand {
-    color: rgba(255, 255, 255, 0.55);
-}
-
-a.navbar-brand:hover {
-    color: #d9d9d9 !important;
+    background: #111111;
 }
 
 /* Sticky footer styles
@@ -27,6 +13,34 @@ a.navbar-brand:hover {
 }
 
 
+.btn-search {
+    margin-left: 5px;
+    margin-right: 10px;
+    --bs-btn-color: #d2d2d2;
+    --bs-btn-border-color: #d2d2d2;
+    --bs-btn-hover-color: #000;
+    --bs-btn-hover-bg: #f8f9fa;
+    --bs-btn-hover-border-color: #f8f9fa;
+}
+
+.dropdown-menu {
+    --bs-dropdown-bg: #2a2a2a;
+    --bs-dropdown-link-color: #d2d2d2;
+    --bs-dropdown-link-hover-bg: #1c1c1c;
+    --bs-dropdown-link-hover-color: #d2d2d2;
+    --bs-dropdown-link-active-bg: #141934;
+}
+
+a.nav-link {
+    --bs-nav-link-color: #d2d2d2;
+    --bs-nav-link-hover-color: #8a8a8a;
+}
+
+a.navbar-brand {
+    --bs-navbar-brand-color: #d2d2d2;
+    --bs-navbar-brand-hover-color: #8a8a8a;
+}
+
 button.accept-policy {
     font-size: 1rem;
     line-height: inherit;
@@ -36,6 +50,10 @@ html {
     position: relative;
     min-height: 100%;
     font-size: 14px;
+    --shadow-purple: #70059b;
+    --shadow-red: #7e0303;
+    --shadow-dark: #262626;
+    --color-dark: rgb(18, 20, 23);
 }
 
 @media (min-width: 768px) {

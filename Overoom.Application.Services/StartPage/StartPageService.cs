@@ -32,14 +32,14 @@ public class StartPageService : IStartPageService
         _mapper = mapper;
     }
 
-    public async Task<IReadOnlyCollection<FilmStartPageDto>> GetFilmsAsync()
+    public async Task<IReadOnlyCollection<FilmDto>> GetFilmsAsync()
     {
         var films = await _unitOfWork.FilmRepository.Value.FindAsync(null,
             new DescendingOrder<Film, IFilmSortingVisitor>(new FilmOrderByDate()), take: 10);
         return films.Select(_mapper.MapFilm).ToList();
     }
 
-    public async Task<IReadOnlyCollection<CommentStartPageDto>> GetCommentsAsync()
+    public async Task<IReadOnlyCollection<CommentDto>> GetCommentsAsync()
     {
         var comments = await _unitOfWork.CommentRepository.Value.FindAsync(null,
             new DescendingOrder<Domain.Comments.Entities.Comment, ICommentSortingVisitor>(
@@ -57,7 +57,7 @@ public class StartPageService : IStartPageService
         return comments.Select(x => _mapper.MapComment(x, users.FirstOrDefault(u => u.Id == x.UserId))).ToList();
     }
 
-    public async Task<IReadOnlyCollection<RoomStartPageDto>> GetRoomsAsync()
+    public async Task<IReadOnlyCollection<RoomDto>> GetRoomsAsync()
     {
         var frooms = _unitOfWork.FilmRoomRepository.Value.FindAsync(null,
             new DescendingOrder<FilmRoom, IFilmRoomSortingVisitor>(new FilmRoomOrderByLastActivityDate()), take: 5);

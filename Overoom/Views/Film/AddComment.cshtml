@@ -1,8 +1,8 @@
-@model 
+@model Overoom.WEB.Contracts.Film.AddCommentParameters
 <form asp-action="AddComment" method="Post" id="commentForm" class="form-horizontal">
-    <input type="hidden" id="id" name="filmId" value="@Model.Film.Id">
-    <label class="form-label" for="comment">Введите комментарий</label>
-    <textarea class="form-control valid" id="comment" name="text" rows="2"></textarea>
-    <span class="text-danger field-validation-valid d-block" data-valmsg-for="comment"></span>
-    <button id="commentButton" type="button" class="btn btn-outline-danger mt-2">Отправить</button>
+    <input type="hidden" asp-for="FilmId">
+    <label asp-for="Text"></label>
+    <textarea asp-for="Text" class="form-control" rows="2"></textarea>
+    <span asp-validation-for="Text" class="text-danger"></span>
+    <input class="btn btn-outline-danger mt-2" type="submit" value="Добавить"/>
 </form>

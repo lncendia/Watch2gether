@@ -1,0 +1,129 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Overoom.Domain.Films.Enums
+@model Overoom.WEB.Contracts.FilmManagement.ChangeParameters
+
+@{
+    ViewData["Title"] = "Редактирование";
+    var cdnCount = Model.Cdns.Count;
+}
+
+<div class="row gy-5">
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between align-content-center mb-5">
+            <h3>Редактирование фильма</h3>
+            <form asp-action="Delete" method="post">
+                <input type="hidden" name="filmId" value="@Model.Id">
+                <input type="submit" class="btn shadow-none btn-dark" value="Удалить">
+            </form>
+        </div>
+        <form asp-action="Edit" method="post" id="load" class="form-horizontal" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <div class="row g-2 block">
+                    <h4>Информация</h4>
+                    <div class="col-12">
+                        <input asp-for="Id" type="hidden"/>
+                        <label asp-for="Description"></label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="ShortDescription"></label>
+                        <textarea asp-for="ShortDescription" class="form-control"></textarea>
+                        <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                    </div>
+                    @if (Model.CountSeasons.HasValue)
+                    {
+                        <div class="col-6">
+                            <label asp-for="CountSeasons"></label>
+                            <input asp-for="CountSeasons" class="form-control"/>
+                            <span asp-validation-for="CountSeasons" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="CountEpisodes"></label>
+                            <input asp-for="CountEpisodes" class="form-control"/>
+                            <span asp-validation-for="CountEpisodes" class="text-danger"></span>
+                        </div>
+                    }
+                    <div class="col-lg-6 col-12">
+                        <label asp-for="NewPosterUri"></label>
+                        <input asp-for="NewPosterUri" class="form-control"/>
+                        <span asp-validation-for="NewPosterUri" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <label asp-for="NewPoster"></label>
+                        <input asp-for="NewPoster" class="form-control"/>
+                        <span asp-validation-for="NewPoster" class="text-danger"></span>
+                    </div>
+                    <div class="col-6">
+                        <label asp-for="Rating"></label>
+                        <input asp-for="Rating" class="form-control"/>
+                        <span asp-validation-for="Rating" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row g-2 block">
+                    <h4>Ссылки</h4>
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label asp-for="Cdns"></label>
+                            <a href="#" counter="@(cdnCount - 1)" id="addCdn" class="btn btn-dark copy-cdn" copy-name="Cdns" copy-target=".copyCdn">+</a>
+                        </div>
+
+                        @for (var i = 0; i < cdnCount; i++)
+                        {
+                            <div class="row g-2 block-2 copyCdn">
+                                <div class="col-lg-6 col-12">
+                                    <label asp-for="Cdns[i].Type"></label>
+                                    <select asp-for="Cdns[i].Type" asp-items="Html.GetEnumSelectList<CdnType>()" class="form-control">
+                                        <option selected="selected" value="">Не выбрано</option>
+                                    </select>
+                                    <span asp-validation-for="Cdns[i].Type" class="text-danger"></span>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <label asp-for="Cdns[i].Quality"></label>
+                                    <input asp-for="Cdns[i].Quality" class="form-control"/>
+                                    <span asp-validation-for="Cdns[i].Quality" class="text-danger"></span>
+                                </div>
+                                <div class="col-12">
+                                    <label asp-for="Cdns[i].Uri"></label>
+                                    <input asp-for="Cdns[i].Uri" class="form-control"/>
+                                    <span asp-validation-for="Cdns[i].Uri" class="text-danger"></span>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <label asp-for="Cdns[i].Voices"></label>
+                                        <a href="#" counter="0" class="btn btn-dark copy-button" copy-name="Voices" copy-target="#copyVoiceVideoCdn[@i]">+</a>
+                                    </div>
+                                    <div class="row g-2">
+                                        @for (int j = 0; j < Model.Cdns[i].Voices.Count; j++)
+                                        {
+                                            <div class="col-12" id="copyVoiceVideoCdn[@i]">
+                                                <label asp-for="Cdns[i].Voices[j].Name"></label>
+                                                <input asp-for="Cdns[i].Voices[j].Name" class="form-control"/>
+                                                <span asp-validation-for="Cdns[i].Voices[j].Name" class="text-danger"></span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-12">
+                    <input class="btn shadow-none btn-dark" type="submit" value="Изменить"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script src="~/js/filmEdit.js"></script>
+}
+
+@section styles
+{
+    <link rel="stylesheet" href="~/css/load.css"/>
+}

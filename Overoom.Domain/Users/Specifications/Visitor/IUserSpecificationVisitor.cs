@@ -8,6 +8,4 @@ public interface IUserSpecificationVisitor : ISpecificationVisitor<IUserSpecific
     void Visit(UserByEmailSpecification specification);
     void Visit(UserByIdSpecification specification);
     void Visit(UserByNameSpecification specification);
-    void Visit(UserByWatchlistFilmSpecification specification);
-    void Visit(UserByHistoryFilmSpecification specification);
 }

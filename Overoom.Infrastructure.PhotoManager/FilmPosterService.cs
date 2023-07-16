@@ -1,5 +1,5 @@
-﻿using Overoom.Application.Abstractions.Films.Load.Exceptions;
-using Overoom.Application.Abstractions.Films.Load.Interfaces;
+﻿using Overoom.Application.Abstractions.FilmsManagement.Exceptions;
+using Overoom.Application.Abstractions.FilmsManagement.Interfaces;
 using RestSharp;
 
 namespace Overoom.Infrastructure.PhotoManager;

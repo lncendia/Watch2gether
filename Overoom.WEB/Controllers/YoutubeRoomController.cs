@@ -28,7 +28,7 @@ public class YoutubeRoomController : Controller
     public async Task<IActionResult> CreateDefault(CreateYoutubeRoomParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        var roomData = await _roomService.CreateAsync(model.Url, model.Name, model.AddAccess);
+        var roomData = await _roomService.CreateAsync(model.Url!, model.Name!, model.AddAccess);
 
         await HttpContext.SetAuthenticationDataAsync(roomData.viewer.Username, roomData.viewer.Id,
             roomData.viewer.AvatarUrl, roomData.roomId, RoomType.Youtube);
@@ -42,7 +42,7 @@ public class YoutubeRoomController : Controller
     {
         if (!ModelState.IsValid) return View(model);
 
-        var roomData = await _roomService.CreateForUserAsync(model.Url, User.GetId(), model.AddAccess);
+        var roomData = await _roomService.CreateForUserAsync(model.Url!, User.GetId(), model.AddAccess);
 
         await HttpContext.SetAuthenticationDataAsync(roomData.viewer.Username, roomData.viewer.Id,
             roomData.viewer.AvatarUrl, roomData.roomId, RoomType.Youtube);
@@ -64,7 +64,7 @@ public class YoutubeRoomController : Controller
     public async Task<IActionResult> ConnectDefault(ConnectRoomParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        ViewerDto viewer = await _roomService.ConnectAsync(model.RoomId, model.Name);
+        ViewerDto viewer = await _roomService.ConnectAsync(model.RoomId, model.Name!);
         await HttpContext.SetAuthenticationDataAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, model.RoomId,
             RoomType.Youtube);
         return RedirectToAction("Room");

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Overoom.Application.Abstractions.Films.Load.Interfaces;
-using Overoom.Domain.Films.Exceptions;
+using Overoom.Application.Abstractions.FilmsManagement.Interfaces;
 using Overoom.WEB.Contracts.FilmLoad;
 using Overoom.WEB.Mappers.Abstractions;
 
@@ -11,30 +10,35 @@ namespace Overoom.WEB.Controllers;
 public class FilmLoadController : Controller
 {
     private readonly IFilmLoadMapper _filmLoadMapper;
-    private readonly IFilmLoadService _loadService;
+    private readonly IFilmManagementService _managementService;
     private readonly IFilmInfoService _filmInfoService;
 
-    public FilmLoadController(IFilmLoadMapper filmLoadMapper, IFilmLoadService loadService,
+    public FilmLoadController(IFilmLoadMapper filmLoadMapper, IFilmManagementService managementService,
         IFilmInfoService filmInfoService)
     {
         _filmLoadMapper = filmLoadMapper;
-        _loadService = loadService;
+        _managementService = managementService;
         _filmInfoService = filmInfoService;
     }
 
     [HttpGet]
-    public IActionResult Load()
+    public IActionResult Index()
     {
-        return View();
+        return View(new LoadParameters());
     }
 
     [HttpPost]
-    public async Task<IActionResult> Load(FilmLoadParameters model)
+    public async Task<IActionResult> Index(LoadParameters model)
     {
         if (!ModelState.IsValid) return View(model);
+        if (model.Poster?.Length > 15728640)
+        {
+            ModelState.AddModelError("","Размер постера не может превышать 15 Мб");
+            return View(model);
+        }
         var film = _filmLoadMapper.Map(model);
 
-        await _loadService.LoadAsync(film);
+        await _managementService.LoadAsync(film);
         return RedirectToAction("Index", "Home", new { message = "Фильм успешно загружен" });
     }
 

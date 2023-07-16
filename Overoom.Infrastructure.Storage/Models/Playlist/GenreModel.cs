@@ -4,6 +4,7 @@ public class PlaylistGenreModel
 {
     public long Id { get; set; }
     public string Name { get; set; } = null!;
+    public string NameNormalized { get; set; } = null!;
     
     public PlaylistModel PlaylistModel { get; set; } = null!;
 }

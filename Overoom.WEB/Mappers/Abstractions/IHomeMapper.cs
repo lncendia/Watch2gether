@@ -5,7 +5,7 @@ namespace Overoom.WEB.Mappers.Abstractions;
 
 public interface IHomeMapper
 {
-    CommentStartPageViewModel Map(CommentStartPageDto dto);
-    RoomStartPageViewModel Map(RoomStartPageDto dto);
-    FilmStartPageViewModel Map(FilmStartPageDto dto);
+    CommentStartPageViewModel Map(CommentDto dto);
+    RoomStartPageViewModel Map(RoomDto dto);
+    FilmStartPageViewModel Map(FilmDto dto);
 }

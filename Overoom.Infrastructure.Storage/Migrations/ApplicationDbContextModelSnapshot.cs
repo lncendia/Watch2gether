@@ -15,7 +15,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.8");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Comment.CommentModel", b =>
                 {
@@ -52,13 +52,16 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("FilmModelId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NameNormalized")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -109,6 +112,10 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("NameNormalized")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FilmModelId");
@@ -126,6 +133,10 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NameNormalized")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -156,6 +167,10 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("NameNormalized")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("PosterUri")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -171,6 +186,9 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.Property<double>("UserRating")
                         .HasColumnType("REAL");
+
+                    b.Property<int>("UserRatingsCount")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Year")
                         .HasColumnType("INTEGER");
@@ -190,6 +208,10 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NameNormalized")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -213,6 +235,10 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("NameNormalized")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FilmModelId");
@@ -230,6 +256,10 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Info")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InfoNormalized")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -317,6 +347,10 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("NameNormalized")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("OnPause")
                         .HasColumnType("INTEGER");
 
@@ -373,6 +407,10 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("NameNormalized")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("PlaylistModelId")
                         .HasColumnType("TEXT");
 
@@ -397,6 +435,10 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("NameNormalized")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("PosterUri")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -413,6 +455,9 @@ namespace Overoom.Infrastructure.Storage.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("FilmId")
@@ -459,6 +504,9 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("FilmId")
                         .HasColumnType("TEXT");
 
@@ -488,7 +536,15 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("EmailNormalized")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NameNormalized")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -502,6 +558,9 @@ namespace Overoom.Infrastructure.Storage.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("FilmId")
                         .HasColumnType("TEXT");
@@ -593,6 +652,10 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NameNormalized")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

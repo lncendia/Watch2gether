@@ -1,5 +1,14 @@
+using System.Globalization;
 using Overoom.Extensions;
 using Overoom.WEB.Hubs;
+
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("ru-RU")
+{
+    NumberFormat = new NumberFormatInfo
+    {
+        NumberDecimalSeparator = "."
+    }
+};
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.

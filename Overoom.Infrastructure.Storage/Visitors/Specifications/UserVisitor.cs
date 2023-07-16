@@ -17,16 +17,7 @@ public class UserVisitor : BaseVisitor<UserModel, IUserSpecificationVisitor, Use
         return visitor.Expr!;
     }
 
-    public void Visit(UserByEmailSpecification specification) => Expr = x => x.Email == specification.Email;
+    public void Visit(UserByEmailSpecification specification) => Expr = x => x.EmailNormalized == specification.Email.ToUpper();
     public void Visit(UserByIdSpecification specification) => Expr = x => x.Id == specification.Id;
-    public void Visit(UserByNameSpecification specification) => Expr = x => x.Name.Contains(specification.Name);
-    public void Visit(UserByWatchlistFilmSpecification specification)
-    {
-        
-    }
-
-    public void Visit(UserByHistoryFilmSpecification specification)
-    {
-
-    }
+    public void Visit(UserByNameSpecification specification) => Expr = x => x.NameNormalized.Contains(specification.Name.ToUpper());
 }

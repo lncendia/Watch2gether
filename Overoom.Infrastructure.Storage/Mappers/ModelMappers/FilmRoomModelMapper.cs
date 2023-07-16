@@ -44,12 +44,11 @@ internal class FilmRoomModelMapper : IModelMapperUnit<FilmRoomModel, FilmRoom>
             filmRoom.Messages.All(m => m.ViewerEntityId != x.ViewerId && m.CreatedAt != x.CreatedAt));
         filmRoom.Messages.AddRange(newMessages.Select(x => new FilmMessageModel
             { ViewerEntityId = x.ViewerId, Text = x.Text, CreatedAt = x.CreatedAt }));
-        filmRoom.Messages.RemoveAll(x =>
-            entity.Messages.All(m => m.ViewerId != x.ViewerEntityId && m.CreatedAt != x.CreatedAt));
+        _context.FilmMessages.RemoveRange(filmRoom.Messages.Where(x =>
+            entity.Messages.All(m => m.ViewerId != x.ViewerEntityId && m.CreatedAt != x.CreatedAt)));
 
 
-        filmRoom.Viewers.RemoveAll(x =>
-            entity.Viewers.All(m => m.Id != x.EntityId));
+        _context.FilmViewers.RemoveRange(filmRoom.Viewers.Where(x => entity.Viewers.All(m => m.Id != x.EntityId)));
 
         foreach (var viewer in entity.Viewers)
         {
@@ -57,6 +56,7 @@ internal class FilmRoomModelMapper : IModelMapperUnit<FilmRoomModel, FilmRoom>
             {
                 EntityId = viewer.Id,
                 Name = viewer.Name,
+                NameNormalized = viewer.Name.ToUpper(),
                 AvatarUri = viewer.AvatarUri
             };
             viewerModel.Season = viewer.Season;

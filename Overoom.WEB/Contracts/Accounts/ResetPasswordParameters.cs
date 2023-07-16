@@ -8,5 +8,5 @@ public class ResetPasswordParameters
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [DataType(DataType.EmailAddress)]
     [Display(Name = "Введите электронный адрес, к которому привязан аккаунт.")]
-    public string Email { get; set; } = null!;
+    public string? Email { get; set; }
 }

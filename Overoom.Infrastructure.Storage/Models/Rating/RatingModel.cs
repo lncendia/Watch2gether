@@ -12,4 +12,5 @@ public class RatingModel : IAggregateModel
     public Guid? UserId { get; set; }
     public UserModel? User { get; set; }
     public double Score { get; set; }
+    public DateTime Date { get; set; }
 }

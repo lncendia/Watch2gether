@@ -1,53 +1,145 @@
-﻿.filmAvatar {
+﻿.poster {
     width: 100%;
-    height: auto;
     max-height: 300px;
     max-width: 200px;
     border-radius: 10px;
+    box-shadow: 0 2px 5px var(--shadow-red);
 }
 
-.filmDescription {
+.watchlist-button {
     color: #8f8f8f;
 }
 
-.filmsSearchLink {
-    color: #8f8f8f !important;
-    text-decoration: none;
-}
-
-.filmsSearchLink:hover {
-    color: #6b6b6b !important;
-    text-decoration: underline;
-}
-
-.filmKey {
+.watchlist-button:hover {
     color: #d9d9d9;
 }
 
-.comment{
+
+.film-description {
+    color: #8f8f8f;
+}
+
+.films-search {
+    --bs-link-color: #8f8f8f;
+    text-decoration: none;
+}
+
+.films-search:hover {
+    color: #6b6b6b;
+    text-decoration: underline;
+}
+
+.film-key {
+    color: #d9d9d9;
+}
+
+.element {
     margin-top: 10px;
     color: #a4a7a8;
 }
-.comment-card{
+
+.comment-card {
+    --bs-card-cap-bg: #151515;
+    --bs-card-bg: var(--color-dark);
     background-color: #1c1c1c;
     border-radius: 10px;
     box-shadow: 2px 2px 3px #7e0303;
 }
 
-.comment-header{
-    background-color: #151515;
-}
 
-.commentAvatar {
+.comment-avatar {
     width: 45px;
     height: 100%;
     border-radius: 50%;
     margin-right: 10px;
 }
 
-.frame{
+iframe {
     width: 100%;
     height: 500px;
     border-radius: 15px;
     box-shadow: 0 0 30px #790e0e;
+}
+
+.block-background {
+    padding: 15px;
+    background: var(--color-dark);
+    border-radius: 15px;
+    box-shadow: 0 0 10px var(--shadow-dark);
+}
+
+table th, table td {
+    width: 150px;
+}
+
+.cdn-table {
+    --bs-table-bg: transparent;
+    --bs-table-color: #c5c5c5;
+}
+
+.rating {
+    display: block;
+    font-size: 25px;
+    color: green;
+}
+
+.rating-count {
+    display: block;
+    font-size: 11px;
+    color: #d9d9d9;
+}
+
+
+.rating-area {
+    min-width: 200px;
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+.rating-area:not(:checked) > input {
+    display: none;
+}
+
+.rating-area:not(:checked) > label {
+    float: right;
+    width: 20px;
+    padding: 0;
+    cursor: pointer;
+    font-size: 25px;
+    line-height: 32px;
+    color: lightgrey;
+    text-shadow: 1px 1px #bbb;
+}
+
+.rating-area:not(:checked) > label:before {
+    content: '★';
+}
+
+.rating-area > input:checked ~ label {
+    color: gold;
+    text-shadow: 1px 1px #c60;
+}
+
+.rating-area-selected > input:checked ~ label {
+    color: #606060 !important;
+    text-shadow: 1px 1px #9a9a9a !important;
+}
+
+.rating-area:not(:checked) > label:hover,
+.rating-area:not(:checked) > label:hover ~ label {
+    color: #606060;
+    text-shadow: 1px 1px #9a9a9a;
+}
+
+.rating-area > input:checked + label:hover,
+.rating-area > input:checked + label:hover ~ label,
+.rating-area > input:checked ~ label:hover,
+.rating-area > input:checked ~ label:hover ~ label,
+.rating-area > label:hover ~ input:checked ~ label {
+    color: #606060;
+    text-shadow: 1px 1px #9a9a9a;
+}
+
+.rate-area > label:active {
+    position: relative;
 }

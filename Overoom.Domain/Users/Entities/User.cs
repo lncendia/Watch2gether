@@ -2,10 +2,11 @@
 using System.Text.RegularExpressions;
 using Overoom.Domain.Abstractions;
 using Overoom.Domain.Users.Exceptions;
+using Overoom.Domain.Users.ValueObjects;
 
 namespace Overoom.Domain.Users.Entities;
 
-public class User : AggregateRoot
+public partial class User : AggregateRoot
 {
     public User(string name, string email, Uri avatarUri)
     {
@@ -42,28 +43,33 @@ public class User : AggregateRoot
         get => _name;
         set
         {
-            if (Regex.IsMatch(value, "^[a-zA-Zа-яА-Я0-9_ ]{3,20}$")) _name = value;
-            else throw new InvalidNicknameException(value);
+            if (MyRegex().IsMatch(value)) _name = value;
+            else throw new InvalidNicknameException();
         }
     }
 
-    private readonly List<Guid> _watchlist = new();
-    private readonly List<Guid> _history = new();
+    private readonly List<FilmNote> _watchlist = new();
+    private readonly List<FilmNote> _history = new();
 
-    public IReadOnlyCollection<Guid> Watchlist => _watchlist.AsReadOnly();
-    public IReadOnlyCollection<Guid> History => _history.AsReadOnly();
+    public IReadOnlyCollection<FilmNote> Watchlist => _watchlist.AsReadOnly();
+    public IReadOnlyCollection<FilmNote> History => _history.AsReadOnly();
 
     public void AddFilmToWatchlist(Guid filmId)
     {
-        if (_watchlist.Contains(filmId)) return;
-        if (_watchlist.Count > 50) _watchlist.RemoveAt(0);
-        _watchlist.Add(filmId);
+        _watchlist.RemoveAll(x => x.FilmId == filmId);
+        if (_watchlist.Count > 30) _watchlist.Remove(_watchlist.OrderBy(x => x.Date).First());
+        _watchlist.Add(new FilmNote(filmId));
     }
+
+    public void RemoveFilmFromWatchlist(Guid filmId) => _watchlist.RemoveAll(x => x.FilmId == filmId);
 
     public void AddFilmToHistory(Guid filmId)
     {
-        if (_history.Contains(filmId)) return;
-        if (_history.Count > 50) _history.RemoveAt(0);
-        _history.Add(filmId);
+        _history.RemoveAll(x => x.FilmId == filmId);
+        if (_history.Count > 30) _history.Remove(_history.First());
+        _history.Add(new FilmNote(filmId));
     }
+
+    [GeneratedRegex("^[a-zA-Zа-яА-Я0-9_ ]{3,20}$")]
+    private static partial Regex MyRegex();
 }
