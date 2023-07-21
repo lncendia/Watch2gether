@@ -10,8 +10,7 @@
 <div class="container-fluid">
     <a class="navbar-brand" asp-controller="Home" asp-action="Index">
         <span>
-            Over
-            <svg width="20" height="30" fill="currentColor" class="bi bi-list-nested" viewBox="0 0 500 400">
+            Over<svg width="20" height="30" fill="currentColor" class="bi bi-list-nested" viewBox="0 0 500 400">
                 <path d="M160,0c35.622-.7,99.805,39.235,72,73-14.661,17.8-42.593-7.6-64-1-23.526,7.255-53.218,65.441-59,92H392v-1c-13.412-30.072-27.337-79.882-59-91-21.586-7.58-42.917,17.092-61,4-15.05-10.9-6.777-34.677,2-46,16.088-20.756,58.284-41.262,90-22,38.939,23.649,125.567,138.851,136,190V346c-2.4,10.114-9.574,20.662-17,26-15.05,10.818-45.206,8-71,8H332c-11.974-2.9-71.042-48.193-80-58l-81,57H32c-9.552-2.692-19.766-9.791-25-17-13.427-18.494-7-88.009-7-120V198C11.164,146.59,94,37.9,132,11,140.247,5.161,149.684,4.521,160,0ZM49,212V331H157c21.428-8.719,73.666-68.53,98-64,28.706,5.344,63.036,55.29,89,64H451V212H49Zm12,20c23.283-.342,132.629-4.085,143,3,7.889,5.389,11.813,18.953,12,32l-70,50H102l-41-1V232Zm378,0q-0.5,42.5-1,85H353l-69-51c0.39-13.258,5.161-27.208,14-32C311.17,226.86,414.9,231.663,439,232Z"/>
             </svg>m
         </span>
@@ -82,11 +81,11 @@
             </li>
             @if (!appAuth.None)
             {
-                <li class="nav-item d-none d-md-flex align-items-center">
+                <li class="nav-item d-none d-xxl-flex align-items-center">
                     <img src="~/@User.GetAvatar()" width="35" height="35" class="rounded-circle mr-2" alt="...">
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-nowrap" asp-controller="Settings" asp-action="Profile" title="Профиль">
+                    <a class="nav-link text-nowrap" asp-controller="Profile" asp-action="Index" title="Профиль">
                         @User.GetName()
                     </a>
                 </li>
@@ -141,7 +140,7 @@
             else
             {
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Account" asp-action="Login">
+                    <a class="nav-link" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
                             <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>

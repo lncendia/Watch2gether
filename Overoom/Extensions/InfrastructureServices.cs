@@ -1,9 +1,8 @@
-using Overoom.Application.Abstractions.FilmsManagement.Interfaces;
+using Overoom.Application.Abstractions.Common.Interfaces;
 using Overoom.Application.Abstractions.Kinopoisk.Interfaces;
-using Overoom.Application.Abstractions.Users.Interfaces;
 using Overoom.Infrastructure.Mailing;
-using Overoom.Infrastructure.Movie;
 using Overoom.Infrastructure.Movie.Abstractions;
+using Overoom.Infrastructure.Movie.Services;
 using Overoom.Infrastructure.PhotoManager;
 
 namespace Overoom.Extensions;
@@ -17,11 +16,15 @@ public static class InfrastructureServices
 
         services.AddScoped<IUserThumbnailService, UserThumbnailService>(
             _ => new UserThumbnailService(rootPath, Path.Combine("img", "avatars")));
-        services.AddScoped<IFilmPosterService, FilmPosterService>(
-            _ => new FilmPosterService(rootPath, Path.Combine("img", "posters")));
+        services.AddScoped<IPosterService, PosterService>(
+            _ => new PosterService(rootPath, Path.Combine("img", "posters")));
 
 
-        services.AddScoped<IResponseParser, ResponseParser>();
-        services.AddScoped<IKpApiService, KpApi>(s => new KpApi("e2f56e43-04aa-4388-8852-addef6f31247", s.GetRequiredService<IResponseParser>()));
+        services.AddScoped<IKpResponseParser, KpResponseParser>();
+        services.AddScoped<IVideoCdnResponseParser, VideoCdnResponseParser>();
+        services.AddScoped<IKpApiService, KpApi>(s =>
+            new KpApi("e2f56e43-04aa-4388-8852-addef6f31247", s.GetRequiredService<IKpResponseParser>()));
+        services.AddScoped<IVideoCdnApiService, VideoCdnApi>(s =>
+            new VideoCdnApi("6oDZugvTXZogUnTodylqzeEP7c4lmnkd", s.GetRequiredService<IVideoCdnResponseParser>()));
     }
 }

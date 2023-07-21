@@ -73,7 +73,12 @@ public class ContentManager : IContentManager
     {
         ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification = null;
         if (!string.IsNullOrEmpty(playlistSearchQuery.Name))
-            specification = new PlaylistByNameSpecification(playlistSearchQuery.Name);
+            specification =
+                AddToSpecification(specification, new PlaylistByNameSpecification(playlistSearchQuery.Name));
+        if (!string.IsNullOrEmpty(playlistSearchQuery.Genre))
+            specification =
+                AddToSpecification(specification, new PlaylistByGenreSpecification(playlistSearchQuery.Genre));
+
 
         IOrderBy<Playlist, IPlaylistSortingVisitor> orderBy =
             playlistSearchQuery.SortBy == PlaylistSortBy.Date ? new OrderByUpdateDate() : new OrderByCountFilms();
@@ -130,12 +135,11 @@ public class ContentManager : IContentManager
         return new FilmByIdsSpecification(playlist.Films);
     }
 
-    private static ISpecification<Film, IFilmSpecificationVisitor> AddToSpecification(
-        ISpecification<Film, IFilmSpecificationVisitor>? baseSpec,
-        ISpecification<Film, IFilmSpecificationVisitor> newSpec)
+    private static ISpecification<T, TV> AddToSpecification<T, TV>(
+        ISpecification<T, TV>? baseSpec, ISpecification<T, TV> newSpec) where TV : ISpecificationVisitor<TV, T>
     {
         return baseSpec == null
             ? newSpec
-            : new AndSpecification<Film, IFilmSpecificationVisitor>(baseSpec, newSpec);
+            : new AndSpecification<T, TV>(baseSpec, newSpec);
     }
 }

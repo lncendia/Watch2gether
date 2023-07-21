@@ -1,8 +1,7 @@
 ﻿using Overoom.Application.Abstractions;
+using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Application.Abstractions.Rooms.DTOs.Youtube;
-using Overoom.Application.Abstractions.Rooms.Exceptions;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
-using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
 using Overoom.Domain.Rooms.YoutubeRoom.Entities;
 

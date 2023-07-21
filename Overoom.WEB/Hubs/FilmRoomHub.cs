@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Overoom.Application.Abstractions.Rooms.Exceptions;
+using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Domain.Rooms.BaseRoom.Exceptions;
 using Overoom.WEB.Hubs.Models;

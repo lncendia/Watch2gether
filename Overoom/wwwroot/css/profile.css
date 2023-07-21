@@ -15,6 +15,16 @@
     color: #b6b6b6;
 }
 
+.films-search {
+    --bs-link-color: #8f8f8f;
+    text-decoration: none;
+}
+
+.films-search:hover {
+    color: #6b6b6b;
+    text-decoration: underline;
+}
+
 .block-background {
     padding: 15px;
     background: var(--color-dark);

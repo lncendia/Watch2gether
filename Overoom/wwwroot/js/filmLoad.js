@@ -34,12 +34,11 @@ function CopyCdn(e) {
     let html = copyEl[0].outerHTML
         .replace('id=\"' + attr.slice(1) + '\"', '')
         .replaceAll(name + '[0]', name + '[' + counter + ']')
-        .replaceAll('copyVoiceVideoCdn[0]', 'copyVoiceVideoCdn' + '[' + counter + ']')
+        .replaceAll('copyVoiceCdn[0]', 'copyVoiceCdn' + '[' + counter + ']')
         .replaceAll(/value="(\\\\.|[^"])+"/gu, 'value=""')
     copyEl.parent().append(html)
-    let el1 = $("[copy-target='.copyVoiceVideoCdn\\[" + counter + "\\]']")
+    let el1 = $("[copy-target='.copyVoiceCdn[" + counter + "]']")
     el1.click(CopyInput)
-    console.log(el1)
     return false
 }
 
@@ -73,6 +72,7 @@ $('#imdbIdSearch').click(async e => {
         if (val !== '') {
             let res = await fetch('/FilmLoad/GetFromImdb?' + name + '=' + val)
             if (res.ok) Fill(await res.json())
+            else alert(await res.text());
         }
     }
 )
@@ -91,17 +91,19 @@ function Fill(model) {
     if (model.type === 'Serial') {
         $('#type').trigger('change')
     }
-    
-    let addGenre = $('#addGenre');
-    let addCountry = $('#addCountry');
-    let addActor = $('#addActor');
-    let addScreenwriter = $('#addScreenwriter');
-    let addDirector = $('#addDirector');
+
+    let addGenre = $("[copy-target='.copyGenre']")
+    let addCountry = $("[copy-target='.copyCountry']")
+    let addActor = $("[copy-target='.copyActor']")
+    let addScreenwriter = $("[copy-target='.copyScreenwriter']")
+    let addDirector = $("[copy-target='.copyDirector']")
+    let addCdn = $("[copy-target='.copyCdn']")
     for (let i = parseInt(addGenre.attr('counter')) + 1; i < model.genres.length; i++) addGenre.trigger('click')
     for (let i = parseInt(addCountry.attr('counter')) + 1; i < model.countries.length; i++) addCountry.trigger('click')
     for (let i = parseInt(addActor.attr('counter')) + 1; i < model.actors.length; i++) addActor.trigger('click')
     for (let i = parseInt(addScreenwriter.attr('counter')) + 1; i < model.screenwriters.length; i++) addScreenwriter.trigger('click')
     for (let i = parseInt(addDirector.attr('counter')) + 1; i < model.directors.length; i++) addDirector.trigger('click')
+    for (let i = parseInt(addCdn.attr('counter')) + 1; i < model.cdn.length; i++) addCdn.trigger('click')
 
     for (let i = 0; i < model.genres.length; i++) {
         $("[name='Genres[" + i + "].Name']").val(model.genres[i])
@@ -118,6 +120,16 @@ function Fill(model) {
     }
     for (let i = 0; i < model.directors.length; i++) {
         $("[name='Directors[" + i + "].Name']").val(model.directors[i])
+    }
+    for (let i = 0; i < model.cdn.length; i++) {
+        $("[name='Cdns[" + i + "].Type']").val(model.cdn[i].type)
+        $("[name='Cdns[" + i + "].Quality']").val(model.cdn[i].quality)
+        $("[name='Cdns[" + i + "].Uri']").val(model.cdn[i].uri)
+        let el = $("[copy-target='.copyVoiceCdn[" + i + "]']")
+        for (let j = parseInt(el.attr('counter')) + 1; j < model.cdn[i].voices.length; j++) el.trigger('click')
+        for (let j = 0; j < model.cdn[i].voices.length; j++) {
+            $("[name='Cdns[" + i + "].Voices[" + j + "].Name']").val(model.cdn[i].voices[j])
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Overoom.Application.Abstractions.Users.Entities;
+using Overoom.Application.Abstractions.Authentication.Entities;
 
 namespace Overoom.Infrastructure.ApplicationData;
 

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Overoom.Domain.Films.Enums;
 
 namespace Overoom.WEB.Contracts.FilmManagement;
 

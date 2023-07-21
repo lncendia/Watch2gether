@@ -29,13 +29,14 @@
 
 
 .poster {
-    height: 300px;
+    height: 250px;
 }
 
+
 .film-card {
-    width: 200px;
     height: 100%;
     margin: 0 auto;
+    max-width: 180px;
     --bs-card-bg: var(--color-dark);
     box-shadow: 2px 2px 7px var(--shadow-purple)
 }
@@ -76,29 +77,77 @@ video {
     text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
 }
 
-.mainText {
-    font-size: 70px;
-    font-weight: 700;
-}
-
 .logo {
     width: 70%;
     margin: 30px auto 0;
     text-align: center;
 }
 
+.main-text {
+    font-size: 40px;
+    font-weight: 500;
+}
+
+.side-text{
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.line {
+    width: 200px;
+    margin: 0 auto 10px;
+    border-top: 4px solid white;
+}
+
+.glasses{
+    width: 40px;
+    height: 40px;
+    bottom: 10px;
+}
+
+@media (min-width: 600px) {
+    .main-text {
+        font-size: 60px;
+        font-weight: 600;
+    }
+    .side-text{
+        font-size: 25px;
+        font-weight: 400;
+    }
+    .line {
+        width: 250px;
+        margin: 0 auto 10px;
+        border-top: 4px solid white;
+    }
+    .glasses{
+        width: 50px;
+        height: 50px;
+    }
+}
 
 @media (min-width: 1020px) {
     .logo {
         width: 35%;
         margin-left: 10%;
     }
-}
-
-.line {
-    width: 300px;
-    margin: 0 auto 10px;
-    border-top: 4px solid white;
+    .main-text {
+        font-size: 70px;
+        font-weight: 700;
+    }
+    .side-text{
+        font-size: 30px;
+        font-weight: 500;
+    }
+    .line {
+        width: 300px;
+        margin: 0 auto 10px;
+        border-top: 4px solid white;
+    }
+    .glasses{
+        width: 70px;
+        height: 70px;
+        bottom: 20px;
+    }
 }
 
 .alert {

@@ -2,9 +2,10 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Identity;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Users.Entities;
-using Overoom.Application.Abstractions.Users.Interfaces;
-using Overoom.Application.Services.Users;
+using Overoom.Application.Abstractions.Authentication.Entities;
+using Overoom.Application.Abstractions.Authentication.Interfaces;
+using Overoom.Application.Services.Authentication;
+using Overoom.Application.Services.Common;
 using Overoom.Infrastructure.ApplicationData;
 using Overoom.WEB.RoomAuthentication;
 
@@ -16,6 +17,7 @@ public static class AuthenticationServices
     {
         
         services.AddTransient<IUserValidator<UserData>, UserValidator>();
+        services.AddTransient<IPasswordValidator<UserData>, PasswordValidator>();
         services.AddIdentity<UserData, RoleData>(options =>
         {
             options.SignIn.RequireConfirmedAccount = true;

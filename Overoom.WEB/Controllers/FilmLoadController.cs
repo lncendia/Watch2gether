@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Overoom.Application.Abstractions.FilmsInformation.Interfaces;
 using Overoom.Application.Abstractions.FilmsManagement.Interfaces;
 using Overoom.WEB.Contracts.FilmLoad;
 using Overoom.WEB.Mappers.Abstractions;
@@ -26,16 +27,17 @@ public class FilmLoadController : Controller
     {
         return View(new LoadParameters());
     }
-
+    
     [HttpPost]
     public async Task<IActionResult> Index(LoadParameters model)
     {
         if (!ModelState.IsValid) return View(model);
         if (model.Poster?.Length > 15728640)
         {
-            ModelState.AddModelError("","Размер постера не может превышать 15 Мб");
+            ModelState.AddModelError("", "Размер постера не может превышать 15 Мб");
             return View(model);
         }
+
         var film = _filmLoadMapper.Map(model);
 
         await _managementService.LoadAsync(film);

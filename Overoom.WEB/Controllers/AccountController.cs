@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Overoom.Application.Abstractions.Users.DTOs;
-using Overoom.Application.Abstractions.Users.Entities;
-using Overoom.Application.Abstractions.Users.Exceptions;
-using Overoom.Application.Abstractions.Users.Interfaces;
+using Overoom.Application.Abstractions.Authentication.DTOs;
+using Overoom.Application.Abstractions.Authentication.Entities;
+using Overoom.Application.Abstractions.Authentication.Exceptions;
+using Overoom.Application.Abstractions.Authentication.Interfaces;
+using Overoom.Application.Abstractions.Common.Exceptions;
+using Overoom.Domain.Users.Exceptions;
 using Overoom.WEB.Contracts.Accounts;
 
 namespace Overoom.WEB.Controllers;
@@ -46,10 +48,26 @@ public class AccountController : Controller
             switch (ex)
             {
                 case UserAlreadyExistException:
-                    ModelState.AddModelError("", "Пользователь с таким логином уже существует");
+                    ModelState.AddModelError("", "Пользователь с таким email уже существует");
                     break;
-                case EmailException:
-                    ModelState.AddModelError("", "Не удалось отправить сообщение вам на почту");
+                case NicknameLengthException:
+                    ModelState.AddModelError("",
+                        "Длина имени должна составлять от 3 до 20 символов");
+                    break;
+                case NicknameFormatException:
+                    ModelState.AddModelError("",
+                        "Имя может содержать только латинские или кириллические буквы, цифры, пробелы и символы подчеркивания");
+                    break;
+                case PasswordLengthException:
+                    ModelState.AddModelError("",
+                        "Длина пароля должна составлять от 8 до 30 символов");
+                    break;
+                case PasswordFormatException:
+                    ModelState.AddModelError("",
+                        "Пароль должен содержать буквы, цифры и специальные символы и не может иметь разрывов");
+                    break;
+                case UserCreationException exception:
+                    ModelState.AddModelError("", exception.Message);
                     break;
                 default:
                     throw;

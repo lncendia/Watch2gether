@@ -2,7 +2,7 @@
 
 public class PlaylistSearchQuery
 {
-    public PlaylistSearchQuery(string? name, PlaylistSortBy sortBy, int page, bool inverseOrder)
+    public PlaylistSearchQuery(string? name, string? genre, PlaylistSortBy sortBy, int page, bool inverseOrder)
     {
         SortBy = sortBy;
         Page = page;
@@ -11,6 +11,7 @@ public class PlaylistSearchQuery
     }
 
     public string? Name { get; }
+    public string? Genre { get; }
     public PlaylistSortBy SortBy { get; }
     public bool InverseOrder { get; }
     public int Page { get; }

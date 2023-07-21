@@ -19,7 +19,7 @@ public class FilmManagementMapper : IFilmManagementMapper
         {
             Id = dto.FilmId, CountEpisodes = dto.CountEpisodes, CountSeasons = dto.CountSeasons,
             Description = dto.Description, Rating = dto.Rating,
-            ShortDescription = dto.ShortDescription, Cdns = cdns
+            ShortDescription = dto.ShortDescription, Cdns = cdns, Name = dto.Title
         };
     }
 
@@ -27,7 +27,8 @@ public class FilmManagementMapper : IFilmManagementMapper
     {
         var uri = parameters.NewPosterUri == null ? null : new Uri(parameters.NewPosterUri);
         var cdns = parameters.Cdns
-            .Select(x => new CdnDto(x.Type!.Value, new Uri(x.Uri!), x.Quality!, x.Voices.Select(v => v.Name!).ToList())).ToList();
+            .Select(x => new CdnDto(x.Type!.Value, new Uri(x.Uri!), x.Quality!, x.Voices.Select(v => v.Name!).ToList()))
+            .ToList();
         return new ChangeDto(parameters.Id, parameters.Description, parameters.ShortDescription,
             uri, parameters.Rating, cdns, parameters.CountSeasons, parameters.CountEpisodes,
             parameters.NewPoster?.OpenReadStream());

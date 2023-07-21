@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Overoom.Domain.Ratings;
+using Overoom.Domain.Ratings.Entities;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Rating;

@@ -1,12 +1,12 @@
 using Microsoft.Extensions.Caching.Memory;
+using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Application.Abstractions.Movie.DTOs;
-using Overoom.Application.Abstractions.Movie.Exceptions;
 using Overoom.Application.Abstractions.Movie.Interfaces;
-using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
 using Overoom.Domain.Films.Entities;
 using Overoom.Domain.Films.Enums;
 using Overoom.Domain.Ratings;
+using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Ratings.Specifications;
 using Overoom.Domain.Ratings.Specifications.Visitor;
 using Overoom.Domain.Specifications;

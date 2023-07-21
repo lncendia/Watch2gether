@@ -1,4 +1,5 @@
 using Overoom.Domain.Abstractions;
+using Overoom.Domain.Ratings.Entities;
 
 namespace Overoom.Domain.Ratings.Events;
 

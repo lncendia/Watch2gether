@@ -5,7 +5,7 @@ namespace Overoom.WEB.Contracts.Settings
     public class AcceptChangeEmailParameters
     {
         [Required(ErrorMessage = "Поле не должно быть пустым")]
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.EmailAddress, ErrorMessage="Некорректный формат почты")]
         [StringLength(50, ErrorMessage = "Не больше 50 символов")]
         public string? Email { get; set; }
         

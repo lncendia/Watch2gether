@@ -1,5 +1,5 @@
 using Overoom.Domain.Ordering.Abstractions;
-using Overoom.Domain.Ratings;
+using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Ratings.Ordering;
 using Overoom.Domain.Ratings.Ordering.Visitor;
 using Overoom.Infrastructure.Storage.Models.Rating;
@@ -18,4 +18,5 @@ public class RatingSortingVisitor : BaseSortingVisitor<RatingModel, IRatingSorti
     }
 
     public void Visit(RatingOrderByDate order) => SortItems.Add(new SortData<RatingModel>(x => x.Date, false));
+    public void Visit(RatingOrderByScore order) => SortItems.Add(new SortData<RatingModel>(x => x.Score, false));
 }

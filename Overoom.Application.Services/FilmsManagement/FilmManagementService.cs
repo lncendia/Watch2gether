@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Caching.Memory;
+using Overoom.Application.Abstractions.Common.Exceptions;
+using Overoom.Application.Abstractions.Common.Interfaces;
 using Overoom.Application.Abstractions.FilmsManagement.DTOs;
-using Overoom.Application.Abstractions.FilmsManagement.Exceptions;
 using Overoom.Application.Abstractions.FilmsManagement.Interfaces;
-using Overoom.Application.Abstractions.Movie.Exceptions;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
 using Overoom.Domain.Films.Entities;
 using Overoom.Domain.Films.Ordering;
@@ -19,11 +19,11 @@ namespace Overoom.Application.Services.FilmsManagement;
 public class FilmManagementService : IFilmManagementService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IFilmPosterService _filmPosterService;
+    private readonly IPosterService _filmPosterService;
     private readonly IMemoryCache _memoryCache;
     private readonly IFilmManagementMapper _mapper;
 
-    public FilmManagementService(IUnitOfWork unitOfWork, IFilmPosterService filmPosterService, IMemoryCache memoryCache,
+    public FilmManagementService(IUnitOfWork unitOfWork, IPosterService filmPosterService, IMemoryCache memoryCache,
         IFilmManagementMapper mapper)
     {
         _unitOfWork = unitOfWork;
@@ -100,7 +100,7 @@ public class FilmManagementService : IFilmManagementService
         _memoryCache.Remove(filmId);
     }
 
-    public async Task<GetDto> GetAsync(Guid filmId)
+    public async Task<FilmDto> GetAsync(Guid filmId)
     {
         var film = await GetFilmAsync(filmId);
         return _mapper.MapGet(film);

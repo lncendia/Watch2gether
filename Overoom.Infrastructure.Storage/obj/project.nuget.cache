@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DhrgkC79fh5KNyN+mThP39HBJDuGs1EjKCOG11FmK7UXTjCFdkSVGtrpym+RxScKCOnIWtU4RHnSMlBoeck1SA==",
+  "dgSpecHash": "cEfZ97eWIJdkwZ/HXqd8VQZnEoZTshlnv2+eSvpIl3fV9nNBse/USsGkLz7PjtVIWm2Ikd/s4yQDC8CMRwKfbA==",
   "success": true,
-  "projectFilePath": "D:\\Projects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj",
+  "projectFilePath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\egorl\\.nuget\\packages\\mediatr\\12.1.1\\mediatr.12.1.1.nupkg.sha512",
     "C:\\Users\\egorl\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",

@@ -26,10 +26,10 @@ function CopyCdn(e) {
     let html = copyEl[0].outerHTML
         .replace('id=\"' + attr.slice(1) + '\"', '')
         .replaceAll(name + '[0]', name + '[' + counter + ']')
-        .replaceAll('copyVoiceVideoCdn[0]', 'copyVoiceVideoCdn' + '[' + counter + ']')
+        .replaceAll('copyVoiceCdn[0]', 'copyVoiceCdn' + '[' + counter + ']')
         .replaceAll(/value="(\\\\.|[^"])+"/gu, 'value=""')
     copyEl.parent().append(html)
-    let el1 = $("[copy-target='.copyVoiceVideoCdn\\[" + counter + "\\]']")
+    let el1 = $("[copy-target='.copyVoiceCdn\\[" + counter + "\\]']")
     el1.click(CopyInput)
     console.log(el1)
     return false

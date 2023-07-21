@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Overoom.Domain.Abstractions;
 using Overoom.Domain.Ratings;
+using Overoom.Domain.Ratings.Entities;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
 using Overoom.Infrastructure.Storage.Mappers.StaticMethods;
 using Overoom.Infrastructure.Storage.Models.Rating;

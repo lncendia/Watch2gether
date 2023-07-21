@@ -68,10 +68,6 @@ iframe {
     box-shadow: 0 0 10px var(--shadow-dark);
 }
 
-table th, table td {
-    width: 150px;
-}
-
 .cdn-table {
     --bs-table-bg: transparent;
     --bs-table-color: #c5c5c5;

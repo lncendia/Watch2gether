@@ -1,6 +1,7 @@
 using Overoom.Application.Abstractions.Movie.DTOs;
 using Overoom.Domain.Films.Entities;
 using Overoom.Domain.Ratings;
+using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Users.Entities;
 
 namespace Overoom.Application.Abstractions.Movie.Interfaces;

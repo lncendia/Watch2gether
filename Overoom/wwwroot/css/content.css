@@ -9,7 +9,6 @@
 
 .film-card {
     height: 100%;
-    margin: 0 auto;
     --bs-card-bg: #1e1e21;
     --bs-card-cap-bg: #101010;
     box-shadow: 0 0 15px var(--shadow-dark);

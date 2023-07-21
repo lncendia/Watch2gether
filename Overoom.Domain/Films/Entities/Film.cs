@@ -3,7 +3,7 @@ using Overoom.Domain.Films.DTOs;
 using Overoom.Domain.Films.Enums;
 using Overoom.Domain.Films.Exceptions;
 using Overoom.Domain.Films.ValueObjects;
-using Overoom.Domain.Ratings;
+using Overoom.Domain.Ratings.Entities;
 
 namespace Overoom.Domain.Films.Entities;
 

@@ -61,7 +61,7 @@
     </div>
     <div class="col-lg-6 col-12">
         <label asp-for="Poster"></label>
-        <input asp-for="Poster" class="form-control"/>
+        <input asp-for="Poster" class="form-control" accept="image/jpeg,image/png"/>
         <span asp-validation-for="Poster" class="text-danger"></span>
     </div>
     <div class="col-6">
@@ -77,7 +77,7 @@
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center">
             <label asp-for="Genres"></label>
-            <a href="#" counter="@(genresCount - 1)" id="addGenre" class="btn btn-dark copy-button" copy-name="Genres" copy-target=".copyGenre">+</a>
+            <a href="#" counter="@(genresCount - 1)" class="btn btn-dark copy-button" copy-name="Genres" copy-target=".copyGenre">+</a>
         </div>
         <div class="row g-2">
             @for (var i = 0; i < genresCount; i++)
@@ -93,7 +93,7 @@
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center">
             <label asp-for="Countries"></label>
-            <a href="#" counter="@(countriesCount - 1)" id="addCountry" class="btn btn-dark copy-button" copy-name="Countries" copy-target=".copyCountry">+</a>
+            <a href="#" counter="@(countriesCount - 1)" class="btn btn-dark copy-button" copy-name="Countries" copy-target=".copyCountry">+</a>
         </div>
         <div class="row g-2">
             @for (var i = 0; i < countriesCount; i++)
@@ -112,7 +112,7 @@
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center">
             <label asp-for="Cdns"></label>
-            <a href="#" counter="@(cdnCount - 1)" id="addCdn" class="btn btn-dark copy-cdn" copy-name="Cdns" copy-target=".copyCdn">+</a>
+            <a href="#" counter="@(cdnCount - 1)" class="btn btn-dark copy-cdn" copy-name="Cdns" copy-target=".copyCdn">+</a>
         </div>
         @for (var i = 0; i < cdnCount; i++)
         {
@@ -137,14 +137,14 @@
                 <div class="col-12">
                     <div class="d-flex justify-content-between align-items-center">
                         <label asp-for="Cdns[i].Voices"></label>
-                        <a href="#" counter="0" class="btn btn-dark copy-button" copy-name="Voices" copy-target=".copyVoiceVideoCdn[@i]">+</a>
+                        <a href="#" counter="0" class="btn btn-dark copy-button" copy-name="Voices" copy-target=".copyVoiceCdn[@i]">+</a>
                     </div>
                     <div class="row g-2">
                         @{
                             int count = Model.Cdns[i].Voices.Count;
                             for (int j = 0; j < count; j++)
                             {
-                                <div class="col-12 copyVoiceVideoCdn[@i]">
+                                <div class="col-12 copyVoiceCdn[@i]">
                                     <label asp-for="Cdns[i].Voices[j].Name"></label>
                                     <input asp-for="Cdns[i].Voices[j].Name" class="form-control"/>
                                     <span asp-validation-for="Cdns[i].Voices[j].Name" class="text-danger"></span>
@@ -164,7 +164,7 @@
     <div class="col-12 block-2">
         <div class="d-flex justify-content-between align-items-center">
             <label asp-for="Actors"></label>
-            <a href="#" counter="@(actorsCount - 1)" id="addActor" class="btn btn-dark copy-button" copy-name="Actors" copy-target=".copyActor">+</a>
+            <a href="#" counter="@(actorsCount - 1)" class="btn btn-dark copy-button" copy-name="Actors" copy-target=".copyActor">+</a>
         </div>
         @for (var i = 0; i < actorsCount; i++)
         {
@@ -185,7 +185,7 @@
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center">
             <label asp-for="Screenwriters"></label>
-            <a href="#" counter="@(screenwritersCount - 1)" id="addScreenwriter" class="btn btn-dark copy-button" copy-name="Screenwriters" copy-target=".copyScreenwriter">+</a>
+            <a href="#" counter="@(screenwritersCount - 1)" class="btn btn-dark copy-button" copy-name="Screenwriters" copy-target=".copyScreenwriter">+</a>
         </div>
         <div class="row g-2 block-2">
             @for (var i = 0; i < screenwritersCount; i++)
@@ -201,7 +201,7 @@
     <div class="col-12">
         <div class="d-flex justify-content-between align-items-center">
             <label asp-for="Directors"></label>
-            <a href="#" counter="@(directorsCount - 1)" id="addDirector" class="btn btn-dark copy-button" copy-name="Directors" copy-target=".copyDirector">+</a>
+            <a href="#" counter="@(directorsCount - 1)" class="btn btn-dark copy-button" copy-name="Directors" copy-target=".copyDirector">+</a>
         </div>
         <div class="row g-2 block-2">
             @for (var i = 0; i < directorsCount; i++)

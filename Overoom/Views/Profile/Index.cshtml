@@ -1,0 +1,144 @@
+@using Overoom.WEB.Contracts.Settings
+@model Overoom.WEB.Models.Settings.ProfileViewModel
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="row gx-5 gy-5">
+    <div class="col-md-8 col-12 order-md-first order-last">
+        <div class="col-lg-8 col-xl-7 block-background">
+            <div class="d-flex align-items-center ms-2">
+                <img src="~/@Model.Avatar" alt="" class="rounded-circle me-3">
+                <div>
+                    <h3>@Model.Name</h3>
+                    @{
+                        int count = Model.Genres.Count - 1;
+                        for (var index = 0; index < Model.Genres.Count; index++)
+                        {
+                            var el = Model.Genres.ElementAt(index);
+                            var coma = index != count;
+                            var route = new Dictionary<string, string> { { "genre", el } };
+                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route">@el</a>if (coma){<span>, </span>}
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="block-background mt-5">
+            <h4>История</h4>
+            <div class="row g-2 pt-2">
+                @foreach (var film in Model.WatchedFilms)
+                {
+                    <div class="col-lg-2 col-md-3 col-4 text-center">
+                        <a asp-controller="Film" asp-action="Index" asp-route-id="@film.Id" class="film-link">
+
+                            <img class="poster" src="~/@film.Poster" alt="">
+                            <span>@film.Name</span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="block-background mt-5">
+            <h4>Смотреть позже</h4>
+            <div class="row g-2 pt-2">
+                @foreach (var film in Model.FavoriteFilms)
+                {
+                    <div class="col-lg-2 col-md-3 col-4 text-center">
+                        <a asp-controller="Film" asp-action="Index" asp-route-id="@film.Id" class="film-link">
+
+                            <img class="poster" src="~/@film.Poster" alt="">
+                            <span>@film.Name</span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="block-background mt-5">
+            <h4>Оценки</h4>
+            <div class="row g-2 pt-2 ratings">
+                <form asp-action="Ratings" id="filter" method="get"></form>
+
+            </div>
+            <div class="spinner">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-12 order-md-last order-first">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Смена имени
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        @await Html.PartialAsync("ChangeName", new ChangeNameParameters { Name = Model.Name })
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Смена почты
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        @await Html.PartialAsync("ChangeEmail", new ChangeEmailParameters { Email = Model.Email })
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Смена пароля
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        @await Html.PartialAsync("ChangePassword", new ChangePasswordParameters())
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        Смена аватара
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        @await Html.PartialAsync("ChangeAvatar")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="stylesheet" href="~/css/profile.css"/>
+}
+
+@section scripts
+{
+    <script src="~/lib/infinite-ajax-scroll/dist/infinite-ajax-scroll.min.js"></script>
+    <script src="~/js/scroller.js"></script>
+    <script src="~/js/profile.js"></script>
+}

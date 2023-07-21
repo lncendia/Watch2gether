@@ -1241,29 +1241,27 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj",
+      "projectUniqueName": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj",
       "projectName": "Overoom.Infrastructure.Storage",
-      "projectPath": "D:\\Projects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj",
+      "projectPath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Infrastructure.Storage\\Overoom.Infrastructure.Storage.csproj",
       "packagesPath": "C:\\Users\\egorl\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\Overoom\\Overoom.Infrastructure.Storage\\obj\\",
+      "outputPath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Infrastructure.Storage\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\egorl\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\egorl\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Projects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj": {
-              "projectPath": "D:\\Projects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj"
+            "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj": {
+              "projectPath": "D:\\Projects\\RiderProjects\\Overoom\\Overoom.Domain.Abstractions\\Overoom.Domain.Abstractions.csproj"
             }
           }
         }
@@ -1299,7 +1297,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

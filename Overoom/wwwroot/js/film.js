@@ -68,7 +68,7 @@ function ShowComment(container, el, prepend = false) {
 
 $('.delete').click(async function () {
     let id = $(this).attr('data-id');
-    let res = await fetch('/Film/DeleteComment?id=' + id, {method: 'DELETE'});
+    let res = await fetch('/Film/DeleteComment?id=' + id, {method: 'POST'});
     if (res.ok) $(this).parent().parent().parent().parent().remove(); else alert('Ошибка при удалении');
     return false;
 });

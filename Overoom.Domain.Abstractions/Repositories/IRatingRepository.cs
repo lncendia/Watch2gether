@@ -1,5 +1,6 @@
 using Overoom.Domain.Abstractions.Interfaces;
 using Overoom.Domain.Ratings;
+using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Ratings.Ordering.Visitor;
 using Overoom.Domain.Ratings.Specifications.Visitor;
 

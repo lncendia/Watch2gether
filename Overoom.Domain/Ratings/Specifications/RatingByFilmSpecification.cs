@@ -1,3 +1,4 @@
+using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Ratings.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;
 

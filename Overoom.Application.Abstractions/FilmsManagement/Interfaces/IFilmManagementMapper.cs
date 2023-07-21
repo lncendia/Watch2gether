@@ -5,6 +5,6 @@ namespace Overoom.Application.Abstractions.FilmsManagement.Interfaces;
 
 public interface IFilmManagementMapper
 {
-    GetDto MapGet(Film film);
+    FilmDto MapGet(Film film);
     FilmShortDto MapShort(Film film);
 }

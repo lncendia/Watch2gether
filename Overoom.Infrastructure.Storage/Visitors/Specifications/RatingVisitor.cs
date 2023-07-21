@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Overoom.Domain.Ratings;
+using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Ratings.Specifications;
 using Overoom.Domain.Ratings.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;

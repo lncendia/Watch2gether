@@ -55,10 +55,10 @@ public class ContentController : Controller
         if (!ModelState.IsValid) return NoContent();
         try
         {
-            var films = await _contentManager.FindAsync(_contentMapper.Map(model));
-            if (!films.Any()) return NoContent();
-            var filmsModels = films.Select(_contentMapper.Map).ToList();
-            return Json(filmsModels);
+            var playlists = await _contentManager.FindAsync(_contentMapper.Map(model));
+            if (!playlists.Any()) return NoContent();
+            var playlistsModels = playlists.Select(_contentMapper.Map).ToList();
+            return Json(playlistsModels);
         }
         catch (Exception e)
         {

@@ -1,4 +1,5 @@
 ﻿using Overoom.Domain.Abstractions;
+using Overoom.Domain.Playlists.Exceptions;
 
 namespace Overoom.Domain.Playlists.Entities;
 
@@ -10,10 +11,33 @@ public class Playlist : AggregateRoot
         Name = name;
         Description = description;
         _genres = genres.Distinct().ToList();
+        if (!_genres.Any()) throw new EmptyGenresCollectionException();
     }
 
-    public string Name { get; }
-    public string Description { get; }
+    private readonly string _name = null!;
+
+    public string Name
+    {
+        get => _name;
+        private init
+        {
+            if (string.IsNullOrEmpty(value) || value.Length > 200) throw new NameLengthException();
+            _name = value;
+        }
+    }
+
+    private string _description = null!;
+
+    public string Description
+    {
+        get => _description;
+        set
+        {
+            if (string.IsNullOrEmpty(value) || value.Length > 500) throw new DescriptionLengthException();
+            _description = value;
+        }
+    }
+
     public DateTime Updated { get; } = DateTime.UtcNow;
     public Uri PosterUri { get; }
 

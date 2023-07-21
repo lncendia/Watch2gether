@@ -1,5 +1,4 @@
-﻿using Overoom.Application.Abstractions.Rooms.DTOs;
-using Overoom.Application.Abstractions.Rooms.DTOs.Film;
+﻿using Overoom.Application.Abstractions.Rooms.DTOs.Film;
 using Overoom.Domain.Films.Enums;
 
 namespace Overoom.Application.Abstractions.Rooms.Interfaces;

@@ -8,6 +8,6 @@ public interface IFilmManagementService
     Task ChangeAsync(ChangeDto film);
     Task DeleteAsync(Guid filmId);
 
-    Task<GetDto> GetAsync(Guid filmId);
+    Task<FilmDto> GetAsync(Guid filmId);
     Task<List<FilmShortDto>> FindAsync(int page, string? query = null);
 }

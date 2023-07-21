@@ -3,13 +3,14 @@ namespace Overoom.WEB.Models.Settings;
 public class ProfileViewModel
 {
     public ProfileViewModel(string name, string email, Uri avatar, IReadOnlyCollection<FilmViewModel> watchedFilms,
-        IReadOnlyCollection<FilmViewModel> favoriteFilms)
+        IReadOnlyCollection<FilmViewModel> favoriteFilms, IReadOnlyCollection<string> genres)
     {
         Name = name;
         Email = email;
         Avatar = avatar;
         WatchedFilms = watchedFilms;
         FavoriteFilms = favoriteFilms;
+        Genres = genres;
     }
 
     public string Name { get; }
@@ -17,4 +18,5 @@ public class ProfileViewModel
     public Uri Avatar { get; }
     public IReadOnlyCollection<FilmViewModel> WatchedFilms { get; }
     public IReadOnlyCollection<FilmViewModel> FavoriteFilms { get; }
+    public IReadOnlyCollection<string> Genres { get; }
 }

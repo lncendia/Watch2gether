@@ -30,7 +30,7 @@ public partial class User : AggregateRoot
             }
             catch (FormatException)
             {
-                throw new InvalidEmailException(value);
+                throw new EmailFormatException();
             }
         }
     }
@@ -43,8 +43,9 @@ public partial class User : AggregateRoot
         get => _name;
         set
         {
+            if (value.Length is < 3 or > 20) throw new NicknameLengthException();
             if (MyRegex().IsMatch(value)) _name = value;
-            else throw new InvalidNicknameException();
+            else throw new NicknameFormatException();
         }
     }
 
@@ -70,6 +71,6 @@ public partial class User : AggregateRoot
         _history.Add(new FilmNote(filmId));
     }
 
-    [GeneratedRegex("^[a-zA-Zа-яА-Я0-9_ ]{3,20}$")]
+    [GeneratedRegex("^[a-zA-Zа-яА-Я0-9_ ]+$")]
     private static partial Regex MyRegex();
 }

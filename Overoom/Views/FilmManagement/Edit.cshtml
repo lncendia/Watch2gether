@@ -3,16 +3,17 @@
 @model Overoom.WEB.Contracts.FilmManagement.ChangeParameters
 
 @{
-    ViewData["Title"] = "Редактирование";
+    ViewData["Title"] = Model.Name ?? "Редактирование";
     var cdnCount = Model.Cdns.Count;
 }
 
 <div class="row gy-5">
     <div class="col-lg-8">
         <div class="d-flex justify-content-between align-content-center mb-5">
-            <h3>Редактирование фильма</h3>
+            <h3>Редактирование фильма «@Model.Name»</h3>
             <form asp-action="Delete" method="post">
                 <input type="hidden" name="filmId" value="@Model.Id">
+                <input type="hidden" name="filmId" value="@Model.Name">
                 <input type="submit" class="btn shadow-none btn-dark" value="Удалить">
             </form>
         </div>
@@ -52,7 +53,7 @@
                     </div>
                     <div class="col-lg-6 col-12">
                         <label asp-for="NewPoster"></label>
-                        <input asp-for="NewPoster" class="form-control"/>
+                        <input asp-for="NewPoster" class="form-control" accept="image/jpeg,image/png"/>
                         <span asp-validation-for="NewPoster" class="text-danger"></span>
                     </div>
                     <div class="col-6">
@@ -92,12 +93,12 @@
                                 <div class="col-12">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <label asp-for="Cdns[i].Voices"></label>
-                                        <a href="#" counter="0" class="btn btn-dark copy-button" copy-name="Voices" copy-target="#copyVoiceVideoCdn[@i]">+</a>
+                                        <a href="#" counter="0" class="btn btn-dark copy-button" copy-name="Voices" copy-target="#copyVoiceCdn[@i]">+</a>
                                     </div>
                                     <div class="row g-2">
                                         @for (int j = 0; j < Model.Cdns[i].Voices.Count; j++)
                                         {
-                                            <div class="col-12" id="copyVoiceVideoCdn[@i]">
+                                            <div class="col-12" id="copyVoiceCdn[@i]">
                                                 <label asp-for="Cdns[i].Voices[j].Name"></label>
                                                 <input asp-for="Cdns[i].Voices[j].Name" class="form-control"/>
                                                 <span asp-validation-for="Cdns[i].Voices[j].Name" class="text-danger"></span>

@@ -53,9 +53,9 @@
                         for (var index = 0; index < Model.Film.Countries.Count; index++)
                         {
                             var el = Model.Film.Countries.ElementAt(index);
-                            var elString = index != count ? el + ", " : el;
+                            var coma = index != count;
                             var route = new Dictionary<string, string> { { "country", el } };
-                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route">@elString</a>
+                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route">@el</a>if (coma){<span>, </span>}
                         }
                     }
                 </div>
@@ -66,9 +66,9 @@
                         for (var index = 0; index < Model.Film.Genres.Count; index++)
                         {
                             var el = Model.Film.Genres.ElementAt(index);
-                            var elString = index != count ? el + ", " : el;
+                            var coma = index != count;
                             var route = new Dictionary<string, string> { { "genre", el } };
-                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route">@elString</a>
+                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route">@el</a>if (coma){<span>, </span>}
                         }
                     }
                 </div>
@@ -79,9 +79,9 @@
                         for (var index = 0; index < Model.Film.Directors.Count; index++)
                         {
                             var el = Model.Film.Directors.ElementAt(index);
-                            var elString = index != count ? el + ", " : el;
+                            var coma = index != count;
                             var route = new Dictionary<string, string> { { "person", el } };
-                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route">@elString</a>
+                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route">@el</a>if (coma){<span>, </span>}
                         }
                     }
                 </div>
@@ -92,9 +92,9 @@
                         for (var index = 0; index < Model.Film.ScreenWriters.Count; index++)
                         {
                             var el = Model.Film.ScreenWriters.ElementAt(index);
-                            var elString = index != count ? el + ", " : el;
+                            var coma = index != count;
                             var route = new Dictionary<string, string> { { "person", el } };
-                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route">@elString</a>
+                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route">@el</a>if (coma){<span>, </span>}
                         }
                     }
                 </div>
@@ -105,9 +105,9 @@
                         for (var index = 0; index < Model.Film.Actors.Count; index++)
                         {
                             var el = Model.Film.Actors.ElementAt(index);
-                            var elString = index != count ? el.name + ", " : el.name;
+                            var coma = index != count;
                             var route = new Dictionary<string, string> { { "person", el.name } };
-                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route" title="@el.desc">@elString</a>
+                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route" title="@el.desc">@el.name</a>if (coma){<span>, </span>}
                         }
                     }
                 </div>
@@ -149,22 +149,22 @@
             <table class="table cdn-table">
                 <thead>
                 <tr>
-                    <th scope="col">CDN</th>
+                    <td>№</td>
                     <th scope="col">Качество</th>
                     <th scope="col">Озвучки</th>
                     <th scope="col">Действия</th>
                 </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                @foreach (var cdn in Model.Film.CdnList)
+                @for(var i = 0; i < Model.Film.CdnList.Count; i++)
                 {
                     <tr>
-                        <th scope="row">@cdn.Cdn.ToString()</th>
-                        <td>@cdn.Quality</td>
-                        <td>@cdn.Voices</td>
-                        <td>
+                        <th style="width: 10%" scope="row">@(i + 1)</th>
+                        <td style="width: 25%">@Model.Film.CdnList.ElementAt(i).Quality</td>
+                        <td style="width: 40%">@Model.Film.CdnList.ElementAt(i).Voices</td>
+                        <td style="width: 25%">
                             @{
-                                var route = new Dictionary<string, string> { { "Id", @Model.Film.Id.ToString() }, { "CdnType", cdn.Cdn.ToString() } };
+                                var route = new Dictionary<string, string> { { "Id", @Model.Film.Id.ToString() }, { "CdnType", Model.Film.CdnList.ElementAt(i).Cdn.ToString() } };
                             }
                             <a class="btn btn-outline-danger d-block" id="watch" asp-action="GetFilmUri" asp-all-route-data="route">Смотреть</a>
                             <a class="btn btn-outline-danger d-block mt-2" asp-controller="FilmRoom" asp-route-filmId="@Model.Film.Id">Создать комнату</a>
@@ -192,7 +192,9 @@
             }
         </div>
 
-        <div class="comments"></div>
+        <form asp-controller="Film" asp-action="DeleteComment">
+            <div class="comments"></div>
+        </form>
         <div class="spinner">
             <div class="wave"></div>
             <div class="wave"></div>

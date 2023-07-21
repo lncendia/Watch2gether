@@ -9,7 +9,7 @@ public class FilmViewModel
         IReadOnlyCollection<ActorViewModel> actors,
         IReadOnlyCollection<string> countries, IReadOnlyCollection<string> directors,
         IReadOnlyCollection<string> screenwriters,
-        int? countSeasons, int? countEpisodes)
+        int? countSeasons, int? countEpisodes, IReadOnlyCollection<CdnViewModel> cdn)
     {
         Name = name;
         Year = year;
@@ -17,6 +17,7 @@ public class FilmViewModel
         PosterUri = posterUri;
         CountSeasons = countSeasons;
         CountEpisodes = countEpisodes;
+        Cdn = cdn;
         Description = description;
         Rating = rating;
         ShortDescription = shortDescription;
@@ -42,4 +43,5 @@ public class FilmViewModel
     public IReadOnlyCollection<string> Directors { get; }
     public IReadOnlyCollection<string> Genres { get; }
     public IReadOnlyCollection<string> Screenwriters { get; }
+    public IReadOnlyCollection<CdnViewModel> Cdn { get; }
 }

@@ -1,11 +1,9 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Overoom.Application.Abstractions.FilmsManagement.Exceptions;
-using Overoom.Application.Abstractions.Movie.Exceptions;
-using Overoom.Application.Abstractions.Rooms.Exceptions;
+using Overoom.Application.Abstractions.Authentication.Exceptions;
+using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Application.Abstractions.StartPage.Interfaces;
-using Overoom.Application.Abstractions.Users.Exceptions;
 using Overoom.Domain.Rooms.BaseRoom.Exceptions;
 using Overoom.Domain.Rooms.YoutubeRoom.Exceptions;
 using Overoom.Domain.Users.Exceptions;
@@ -62,8 +60,13 @@ public class HomeController : Controller
             UserNotFoundException => "Пользователь не найден",
             InvalidCodeException => "Ссылка недействительна",
             UserAlreadyExistException => "Пользователь с таким логином уже существует",
-            InvalidEmailException => "Неверный формат почты",
-            InvalidNicknameException => "Неверный формат имени пользователя",
+            EmailFormatException => "Неверный формат почты",
+            NicknameLengthException => "Длина имени должна составлять от 3 до 20 символов",
+            NicknameFormatException =>
+                "Имя может содержать только латинские или кириллические буквы, цифры, пробелы и символы подчеркивания",
+            PasswordLengthException => "Длина пароля должна составлять от 8 до 30 символов",
+            PasswordFormatException =>
+                "Пароль должен содержать буквы, цифры и специальные символы и не может иметь разрывов",
             EmailException => "Произошла ошибка при отправке письма",
             FilmNotFoundException => "Фильм не найден",
             ArgumentException => "Некорректные данные",
@@ -74,7 +77,6 @@ public class HomeController : Controller
             RoomIsFullException => "Комната заполнена",
             UriFormatException => "Неверный формат ссылки",
             InvalidVideoUrlException => "Неверный формат ссылки на видео",
-            UserCreationException => ex.Message,
             _ => null
         };
 

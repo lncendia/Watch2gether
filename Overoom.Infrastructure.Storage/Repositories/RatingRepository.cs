@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Overoom.Domain.Abstractions.Repositories;
 using Overoom.Domain.Ordering.Abstractions;
 using Overoom.Domain.Ratings;
+using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Ratings.Ordering.Visitor;
 using Overoom.Domain.Ratings.Specifications.Visitor;
 using Overoom.Domain.Specifications.Abstractions;

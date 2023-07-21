@@ -6,6 +6,9 @@ public class ChangeParameters
 {
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     public Guid Id { get; set; }
+    
+    [StringLength(1500, ErrorMessage = "Не больше 1500 символов")]
+    public string? Name { get; set; }
 
     [StringLength(1500, ErrorMessage = "Не больше 1500 символов")]
     [Display(Name = "Описание")]
