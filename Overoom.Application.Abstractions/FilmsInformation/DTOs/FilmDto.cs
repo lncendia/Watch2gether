@@ -1,5 +1,4 @@
-﻿using Overoom.Application.Abstractions.FilmsManagement.DTOs;
-using Overoom.Domain.Films.Enums;
+﻿using Overoom.Domain.Films.Enums;
 
 namespace Overoom.Application.Abstractions.FilmsInformation.DTOs;
 

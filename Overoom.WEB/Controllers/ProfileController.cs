@@ -54,7 +54,7 @@ public class ProfileController : Controller
     [HttpPost]
     public async Task<IActionResult> ChangeEmail(ChangeEmailParameters model)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid) RedirectToAction("Index", "Home", new { message = "Указаны некорректные данные." });
         await _userSettings.RequestResetEmailAsync(User.GetId(), model.Email!, Url.Action(
             "AcceptChangeEmail", "Profile", null, HttpContext.Request.Scheme)!);
 
@@ -79,9 +79,9 @@ public class ProfileController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChangePassword(ChangePasswordParameters model)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid) RedirectToAction("Index", "Home", new { message = "Указаны некорректные данные." });
         await _userSettings.ChangePasswordAsync(User.GetId(), model.OldPassword!, model.Password!);
-        return RedirectToAction("Index", "Home", new { message = "Пароль успешно изменен." });
+        return RedirectToAction("Index", "Home", new { message = "Пароль успешно изменен." }); //todo:exception
     }
 
 
@@ -89,7 +89,7 @@ public class ProfileController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChangeName(ChangeNameParameters model)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid) RedirectToAction("Index", "Home", new { message = "Указаны некорректные данные." });
         await _userSettings.ChangeNameAsync(User.GetId(), model.Name!);
         await UpdateNameAsync(model.Name!);
         return RedirectToAction("Index", "Home", new { message = "Имя успешно изменено." });
@@ -100,9 +100,20 @@ public class ProfileController : Controller
     public async Task<ActionResult> ChangeAvatar(IFormFile uploadedFile)
     {
         await using var stream = uploadedFile.OpenReadStream();
+        if (uploadedFile.Length > 15728640)
+            return RedirectToAction("Index", "Home", new { message = "Размер аватара не может превышать 15 Мб." });
         var uri = await _userSettings.ChangeAvatarAsync(User.GetId(), stream);
         await UpdateThumbnailAsync(uri);
         return RedirectToAction("Index", "Home", new { message = "Аватар успешно изменён." });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> ChangeAllows(ChangeAllowsParameters model)
+    {
+        if (!ModelState.IsValid) RedirectToAction("Index", "Home", new { message = "Указаны некорректные данные." });
+        await _userSettings.ChangeAllowsAsync(User.GetId(),model.Beep, model.Scream, model.Change);
+        return RedirectToAction("Index", "Home", new { message = "Разрешения успешно изменены." });
     }
 
 

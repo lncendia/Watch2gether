@@ -1,5 +1,6 @@
 using System.Globalization;
 using Overoom.Extensions;
+using Overoom.HostedServices;
 using Overoom.WEB.Hubs;
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("ru-RU")
@@ -11,17 +12,17 @@ CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("ru-RU")
 };
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+// Add services to the container.
 builder.Services.AddApplicationServices();
 builder.Services.AddApplicationMappers();
 builder.Services.AddControllerMappers();
-builder.Services.AddAuthenticationServices();
-builder.Services.AddInfrastructureServices(builder.Environment.WebRootPath);
-builder.Services.AddPersistenceServices(connectionString!);
+builder.Services.AddAuthenticationServices(builder.Configuration);
+builder.Services.AddInfrastructureServices(builder.Configuration, builder.Environment.WebRootPath);
+builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddEventHandlers();
 
+builder.Services.AddHostedService<FilmLoadHostedService>();
 builder.Services.AddSignalR();
 builder.Services.AddControllersWithViews();
 
@@ -40,7 +41,7 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();

@@ -11,5 +11,6 @@ public enum Profession
     VoiceDirector,
     Writer,
     Composer,
-    Translator
+    Translator,
+    Another
 }

@@ -10,9 +10,10 @@ namespace Overoom.Infrastructure.Storage.Visitors.Sorting;
 public class PlaylistSortingVisitor : BaseSortingVisitor<PlaylistModel, IPlaylistSortingVisitor, Playlist>,
     IPlaylistSortingVisitor
 {
-    public void Visit(OrderByUpdateDate order) => SortItems.Add(new SortData<PlaylistModel>(x => x.Updated, false));
+    public void Visit(PlaylistOrderByUpdateDate order) =>
+        SortItems.Add(new SortData<PlaylistModel>(x => x.Updated, false));
 
-    public void Visit(OrderByCountFilms order) =>
+    public void Visit(PlaylistOrderByCount order) =>
         SortItems.Add(new SortData<PlaylistModel>(x => x.Films.Count, false));
 
     protected override List<SortData<PlaylistModel>> ConvertOrderToList(

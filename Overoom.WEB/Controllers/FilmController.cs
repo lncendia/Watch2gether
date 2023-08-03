@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions.Comments.Interfaces;
 using Overoom.Application.Abstractions.Movie.Interfaces;
@@ -68,7 +70,10 @@ public class FilmController : Controller
         {
             var comments = await _commentManager.GetAsync(id, page);
             if (!comments.Any()) return NoContent();
-            var commentModels = comments.Select(_filmMapper.Map).ToList();
+
+            var auth = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
+            Guid? userId = auth.None ? null : auth.Principal!.GetId();
+            var commentModels = comments.Select(c => _filmMapper.Map(c, userId)).ToList();
             return Json(commentModels);
         }
         catch (Exception e)
@@ -134,10 +139,11 @@ public class FilmController : Controller
     public async Task<IActionResult> AddComment(AddCommentParameters model)
     {
         if (!ModelState.IsValid) return BadRequest();
+        var id = User.GetId();
         try
         {
             var comment = await _commentManager.AddAsync(model.FilmId, User.GetId(), model.Text!);
-            return Json(_filmMapper.Map(comment));
+            return Json(_filmMapper.Map(comment, id));
         }
         catch (Exception e)
         {

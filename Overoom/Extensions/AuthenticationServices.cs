@@ -6,6 +6,7 @@ using Overoom.Application.Abstractions.Authentication.Entities;
 using Overoom.Application.Abstractions.Authentication.Interfaces;
 using Overoom.Application.Services.Authentication;
 using Overoom.Application.Services.Common;
+using Overoom.Exceptions;
 using Overoom.Infrastructure.ApplicationData;
 using Overoom.WEB.RoomAuthentication;
 
@@ -13,8 +14,24 @@ namespace Overoom.Extensions;
 
 public static class AuthenticationServices
 {
-    public static void AddAuthenticationServices(this IServiceCollection services)
+    public static void AddAuthenticationServices(this IServiceCollection services, IConfiguration configuration)
     {
+        
+        var vkOauth = new
+        {
+            Client = configuration.GetValue<string>("OAuth:Vkontakte:Client") ??
+                     throw new ConfigurationException("OAuth:Vkontakte:Client"),
+            Secret = configuration.GetValue<string>("OAuth:Vkontakte:Secret") ??
+                     throw new ConfigurationException("OAuth:Vkontakte:Secret")
+        };
+
+        var yandexOauth = new
+        {
+            Client = configuration.GetValue<string>("OAuth:Yandex:Client") ??
+                     throw new ConfigurationException("OAuth:Yandex:Client"),
+            Secret = configuration.GetValue<string>("OAuth:Yandex:Secret") ??
+                     throw new ConfigurationException("OAuth:Yandex:Secret")
+        };
         
         services.AddTransient<IUserValidator<UserData>, UserValidator>();
         services.AddTransient<IPasswordValidator<UserData>, PasswordValidator>();
@@ -29,14 +46,14 @@ public static class AuthenticationServices
         services.AddAuthentication()
             .AddVkontakte(options =>
             {
-                options.ClientId = "51581170";
-                options.ClientSecret = "IBStj9xwbmbf1j4ouzoj";
+                options.ClientId = vkOauth.Client;
+                options.ClientSecret = vkOauth.Secret;
                 options.Scope.Add("email");
                 options.Scope.Add("photos");
             }).AddYandex(options =>
             {
-                options.ClientId = "862fc97020224f29829e9bb333e85091";
-                options.ClientSecret = "ccd13995b6f8410e965f357b029b36c5";
+                options.ClientId = yandexOauth.Client;
+                options.ClientSecret = yandexOauth.Secret;
                 options.Scope.Add("login:avatar");
                 options.ClaimActions.Add(new JsonKeyClaimAction("urn:yandex:user:avatar", ClaimValueTypes.String,
                     "default_avatar_id"));

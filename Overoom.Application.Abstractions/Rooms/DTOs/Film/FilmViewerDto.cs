@@ -2,8 +2,8 @@
 
 public class FilmViewerDto : ViewerDto
 {
-    public FilmViewerDto(string username, int id, Uri avatarUrl, TimeSpan time, bool onPause, int season,
-        int series) : base(username, id, avatarUrl, time, onPause)
+    public FilmViewerDto(string username, int id, Uri avatarUrl, TimeSpan time, bool pause, bool fullScreen, int season,
+        int series, AllowsDto allows) : base(username, id, avatarUrl, time, pause, fullScreen, allows)
     {
         Season = season;
         Series = series;

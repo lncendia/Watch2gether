@@ -13,7 +13,12 @@ public class YoutubeViewerModel : IEntityModel
     public YoutubeRoomModel Room { get; set; } = null!;
     public Uri AvatarUri { get; set; } = null!;
     public bool Online { get; set; }
-    public bool OnPause { get; set; }
+    public bool Pause { get; set; }
+    public bool FullScreen { get; set; }
     public TimeSpan TimeLine { get; set; }
     public string CurrentVideoId { get; set; } = null!;
+    
+    public bool Beep { get; set; }
+    public bool Scream { get; set; }
+    public bool Change { get; set; }
 }

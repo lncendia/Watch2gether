@@ -5,7 +5,6 @@ using Overoom.Application.Abstractions.Movie.Interfaces;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
 using Overoom.Domain.Films.Entities;
 using Overoom.Domain.Films.Enums;
-using Overoom.Domain.Ratings;
 using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Ratings.Specifications;
 using Overoom.Domain.Ratings.Specifications.Visitor;

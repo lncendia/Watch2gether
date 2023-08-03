@@ -1,5 +1,8 @@
 ﻿using Overoom.Domain.Films.Enums;
 using Overoom.Infrastructure.Storage.Models.Abstractions;
+using Overoom.Infrastructure.Storage.Models.Country;
+using Overoom.Infrastructure.Storage.Models.Genre;
+using Overoom.Infrastructure.Storage.Models.Person;
 
 namespace Overoom.Infrastructure.Storage.Models.Film;
 
@@ -24,7 +27,7 @@ public class FilmModel : IAggregateModel
     public List<CdnModel> CdnList { get; set; } = new();
     public List<GenreModel> Genres { get; set; } = new();
     public List<CountryModel> Countries { get; set; } = new();
-    public List<ActorModel> Actors { get; set; } = new();
-    public List<DirectorModel> Directors { get; set; } = new();
-    public List<ScreenWriterModel> ScreenWriters { get; set; } = new();
+    public List<FilmActorModel> Actors { get; set; } = new();
+    public List<PersonModel> Directors { get; set; } = new();
+    public List<PersonModel> ScreenWriters { get; set; } = new();
 }

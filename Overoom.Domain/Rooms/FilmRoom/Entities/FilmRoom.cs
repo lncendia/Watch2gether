@@ -1,28 +1,28 @@
 ﻿using Overoom.Domain.Films.Enums;
+using Overoom.Domain.Rooms.BaseRoom.DTOs;
+using Overoom.Domain.Rooms.BaseRoom.Entities;
 
 namespace Overoom.Domain.Rooms.FilmRoom.Entities;
 
-public class FilmRoom : BaseRoom.Entities.Room
+public class FilmRoom : Room
 {
-    public FilmRoom(Guid filmId, string name, Uri avatarUri, CdnType cdnType)
+    public FilmRoom(Guid filmId, CdnType cdnType, bool isOpen, ViewerDto viewer) : base(isOpen, CreateViewer(viewer))
     {
         FilmId = filmId;
         CdnType = cdnType;
-        base.Owner = new FilmViewer(IdCounter, name, avatarUri, 1, 1);
-        IdCounter++;
-        ViewersList.Add(Owner);
     }
+
+    private static Viewer CreateViewer(ViewerDto viewer) => new FilmViewer(viewer, 1, 1, 1);
 
     public Guid FilmId { get; }
     public CdnType CdnType { get; }
-    public new FilmViewer Owner => (FilmViewer)base.Owner!;
-    public IReadOnlyCollection<FilmViewer> Viewers => ViewersList.Cast<FilmViewer>().ToList().AsReadOnly();
+    public new FilmViewer Owner => (FilmViewer)base.Owner;
+    public new IReadOnlyCollection<FilmViewer> Viewers => base.Viewers.Cast<FilmViewer>().ToList();
 
-    public FilmViewer Connect(string name, Uri avatarFileName)
+    public int Connect(ViewerDto viewer)
     {
-        var viewer = new FilmViewer(IdCounter, name, avatarFileName, Owner.Season, Owner.Series);
-        AddViewer(viewer);
-        return viewer;
+        var filmViewer = new FilmViewer(viewer, GetNextId(), Owner.Season, Owner.Series);
+        return AddViewer(filmViewer);
     }
 
     public void ChangeSeason(int viewerId, int season)

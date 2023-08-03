@@ -1,4 +1,4 @@
-$('#watch').click(async e => {
+$('.watch').click(async e => {
     e.preventDefault()
     let link = $(e.target).attr('href')
     let res = await fetch(link)
@@ -32,15 +32,16 @@ $('.watchlist-button').click(async e => {
 
 function ParseData(elements, model) {
     model.forEach(el => {
-        ShowComment(elements, el);
+        ShowComment(el);
     })
 }
 
-let scroller = new Scroller( '.comments', '#com', ParseData)
+let scroller = new Scroller('.comments', '#com', ParseData)
 scroller.Start();
 
-let form = $('#commentForm');
-form.submit(async (e) => {
+let addForm = $('#commentForm');
+let deleteForm = $('#deleteComment');
+addForm.submit(async (e) => {
     e.preventDefault()
     try {
         await AddComment();
@@ -53,22 +54,38 @@ form.submit(async (e) => {
 
 
 async function AddComment() {
-    let data = new FormData(form[0]);
+    let data = new FormData(addForm[0]);
     let response = await fetch('/Film/AddComment', {
         method: 'POST', body: data
     });
     if (!response.ok) throw new Error(response.statusText);
-    ShowComment($('.comments'), await response.json(), true);
+    ShowComment(await response.json());
 }
 
-function ShowComment(container, el, prepend = false) {
-    let text = '<div class="element"><div class="card comment-card mb-3"><div class="card-header"><span class="float-start">' + el.username + '</span><span class="float-end">' + el.createdAt + '</span></div><div class="card-body d-flex"><img src="/' + el.avatarUri + '" alt="" class="comment-avatar"><p class="card-text">' + el.text + '</p></div></div></div>';
-    if (prepend) container.prepend(text); else container.append(text);
+async function DeleteComment(e) {
+    e.preventDefault()
+    let a = $(e.currentTarget)
+    let id = a.attr('data-id');
+    let data = new FormData(deleteForm[0]);
+    data.append('id', id)
+    let response = await fetch('/Film/DeleteComment', {
+        method: 'POST', body: data
+    });
+    if (!response.ok) throw new Error(response.statusText);
+    a.parent().parent().parent().remove()
 }
 
-$('.delete').click(async function () {
-    let id = $(this).attr('data-id');
-    let res = await fetch('/Film/DeleteComment?id=' + id, {method: 'POST'});
-    if (res.ok) $(this).parent().parent().parent().parent().remove(); else alert('Ошибка при удалении');
-    return false;
-});
+function ShowComment(el) {
+    let text = '<div class="element"><div class="card comment-card mb-3"><div class="card-header"><span class="float-start">' + el.username + '</span><span class="float-end">' + el.createdAt + '</span></div><div class="card-body d-flex"><img src="/' + el.avatarUri + '" alt="" class="comment-avatar">' +
+        '<p class="card-text">' + el.text + '</p>'
+
+    if (el.isUserComment) {
+        text += '<a href="/Film/DeleteComment" data-id="' + el.id + '">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">\n' +
+            '  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>\n' +
+            '</svg></a>'
+    }
+    text += '</div></div></div>';
+    if (el.isUserComment) $('.comments').prepend(text); else $('.comments').append(text);
+    $("[data-id=" + el.id + "]").click(DeleteComment)
+}

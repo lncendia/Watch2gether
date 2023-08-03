@@ -12,11 +12,13 @@ public class YoutubeRoomMapper : IYoutubeRoomMapper
     {
         var messages = dto.Messages.Select(Map).ToList();
         var viewers = dto.Viewers.Select(Map).ToList();
-        return new YoutubeRoomViewModel(messages, viewers, url, dto.OwnerId, id, dto.Ids, dto.AddAccess);
+        return new YoutubeRoomViewModel(messages, viewers, url, dto.OwnerId, id, dto.Ids, dto.AddAccess, dto.IsOpen);
     }
 
     private static YoutubeViewerViewModel Map(YoutubeViewerDto dto) =>
-        new(dto.Id, dto.Username, dto.AvatarUrl, dto.OnPause, dto.Time, dto.CurrentVideoId);
+        new(dto.Id, dto.Username, dto.AvatarUrl, dto.Pause, dto.Time, dto.CurrentVideoId, dto.FullScreen,
+            dto.Allows.Beep, dto.Allows.Scream, dto.Allows.Change);
 
-    private static MessageViewModel Map(MessageDto dto) => new(dto.Text, dto.CreatedAt, dto.ViewerId, dto.AvatarUri, dto.Username);
+    private static MessageViewModel Map(MessageDto dto) =>
+        new(dto.Text, dto.CreatedAt, dto.ViewerId, dto.AvatarUri, dto.Username);
 }

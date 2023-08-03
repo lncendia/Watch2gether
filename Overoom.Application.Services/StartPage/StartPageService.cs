@@ -31,7 +31,7 @@ public class StartPageService : IStartPageService
     public async Task<IReadOnlyCollection<FilmDto>> GetFilmsAsync()
     {
         var films = await _unitOfWork.FilmRepository.Value.FindAsync(null,
-            new DescendingOrder<Film, IFilmSortingVisitor>(new FilmOrderByDate()), take: 8);
+            new DescendingOrder<Film, IFilmSortingVisitor>(new FilmOrderByDate()), take: 10);
         return films.Select(_mapper.MapFilm).ToList();
     }
 
@@ -41,7 +41,7 @@ public class StartPageService : IStartPageService
             new DescendingOrder<Domain.Comments.Entities.Comment, ICommentSortingVisitor>(
                 new CommentOrderByDate()), take: 20);
 
-        var spec = new UserByIdsSpecification(comments.Where(x => x.UserId.HasValue).Select(x => x.UserId!.Value));
+        var spec = new UserByIdsSpecification(comments.Select(x => x.UserId));
 
         var users = await _unitOfWork.UserRepository.Value.FindAsync(spec);
 

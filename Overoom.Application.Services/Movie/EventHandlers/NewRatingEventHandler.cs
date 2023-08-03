@@ -3,7 +3,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
 using Overoom.Domain.Films.Entities;
-using Overoom.Domain.Ratings;
 using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Ratings.Events;
 using Overoom.Domain.Ratings.Specifications;
@@ -47,6 +46,5 @@ public class NewRatingEventHandler : INotificationHandler<NewRatingEvent>
 
         if (rating != null) await _unitOfWork.RatingRepository.Value.DeleteAsync(rating.Id);
         await _unitOfWork.FilmRepository.Value.UpdateAsync(film);
-        _memoryCache.Remove(film.Id);
     }
 }

@@ -5,7 +5,7 @@ using Overoom.Application.Abstractions.Authentication.Entities;
 
 namespace Overoom.Application.Services.Common;
 
-public class UserValidator : IUserValidator<UserData>
+public partial class UserValidator : IUserValidator<UserData>
 {
     public async Task<IdentityResult> ValidateAsync(UserManager<UserData> manager, UserData user)
     {
@@ -23,7 +23,7 @@ public class UserValidator : IUserValidator<UserData>
         {
             errors.Add(new IdentityError { Description = "Имя не может быть пустым.", Code = "NameLength" });
         }
-        else if (!Regex.IsMatch(user.UserName, @"^[a-zA-Zа-яА-Я0-9_ ]+$"))
+        else if (!MyRegex().IsMatch(user.UserName))
         {
             errors.Add(new IdentityError
             {
@@ -33,8 +33,7 @@ public class UserValidator : IUserValidator<UserData>
             });
         }
     }
-
-// make sure email is not empty, valid, and unique
+    
     private static async Task ValidateEmailAsync(UserData user, UserManager<UserData> manager,
         ICollection<IdentityError> errors)
     {
@@ -62,4 +61,7 @@ public class UserValidator : IUserValidator<UserData>
             errors.Add(new IdentityError { Description = $"Почта {user.Email} уже используется.", Code = "MailUsed" });
         }
     }
+
+    [GeneratedRegex("^[a-zA-Zа-яА-Я0-9_ ]+$")]
+    private static partial Regex MyRegex();
 }

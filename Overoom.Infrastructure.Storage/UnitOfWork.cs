@@ -17,23 +17,36 @@ public class UnitOfWork : IUnitOfWork
     {
         _context = context;
         _mediator = mediator;
+        UserRepository = new Lazy<IUserRepository>(() =>
+            new UserRepository(_context, new UserMapper(), new UserModelMapper(_context)));
+        FilmRepository = new Lazy<IFilmRepository>(() =>
+            new FilmRepository(_context, new FilmMapper(), new FilmModelMapper(_context)));
+        FilmRoomRepository = new Lazy<IFilmRoomRepository>(() =>
+            new FilmRoomRepository(_context, new FilmRoomMapper(), new FilmRoomModelMapper(_context)));
+        YoutubeRoomRepository = new Lazy<IYoutubeRoomRepository>(() =>
+            new YoutubeRoomRepository(_context, new YoutubeRoomMapper(), new YoutubeRoomModelMapper(_context)));
+        PlaylistRepository = new Lazy<IPlaylistRepository>(() =>
+            new PlaylistRepository(_context, new PlaylistMapper(), new PlaylistModelMapper(_context)));
+        CommentRepository = new Lazy<ICommentRepository>(() =>
+            new CommentRepository(_context, new CommentMapper(), new CommentModelMapper(_context)));
+        RatingRepository =
+            new Lazy<IRatingRepository>(() =>
+                new RatingRepository(_context, new RatingMapper(), new RatingModelMapper(_context)));
     }
 
-    public Lazy<IUserRepository> UserRepository => new(() =>
-        new UserRepository(_context, new UserMapper(), new UserModelMapper(_context)));
-    public Lazy<IFilmRepository> FilmRepository  => new(() =>
-        new FilmRepository(_context, new FilmMapper(), new FilmModelMapper(_context)));
-    public Lazy<IFilmRoomRepository> FilmRoomRepository  => new(() =>
-        new FilmRoomRepository(_context, new FilmRoomMapper(), new FilmRoomModelMapper(_context)));
-    public Lazy<IYoutubeRoomRepository> YoutubeRoomRepository  => new(() =>
-        new YoutubeRoomRepository(_context, new YoutubeRoomMapper(), new YoutubeRoomModelMapper(_context)));
-    public Lazy<IPlaylistRepository> PlaylistRepository  => new(() =>
-        new PlaylistRepository(_context, new PlaylistMapper(), new PlaylistModelMapper(_context)));
-    public Lazy<ICommentRepository> CommentRepository  => new(() =>
-        new CommentRepository(_context, new CommentMapper(), new CommentModelMapper(_context)));
-    public Lazy<IRatingRepository> RatingRepository  => new(() =>
-        new RatingRepository(_context, new RatingMapper(), new RatingModelMapper(_context)));
-    
+    public Lazy<IUserRepository> UserRepository { get; }
+
+    public Lazy<IFilmRepository> FilmRepository { get; }
+
+    public Lazy<IFilmRoomRepository> FilmRoomRepository { get; }
+
+    public Lazy<IYoutubeRoomRepository> YoutubeRoomRepository { get; }
+
+    public Lazy<IPlaylistRepository> PlaylistRepository { get; }
+    public Lazy<ICommentRepository> CommentRepository { get; }
+
+    public Lazy<IRatingRepository> RatingRepository { get; }
+
 
     public async Task SaveChangesAsync()
     {
@@ -41,7 +54,7 @@ public class UnitOfWork : IUnitOfWork
         {
             await _mediator.Publish(notification);
         }
-
+        
         await _context.SaveChangesAsync();
     }
 }

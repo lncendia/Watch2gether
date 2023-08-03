@@ -16,7 +16,7 @@ public class FilmMapper : IFilmMapper
             film.CountSeasons, film.CountEpisodes, cdnList, film.UserRating, film.UserScore, film.InWatchlist,
             film.UserRatingsCount);
     }
-    
-    public CommentViewModel Map(CommentDto comment) =>
-        new(comment.Username, comment.Text, comment.CreatedAt, comment.AvatarUri);
+
+    public CommentViewModel Map(CommentDto comment, Guid? userId) =>
+        new(comment.Username, comment.Text, comment.CreatedAt, comment.AvatarUri, comment.Id, comment.UserId == userId);
 }

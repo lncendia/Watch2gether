@@ -8,4 +8,5 @@ public class WatchlistModel
     public Guid FilmId { get; set; }
     public FilmModel Film { get; set; } = null!;
     public DateTime Date { get; set; }
+    public UserModel User { get; set; } = null!;
 }

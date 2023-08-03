@@ -5,7 +5,7 @@ namespace Overoom.Infrastructure.Movie.Models;
 public class FilmShortData
 {
     [JsonProperty("nameRu")] public string? NameRu { get; set; }
-    [JsonProperty("nameEn")] public string? NameEn { get; set; }
+    [JsonProperty("nameOriginal")] public string? NameEn { get; set; }
     [JsonProperty("year")] public int Year { get; set; }
     [JsonProperty("kinopoiskId")] public long KpId { get; set; }
     [JsonProperty("imdbId")] public string? ImdbId { get; set; }

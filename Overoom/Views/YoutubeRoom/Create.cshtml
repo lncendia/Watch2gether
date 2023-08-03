@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+@using Overoom.WEB.Contracts.Rooms
+@{
+    ViewData["Title"] = "Создание комнаты";
+    var appAuth = await Context.AuthenticateAsync(IdentityConstants.ApplicationScheme);
+}
+
+<div class="col-lg-6">
+    <h3>Создание комнаты</h3>
+    @if (appAuth.None)
+    {
+        @await Html.PartialAsync("CreateAnonymously", new CreateYoutubeRoomAnonymouslyParameters())
+    }
+    else
+    {
+        @await Html.PartialAsync("CreateUser", new CreateYoutubeRoomParameters())
+    }
+</div>

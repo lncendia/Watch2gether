@@ -7,5 +7,5 @@ namespace Overoom.WEB.Mappers.Abstractions;
 public interface IFilmMapper
 {
     public FilmViewModel Map(FilmDto film);
-    public CommentViewModel Map(CommentDto comment);
+    public CommentViewModel Map(CommentDto comment, Guid? userId);
 }

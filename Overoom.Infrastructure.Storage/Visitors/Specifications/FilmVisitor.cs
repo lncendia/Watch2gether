@@ -23,7 +23,7 @@ public class FilmVisitor : BaseVisitor<FilmModel, IFilmSpecificationVisitor, Fil
 
     public void Visit(FilmByActorSpecification specification) =>
         Expr = model =>
-            model.Actors.Any(g => g.NameNormalized.Contains(specification.Actor.ToUpper()));
+            model.Actors.Any(g => g.Person.NameNormalized.Contains(specification.Actor.ToUpper()));
 
     public void Visit(FilmByDirectorSpecification specification) =>
         Expr = model =>

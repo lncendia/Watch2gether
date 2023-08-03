@@ -13,7 +13,7 @@ internal class FilmRoomModelMapper : IModelMapperUnit<FilmRoomModel, FilmRoom>
     private readonly ApplicationDbContext _context;
 
     private static readonly FieldInfo IdCounter =
-        typeof(Room).GetField("IdCounter", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        typeof(Room).GetField("_idCounter", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     public FilmRoomModelMapper(ApplicationDbContext context) => _context = context;
 
@@ -41,29 +41,36 @@ internal class FilmRoomModelMapper : IModelMapperUnit<FilmRoomModel, FilmRoom>
         filmRoom.IdCounter = (int)IdCounter.GetValue(entity)!;
 
         var newMessages = entity.Messages.Where(x =>
-            filmRoom.Messages.All(m => m.ViewerEntityId != x.ViewerId && m.CreatedAt != x.CreatedAt));
+            filmRoom.Messages.All(m => m.ViewerEntityId != x.ViewerId || m.CreatedAt != x.CreatedAt));
         filmRoom.Messages.AddRange(newMessages.Select(x => new FilmMessageModel
-            { ViewerEntityId = x.ViewerId, Text = x.Text, CreatedAt = x.CreatedAt }));
-        _context.FilmMessages.RemoveRange(filmRoom.Messages.Where(x =>
+        {
+            ViewerEntityId = x.ViewerId, Text = x.Text, CreatedAt = x.CreatedAt,
+            ViewerId = filmRoom.Viewers.First(v => v.EntityId == x.ViewerId).Id
+        }));
+        _context.FilmRoomMessages.RemoveRange(filmRoom.Messages.Where(x =>
             entity.Messages.All(m => m.ViewerId != x.ViewerEntityId && m.CreatedAt != x.CreatedAt)));
 
 
-        _context.FilmViewers.RemoveRange(filmRoom.Viewers.Where(x => entity.Viewers.All(m => m.Id != x.EntityId)));
+        _context.FilmRoomViewers.RemoveRange(filmRoom.Viewers.Where(x => entity.Viewers.All(m => m.Id != x.EntityId)));
 
         foreach (var viewer in entity.Viewers)
         {
             var viewerModel = filmRoom.Viewers.FirstOrDefault(x => x.EntityId == viewer.Id) ?? new FilmViewerModel
             {
                 EntityId = viewer.Id,
-                Name = viewer.Name,
-                NameNormalized = viewer.Name.ToUpper(),
                 AvatarUri = viewer.AvatarUri
             };
+            viewerModel.Name = viewer.Name;
+            viewerModel.NameNormalized = viewer.Name.ToUpper();
             viewerModel.Season = viewer.Season;
             viewerModel.Series = viewer.Series;
             viewerModel.Online = viewer.Online;
-            viewerModel.OnPause = viewer.OnPause;
+            viewerModel.Pause = viewer.Pause;
             viewerModel.TimeLine = viewer.TimeLine;
+            viewerModel.FullScreen = viewer.FullScreen;
+            viewerModel.Beep = viewer.Allows.Beep;
+            viewerModel.Scream = viewer.Allows.Scream;
+            viewerModel.Change = viewer.Allows.Change;
             if (viewerModel.Id == default) filmRoom.Viewers.Add(viewerModel);
         }
 

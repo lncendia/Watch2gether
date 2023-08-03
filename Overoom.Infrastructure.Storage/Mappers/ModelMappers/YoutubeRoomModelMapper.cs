@@ -14,7 +14,7 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
     private readonly ApplicationDbContext _context;
 
     private static readonly FieldInfo IdCounter =
-        typeof(Room).GetField("IdCounter", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        typeof(Room).GetField("_idCounter", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     public YoutubeRoomModelMapper(ApplicationDbContext context) => _context = context;
 
@@ -25,6 +25,7 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
         {
             await _context.Entry(youtubeRoom).Collection(x => x.Messages).LoadAsync();
             await _context.Entry(youtubeRoom).Collection(x => x.Viewers).LoadAsync();
+            await _context.Entry(youtubeRoom).Collection(x => x.VideoIds).LoadAsync();
         }
         else
         {
@@ -44,15 +45,15 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
             youtubeRoom.Messages.All(m => m.ViewerEntityId != x.ViewerId && m.CreatedAt != x.CreatedAt));
         youtubeRoom.Messages.AddRange(newMessages.Select(x => new YoutubeMessageModel
             { ViewerEntityId = x.ViewerId, Text = x.Text, CreatedAt = x.CreatedAt }));
-        _context.YoutubeMessages.RemoveRange(youtubeRoom.Messages.Where(x =>
+        _context.YoutubeRoomMessages.RemoveRange(youtubeRoom.Messages.Where(x =>
             entity.Messages.All(m => m.ViewerId != x.ViewerEntityId && m.CreatedAt != x.CreatedAt)));
 
         var newIds = entity.VideoIds.Where(x => youtubeRoom.VideoIds.All(m => m.VideoId != x));
         youtubeRoom.VideoIds.AddRange(newIds.Select(x => new VideoIdModel { VideoId = x }));
-        _context.VideoIds.RemoveRange(youtubeRoom.VideoIds.Where(x => entity.VideoIds.All(m => m != x.VideoId)));
+        _context.YoutubeRoomVideoIds.RemoveRange(youtubeRoom.VideoIds.Where(x => entity.VideoIds.All(m => m != x.VideoId)));
 
 
-        _context.YoutubeViewers.RemoveRange(youtubeRoom.Viewers.Where(x =>
+        _context.YoutubeRoomViewers.RemoveRange(youtubeRoom.Viewers.Where(x =>
             entity.Viewers.All(m => m.Id != x.EntityId)));
 
         foreach (var viewer in entity.Viewers)
@@ -62,14 +63,18 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
                 new YoutubeViewerModel
                 {
                     EntityId = viewer.Id,
-                    Name = viewer.Name,
-                    NameNormalized = viewer.Name.ToUpper(),
                     AvatarUri = viewer.AvatarUri
                 };
+            viewerModel.Name = viewer.Name;
+            viewerModel.NameNormalized = viewer.Name.ToUpper();
             viewerModel.CurrentVideoId = viewer.CurrentVideoId;
             viewerModel.Online = viewer.Online;
-            viewerModel.OnPause = viewer.OnPause;
+            viewerModel.Pause = viewer.Pause;
             viewerModel.TimeLine = viewer.TimeLine;
+            viewerModel.FullScreen = viewer.FullScreen;
+            viewerModel.Beep = viewer.Allows.Beep;
+            viewerModel.Scream = viewer.Allows.Scream;
+            viewerModel.Change = viewer.Allows.Change;
             if (viewerModel.Id == default) youtubeRoom.Viewers.Add(viewerModel);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Overoom.Domain.Abstractions;
 using Overoom.Domain.Films.DTOs;
 using Overoom.Domain.Films.Enums;
+using Overoom.Domain.Films.Events;
 using Overoom.Domain.Films.Exceptions;
 using Overoom.Domain.Films.ValueObjects;
 using Overoom.Domain.Ratings.Entities;
@@ -31,8 +32,12 @@ public class Film : AggregateRoot
             CountEpisodes = countEpisodes;
         }
 
-        _cdnList = cdn.DistinctBy(x => x.Type).Select(MapCdn).ToList();
+        _cdnList = cdn.Select(MapCdn).ToList();
+
         if (!_cdnList.Any()) throw new EmptyCdnsCollectionException();
+        if (_cdnList.GroupBy(x => x.Type).Any(x => x.Count() > 1)) throw new DuplicateCdnException();
+
+        AddDomainEvent(new NewFilmEvent(this));
     }
 
 
@@ -124,5 +129,5 @@ public class Film : AggregateRoot
         Console.WriteLine(UserRating);
     }
 
-    private static Cdn MapCdn(CdnDto dto) => new(dto.Type, dto.Uri, dto.Quality, dto.Voices.ToList());
+    private static Cdn MapCdn(CdnDto dto) => new(dto.Type, dto.Uri, dto.Quality, dto.Voices.Distinct().ToList());
 }

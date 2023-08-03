@@ -1,7 +1,7 @@
 ﻿using System.Net;
-using Overoom.Application.Abstractions.Kinopoisk.DTOs;
-using Overoom.Application.Abstractions.Kinopoisk.Exceptions;
-using Overoom.Application.Abstractions.Kinopoisk.Interfaces;
+using Overoom.Application.Abstractions.MovieApi.DTOs;
+using Overoom.Application.Abstractions.MovieApi.Exceptions;
+using Overoom.Application.Abstractions.MovieApi.Interfaces;
 using Overoom.Infrastructure.Movie.Abstractions;
 using RestSharp;
 
@@ -19,44 +19,42 @@ public class KpApi : IKpApiService
         _kpClient.AddDefaultHeader("X-API-KEY", kpToken);
     }
 
-    public async Task<FilmShort> GetFromTitleAsync(string title)
-    {
-        var request = new RestRequest("https://kinopoiskapiunofficial.tech/api/v2.2/films");
-        request.AddQueryParameter("keyword", title);
-        return _parser.GetFirstFilmFromSearch(await MakeRequestAsync(request));
-    }
-
-    public async Task<FilmShort> GetFromImdbAsync(string imdbId)
-    {
-        var request = new RestRequest("https://kinopoiskapiunofficial.tech/api/v2.2/films");
-        request.AddQueryParameter("imdbId", imdbId);
-        return _parser.GetFirstFilmFromSearch(await MakeRequestAsync(request));
-    }
-
-    public async Task<Film> GetFromKpAsync(long kpId)
+    public async Task<Film> GetAsync(long kpId, CancellationToken token = default)
     {
         var request = new RestRequest($"https://kinopoiskapiunofficial.tech/api/v2.2/films/{kpId}");
-        var response = await _kpClient.GetAsync(request);
-        return _parser.GetFilm(await MakeRequestAsync(request));
+        return _parser.GetFilm(await MakeRequestAsync(request, token));
     }
 
-    public async Task<FilmStaff> GetActorsAsync(long kpId)
+    public async Task<FilmStaff> GetActorsAsync(long kpId, CancellationToken token = default)
     {
         var request = new RestRequest("https://kinopoiskapiunofficial.tech/api/v1/staff");
         request.AddQueryParameter("filmId", kpId);
-        return _parser.GetStaff(await MakeRequestAsync(request));
+        return _parser.GetStaff(await MakeRequestAsync(request, token));
     }
 
-    public async Task<IReadOnlyCollection<Season>> GetSeasonsAsync(long kpId)
+    public async Task<IReadOnlyCollection<Season>> GetSeasonsAsync(long kpId, CancellationToken token = default)
     {
         var request = new RestRequest($"https://kinopoiskapiunofficial.tech/api/v2.2/films/{kpId}/seasons");
         request.AddQueryParameter("filmId", kpId);
-        return _parser.GetSeasons(await MakeRequestAsync(request));
+        return _parser.GetSeasons(await MakeRequestAsync(request, token));
     }
 
-    private async Task<string> MakeRequestAsync(RestRequest request)
+    public async Task<IReadOnlyCollection<FilmShort>> FindAsync(string? title, string? imdbId, int page = 1,
+        CancellationToken token = default)
     {
-        var response = await _kpClient.GetAsync(request);
+        var request = new RestRequest("https://kinopoiskapiunofficial.tech/api/v2.2/films");
+        if (!string.IsNullOrEmpty(title)) request.AddQueryParameter("keyword", title);
+        if (!string.IsNullOrEmpty(imdbId)) request.AddQueryParameter("imdbId", imdbId);
+        request.AddQueryParameter("order", "YEAR");
+        request.AddQueryParameter("ratingFrom", "5");
+        request.AddQueryParameter("yearTo", DateTime.UtcNow.Year);
+        request.AddQueryParameter("page", page.ToString());
+        return _parser.GetFilms(await MakeRequestAsync(request, token));
+    }
+
+    private async Task<string> MakeRequestAsync(RestRequest request, CancellationToken token)
+    {
+        var response = await _kpClient.GetAsync(request, cancellationToken: token);
         if (response.StatusCode == HttpStatusCode.NotFound) throw new ApiNotFoundException();
         if (response.StatusCode != HttpStatusCode.OK)
             throw new ApiException($"The request was executed with the code {(int)response.StatusCode}",

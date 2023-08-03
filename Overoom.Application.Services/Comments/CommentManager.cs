@@ -8,7 +8,6 @@ using Overoom.Domain.Comments.Ordering;
 using Overoom.Domain.Comments.Ordering.Visitor;
 using Overoom.Domain.Comments.Specifications;
 using Overoom.Domain.Ordering;
-using Overoom.Domain.Users.Entities;
 using Overoom.Domain.Users.Specifications;
 
 namespace Overoom.Application.Services.Comments;
@@ -31,10 +30,10 @@ public class CommentManager : ICommentManager
         var comments = await _unitOfWork.CommentRepository.Value.FindAsync(specification, sorting, (page - 1) * 10, 10);
         if (!comments.Any()) return new List<CommentDto>();
 
-        var spec = new UserByIdsSpecification(comments.Where(x => x.UserId.HasValue).Select(x => x.UserId!.Value));
+        var spec = new UserByIdsSpecification(comments.Select(x => x.UserId));
 
         var users = await _unitOfWork.UserRepository.Value.FindAsync(spec);
-        return Map(comments, users);
+        return comments.Select(c => _mapper.Map(c, users.First(u => u.Id == c.UserId))).ToList();
     }
 
     public async Task<CommentDto> AddAsync(Guid filmId, Guid id, string text)
@@ -46,7 +45,7 @@ public class CommentManager : ICommentManager
         var comment = new Comment(filmId, user.Id, text);
         await _unitOfWork.CommentRepository.Value.AddAsync(comment);
         await _unitOfWork.SaveChangesAsync();
-        return new CommentDto(comment.Id, comment.Text, comment.CreatedAt, user.Name, user.AvatarUri);
+        return _mapper.Map(comment, user);
     }
 
     public async Task DeleteAsync(Guid commentId, Guid id)
@@ -56,13 +55,5 @@ public class CommentManager : ICommentManager
         if (comment.UserId != id) throw new CommentNotBelongToUserException();
         await _unitOfWork.CommentRepository.Value.DeleteAsync(comment.Id);
         await _unitOfWork.SaveChangesAsync();
-    }
-
-
-    private List<CommentDto> Map(IList<Comment> comments, IList<User> users)
-    {
-        return (from comment in comments
-            let user = users.FirstOrDefault(x => x.Id == comment.UserId)
-            select _mapper.Map(comment, user)).ToList();
     }
 }

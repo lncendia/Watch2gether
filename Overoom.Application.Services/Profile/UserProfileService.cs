@@ -40,7 +40,7 @@ public class UserProfileService : IUserProfileService
             watchlistFilms.OrderBy(film => watchlist.IndexOf(film.Id)));
     }
 
-    public async Task<List<RatingDto>> GetRatingsAsync(Guid id, int page)
+    public async Task<IReadOnlyCollection<RatingDto>> GetRatingsAsync(Guid id, int page)
     {
         var spec = new RatingByUserSpecification(id);
         var ratings =
@@ -51,18 +51,10 @@ public class UserProfileService : IUserProfileService
         return ratings.Select(x => _profileMapper.Map(x, films.First(f => f.Id == x.FilmId))).ToList();
     }
 
-    public async Task<List<string>> GetGenresAsync(Guid id)
+    public async Task<IReadOnlyCollection<string>> GetGenresAsync(Guid id)
     {
-        var spec = new RatingByUserSpecification(id);
-        var orderScore = new RatingOrderByScore();
-        var orderDate = new RatingOrderByDate();
-        var order = new DescendingOrder<Rating, IRatingSortingVisitor>(
-            new ThenByOrder<Rating, IRatingSortingVisitor>(orderDate, orderScore));
-        var ratings =
-            await _unitOfWork.RatingRepository.Value.FindAsync(spec, order, 0, 10);
-        var films = await _unitOfWork.FilmRepository.Value.FindAsync(
-            new FilmByIdsSpecification(ratings.Select(x => x.FilmId)));
-        return ratings.SelectMany(x => films.First(f => f.Id == x.FilmId).FilmTags.Genres).GroupBy(g => g)
-            .OrderByDescending(genre => genre.Count()).Select(x => x.Key).Take(5).ToList();
+        var user = await _unitOfWork.UserRepository.Value.GetAsync(id);
+        if (user == null) throw new UserNotFoundException();
+        return user.Genres;
     }
 }

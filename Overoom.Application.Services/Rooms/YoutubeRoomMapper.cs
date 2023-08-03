@@ -9,16 +9,21 @@ public class YoutubeRoomMapper : IYoutubeRoomMapper
 {
     public YoutubeRoomDto Map(YoutubeRoom room)
     {
-        var viewers = room.Viewers.Where(x => x.Online).Select(Map).ToList();
+        var viewersEntities = room.Viewers;
+        var viewers = viewersEntities.Where(x => x.Online).Select(Map).ToList();
         var messages = room.Messages
             .Select(m =>
             {
-                var viewer = viewers.First(x => x.Id == m.ViewerId);
-                return new MessageDto(m.Text, m.CreatedAt, viewer.Id, viewer.AvatarUrl, viewer.Username);
+                var viewer = viewersEntities.First(x => x.Id == m.ViewerId);
+                return new MessageDto(m.Text, m.CreatedAt, viewer.Id, viewer.AvatarUri, viewer.Name);
             }).ToList();
-        return new YoutubeRoomDto(room.VideoIds, messages, viewers, room.Owner.Id, room.AddAccess);
+        return new YoutubeRoomDto(room.VideoIds, messages, viewers, room.Owner.Id, room.AddAccess, room.IsOpen);
     }
 
-    public YoutubeViewerDto Map(YoutubeViewer v) =>
-        new(v.Name, v.Id, v.AvatarUri, v.TimeLine, v.OnPause, v.CurrentVideoId);
+    public YoutubeViewerDto Map(YoutubeViewer v)
+    {
+        var allows = new AllowsDto(v.Allows.Beep, v.Allows.Scream, v.Allows.Change);
+        return new YoutubeViewerDto(v.Name, v.Id, v.AvatarUri, v.TimeLine, v.Pause, v.FullScreen, allows,
+            v.CurrentVideoId);
+    }
 }

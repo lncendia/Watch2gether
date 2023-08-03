@@ -93,7 +93,7 @@ public class UserSettingsService : IUserSettingsService
         await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task ChangePasswordAsync(Guid id, string oldPassword, string newPassword)
+    public async Task ChangePasswordAsync(Guid id, string? oldPassword, string newPassword)
     {
         if (oldPassword == newPassword)
         {
@@ -104,8 +104,27 @@ public class UserSettingsService : IUserSettingsService
         var users = await _userManager.GetUsersForClaimAsync(new Claim(ClaimTypes.NameIdentifier, id.ToString()));
         var user = users.FirstOrDefault();
         if (user == null) throw new UserNotFoundException();
-        var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        IdentityResult result;
+        if (user.PasswordHash == null)
+        {
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+        }
+        else
+        {
+            result = await _userManager.ChangePasswordAsync(user, oldPassword!, newPassword);
+        }
+
         CheckResult(result);
+    }
+
+    public async Task ChangeAllowsAsync(Guid id, bool beep, bool scream, bool change)
+    {
+        var user = await _unitOfWork.UserRepository.Value.GetAsync(id);
+        if (user == null) throw new UserNotFoundException();
+        user.UpdateAllows(beep, scream, change);
+        await _unitOfWork.UserRepository.Value.UpdateAsync(user);
+        await _unitOfWork.SaveChangesAsync();
     }
 
     private static void CheckResult(IdentityResult result)

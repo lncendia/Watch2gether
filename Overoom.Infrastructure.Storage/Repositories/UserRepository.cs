@@ -102,5 +102,6 @@ public class UserRepository : IUserRepository
     {
         await _context.Entry(model).Collection(x => x.Watchlist).LoadAsync();
         await _context.Entry(model).Collection(x => x.History).LoadAsync();
+        await _context.Entry(model).Collection(x => x.Genres).LoadAsync();
     }
 }

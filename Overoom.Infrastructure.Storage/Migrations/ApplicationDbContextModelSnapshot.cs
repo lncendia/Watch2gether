@@ -17,6 +17,111 @@ namespace Overoom.Infrastructure.Storage.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
 
+            modelBuilder.Entity("CdnModelVoiceModel", b =>
+                {
+                    b.Property<long>("CdnModelId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("VoicesId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CdnModelId", "VoicesId");
+
+                    b.HasIndex("VoicesId");
+
+                    b.ToTable("CndVoices", (string)null);
+                });
+
+            modelBuilder.Entity("CountryModelFilmModel", b =>
+                {
+                    b.Property<long>("CountriesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("FilmModelId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CountriesId", "FilmModelId");
+
+                    b.HasIndex("FilmModelId");
+
+                    b.ToTable("FilmCountries", (string)null);
+                });
+
+            modelBuilder.Entity("FilmModelGenreModel", b =>
+                {
+                    b.Property<Guid>("FilmModelId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("GenresId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FilmModelId", "GenresId");
+
+                    b.HasIndex("GenresId");
+
+                    b.ToTable("FilmGenres", (string)null);
+                });
+
+            modelBuilder.Entity("FilmModelPersonModel", b =>
+                {
+                    b.Property<long>("DirectorsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("FilmModelId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("DirectorsId", "FilmModelId");
+
+                    b.HasIndex("FilmModelId");
+
+                    b.ToTable("FilmDirectors", (string)null);
+                });
+
+            modelBuilder.Entity("FilmModelPersonModel1", b =>
+                {
+                    b.Property<Guid>("FilmModel1Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("ScreenWritersId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("FilmModel1Id", "ScreenWritersId");
+
+                    b.HasIndex("ScreenWritersId");
+
+                    b.ToTable("FilmScreenWriters", (string)null);
+                });
+
+            modelBuilder.Entity("GenreModelPlaylistModel", b =>
+                {
+                    b.Property<long>("GenresId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("PlaylistModelId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("GenresId", "PlaylistModelId");
+
+                    b.HasIndex("PlaylistModelId");
+
+                    b.ToTable("PlaylistGenres", (string)null);
+                });
+
+            modelBuilder.Entity("GenreModelUserModel", b =>
+                {
+                    b.Property<long>("GenresId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("UserModelId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("GenresId", "UserModelId");
+
+                    b.HasIndex("UserModelId");
+
+                    b.ToTable("UserGenres", (string)null);
+                });
+
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Comment.CommentModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -42,20 +147,14 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.ActorModel", b =>
+            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Country.CountryModel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("FilmModelId")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -67,9 +166,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FilmModelId");
-
-                    b.ToTable("FilmActors");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.CdnModel", b =>
@@ -78,7 +175,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid?>("FilmModelId")
+                    b.Property<Guid>("FilmId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Quality")
@@ -94,57 +191,33 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FilmModelId");
+                    b.HasIndex("FilmId");
 
-                    b.ToTable("FilmCdn");
+                    b.ToTable("FilmCdns", (string)null);
                 });
 
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.CountryModel", b =>
+            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.FilmActorModel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("FilmModelId")
+                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<Guid>("FilmId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("NameNormalized")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilmModelId");
-
-                    b.ToTable("FilmCountries");
-                });
-
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.DirectorModel", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<long>("PersonId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("FilmModelId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NameNormalized")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("FilmModelId");
+                    b.HasIndex("FilmId");
 
-                    b.ToTable("FilmDirectors");
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("FilmActors", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.FilmModel", b =>
@@ -195,79 +268,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Films");
-                });
-
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.GenreModel", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("FilmModelId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NameNormalized")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilmModelId");
-
-                    b.ToTable("FilmGenres");
-                });
-
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.ScreenWriterModel", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("FilmModelId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NameNormalized")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilmModelId");
-
-                    b.ToTable("FilmScreenWriters");
-                });
-
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.VoiceModel", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("CdnId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Info")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("InfoNormalized")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CdnId");
-
-                    b.ToTable("CdnVoices");
+                    b.ToTable("Films", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.FilmRoom.FilmMessageModel", b =>
@@ -298,7 +299,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("ViewerId");
 
-                    b.ToTable("FilmMessages");
+                    b.ToTable("FilmRoomMessages", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.FilmRoom.FilmRoomModel", b =>
@@ -327,7 +328,9 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FilmRooms");
+                    b.HasIndex("FilmId");
+
+                    b.ToTable("FilmRooms", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.FilmRoom.FilmViewerModel", b =>
@@ -340,7 +343,16 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("Beep")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Change")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("EntityId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("FullScreen")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -351,14 +363,17 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("OnPause")
+                    b.Property<bool>("Online")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("Online")
+                    b.Property<bool>("Pause")
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid>("RoomId")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Scream")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Season")
                         .HasColumnType("INTEGER");
@@ -373,31 +388,10 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("FilmViewers");
+                    b.ToTable("FilmRoomViewers", (string)null);
                 });
 
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistFilmModel", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("FilmId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("PlaylistModelId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilmId");
-
-                    b.HasIndex("PlaylistModelId");
-
-                    b.ToTable("PlaylistFilms");
-                });
-
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistGenreModel", b =>
+            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Genre.GenreModel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -411,14 +405,49 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("PlaylistModelId")
+                    b.HasKey("Id");
+
+                    b.ToTable("Genres", (string)null);
+                });
+
+            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Person.PersonModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NameNormalized")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PlaylistModelId");
+                    b.ToTable("Persons", (string)null);
+                });
 
-                    b.ToTable("PlaylistGenres");
+            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistFilmModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("FilmId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("PlaylistId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilmId");
+
+                    b.HasIndex("PlaylistId");
+
+                    b.ToTable("PlaylistFilms", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistModel", b =>
@@ -448,7 +477,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Playlists");
+                    b.ToTable("Playlists", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Rating.RatingModel", b =>
@@ -475,7 +504,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Ratings");
+                    b.ToTable("Ratings", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom.VideoIdModel", b =>
@@ -495,7 +524,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("VideoIds");
+                    b.ToTable("YoutubeRoomVideoIds", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.User.HistoryModel", b =>
@@ -510,16 +539,16 @@ namespace Overoom.Infrastructure.Storage.Migrations
                     b.Property<Guid>("FilmId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("UserModelId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FilmId");
 
-                    b.HasIndex("UserModelId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("UserHistory");
+                    b.ToTable("UserHistory", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.User.UserModel", b =>
@@ -531,6 +560,12 @@ namespace Overoom.Infrastructure.Storage.Migrations
                     b.Property<string>("AvatarUri")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Beep")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Change")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -548,9 +583,12 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("Scream")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.User.WatchlistModel", b =>
@@ -565,16 +603,35 @@ namespace Overoom.Infrastructure.Storage.Migrations
                     b.Property<Guid>("FilmId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("UserModelId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FilmId");
 
-                    b.HasIndex("UserModelId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("UserWatchlist");
+                    b.ToTable("UserWatchlist", (string)null);
+                });
+
+            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Voice.VoiceModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NameNormalized")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Voices", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.YoutubeRoom.YoutubeMessageModel", b =>
@@ -605,7 +662,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("ViewerId");
 
-                    b.ToTable("YoutubeMessages");
+                    b.ToTable("YoutubeRoomMessages", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.YoutubeRoom.YoutubeRoomModel", b =>
@@ -631,7 +688,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("YoutubeRooms");
+                    b.ToTable("YoutubeRooms", (string)null);
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.YoutubeRoom.YoutubeViewerModel", b =>
@@ -644,11 +701,20 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("Beep")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Change")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("CurrentVideoId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EntityId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("FullScreen")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -659,14 +725,17 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("OnPause")
+                    b.Property<bool>("Online")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("Online")
+                    b.Property<bool>("Pause")
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid>("RoomId")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Scream")
+                        .HasColumnType("INTEGER");
 
                     b.Property<TimeSpan>("TimeLine")
                         .HasColumnType("TEXT");
@@ -675,7 +744,112 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("YoutubeViewers");
+                    b.ToTable("YoutubeRoomViewers", (string)null);
+                });
+
+            modelBuilder.Entity("CdnModelVoiceModel", b =>
+                {
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.CdnModel", null)
+                        .WithMany()
+                        .HasForeignKey("CdnModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Voice.VoiceModel", null)
+                        .WithMany()
+                        .HasForeignKey("VoicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CountryModelFilmModel", b =>
+                {
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Country.CountryModel", null)
+                        .WithMany()
+                        .HasForeignKey("CountriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", null)
+                        .WithMany()
+                        .HasForeignKey("FilmModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FilmModelGenreModel", b =>
+                {
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", null)
+                        .WithMany()
+                        .HasForeignKey("FilmModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Genre.GenreModel", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FilmModelPersonModel", b =>
+                {
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Person.PersonModel", null)
+                        .WithMany()
+                        .HasForeignKey("DirectorsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", null)
+                        .WithMany()
+                        .HasForeignKey("FilmModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FilmModelPersonModel1", b =>
+                {
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", null)
+                        .WithMany()
+                        .HasForeignKey("FilmModel1Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Person.PersonModel", null)
+                        .WithMany()
+                        .HasForeignKey("ScreenWritersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GenreModelPlaylistModel", b =>
+                {
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Genre.GenreModel", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistModel", null)
+                        .WithMany()
+                        .HasForeignKey("PlaylistModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GenreModelUserModel", b =>
+                {
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Genre.GenreModel", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.User.UserModel", null)
+                        .WithMany()
+                        .HasForeignKey("UserModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Comment.CommentModel", b =>
@@ -696,78 +870,34 @@ namespace Overoom.Infrastructure.Storage.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.ActorModel", b =>
-                {
-                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", "FilmModel")
-                        .WithMany("Actors")
-                        .HasForeignKey("FilmModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FilmModel");
-                });
-
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.CdnModel", b =>
                 {
-                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", null)
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", "Film")
                         .WithMany("CdnList")
-                        .HasForeignKey("FilmModelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.CountryModel", b =>
-                {
-                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", "FilmModel")
-                        .WithMany("Countries")
-                        .HasForeignKey("FilmModelId")
+                        .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("FilmModel");
+                    b.Navigation("Film");
                 });
 
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.DirectorModel", b =>
+            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.FilmActorModel", b =>
                 {
-                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", "FilmModel")
-                        .WithMany("Directors")
-                        .HasForeignKey("FilmModelId")
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", "Film")
+                        .WithMany("Actors")
+                        .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("FilmModel");
-                });
-
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.GenreModel", b =>
-                {
-                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", "FilmModel")
-                        .WithMany("Genres")
-                        .HasForeignKey("FilmModelId")
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Person.PersonModel", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("FilmModel");
-                });
+                    b.Navigation("Film");
 
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.ScreenWriterModel", b =>
-                {
-                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", "FilmModel")
-                        .WithMany("ScreenWriters")
-                        .HasForeignKey("FilmModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FilmModel");
-                });
-
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.VoiceModel", b =>
-                {
-                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.CdnModel", "Cdn")
-                        .WithMany("Voices")
-                        .HasForeignKey("CdnId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cdn");
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.FilmRoom.FilmMessageModel", b =>
@@ -789,6 +919,17 @@ namespace Overoom.Infrastructure.Storage.Migrations
                     b.Navigation("Viewer");
                 });
 
+            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.FilmRoom.FilmRoomModel", b =>
+                {
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Film.FilmModel", "Film")
+                        .WithMany()
+                        .HasForeignKey("FilmId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Film");
+                });
+
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.FilmRoom.FilmViewerModel", b =>
                 {
                     b.HasOne("Overoom.Infrastructure.Storage.Models.FilmRoom.FilmRoomModel", "Room")
@@ -808,23 +949,15 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistModel", null)
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistModel", "Playlist")
                         .WithMany("Films")
-                        .HasForeignKey("PlaylistModelId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Film");
-                });
-
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistGenreModel", b =>
-                {
-                    b.HasOne("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistModel", "PlaylistModel")
-                        .WithMany("Genres")
-                        .HasForeignKey("PlaylistModelId")
+                        .HasForeignKey("PlaylistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PlaylistModel");
+                    b.Navigation("Film");
+
+                    b.Navigation("Playlist");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Rating.RatingModel", b =>
@@ -864,12 +997,15 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Overoom.Infrastructure.Storage.Models.User.UserModel", null)
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.User.UserModel", "User")
                         .WithMany("History")
-                        .HasForeignKey("UserModelId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Film");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.User.WatchlistModel", b =>
@@ -880,12 +1016,15 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Overoom.Infrastructure.Storage.Models.User.UserModel", null)
+                    b.HasOne("Overoom.Infrastructure.Storage.Models.User.UserModel", "User")
                         .WithMany("Watchlist")
-                        .HasForeignKey("UserModelId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Film");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.YoutubeRoom.YoutubeMessageModel", b =>
@@ -918,24 +1057,11 @@ namespace Overoom.Infrastructure.Storage.Migrations
                     b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.CdnModel", b =>
-                {
-                    b.Navigation("Voices");
-                });
-
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.FilmModel", b =>
                 {
                     b.Navigation("Actors");
 
                     b.Navigation("CdnList");
-
-                    b.Navigation("Countries");
-
-                    b.Navigation("Directors");
-
-                    b.Navigation("Genres");
-
-                    b.Navigation("ScreenWriters");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.FilmRoom.FilmRoomModel", b =>
@@ -948,8 +1074,6 @@ namespace Overoom.Infrastructure.Storage.Migrations
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistModel", b =>
                 {
                     b.Navigation("Films");
-
-                    b.Navigation("Genres");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.User.UserModel", b =>

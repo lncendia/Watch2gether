@@ -1,12 +1,12 @@
 using Newtonsoft.Json;
-using Overoom.Application.Abstractions.Kinopoisk.DTOs;
-using Overoom.Application.Abstractions.Kinopoisk.Exceptions;
+using Overoom.Application.Abstractions.MovieApi.DTOs;
+using Overoom.Application.Abstractions.MovieApi.Exceptions;
 using Overoom.Infrastructure.Movie.Abstractions;
 using Overoom.Infrastructure.Movie.Converters;
 using Overoom.Infrastructure.Movie.Enums;
 using Overoom.Infrastructure.Movie.Models;
-using Episode = Overoom.Application.Abstractions.Kinopoisk.DTOs.Episode;
-using Season = Overoom.Application.Abstractions.Kinopoisk.DTOs.Season;
+using Episode = Overoom.Application.Abstractions.MovieApi.DTOs.Episode;
+using Season = Overoom.Application.Abstractions.MovieApi.DTOs.Season;
 
 namespace Overoom.Infrastructure.Movie.Services;
 
@@ -21,7 +21,8 @@ public class KpResponseParser : IKpResponseParser
         var seasons = JsonConvert.DeserializeObject<SeasonsResponse>(json, _settings)!;
         if (!seasons.Seasons.Any()) throw new ApiNotFoundException();
         return seasons.Seasons.Select(x =>
-            new Season(x.Number, x.Episodes.Select(s => new Episode(s.EpisodeNumber, s.NameRu)).ToList())).ToList();
+                new Season(x.Number, x.Episodes.Select(s => new Episode(s.EpisodeNumber, s.ReleaseDate)).ToList()))
+            .ToList();
     }
 
     public FilmStaff GetStaff(string json)
@@ -45,12 +46,12 @@ public class KpResponseParser : IKpResponseParser
             film.Countries, film.Genres);
     }
 
-    public FilmShort GetFirstFilmFromSearch(string json)
+    public IReadOnlyCollection<FilmShort> GetFilms(string json)
     {
         var films = JsonConvert.DeserializeObject<FilmSearchResponse>(json, _settings)!;
         if (!films.Items.Any()) throw new ApiNotFoundException();
-        var film = films.Items.First();
-        return new FilmShort(film.KpId, film.ImdbId, GetName(film.NameRu, film.NameEn));
+        return films.Items.Select(film => new FilmShort(film.KpId, film.ImdbId, GetName(film.NameRu, film.NameEn)))
+            .ToList();
     }
 
 

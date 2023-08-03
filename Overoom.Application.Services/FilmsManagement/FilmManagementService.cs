@@ -9,6 +9,7 @@ using Overoom.Domain.Films.Ordering;
 using Overoom.Domain.Films.Ordering.Visitor;
 using Overoom.Domain.Films.Specifications;
 using Overoom.Domain.Films.Specifications.Visitor;
+using Overoom.Domain.Ordering;
 using Overoom.Domain.Ordering.Abstractions;
 using Overoom.Domain.Specifications.Abstractions;
 using CdnDto = Overoom.Domain.Films.DTOs.CdnDto;
@@ -88,7 +89,6 @@ public class FilmManagementService : IFilmManagementService
 
         await _unitOfWork.FilmRepository.Value.UpdateAsync(film);
         await _unitOfWork.SaveChangesAsync();
-        _memoryCache.Remove(film.Id);
     }
 
     public async Task DeleteAsync(Guid filmId)
@@ -112,7 +112,8 @@ public class FilmManagementService : IFilmManagementService
 
         if (!string.IsNullOrEmpty(query)) specification = new FilmByNameSpecification(query);
 
-        IOrderBy<Film, IFilmSortingVisitor> orderBy = new FilmOrderByDate();
+        IOrderBy<Film, IFilmSortingVisitor> orderBy =
+            new DescendingOrder<Film, IFilmSortingVisitor>(new FilmOrderByDate());
 
         var films = await _unitOfWork.FilmRepository.Value.FindAsync(specification, orderBy, (page - 1) * 10, 10);
         return films.Select(_mapper.MapShort).ToList();

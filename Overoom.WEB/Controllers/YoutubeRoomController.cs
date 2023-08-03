@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Rooms.DTOs;
+using Overoom.Application.Abstractions.Rooms.DTOs.Youtube;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.WEB.Contracts.Rooms;
 using Overoom.WEB.RoomAuthentication;
@@ -21,32 +21,40 @@ public class YoutubeRoomController : Controller
         _roomService = roomService;
         _mapper = mapper;
     }
-    
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateDefault(CreateYoutubeRoomParameters model)
+
+    public IActionResult Create()
     {
-        if (!ModelState.IsValid) return View(model);
-        var roomData = await _roomService.CreateAsync(model.Url!, model.Name!, model.AddAccess);
-
-        await HttpContext.SetAuthenticationDataAsync(roomData.viewer.Username, roomData.viewer.Id,
-            roomData.viewer.AvatarUrl, roomData.roomId, RoomType.Youtube);
-        return RedirectToAction("Room", new { roomData.roomId });
+        return View();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Policy = "User")]
-    public async Task<IActionResult> CreateUser(CreateYoutubeRoomForUserParameters model)
+    public async Task<ActionResult> CreateUser(CreateYoutubeRoomParameters model)
     {
-        if (!ModelState.IsValid) return View(model);
+        if (!ModelState.IsValid)
+            return RedirectToAction("Index", "Home", new { message = "Не удалось создать комнату" });
+        var roomData = await _roomService.CreateAsync(
+            new CreateYoutubeRoomDto(model.IsOpen!.Value, new Uri(model.Url!), model.AddAccess), User.GetId());
+        var viewer = await _roomService.GetAsync(roomData.roomId, roomData.viewerId);
+        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomData.roomId,
+            RoomType.Youtube);
+        return RedirectToAction("Room");
+    }
 
-        var roomData = await _roomService.CreateForUserAsync(model.Url!, User.GetId(), model.AddAccess);
-
-        await HttpContext.SetAuthenticationDataAsync(roomData.viewer.Username, roomData.viewer.Id,
-            roomData.viewer.AvatarUrl, roomData.roomId, RoomType.Youtube);
-        return RedirectToAction("Room", new { roomData.roomId });
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateAnonymously(CreateYoutubeRoomAnonymouslyParameters model)
+    {
+        if (!ModelState.IsValid)
+            return RedirectToAction("Index", "Home", new { message = "Не удалось создать комнату" });
+        var roomData = await _roomService.CreateAnonymouslyAsync(
+            new CreateYoutubeRoomDto(model.IsOpen!.Value, new Uri(model.Url!), model.AddAccess), model.Name!);
+        var viewer = await _roomService.GetAsync(roomData.roomId, roomData.viewerId);
+        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomData.roomId,
+            RoomType.Youtube);
+        return RedirectToAction("Room");
     }
 
 
@@ -56,28 +64,22 @@ public class YoutubeRoomController : Controller
         var roomData = await HttpContext.AuthenticateAsync(ApplicationConstants.RoomScheme);
         if (!roomData.None && roomData.Principal!.GetId() == roomId) return RedirectToAction("Room");
         var data = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
-        return RedirectToAction(data.None ? "ConnectDefault" : "ConnectUser", new { roomId });
+        if (data.None) return View(new ConnectRoomAnonymouslyParameters { RoomId = roomId });
+
+        var id = await _roomService.ConnectAsync(roomId, User.GetId());
+        var viewer = await _roomService.GetAsync(roomId, id);
+        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomId, RoomType.Youtube);
+        return RedirectToAction("Room");
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ConnectDefault(ConnectRoomParameters model)
+    public async Task<IActionResult> Connect(ConnectRoomAnonymouslyParameters model)
     {
         if (!ModelState.IsValid) return View(model);
-        ViewerDto viewer = await _roomService.ConnectAsync(model.RoomId, model.Name!);
-        await HttpContext.SetAuthenticationDataAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, model.RoomId,
-            RoomType.Youtube);
-        return RedirectToAction("Room");
-    }
-
-
-    [HttpGet]
-    [Authorize(Policy = "User")]
-    public async Task<ActionResult> ConnectUser(Guid roomId)
-    {
-        ViewerDto viewer = await _roomService.ConnectForUserAsync(roomId, User.GetId());
-        await HttpContext.SetAuthenticationDataAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomId,
-            RoomType.Youtube);
+        var id = await _roomService.ConnectAnonymouslyAsync(model.RoomId, model.Name!);
+        var viewer = await _roomService.GetAsync(model.RoomId, id);
+        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, model.RoomId, RoomType.Youtube);
         return RedirectToAction("Room");
     }
 
@@ -90,23 +92,6 @@ public class YoutubeRoomController : Controller
         var roomDto = await _roomService.GetAsync(id);
         var roomViewModel = _mapper.Map(roomDto, viewerId,
             Url.Action("Connect", "YoutubeRoom", new { roomId = id }, HttpContext.Request.Scheme)!);
-        return View(roomViewModel);
+        return PartialView(roomViewModel);
     }
-
-
-    // private static YoutubeRoomViewModel Map(YoutubeRoomDto dto, Guid id, string url)
-    // {
-    //     var messages = dto.Messages.Select(Map);
-    //     var viewers = dto.Viewers.Select(Map);
-    //     return new YoutubeRoomViewModel(messages, viewers, url, dto.OwnerId, id, dto.Ids, dto.AddAccess);
-    // }
-    //
-    // private static YoutubeViewerViewModel Map(YoutubeViewerDto dto) =>
-    //     new(dto.Id, dto.Username, dto.AvatarUrl, dto.OnPause, dto.Time, dto.CurrentVideoId);
-    //
-    // private static YoutubeMessageViewModel Map(YoutubeMessageDto dto)
-    // {
-    //     var viewer = Map(dto.Viewer);
-    //     return new YoutubeMessageViewModel(dto.Text, dto.CreatedAt, viewer);
-    // }
 }

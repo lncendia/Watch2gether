@@ -12,7 +12,7 @@ public class ContentMapper : IContentMapper
             model.PlaylistId, model.SortBy, model.Page, model.InverseOrder);
 
     public PlaylistSearchQuery Map(PlaylistsSearchParameters model) =>
-        new(model.Query, model.SortBy, model.Page, model.InverseOrder);
+        new(model.Query, model.Genre, model.SortBy, model.Page, model.InverseOrder);
 
     public PlaylistViewModel Map(PlaylistDto playlist) => new(playlist.Id, playlist.Name, playlist.Genres,
         playlist.Description, playlist.PosterUri, playlist.Updated);

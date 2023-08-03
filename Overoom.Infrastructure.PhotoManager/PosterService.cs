@@ -23,7 +23,7 @@ public class PosterService : IPosterService
         try
         {
             using var image = await Image.LoadAsync(stream);
-            image.Mutate(x => x.Resize(200, 500));
+            image.Mutate(x => x.Resize(350, 500));
             var fileName = $"{Guid.NewGuid()}.jpg";
             await image.SaveAsync(Path.Combine(Path.Combine(_rootPath, _path), fileName));
             return new Uri(Path.Combine(_path, fileName), UriKind.Relative);

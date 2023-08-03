@@ -14,8 +14,8 @@ public class VideoCdnConverter : JsonConverter
     {
         var jo = JObject.Load(reader);
         var array = (JArray)jo.Property("data")!.First!;
-        return array.First!.ToObject<Cdn>()!;
+        return array.First!.ToObject<VideoCdn>(new JsonSerializer { Converters = { new VideoCdnTranslationsConverter() } })!;
     }
 
-    public override bool CanConvert(Type objectType) => objectType == typeof(Cdn);
+    public override bool CanConvert(Type objectType) => objectType == typeof(VideoCdn);
 }

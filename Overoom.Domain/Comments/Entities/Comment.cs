@@ -31,7 +31,7 @@ public class Comment : AggregateRoot
     }
 
     public Guid FilmId { get; }
-    public Guid? UserId { get; }
+    public Guid UserId { get; }
 
     public string Text { get; }
 

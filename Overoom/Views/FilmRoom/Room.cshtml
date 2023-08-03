@@ -1,116 +1,210 @@
-﻿@model Overoom.WEB.Models.Rooms.FilmRoom.FilmRoomViewModel
-@{
-    ViewData["Title"] = Model.Film.Name;
-}
-<div class="row gx-0 pt-1">
-    <div class="col-lg-8 col-md-7 col-12">
-        <div id="player" class="player"></div>
-    </div>
-    <div class="col-lg-4 col-md-5 col-12">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="card chat">
-                    <div class="card-header p-3 chatHeader">
-                        <a aria-controls="collapseExample" aria-expanded="false" class="mb-0" style="color: #cbcbcb" data-bs-toggle="collapse" href="#collapseExample" id="chatButton" role="button">
-                            Обсуждение
-                            <p id="countViewers" style="font-size: 12px;" class="mb-0 text-center">В сети: @Model.Viewers.Count</p>
-                        </a>
-                    </div>
-                    <div class="collapse" id="collapseExample">
-                        <div class="card card-body chatList">
-                            <ul id="viewers" class="list-group list-group-flush">
-                                @foreach (var viewer in Model.Viewers)
+﻿@using Overoom.Domain.Films.Enums
+@model Overoom.WEB.Models.Rooms.FilmRoom.FilmRoomViewModel
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Комната - @Model.Film.Name</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-grid.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    <link rel="stylesheet" href="~/css/room.css">
+    <link rel="shortcut icon" href="~/img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<header>
+    <partial name="_Navbar"/>
+</header>
+<div class="container">
+    <div class="row gx-5 gy-3">
+        <div class="col-lg-8 col-xxl-9">
+            <div class="block-background" id="player"></div>
+        </div>
+        <div class="col-lg-4 col-xxl-3">
+            <div class="block-background" style="height: 100%">
+                <div class="chat-header">
+                    <span>Обсуждение</span>
+                    <p id="countViewers">В сети: @Model.Viewers.Count</p>
+                </div>
+                <div id="viewers">
+                    @foreach (var viewer in Model.Viewers)
+                    {
+                        <div id="@viewer.Id" class="viewer d-flex justify-content-center flex-wrap">
+                            <div class="name-block viewer-block">
+                                @viewer.Username
+                            </div>
+                            <div class="time-block viewer-block">
+                                @viewer.Time.ToString(@"hh\:mm\:ss")
+                            </div>
+                            <div class="info-block viewer-block">
+                                @if (viewer.Id == Model.OwnerId)
                                 {
-                                    <li id="@viewer.Id" class="list-group-item py-0 pb-1 viewer ">
-                                        <div class="d-inline-block pause @(viewer.OnPause ? "" : "d-none")">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause-circle" viewBox="0 0 16 16">
-                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                                <path d="M5 6.25a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5zm3.5 0a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5z"/>
+                                    <div class="d-inline-block">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill" viewBox="0 0 16 16">
+                                            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"/>
+                                        </svg>
+                                    </div>
+                                }
+                                <div class="d-inline-block d-none type">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="d-inline-block pause @(viewer.Pause ? "" : "d-none")">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pause-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"/>
+                                    </svg>
+                                </div>
+                                <div class="d-inline-block fullscreen-off @(viewer.FullScreen ? "d-none" : "")">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen-exit" viewBox="0 0 16 16">
+                                        <path d="M5.5 0a.5.5 0 0 1 .5.5v4A1.5 1.5 0 0 1 4.5 6h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 10 4.5v-4a.5.5 0 0 1 .5-.5zM0 10.5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 6 11.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zm10 1a1.5 1.5 0 0 1 1.5-1.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4z"/>
+                                    </svg>
+                                </div>
+                                <div class="d-inline-block fullscreen-on @(viewer.FullScreen ? "" : "d-none")">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen" viewBox="0 0 16 16">
+                                        <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            @if (Model.CurrentViewerId != viewer.Id)
+                            {
+                                <div class="actions-block viewer-block">
+                                    @if (Model.CurrentViewerId == Model.OwnerId)
+                                    {
+                                        <a href="#" action-target="@viewer.Id" class="kick-button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-dash" viewBox="0 0 16 16">
+                                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1Zm0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
                                             </svg>
-                                        </div>
-                                        @if (viewer.Id == Model.OwnerId)
-                                        {
+                                        </a>
+                                    }
+                                    @if (viewer.AllowChange)
+                                    {
+                                        <a href="#" action-target="@viewer.Id" class="change-button">
                                             <div class="d-inline-block">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-flag" viewBox="0 0 16 16">
-                                                    <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12.435 12.435 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A19.626 19.626 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a19.587 19.587 0 0 0 1.349-.476l.019-.007.004-.002h.001M14 1.221c-.22.078-.48.167-.766.255-.81.252-1.872.523-2.734.523-.886 0-1.592-.286-2.203-.534l-.008-.003C7.662 1.21 7.139 1 6.5 1c-.669 0-1.606.229-2.415.478A21.294 21.294 0 0 0 3 1.845v6.433c.22-.078.48-.167.766-.255C4.576 7.77 5.638 7.5 6.5 7.5c.847 0 1.548.28 2.158.525l.028.01C9.32 8.29 9.86 8.5 10.5 8.5c.668 0 1.606-.229 2.415-.478A21.317 21.317 0 0 0 14 7.655V1.222z"/>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tag-fill" viewBox="0 0 16 16">
+                                                    <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                                                 </svg>
                                             </div>
-                                        }
-                                        <div class="d-inline-block episode">[@viewer.Season:@viewer.Series]</div>
-                                        <div class="d-inline-block username"> @viewer.Username</div>
-                                        <div class="d-inline-block time">@viewer.Time.ToString(@"hh\:mm\:ss")</div>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="chatScroll" class="pe-2">
-                            @foreach (var message in Model.Messages)
+                                        </a>
+                                    }
+                                    @if (viewer.AllowBeep)
+                                    {
+                                        <a href="#" action-target="@viewer.Id" class="beep-button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-music-note-beamed" viewBox="0 0 16 16">
+                                                <path d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13c0-1.104 1.12-2 2.5-2s2.5.896 2.5 2zm9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2z"/>
+                                                <path fill-rule="evenodd" d="M14 11V2h1v9h-1zM6 3v10H5V3h1z"/>
+                                                <path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4V2.905z"/>
+                                            </svg>
+                                        </a>
+                                    }
+                                    @if (viewer.AllowScream)
+                                    {
+                                        <a href="#" action-target="@viewer.Id" class="scream-button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speaker-fill" viewBox="0 0 16 16">
+                                                <path d="M9 4a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-2.5 6.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0z"/>
+                                                <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm6 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 7a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z"/>
+                                            </svg>
+                                        </a>
+                                    }
+                                </div>
+                            }
+                            else if (viewer.Id != Model.OwnerId)
                             {
-                                if (message.ViewerId != Model.CurrentViewerId)
-                                {
-                                    <div class="d-flex flex-row justify-content-start mb-4">
-                                        <img src="~/@message.AvatarUri" class="messageAvatar" alt="">
-                                        <div class="message messageOther">
-                                            <p style="font-size: 12px" class="additionalText">@message.Username</p>
-                                            <p class="small mb-0">@message.Text</p>
-                                            <p style="font-size: 10px;" class="text-end additionalText">@message.CreatedAt</p>
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="d-flex flex-row justify-content-end mb-4">
-                                        <div class="message messageMe">
-                                            <p style="font-size: 12px;" class="text-end additionalText">@message.Username</p>
-                                            <p class="small mb-0">@message.Text</p>
-                                            <p style="font-size: 10px" class="additionalText">@message.CreatedAt</p>
-                                        </div>
-                                        <img src="~/@message.AvatarUri" class="messageAvatar" alt="">
-                                    </div>
-                                }
+                                <div class="actions-block viewer-block">
+                                    <a href="#" class="sync-button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            }
+                            @if (Model.Film.Type == FilmType.Serial)
+                            {
+                                <div class="serial-block viewer-block">
+                                    Сезон @viewer.Season, серия @viewer.Series
+                                </div>
                             }
                         </div>
-
-                        <div class="form-outline">
-                            <textarea class="form-control" id="message" style="height: 50px;"></textarea>
-                            <label class="form-label" for="message">Введите сообщение</label>
-                            <div class="text-center">
-                                <a href="#" id="copyButton" class="nav-link d-inline my-0" data-clipboard-text="@Model.ConnectUrl">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
-                                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                                    </svg>
-                                    Ссылка для подключения
-                                </a>
-                            </div>
-                        </div>
+                    }
+                </div>
+                <div class="chat-block">
+                    <div class="chat-scroll">
+                        @foreach (var message in Model.Messages)
+                        {
+                            if (message.ViewerId != Model.CurrentViewerId)
+                            {
+                                <div class="d-flex flex-row justify-content-start mb-4">
+                                    <img src="~/@message.AvatarUri" class="message-avatar" alt="">
+                                    <div class="message message-other">
+                                        <p style="font-size: 12px" class="additional-text">@message.Username</p>
+                                        <p class="small text-break mb-0">@message.Text</p>
+                                        <p style="font-size: 10px;" class="text-end additional-text">@message.CreatedAt</p>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex flex-row justify-content-end mb-4">
+                                    <div class="message message-me">
+                                        <p style="font-size: 12px;" class="text-end additional-text">@message.Username</p>
+                                        <p class="small text-break mb-0">@message.Text</p>
+                                        <p style="font-size: 10px" class="additional-text">@message.CreatedAt</p>
+                                    </div>
+                                    <img src="~/@message.AvatarUri" class="message-avatar" alt="">
+                                </div>
+                            }
+                        }
                     </div>
+
+                    <div class="form-outline">
+                        <textarea class="form-control" id="message" style="height: 50px;"></textarea>
+                        <label class="form-label" for="message">Введите сообщение</label>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a href="#" id="copyButton" class="nav-link d-inline my-0" data-clipboard-text="@Model.ConnectUrl">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        </svg>
+                        Ссылка для подключения
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-@section scripts
-{
-    <script src="~/lib/signalr/dist/signalr.min.js"></script>
-    <script src="~/js/roomHub.js"></script>
-    <script src="~/js/filmHub.js"></script>
-    <script>
-        @{
-            foreach (var viewer in Model.Viewers)
-            {
-                <text>users.push(new FilmUser('@viewer.Id.ToString()', '@Html.Raw(viewer.Username)', '@viewer.AvatarUri', @viewer.Time.TotalSeconds, @(viewer.OnPause ? "true" : "false"), @viewer.Season, @viewer.Series));</text>
-            }
+<video id="scream" class="d-none" src="~/video/not_a_screamer.mp4"></video>
+<audio id="beep" class="d-none" src="~/audio/beep.mp3"></audio>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+<script src="~/js/filmsSearch.js"></script>
+<script src="~/lib/signalr/dist/signalr.min.js"></script>
+<script src="~/js/Room/Base/room.js"></script>
+<script src="~/js/Room/Base/roomMethods.js"></script>
+<script src="~/js/Room/Base/receiveEventsHandlers.js"></script>
+<script src="~/js/Room/Base/userEventsHandlers.js"></script>
+<script src="~/js/Room/FilmRoom/room.js"></script>
+<script src="~/js/Room/FilmRoom/roomMethods.js"></script>
+<script src="~/js/Room/FilmRoom/receiveEventsHandlers.js"></script>
+<script src="~/js/Room/FilmRoom/receiveEventsHandlers.js"></script>
+<script>
+        let room = new FilmRoom(@Model.CurrentViewerId, @Model.OwnerId, '@Model.ConnectUrl', @(Model.IsOpen ? "true" : "false"), '@Model.Film.Url', '@Model.Film.Type');
+        @foreach (var viewer in Model.Viewers)
+        {
+            <text>
+                room.Users.push(new FilmUser(@viewer.Id, '@Html.Raw(viewer.Username)', '@viewer.AvatarUri.ToString().Replace('\\', '/')', @viewer.Time.TotalSeconds,
+                    @(viewer.Pause ? "true" : "false"), @(viewer.FullScreen ? "true" : "false"), @(viewer.AllowBeep ? "true" : "false"),
+                    @(viewer.AllowScream ? "true" : "false"), @(viewer.AllowChange ? "true" : "false"), @viewer.Season, @viewer.Series));
+            </text>
         }
-        data = new Data('@Model.CurrentViewerId', '@Model.OwnerId');
-        url = @Model.Film.Url;
     </script>
-}
+<script src="~/js/Room/FilmRoom/receiveEventsHandlers.js"></script>
+<script src="~/js/Room/FilmRoom/userEventsHandlers.js"></script>
+<script src="~/js/Room/FilmRoom/hub.js"></script>
 
-@section styles
-{
-    <link rel="stylesheet" href="~/css/room.css">
-}
+</body>
+</html>

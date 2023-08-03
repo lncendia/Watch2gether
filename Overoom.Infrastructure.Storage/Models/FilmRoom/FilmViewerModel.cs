@@ -13,8 +13,13 @@ public class FilmViewerModel : IEntityModel
     public FilmRoomModel Room { get; set; } = null!;
     public Uri AvatarUri { get; set; } = null!;
     public bool Online { get; set; }
-    public bool OnPause { get; set; }
+    public bool Pause { get; set; }
+    public bool FullScreen { get; set; }
     public TimeSpan TimeLine { get; set; }
     public int Season { get; set; }
     public int Series { get; set; }
+
+    public bool Beep { get; set; }
+    public bool Scream { get; set; }
+    public bool Change { get; set; }
 }

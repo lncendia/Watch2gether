@@ -1,28 +1,19 @@
-﻿using Overoom.Application.Abstractions.FilmsManagement.DTOs;
-
-namespace Overoom.Application.Abstractions.PlaylistsManagement.DTOs;
+﻿namespace Overoom.Application.Abstractions.PlaylistsManagement.DTOs;
 
 public class PlaylistDto
 {
-    public PlaylistDto(Guid filmId, string description, string? shortDescription, double rating,
-        IReadOnlyCollection<CdnDto> cdnList, int? countSeasons, int? countEpisodes, string title)
+    public PlaylistDto(Guid id, string name, string description, Uri posterUri, IReadOnlyCollection<Guid> films)
     {
-        CountSeasons = countSeasons;
-        CountEpisodes = countEpisodes;
-        Title = title;
-        FilmId = filmId;
-        CdnList = cdnList;
+        Id = id;
+        Name = name;
         Description = description;
-        Rating = rating;
-        ShortDescription = shortDescription;
+        PosterUri = posterUri;
+        Films = films;
     }
 
-    public Guid FilmId { get; }
-    public string Title { get; }
+    public Guid Id { get; }
+    public string Name { get; }
     public string Description { get; }
-    public string? ShortDescription { get; }
-    public double Rating { get; }
-    public int? CountSeasons { get; }
-    public int? CountEpisodes { get; }
-    public IReadOnlyCollection<CdnDto> CdnList { get; }
+    public Uri PosterUri { get; }
+    public IReadOnlyCollection<Guid> Films { get; }
 }

@@ -2,6 +2,7 @@ using Overoom.Application.Abstractions.Authentication.Interfaces;
 using Overoom.Application.Abstractions.Comments.Interfaces;
 using Overoom.Application.Abstractions.Content.Interfaces;
 using Overoom.Application.Abstractions.FilmsInformation.Interfaces;
+using Overoom.Application.Abstractions.FilmsLoading;
 using Overoom.Application.Abstractions.FilmsManagement.Interfaces;
 using Overoom.Application.Abstractions.Movie.Interfaces;
 using Overoom.Application.Abstractions.Profile.Interfaces;
@@ -11,6 +12,7 @@ using Overoom.Application.Services.Authentication;
 using Overoom.Application.Services.Comments;
 using Overoom.Application.Services.Content;
 using Overoom.Application.Services.FilmsInformation;
+using Overoom.Application.Services.FilmsLoading;
 using Overoom.Application.Services.FilmsManagement;
 using Overoom.Application.Services.Movie;
 using Overoom.Application.Services.Profile;
@@ -35,6 +37,7 @@ public static class ApplicationServices
         services.AddScoped<IUserProfileService, UserProfileService>();
         services.AddScoped<IUserSettingsService, UserSettingsService>();
         services.AddScoped<IFilmInfoService, FilmInfoService>();
+        services.AddScoped<IFilmAutoLoader, FilmAutoLoader>();
         services.AddMemoryCache();
     }
 }

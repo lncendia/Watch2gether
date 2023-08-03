@@ -9,13 +9,17 @@ namespace Overoom.Infrastructure.Storage.Mappers.AggregateMappers;
 
 internal class UserMapper : IAggregateMapperUnit<User, UserModel>
 {
+    private static readonly Type UserType = typeof(User);
+    private static readonly Type FilmNoteType = typeof(FilmNote);
+
     private static readonly FieldInfo WatchList =
-        typeof(User).GetField("_watchlist", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        UserType.GetField("_watchlist", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     private static readonly FieldInfo History =
-        typeof(User).GetField("_history", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        UserType.GetField("_history", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
-    private static readonly Type FilmNoteType = typeof(FilmNote);
+    private static readonly FieldInfo Genres =
+        UserType.GetField("_genres", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     private static readonly FieldInfo Date =
         FilmNoteType.GetField("<Date>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
@@ -24,8 +28,9 @@ internal class UserMapper : IAggregateMapperUnit<User, UserModel>
     public User Map(UserModel model)
     {
         var user = new User(model.Name, model.Email, model.AvatarUri);
+        user.UpdateAllows(model.Beep, model.Scream, model.Change);
         IdFields.AggregateId.SetValue(user, model.Id);
-
+        
         object?[] args = new object[1];
         var watchlist = model.Watchlist.Select(x =>
         {
@@ -46,8 +51,11 @@ internal class UserMapper : IAggregateMapperUnit<User, UserModel>
             return element;
         }).ToList();
 
+        var genres = model.Genres.Select(x => x.Name).ToList();
+
         WatchList.SetValue(user, watchlist);
         History.SetValue(user, history);
+        Genres.SetValue(user, genres);
         return user;
     }
 }

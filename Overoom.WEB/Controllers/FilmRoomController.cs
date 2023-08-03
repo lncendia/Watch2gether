@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions;
-using Overoom.Application.Abstractions.Rooms.DTOs;
+using Overoom.Application.Abstractions.Rooms.DTOs.Film;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.WEB.Contracts.Rooms;
 using Overoom.WEB.RoomAuthentication;
@@ -21,28 +21,42 @@ public class FilmRoomController : Controller
         _mapper = mapper;
     }
 
-    [HttpPost]
-    [Authorize(Policy = "User")]
-    public async Task<ActionResult> CreateUser(CreateFilmRoomForUserParameters model)
-    {
-        if (!ModelState.IsValid) return RedirectToAction("Index", "Film", new { id = model.FilmId });
-        var roomData = await _roomService.CreateForUserAsync(model.FilmId, model.Cdn, User.GetId());
-        await HttpContext.SetAuthenticationDataAsync(roomData.viewer.Username, roomData.viewer.Id,
-            roomData.viewer.AvatarUrl, roomData.roomId, RoomType.Film);
-        return RedirectToAction("Room", new { roomData.roomId });
-    }
 
+    [HttpGet]
+    public IActionResult Create(FilmParameters parameters)
+    {
+        if (!ModelState.IsValid)
+            return RedirectToAction("Index", "Home", new { message = "Не удалось создать комнату" });
+        return View(parameters);
+    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateDefault(CreateFilmRoomParameters model)
+    [Authorize(Policy = "User")]
+    public async Task<ActionResult> CreateUser(CreateFilmRoomParameters model)
     {
-        if (!ModelState.IsValid) return RedirectToAction("Index", "Film", new { id = model.FilmId });
-        var roomData = await _roomService.CreateAsync(model.FilmId, model.Cdn, model.Name!);
+        if (!ModelState.IsValid)
+            return RedirectToAction("Index", "Home", new { message = "Не удалось создать комнату" });
+        var roomData = await _roomService.CreateAsync(
+            new CreateFilmRoomDto(model.IsOpen!.Value, model.FilmId, model.Cdn), User.GetId());
+        var viewer = await _roomService.GetAsync(roomData.roomId, roomData.viewerId);
+        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomData.roomId,
+            RoomType.Film);
+        return RedirectToAction("Room");
+    }
 
-        await HttpContext.SetAuthenticationDataAsync(roomData.viewer.Username, roomData.viewer.Id,
-            roomData.viewer.AvatarUrl, roomData.roomId, RoomType.Film);
-        return RedirectToAction("Room", new { roomData.roomId });
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateAnonymously(CreateFilmRoomAnonymouslyParameters model)
+    {
+        if (!ModelState.IsValid)
+            return RedirectToAction("Index", "Home", new { message = "Не удалось создать комнату" });
+        var roomData = await _roomService.CreateAnonymouslyAsync(
+            new CreateFilmRoomDto(model.IsOpen!.Value, model.FilmId, model.Cdn), model.Name!);
+        var viewer = await _roomService.GetAsync(roomData.roomId, roomData.viewerId);
+        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomData.roomId,
+            RoomType.Film);
+        return RedirectToAction("Room");
     }
 
 
@@ -50,31 +64,29 @@ public class FilmRoomController : Controller
     public async Task<IActionResult> Connect(Guid roomId)
     {
         var roomData = await HttpContext.AuthenticateAsync(ApplicationConstants.RoomScheme);
-        if (!roomData.None && roomData.Principal!.GetId() == roomId) return RedirectToAction("Room");
+        if (!roomData.None && roomData.Principal!.GetRoomId() == roomId) return RedirectToAction("Room");
         var data = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
-        return RedirectToAction(data.None ? "ConnectDefault" : "ConnectUser", new { roomId });
-    }
+        if (data.None) return View(new ConnectRoomAnonymouslyParameters { RoomId = roomId });
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ConnectDefault(ConnectRoomParameters model)
-    {
-        if (!ModelState.IsValid) return View(model);
-        ViewerDto viewer = await _roomService.ConnectAsync(model.RoomId, model.Name!);
-        await HttpContext.SetAuthenticationDataAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, model.RoomId,
+        var id = await _roomService.ConnectAsync(roomId, User.GetId());
+        var viewer = await _roomService.GetAsync(roomId, id);
+        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomId,
             RoomType.Film);
         return RedirectToAction("Room");
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<ActionResult> ConnectUser(Guid roomId)
+    public async Task<IActionResult> Connect(ConnectRoomAnonymouslyParameters model)
     {
-        ViewerDto viewer = await _roomService.ConnectForUserAsync(roomId, User.GetId());
-        await HttpContext.SetAuthenticationDataAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomId,
+        if (!ModelState.IsValid) View(model);
+        var id = await _roomService.ConnectAnonymouslyAsync(model.RoomId, model.Name!);
+        var viewer = await _roomService.GetAsync(model.RoomId, id);
+        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, model.RoomId,
             RoomType.Film);
         return RedirectToAction("Room");
     }
+
 
     [Authorize(Policy = "FilmRoom")]
     public async Task<IActionResult> Room()
@@ -84,6 +96,13 @@ public class FilmRoomController : Controller
         var roomDto = await _roomService.GetAsync(id);
         var model = _mapper.Map(roomDto, viewerId,
             Url.Action("Connect", "FilmRoom", new { roomId = id }, HttpContext.Request.Scheme)!);
-        return View(model);
+        return PartialView(model);
+    }
+
+    [Authorize(Policy = "FilmRoom")]
+    public async Task<IActionResult> Leave()
+    {
+        await HttpContext.SignOutRoomAsync();
+        return RedirectToAction("Index", "Home", new { message = "Вас выгнали из комнаты" });
     }
 }

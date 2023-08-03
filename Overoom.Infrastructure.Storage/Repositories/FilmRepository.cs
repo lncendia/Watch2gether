@@ -97,14 +97,14 @@ public class FilmRepository : IFilmRepository
 
         return query.CountAsync();
     }
-    
+
     private async Task LoadCollectionsAsync(FilmModel model)
     {
-        await _context.Entry(model).Collection(x => x.Actors).LoadAsync();
+        await _context.Entry(model).Collection(x => x.Actors).Query().Include(x => x.Person).LoadAsync();
         await _context.Entry(model).Collection(x => x.Countries).LoadAsync();
         await _context.Entry(model).Collection(x => x.Directors).LoadAsync();
         await _context.Entry(model).Collection(x => x.Genres).LoadAsync();
         await _context.Entry(model).Collection(x => x.ScreenWriters).LoadAsync();
-        await _context.Entry(model).Collection(x => x.CdnList).Query().Include(x=>x.Voices).LoadAsync();
+        await _context.Entry(model).Collection(x => x.CdnList).Query().Include(x => x.Voices).LoadAsync();
     }
 }

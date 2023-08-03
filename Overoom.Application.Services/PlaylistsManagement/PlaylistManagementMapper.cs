@@ -6,13 +6,8 @@ namespace Overoom.Application.Services.PlaylistsManagement;
 
 public class PlaylistManagementMapper : IPlaylistManagementMapper
 {
-    public PlaylistDto MapGet(Playlist playlist)
-    {
-        throw new NotImplementedException();
-    }
+    public PlaylistDto MapGet(Playlist playlist) => new(playlist.Id, playlist.Name, playlist.Description,
+        playlist.PosterUri, playlist.Films);
 
-    public PlaylistShortDto MapShort(Playlist playlist)
-    {
-        throw new NotImplementedException();
-    }
+    public PlaylistShortDto MapShort(Playlist playlist) => new(playlist.Id, playlist.Name, playlist.PosterUri);
 }

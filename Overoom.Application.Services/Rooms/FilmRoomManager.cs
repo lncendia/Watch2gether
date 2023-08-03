@@ -1,9 +1,11 @@
-﻿using Overoom.Application.Abstractions;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Overoom.Application.Abstractions;
 using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Application.Abstractions.Rooms.DTOs.Film;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
-using Overoom.Domain.Films.Enums;
+using Overoom.Domain.Rooms.BaseRoom.DTOs;
+using Overoom.Domain.Rooms.BaseRoom.Exceptions;
 using Overoom.Domain.Rooms.FilmRoom.Entities;
 
 namespace Overoom.Application.Services.Rooms;
@@ -12,30 +14,51 @@ public class FilmRoomManager : IFilmRoomManager
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IFilmRoomMapper _mapper;
+    private readonly IMemoryCache _memoryCache;
 
-    public FilmRoomManager(IUnitOfWork unitOfWork, IFilmRoomMapper mapper)
+    public FilmRoomManager(IUnitOfWork unitOfWork, IFilmRoomMapper mapper, IMemoryCache memoryCache)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _memoryCache = memoryCache;
     }
 
-    public async Task<(Guid roomId, FilmViewerDto viewer)> CreateAsync(Guid filmId, CdnType cdn, string name)
+    public Task<(Guid roomId, int viewerId)> CreateAnonymouslyAsync(CreateFilmRoomDto dto, string name)
     {
-        var film = await _unitOfWork.FilmRepository.Value.GetAsync(filmId);
-        if (film == null) throw new FilmNotFoundException();
-        return await CreateAsync(filmId, cdn, name, ApplicationConstants.DefaultAvatar);
+        var viewer = new ViewerDto(name, ApplicationConstants.DefaultAvatar);
+        var room = new FilmRoom(dto.FilmId, dto.CdnType, dto.IsOpen, viewer);
+        return AddAsync(room);
     }
 
-
-    public async Task<(Guid roomId, FilmViewerDto viewer)> CreateForUserAsync(Guid filmId, CdnType cdn, Guid userId)
+    public async Task<(Guid roomId, int viewerId)> CreateAsync(CreateFilmRoomDto dto, Guid userId)
     {
-        var film = await _unitOfWork.FilmRepository.Value.GetAsync(filmId);
-        if (film == null) throw new FilmNotFoundException();
         var user = await _unitOfWork.UserRepository.Value.GetAsync(userId);
         if (user == null) throw new UserNotFoundException();
-        user.AddFilmToHistory(filmId);
+        var viewer = new ViewerDto(user);
+        var room = new FilmRoom(dto.FilmId, dto.CdnType, dto.IsOpen, viewer);
+        return await AddAsync(room);
+    }
+
+    public async Task<int> ConnectAnonymouslyAsync(Guid roomId, string name)
+    {
+        var room = await GetRoomAsync(roomId);
+        var viewer = new ViewerDto(name, ApplicationConstants.DefaultAvatar);
+        var id = room.Connect(viewer);
+        await SaveRoomAsync(room);
+        return id;
+    }
+
+    public async Task<int> ConnectAsync(Guid roomId, Guid userId)
+    {
+        var room = await GetRoomAsync(roomId);
+        var user = await _unitOfWork.UserRepository.Value.GetAsync(userId);
+        if (user == null) throw new UserNotFoundException();
+        user.AddFilmToHistory(room.FilmId);
         await _unitOfWork.UserRepository.Value.UpdateAsync(user);
-        return await CreateAsync(filmId, cdn, user.Name, user.AvatarUri);
+        var viewer = new ViewerDto(user);
+        var id = room.Connect(viewer);
+        await SaveRoomAsync(room);
+        return id;
     }
 
     public async Task ChangeSeries(Guid roomId, int viewerId, int season, int series)
@@ -46,38 +69,6 @@ public class FilmRoomManager : IFilmRoomManager
         await SaveRoomAsync(room);
     }
 
-    public async Task<FilmViewerDto> ConnectAsync(Guid roomId, string name)
-    {
-        var room = await GetRoomAsync(roomId);
-        return await ConnectAsync(room, name, ApplicationConstants.DefaultAvatar);
-    }
-
-    public async Task<FilmViewerDto> ConnectForUserAsync(Guid roomId, Guid userId)
-    {
-        var room = await GetRoomAsync(roomId);
-        var user = await _unitOfWork.UserRepository.Value.GetAsync(userId);
-        if (user == null) throw new UserNotFoundException();
-        user.AddFilmToHistory(room.FilmId);
-        await _unitOfWork.UserRepository.Value.UpdateAsync(user);
-        return await ConnectAsync(room, user.Name, user.AvatarUri);
-    }
-
-    private async Task<(Guid roomId, FilmViewerDto viewer)> CreateAsync(Guid filmId, CdnType cdn, string name,
-        Uri avatarUri)
-    {
-        var room = new FilmRoom(filmId, name, avatarUri, cdn);
-        await _unitOfWork.FilmRoomRepository.Value.AddAsync(room);
-        await _unitOfWork.SaveChangesAsync();
-        return (room.Id, _mapper.Map(room.Owner));
-    }
-
-    private async Task<FilmViewerDto> ConnectAsync(FilmRoom room, string name, Uri avatarUri)
-    {
-        var viewer = room.Connect(name, avatarUri);
-        await SaveRoomAsync(room);
-        return _mapper.Map(viewer);
-    }
-
     public async Task SendMessageAsync(Guid roomId, int viewerId, string message)
     {
         var room = await GetRoomAsync(roomId);
@@ -85,10 +76,24 @@ public class FilmRoomManager : IFilmRoomManager
         await SaveRoomAsync(room);
     }
 
-    public async Task SetPauseAsync(Guid roomId, int viewerId, bool pause, TimeSpan time)
+    public async Task PauseAsync(Guid roomId, int viewerId, bool pause)
     {
         var room = await GetRoomAsync(roomId);
-        room.UpdateTimeLine(viewerId, pause, time);
+        room.SetPause(viewerId, pause);
+        await SaveRoomAsync(room);
+    }
+
+    public async Task FullScreenAsync(Guid roomId, int viewerId, bool fullScreen)
+    {
+        var room = await GetRoomAsync(roomId);
+        room.SetFullScreen(viewerId, fullScreen);
+        await SaveRoomAsync(room);
+    }
+
+    public async Task SeekAsync(Guid roomId, int viewerId, TimeSpan time)
+    {
+        var room = await GetRoomAsync(roomId);
+        room.SetTimeLine(viewerId, time);
         await SaveRoomAsync(room);
     }
 
@@ -99,14 +104,37 @@ public class FilmRoomManager : IFilmRoomManager
         await SaveRoomAsync(room);
     }
 
-    public async Task<FilmViewerDto> ConnectAsync(Guid roomId, int viewerId)
+    public async Task ReConnectAsync(Guid roomId, int viewerId)
     {
         var room = await GetRoomAsync(roomId);
         room.SetOnline(viewerId, true);
         await SaveRoomAsync(room);
+    }
 
-        var viewer = room.Viewers.First(x => x.Id == viewerId);
-        return _mapper.Map(viewer);
+    public async Task BeepAsync(Guid roomId, int viewerId, int target)
+    {
+        var room = await GetRoomAsync(roomId);
+        room.Beep(viewerId, target);
+    }
+
+    public async Task ScreamAsync(Guid roomId, int viewerId, int target)
+    {
+        var room = await GetRoomAsync(roomId);
+        room.Scream(viewerId, target);
+    }
+
+    public async Task KickAsync(Guid roomId, int viewerId, int target)
+    {
+        var room = await GetRoomAsync(roomId);
+        room.Kick(viewerId, target);
+        await SaveRoomAsync(room);
+    }
+
+    public async Task ChangeNameAsync(Guid roomId, int viewerId, int target, string name)
+    {
+        var room = await GetRoomAsync(roomId);
+        room.ChangeName(viewerId, target, name);
+        await SaveRoomAsync(room);
     }
 
     public async Task<FilmRoomDto> GetAsync(Guid roomId)
@@ -117,16 +145,42 @@ public class FilmRoomManager : IFilmRoomManager
         return _mapper.Map(room, film);
     }
 
-    private async Task<FilmRoom> GetRoomAsync(Guid roomId)
+    public async Task<FilmViewerDto> GetAsync(Guid roomId, int viewerId)
     {
-        var room = await _unitOfWork.FilmRoomRepository.Value.GetAsync(roomId);
-        if (room == null) throw new RoomNotFoundException();
-        return room;
+        var room = await GetRoomAsync(roomId);
+        var viewer = room.Viewers.FirstOrDefault(x => x.Id == viewerId);
+        if (viewer == null) throw new ViewerNotFoundException();
+        return _mapper.Map(viewer);
     }
 
     private async Task SaveRoomAsync(FilmRoom room)
     {
         await _unitOfWork.FilmRoomRepository.Value.UpdateAsync(room);
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    private async Task<FilmRoom> GetRoomAsync(Guid id)
+    {
+        if (!_memoryCache.TryGetValue(id, out FilmRoom? room))
+        {
+            room = await _unitOfWork.FilmRoomRepository.Value.GetAsync(id);
+            if (room == null) throw new FilmNotFoundException();
+            _memoryCache.Set(id, room, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
+        }
+        else
+        {
+            if (room == null) throw new RoomNotFoundException();
+        }
+
+        return room;
+    }
+
+
+    private async Task<(Guid roomId, int viewerId)> AddAsync(FilmRoom room)
+    {
+        await _unitOfWork.FilmRoomRepository.Value.AddAsync(room);
+        await _unitOfWork.SaveChangesAsync();
+        _memoryCache.Set(room.Id, room, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+        return (room.Id, room.Owner.Id);
     }
 }

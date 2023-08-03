@@ -1,9 +1,6 @@
-﻿using System.Text.Json;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
-using Overoom.Domain.Rooms.BaseRoom.Exceptions;
 using Overoom.WEB.Hubs.Models;
 
 namespace Overoom.WEB.Hubs;
@@ -20,46 +17,35 @@ public class FilmRoomHub : HubBase
 
     public async Task ChangeSeries(int season, int series)
     {
+        var data = GetData();
         try
         {
-            var data = GetData();
             await _roomManager.ChangeSeries(data.RoomId, data.Id, season, series);
-            await Clients.OthersInGroup(data.RoomIdString).SendAsync("Change", data.Id, season, series);
+            await Clients.OthersInGroup(data.RoomIdString).SendAsync("ChangeSeries", data.Id, season, series);
         }
         catch (Exception ex)
         {
-            var error = ex switch
-            {
-                RoomNotFoundException => "Комната не найдена.",
-                ViewerNotFoundException => "Зритель не найден.",
-                _ => "Неизвестная ошибка."
-            };
-            await Clients.Caller.SendAsync("ReceiveMessage", error);
+            await HandleException(ex, data);
         }
     }
 
     public override async Task OnConnectedAsync()
     {
+        var data = GetData();
         try
         {
-            var data = GetData();
-            var viewer = await _roomManager.ConnectAsync(data.RoomId, data.Id);
+            await _roomManager.ReConnectAsync(data.RoomId, data.Id);
+            var viewer = await _roomManager.GetAsync(data.RoomId, data.Id);
             await Groups.AddToGroupAsync(Context.ConnectionId, data.RoomIdString);
-            var json = JsonSerializer.Serialize(new FilmViewerModel(viewer.Id, viewer.Username, viewer.AvatarUrl,
-                    (int) viewer.Time.TotalSeconds, viewer.Season, viewer.Series),
-                new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
-            await Clients.Group(data.RoomIdString).SendAsync("Connect", json);
+            var viewerViewModel = new FilmViewerModel(viewer.Id, viewer.Username, viewer.AvatarUrl,
+                (int)viewer.Time.TotalSeconds, viewer.Season, viewer.Series, viewer.Allows.Beep,
+                viewer.Allows.Scream, viewer.Allows.Change);
+            await Clients.Group(data.RoomIdString).SendAsync("Connect", viewerViewModel);
             await base.OnConnectedAsync();
         }
         catch (Exception ex)
         {
-            var error = ex switch
-            {
-                RoomNotFoundException => "Комната не найдена.",
-                ViewerNotFoundException => "Зритель не найден.",
-                _ => "Неизвестная ошибка."
-            };
-            await Clients.Caller.SendAsync("ReceiveMessage", error);
+            await HandleException(ex, data);
         }
     }
 }

@@ -1,4 +1,4 @@
-using Overoom.Application.Abstractions.Kinopoisk.DTOs;
+using Overoom.Application.Abstractions.MovieApi.DTOs;
 
 namespace Overoom.Infrastructure.Movie.Abstractions;
 

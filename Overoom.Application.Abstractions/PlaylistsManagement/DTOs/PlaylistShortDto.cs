@@ -1,21 +1,15 @@
-﻿using Overoom.Domain.Films.Enums;
-
-namespace Overoom.Application.Abstractions.PlaylistsManagement.DTOs;
+﻿namespace Overoom.Application.Abstractions.PlaylistsManagement.DTOs;
 
 public class PlaylistShortDto
 {
-    public PlaylistShortDto(string name, int year, FilmType type, Uri posterUri, Guid id)
+    public PlaylistShortDto(Guid id, string name, Uri posterUri)
     {
-        Name = name;
-        Year = year;
-        Type = type;
-        PosterUri = posterUri;
         Id = id;
+        Name = name;
+        PosterUri = posterUri;
     }
 
     public Guid Id { get; }
-    public FilmType Type { get; }
-    public Uri PosterUri { get; }
     public string Name { get; }
-    public int Year { get; }
+    public Uri PosterUri { get; }
 }

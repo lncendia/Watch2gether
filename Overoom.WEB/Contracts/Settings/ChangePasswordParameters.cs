@@ -4,7 +4,6 @@ namespace Overoom.WEB.Contracts.Settings
 {
     public class ChangePasswordParameters
     {
-        [Required(ErrorMessage = "Поле не должно быть пустым")]
         [DataType(DataType.Password)]
         [StringLength(30, MinimumLength = 8, ErrorMessage = "Не больше 30 символов")]
         [Display(Name = "Старый пароль")]

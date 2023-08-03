@@ -1,5 +1,5 @@
 using Overoom.Application.Abstractions.FilmsInformation.DTOs;
-using Overoom.Application.Abstractions.Kinopoisk.DTOs;
+using Overoom.Application.Abstractions.MovieApi.DTOs;
 
 namespace Overoom.Application.Abstractions.FilmsInformation.Interfaces;
 

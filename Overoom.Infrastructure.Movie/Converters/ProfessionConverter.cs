@@ -23,7 +23,7 @@ public class ProfessionConverter : JsonConverter
             "DESIGN" => Profession.Design,
             "EDITOR" => Profession.Editor,
             "TRANSLATOR" => Profession.Translator,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => Profession.Another
         };
     }
 

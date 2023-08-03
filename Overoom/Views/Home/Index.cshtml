@@ -18,14 +18,12 @@
 
 <div class="video-wrapper">
     <video playsinline autoplay muted loop poster="~/img/poster.jpg">
-        <source src="~/video/trailer.mp4" type="video/webm">
+        <source src="~/video/trailer@(new Random().Next(1, 5)).mp4" type="video/webm">
         Your browser does not support the video tag.
     </video>
 
     <div class="header">
-        <nav class="navbar navbar-expand-xxl navbar-toggleable-xxl navbar-dark mb-3">
-            <partial name="_Navbar"/>
-        </nav>
+        <partial name="_Navbar"/>
         <div class="logo">
             <span class="main-text">Over</span>
             <svg fill="currentColor" class="bi bi-list-nested glasses" viewBox="0 0 500 400">
@@ -44,7 +42,7 @@
     }
 </div>
 
-<div class="container pt-5">
+<div class="container container-home pt-5">
     <div class="row gy-5">
         <div class="col-lg-8">
             <div>
@@ -52,7 +50,7 @@
                 <div class="row gx-3 gy-3">
                     @foreach (var film in Model.Films)
                     {
-                        <div class="film col-xxl-3 col-md-4 col-6">
+                        <div class="film col-xxl-25 col-md-4 col-6">
                             <div class="card film-card">
                                 <a class="film-link" asp-controller="Film" asp-action="Index" asp-route-id="@film.Id">
                                     <img src="~/@film.PosterUri" class="card-img-top poster" alt="">
@@ -93,7 +91,9 @@
         </div>
     </div>
 </div>
+<partial name="_Footer"/>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+<script src="~/js/filmsSearch.js"></script>
 </body>
 </html>
-<partial name="_Footer"/>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>

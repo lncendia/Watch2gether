@@ -119,7 +119,7 @@ namespace Overoom.Infrastructure.ApplicationData.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Overoom.Application.Abstractions.Users.Entities.RoleData", b =>
+            modelBuilder.Entity("Overoom.Application.Abstractions.Authentication.Entities.RoleData", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -145,7 +145,7 @@ namespace Overoom.Infrastructure.ApplicationData.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Overoom.Application.Abstractions.Users.Entities.UserData", b =>
+            modelBuilder.Entity("Overoom.Application.Abstractions.Authentication.Entities.UserData", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -211,7 +211,7 @@ namespace Overoom.Infrastructure.ApplicationData.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Overoom.Application.Abstractions.Users.Entities.RoleData", null)
+                    b.HasOne("Overoom.Application.Abstractions.Authentication.Entities.RoleData", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -220,7 +220,7 @@ namespace Overoom.Infrastructure.ApplicationData.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Overoom.Application.Abstractions.Users.Entities.UserData", null)
+                    b.HasOne("Overoom.Application.Abstractions.Authentication.Entities.UserData", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -229,7 +229,7 @@ namespace Overoom.Infrastructure.ApplicationData.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Overoom.Application.Abstractions.Users.Entities.UserData", null)
+                    b.HasOne("Overoom.Application.Abstractions.Authentication.Entities.UserData", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -238,13 +238,13 @@ namespace Overoom.Infrastructure.ApplicationData.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Overoom.Application.Abstractions.Users.Entities.RoleData", null)
+                    b.HasOne("Overoom.Application.Abstractions.Authentication.Entities.RoleData", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Overoom.Application.Abstractions.Users.Entities.UserData", null)
+                    b.HasOne("Overoom.Application.Abstractions.Authentication.Entities.UserData", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -253,7 +253,7 @@ namespace Overoom.Infrastructure.ApplicationData.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Overoom.Application.Abstractions.Users.Entities.UserData", null)
+                    b.HasOne("Overoom.Application.Abstractions.Authentication.Entities.UserData", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

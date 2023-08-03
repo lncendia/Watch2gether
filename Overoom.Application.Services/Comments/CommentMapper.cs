@@ -8,21 +8,8 @@ namespace Overoom.Application.Services.Comments;
 
 public class CommentMapper : ICommentMapper
 {
-    public CommentDto Map(Comment comment, User? user)
+    public CommentDto Map(Comment comment, User user)
     {
-        string? name;
-        Uri? avatar;
-        if (comment.UserId == null || user == null)
-        {
-            name = "Удаленный пользователь";
-            avatar = ApplicationConstants.DefaultAvatar;
-        }
-        else
-        {
-            name = user.Name;
-            avatar = user.AvatarUri;
-        }
-
-        return new CommentDto(comment.Id, comment.Text, comment.CreatedAt, name, avatar);
+        return new CommentDto(comment.Id, user.Id, comment.Text, comment.CreatedAt, user.Name, user.AvatarUri);
     }
 }

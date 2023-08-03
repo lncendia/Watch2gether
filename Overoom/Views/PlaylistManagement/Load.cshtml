@@ -1,0 +1,109 @@
+@model Overoom.WEB.Contracts.PlaylistManagement.Load.LoadParameters
+
+@{
+    ViewData["Title"] = "Добавление фильма";
+    var filmCount = Model.Films.Count;
+}
+
+<div class="row gy-5">
+<div class="col-lg-8">
+<h3 class="mb-5">Добавление фильма</h3>
+<form asp-action="Load" method="post" id="load" class="form-horizontal" enctype="multipart/form-data">
+<div asp-validation-summary="ModelOnly"></div>
+<div class="form-group">
+<div class="row g-2 block">
+    <h4>Информация</h4>
+    <div class="col-12">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="col-lg-6 col-12">
+        <label asp-for="PosterUri"></label>
+        <input asp-for="PosterUri" class="form-control"/>
+        <span asp-validation-for="PosterUri" class="text-danger"></span>
+    </div>
+    <div class="col-lg-6 col-12">
+        <label asp-for="Poster"></label>
+        <input asp-for="Poster" class="form-control" accept="image/jpeg,image/png"/>
+        <span asp-validation-for="Poster" class="text-danger"></span>
+    </div>
+</div>
+<div class="row g-2 block">
+    <h4>Контент</h4>
+    <div class="col-12" id="cdn">
+        <div class="d-flex justify-content-between align-items-center">
+            <label asp-for="Films"></label>
+            <div>
+                <a href="#" counter="@(filmCount - 1)" class="btn manage-button btn-outline-primary copy-cdn" add-target="film">+</a>
+                <a href="#" class="btn manage-button btn-outline-danger delete-button" delete-target="film">-</a>
+            </div>
+        </div>
+        @for (var i = 0; i < filmCount; i++)
+        {
+            <div class="col-12">
+                <label asp-for="Films[i].Id"></label>
+                <input asp-for="Films[i].Id" class="form-control"/>
+                <span asp-validation-for="Films[i].Id" class="text-danger"></span>
+            </div>
+        }
+    </div>
+</div>
+    
+<div class="col-12">
+    <input class="btn shadow-none btn-dark" type="submit" value="Создать подборку"/>
+</div>
+</div>
+</form>
+</div>
+<div class="col-lg-4">
+    <a class="btn shadow-none btn-dark mb-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Поиск
+    </a>
+    <div class="collapse" id="collapseExample">
+        <div class="block">
+            <label>Название</label>
+            <div class="d-flex justify-content-between align-items-center">
+                <input name="title" id="title" class="form-control" style="width: 70% !important;"/>
+                <a href="#" id="titleSearch">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </a>
+            </div>
+            <label>Kinopoisk</label>
+            <div class="d-flex justify-content-between align-items-center">
+                <input name="id" id="kpId" class="form-control" style="width: 70% !important;"/>
+                <a href="#" id="kpIdSearch">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </a>
+            </div>
+            <label>Imdb</label>
+            <div class="d-flex justify-content-between align-items-center">
+                <input name="id" id="imdbId" class="form-control" style="width: 70% !important;"/>
+                <a href="#" id="imdbIdSearch">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@section scripts {
+    <script src="~/js/filmLoad.js"></script>
+}
+
+@section styles
+{
+    <link rel="stylesheet" href="~/css/load.css"/>
+}

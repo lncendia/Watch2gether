@@ -6,43 +6,60 @@ namespace Overoom.Domain.Rooms.BaseRoom.Entities;
 
 public abstract class Room : AggregateRoot
 {
-    public bool IsOpen { get; set; } = false;
+    protected Room(bool isOpen, Viewer owner)
+    {
+        AddViewer(owner);
+        IsOpen = isOpen;
+        Owner = owner;
+    }
+
+    public bool IsOpen { get; }
     public DateTime LastActivity { get; private set; } = DateTime.UtcNow;
 
-    protected readonly List<Viewer> ViewersList = new();
+    private readonly List<Viewer> _viewersList = new();
 
     private readonly List<Message> _messagesList = new();
-    protected Viewer? Owner = null;
-    protected int IdCounter = 1;
+    protected readonly Viewer Owner;
+    private int _idCounter = 1;
 
     public IReadOnlyCollection<Message> Messages => _messagesList.AsReadOnly();
+    protected IReadOnlyCollection<Viewer> Viewers => _viewersList.AsReadOnly();
 
-    public virtual void SetOnline(int viewerId, bool isOnline)
+    public void SetFullScreen(int viewerId, bool isFullScreen)
     {
         var viewer = GetViewer(viewerId);
-        viewer.Online = isOnline;
-        if (!isOnline) viewer.OnPause = true;
+        viewer.FullScreen = isFullScreen;
         UpdateActivity();
     }
 
-    public virtual void UpdateTimeLine(int viewerId, bool pause, TimeSpan time)
+    public void SetOnline(int viewerId, bool isOnline)
     {
         var viewer = GetViewer(viewerId);
-        viewer.OnPause = pause;
+        viewer.Online = isOnline;
+        if (!isOnline)
+        {
+            viewer.Pause = true;
+            viewer.FullScreen = false;
+        }
+
+        UpdateActivity();
+    }
+
+    public void SetPause(int viewerId, bool pause)
+    {
+        var viewer = GetViewer(viewerId);
+        viewer.Pause = pause;
+        UpdateActivity();
+    }
+
+    public void SetTimeLine(int viewerId, TimeSpan time)
+    {
+        var viewer = GetViewer(viewerId);
         viewer.TimeLine = time;
         UpdateActivity();
     }
 
-    protected void UpdateActivity() => LastActivity = DateTime.UtcNow;
-
-    protected Viewer GetViewer(int viewerId)
-    {
-        var viewer = ViewersList.FirstOrDefault(x => x.Id == viewerId);
-        if (viewer == null) throw new ViewerNotFoundException();
-        return viewer;
-    }
-
-    public virtual void SendMessage(int viewerId, string message)
+    public void SendMessage(int viewerId, string message)
     {
         if (_messagesList.Count >= 100) _messagesList.RemoveAt(0);
         SetOnline(viewerId, true);
@@ -51,11 +68,55 @@ public abstract class Room : AggregateRoot
         UpdateActivity();
     }
 
-    protected void AddViewer(Viewer viewer)
+
+    public void Beep(int viewerId, int target)
     {
-        if (ViewersList.Any(x => x.Id == viewer.Id)) throw new ViewerAlreadyExistsException();
-        ViewersList.Add(viewer);
+        if (viewerId == target) throw new ActionNotAllowedException();
+        var viewer = GetViewer(target);
+        if (!viewer.Allows.Beep) throw new ActionNotAllowedException();
+    }
+
+    public void Scream(int viewerId, int target)
+    {
+        if (viewerId == target) throw new ActionNotAllowedException();
+        var viewer = GetViewer(target);
+        if (!viewer.Allows.Scream) throw new ActionNotAllowedException();
+    }
+
+    public void Kick(int viewerId, int target)
+    {
+        if (viewerId == target || viewerId != Owner?.Id) throw new ActionNotAllowedException();
+        var targetViewer = GetViewer(target);
+        _viewersList.Remove(targetViewer);
+        _messagesList.RemoveAll(x => x.ViewerId == target);
+    }
+
+    public void ChangeName(int viewerId, int target, string name)
+    {
+        if (viewerId == target) throw new ActionNotAllowedException();
+        var viewer = GetViewer(target);
+        if (!viewer.Allows.Change) throw new ActionNotAllowedException();
+        viewer.Name = name;
+    }
+
+    protected void UpdateActivity() => LastActivity = DateTime.UtcNow;
+
+    protected Viewer GetViewer(int viewerId)
+    {
+        var viewer = _viewersList.FirstOrDefault(x => x.Id == viewerId);
+        if (viewer == null) throw new ViewerNotFoundException();
+        return viewer;
+    }
+
+    protected int GetNextId() => _idCounter;
+
+    protected int AddViewer(Viewer viewer)
+    {
+        if (_viewersList.Any(x => x.Id == viewer.Id)) throw new ViewerAlreadyExistsException();
+        viewer.Online = true;
+        _viewersList.Add(viewer);
         UpdateActivity();
-        IdCounter++;
+        _idCounter++;
+        return viewer.Id;
     }
 }

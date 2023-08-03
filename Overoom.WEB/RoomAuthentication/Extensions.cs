@@ -6,9 +6,8 @@ namespace Overoom.WEB.RoomAuthentication;
 
 public static class Extensions
 {
-    public static async Task SetAuthenticationDataAsync(this HttpContext context, string name, int id, Uri avatar,
-        Guid roomId,
-        RoomType type)
+    public static async Task SignInRoomAsync(this HttpContext context, string name, int id, Uri avatar,
+        Guid roomId, RoomType type)
     {
         await context.SignInAsync(ApplicationConstants.RoomScheme,
             new ClaimsPrincipal(new ClaimsIdentity(new[]
@@ -18,14 +17,20 @@ public static class Extensions
                 new Claim(ApplicationConstants.AvatarClaimType, avatar.ToString()),
                 new Claim("RoomId", roomId.ToString()),
                 new Claim("RoomType", type.ToString())
-            }, ApplicationConstants.RoomScheme)));
+            }, ApplicationConstants.RoomScheme)), new AuthenticationProperties { IsPersistent = true });
     }
+
+    public static Task SignOutRoomAsync(this HttpContext context)
+    {
+        return context.SignOutAsync(ApplicationConstants.RoomScheme);
+    }
+
 
     public static Guid GetId(this ClaimsPrincipal user)
     {
         return Guid.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!);
     }
-    
+
     public static int GetViewerId(this ClaimsPrincipal user)
     {
         return int.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier)!);

@@ -13,6 +13,7 @@ public partial class User : AggregateRoot
         Name = name;
         Email = email;
         AvatarUri = avatarUri;
+        Allows = new Allows(true, true, true);
     }
 
     public Uri AvatarUri { get; set; }
@@ -49,11 +50,15 @@ public partial class User : AggregateRoot
         }
     }
 
+    public Allows Allows { get; private set; }
+
     private readonly List<FilmNote> _watchlist = new();
     private readonly List<FilmNote> _history = new();
+    private readonly List<string> _genres = new();
 
     public IReadOnlyCollection<FilmNote> Watchlist => _watchlist.AsReadOnly();
     public IReadOnlyCollection<FilmNote> History => _history.AsReadOnly();
+    public IReadOnlyCollection<string> Genres => _genres.AsReadOnly();
 
     public void AddFilmToWatchlist(Guid filmId)
     {
@@ -69,6 +74,17 @@ public partial class User : AggregateRoot
         _history.RemoveAll(x => x.FilmId == filmId);
         if (_history.Count > 30) _history.Remove(_history.First());
         _history.Add(new FilmNote(filmId));
+    }
+
+    public void UpdateGenres(IEnumerable<string> genres)
+    {
+        _genres.Clear();
+        _genres.AddRange(genres.Distinct());
+    }
+
+    public void UpdateAllows(bool beep, bool scream, bool change)
+    {
+        Allows = new Allows(beep, scream, change);
     }
 
     [GeneratedRegex("^[a-zA-Zа-яА-Я0-9_ ]+$")]

@@ -1,7 +1,7 @@
 .block {
     padding: 10px 10px 30px;
     border-radius: 10px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     background-color: var(--color-dark);
 }
 
@@ -10,5 +10,13 @@
     border-radius: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    background-color: var(--color-dark);
+    background-color: #1e2126;
+}
+
+.short-input{
+    width: 90%;
+}
+
+.manage-button{
+    width: 38px;
 }

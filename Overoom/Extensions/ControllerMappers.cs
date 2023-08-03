@@ -12,7 +12,6 @@ public static class ControllerMappers
         services.AddScoped<IHomeMapper, HomeMapper>();
         services.AddScoped<IFilmRoomMapper, FilmRoomMapper>();
         services.AddScoped<IYoutubeRoomMapper, YoutubeRoomMapper>();
-        services.AddScoped<IFilmLoadMapper, FilmLoadMapper>();
         services.AddScoped<IFilmManagementMapper, FilmManagementMapper>();
         services.AddScoped<IProfileMapper, ProfileMapper>();
     }

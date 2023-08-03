@@ -2,7 +2,6 @@ using Overoom.Application.Abstractions.Authentication.DTOs;
 using Overoom.Application.Abstractions.Profile.DTOs;
 using Overoom.Application.Abstractions.Profile.Interfaces;
 using Overoom.Domain.Films.Entities;
-using Overoom.Domain.Ratings;
 using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Users.Entities;
 
@@ -14,7 +13,8 @@ public class ProfileMapper : IProfileMapper
     {
         var watchedFilms = history.Select(x => new FilmDto(x.Name, x.Id, x.Year, x.PosterUri)).ToList();
         var favoriteFilms = watchlist.Select(x => new FilmDto(x.Name, x.Id, x.Year, x.PosterUri)).ToList();
-        return new ProfileDto(user.Name, user.Email, user.AvatarUri, watchedFilms, favoriteFilms);
+        var allows = new AllowsDto(user.Allows.Beep, user.Allows.Scream, user.Allows.Change);
+        return new ProfileDto(user.Name, user.Email, user.AvatarUri, watchedFilms, favoriteFilms, allows);
     }
 
     public RatingDto Map(Rating rating, Film film) => new(film.Name, film.Id, film.Year, rating.Score, film.PosterUri);

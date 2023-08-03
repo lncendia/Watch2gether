@@ -81,7 +81,9 @@ public class ContentManager : IContentManager
 
 
         IOrderBy<Playlist, IPlaylistSortingVisitor> orderBy =
-            playlistSearchQuery.SortBy == PlaylistSortBy.Date ? new OrderByUpdateDate() : new OrderByCountFilms();
+            playlistSearchQuery.SortBy == PlaylistSortBy.Date
+                ? new PlaylistOrderByUpdateDate()
+                : new PlaylistOrderByCount();
 
         if (playlistSearchQuery.InverseOrder) orderBy = new DescendingOrder<Playlist, IPlaylistSortingVisitor>(orderBy);
 

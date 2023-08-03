@@ -12,12 +12,68 @@ for details on configuring this project to bundle and minify static web assets. 
     color: #eeeeee !important;
 }
 
+.search-control-radius {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.films-search-block {
+    position: absolute;
+    margin-top: 5px;
+    background-color: #2d2d2d;
+    z-index: 1;
+    width: 300px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ced4da;
+    border-radius: 10px 10px;
+    padding: 5px 2px 5px 2px;
+}
+
+.film-search-element {
+    display: flex;
+    justify-content: start;
+    padding: 3px;
+    border-bottom: 1px solid #545454;
+    border-radius: 0 0 7px 7px;
+    text-decoration: none;
+    color: white;
+}
+
+.film-search-element:hover {
+    color: white;
+    background-color: #444444;
+}
+
+.film-search-element > img {
+    border-radius: 5px;
+    width: 50px;
+    height: 75px;
+    margin-right: 7px;
+}
+
+.film-search-text {
+    max-width: 80%;
+}
+
+.film-search-description {
+    color: #858585;
+    font-size: 11px;
+}
+
+
+.avatar {
+    margin-left: var(--bs-navbar-nav-link-padding-x);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
 
 .btn-search {
     margin-left: 5px;
     margin-right: 10px;
-    --bs-btn-color: #d2d2d2;
-    --bs-btn-border-color: #d2d2d2;
+    --bs-btn-color: var(--link-color);
+    --bs-btn-border-color: var(--link-color);
     --bs-btn-hover-color: #000;
     --bs-btn-hover-bg: #f8f9fa;
     --bs-btn-hover-border-color: #f8f9fa;
@@ -25,20 +81,21 @@ for details on configuring this project to bundle and minify static web assets. 
 
 .dropdown-menu {
     --bs-dropdown-bg: #2a2a2a;
-    --bs-dropdown-link-color: #d2d2d2;
+    --bs-dropdown-link-color: var(--link-color);
     --bs-dropdown-link-hover-bg: #1c1c1c;
-    --bs-dropdown-link-hover-color: #d2d2d2;
+    --bs-dropdown-link-hover-color: var(--link-color);
     --bs-dropdown-link-active-bg: #141934;
 }
 
+
 a.nav-link {
-    --bs-nav-link-color: #d2d2d2;
-    --bs-nav-link-hover-color: #8a8a8a;
+    --bs-nav-link-color: var(--link-color);
+    --bs-nav-link-hover-color: var(--link-hover-color);
 }
 
 a.navbar-brand {
-    --bs-navbar-brand-color: #d2d2d2;
-    --bs-navbar-brand-hover-color: #8a8a8a;
+    --bs-navbar-brand-color: var(--link-color);
+    --bs-navbar-brand-hover-color: var(--link-hover-color);
 }
 
 button.accept-policy {
@@ -54,6 +111,8 @@ html {
     --shadow-red: #7e0303;
     --shadow-dark: #262626;
     --color-dark: rgb(18, 20, 23);
+    --link-color: #d2d2d2;
+    --link-hover-color: #8a8a8a;
 }
 
 @media (min-width: 768px) {
@@ -112,67 +171,14 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
-/*Spinner
--------------------------------------------------- */
-.wave {
-    width: 5px;
-    height: 100px;
-    background: linear-gradient(45deg, #0068ff, #fff);
-    margin: 10px;
-    animation: wave 1s linear infinite;
-    border-radius: 20px;
-}
-
-.wave:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.wave:nth-child(3) {
-    animation-delay: 0.2s;
-}
-
-.wave:nth-child(4) {
-    animation-delay: 0.3s;
-}
-
-.wave:nth-child(5) {
-    animation-delay: 0.4s;
-}
-
-.wave:nth-child(6) {
-    animation-delay: 0.5s;
-}
-
-.wave:nth-child(7) {
-    animation-delay: 0.6s;
-}
-
-.wave:nth-child(8) {
-    animation-delay: 0.7s;
-}
-
-.wave:nth-child(9) {
-    animation-delay: 0.8s;
-}
-
-.wave:nth-child(10) {
-    animation-delay: 0.9s;
-}
-
-@keyframes wave {
-    0% {
-        transform: scale(0);
-    }
-    50% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(0);
-    }
-}
-
 .spinner {
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.spinner-grow{
+    margin-left: 2px;
+    margin-right: 2px;
 }

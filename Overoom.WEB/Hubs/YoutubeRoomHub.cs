@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
@@ -22,16 +21,29 @@ public class YoutubeRoomHub : HubBase
     public async Task ChangeVideo(string id)
     {
         var data = GetData();
-        await _roomManager.ChangeVideoAsync(data.RoomId, data.Id, id);
-        await Clients.OthersInGroup(data.RoomIdString).SendAsync("Change", data.Id, id);
+        try
+        {
+            await _roomManager.ChangeVideoAsync(data.RoomId, data.Id, id);
+            await Clients.OthersInGroup(data.RoomIdString).SendAsync("Change", data.Id, id);
+        }
+        catch (Exception ex)
+        {
+            var error = ex switch
+            {
+                RoomNotFoundException => "Комната не найдена.",
+                ViewerNotFoundException => "Зритель не найден.",
+                _ => "Неизвестная ошибка."
+            };
+            await Clients.Caller.SendAsync("ReceiveMessage", data.Id, error);
+        }
     }
 
     public async Task AddVideo(string url)
     {
+        var data = GetData();
         try
         {
-            var data = GetData();
-            var id = await _roomManager.AddVideoAsync(data.RoomId, data.Id, url);
+            var id = await _roomManager.AddVideoAsync(data.RoomId, data.Id, new Uri(url));
             //TODO: Exceptions
             await Clients.Group(data.RoomIdString).SendAsync("AddVideo", id);
         }
@@ -39,20 +51,21 @@ public class YoutubeRoomHub : HubBase
         {
             var error = ex switch
             {
-                RoomNotFoundException => "Ошибка. Комната не найдена.",
-                ViewerNotFoundException => "Ошибка. Зритель не найден.",
-                InvalidVideoUrlException => "Ошибка. Неверный URL.",
+                RoomNotFoundException => "Комната не найдена.",
+                ViewerNotFoundException => "Зритель не найден.",
+                InvalidVideoUrlException => "Неверный URL.",
+                UriFormatException => "Неверный формат URL.",
                 _ => "Неизвестная ошибка"
             };
-            await Clients.Caller.SendAsync("ReceiveMessage", error);
+            await Clients.Caller.SendAsync("ReceiveMessage", data.Id, error);
         }
     }
 
     public async Task RemoveVideo(string id)
     {
+        var data = GetData();
         try
         {
-            var data = GetData();
             await _roomManager.RemoveVideoAsync(data.RoomId, id);
             await Clients.Group(data.RoomIdString).SendAsync("RemoveVideo", id);
         }
@@ -65,20 +78,22 @@ public class YoutubeRoomHub : HubBase
                 InvalidVideoUrlException => "Ошибка. Неверный URL.",
                 _ => "Неизвестная ошибка"
             };
-            await Clients.Caller.SendAsync("ReceiveMessage", error);
+            await Clients.Caller.SendAsync("ReceiveMessage", data.Id, error);
         }
     }
 
     public override async Task OnConnectedAsync()
     {
+        var data = GetData();
         try
         {
-            var data = GetData();
-            var viewer = await _roomManager.ConnectAsync(data.RoomId, data.Id);
+            await _roomManager.ReConnectAsync(data.RoomId, data.Id);
+            var viewer = await _roomManager.GetAsync(data.RoomId, data.Id);
             await Groups.AddToGroupAsync(Context.ConnectionId, data.RoomIdString);
-            var json = JsonSerializer.Serialize(new YoutubeViewerModel(viewer.Id, viewer.Username, viewer.AvatarUrl, (int) viewer.Time.TotalSeconds,
-                    viewer.CurrentVideoId), new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
-            await Clients.Group(data.RoomIdString).SendAsync("Connect", json);
+            var viewerViewModel = new YoutubeViewerModel(viewer.Id, viewer.Username, viewer.AvatarUrl,
+                (int)viewer.Time.TotalSeconds, viewer.CurrentVideoId, viewer.Allows.Beep, viewer.Allows.Scream,
+                viewer.Allows.Change);
+            await Clients.Group(data.RoomIdString).SendAsync("Connect", viewerViewModel);
             await base.OnConnectedAsync();
         }
         catch (Exception ex)
@@ -89,7 +104,7 @@ public class YoutubeRoomHub : HubBase
                 ViewerNotFoundException => "Зритель не найден.",
                 _ => "Неизвестная ошибка."
             };
-            await Clients.Caller.SendAsync("ReceiveMessage", error);
+            await Clients.Caller.SendAsync("ReceiveMessage", data.Id, error);
         }
     }
 }

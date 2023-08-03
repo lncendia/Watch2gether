@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using Overoom.Application.Abstractions.Kinopoisk.DTOs;
+using Overoom.Application.Abstractions.MovieApi.DTOs;
 using Overoom.Domain.Films.Enums;
 using Overoom.Infrastructure.Movie.Abstractions;
 using Overoom.Infrastructure.Movie.Converters;
@@ -13,7 +13,7 @@ public class VideoCdnResponseParser : IVideoCdnResponseParser
 
     public Cdn Get(string json)
     {
-        var cdn = JsonConvert.DeserializeObject<Infrastructure.Movie.Models.Cdn>(json, _settings)!;
+        var cdn = JsonConvert.DeserializeObject<Models.VideoCdn>(json, _settings)!;
         return new Cdn(new Uri("https:" + cdn.Uri), "BD", cdn.Voices.Where(x => !string.IsNullOrEmpty(x)).ToList(),
             CdnType.VideoCdn);
     }

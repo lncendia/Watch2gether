@@ -1,8 +1,8 @@
 using Overoom.Application.Abstractions.FilmsInformation.DTOs;
 using Overoom.Application.Abstractions.FilmsInformation.Interfaces;
-using Overoom.Application.Abstractions.FilmsManagement.DTOs;
-using Overoom.Application.Abstractions.Kinopoisk.DTOs;
+using Overoom.Application.Abstractions.MovieApi.DTOs;
 using Overoom.Domain.Films.Enums;
+using CdnDto = Overoom.Application.Abstractions.FilmsInformation.DTOs.CdnDto;
 using FilmDto = Overoom.Application.Abstractions.FilmsInformation.DTOs.FilmDto;
 
 namespace Overoom.Application.Services.FilmsInformation;
@@ -30,7 +30,11 @@ public class FilmKpMapper : IFilmKpMapper
         if (!string.IsNullOrEmpty(film.Description)) builder = builder.WithDescription(film.Description);
         if (!string.IsNullOrEmpty(film.ShortDescription)) builder = builder.WithShortDescription(film.ShortDescription);
         if (film.Serial && seasons != null)
-            builder = builder.WithEpisodes(seasons.Count, seasons.Sum(x => x.Episodes.Count));
+        {
+            var releasedSeasons = seasons.Where(x => x.Episodes.Any(e => e.ReleaseDate.HasValue)).ToList();
+            builder = builder.WithEpisodes(releasedSeasons.Count, releasedSeasons.Sum(x => x.Episodes.Count));
+        }
+        
         return builder.Build();
     }
 }

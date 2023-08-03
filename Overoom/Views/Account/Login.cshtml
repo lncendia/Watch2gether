@@ -44,10 +44,10 @@
         </div>
         <div class="col-6 border-start">
             <h3>Войти с помощью</h3>
-            <a class="btn btn-secondary shadow-none mb-2" asp-action="LoginOauth" asp-route-provider="Vkontakte">
+            <a class="btn btn-secondary shadow-none mb-2" asp-action="LoginOauth" asp-route-provider="Vkontakte" asp-route-returnUrl="@Model.ReturnUrl">
                 <img class="oauth" src="~/img/vkontakte.svg" alt="">
             </a>
-            <a class="btn btn-secondary shadow-none mb-2" asp-action="LoginOauth" asp-route-provider="Yandex">
+            <a class="btn btn-secondary shadow-none mb-2" asp-action="LoginOauth" asp-route-provider="Yandex" asp-route-returnUrl="@Model.ReturnUrl">
                 <img class="oauth" src="~/img/yandex.svg" alt="">
             </a>
         </div>

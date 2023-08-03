@@ -1,7 +1,7 @@
 using System.Net;
-using Overoom.Application.Abstractions.Kinopoisk.DTOs;
-using Overoom.Application.Abstractions.Kinopoisk.Exceptions;
-using Overoom.Application.Abstractions.Kinopoisk.Interfaces;
+using Overoom.Application.Abstractions.MovieApi.DTOs;
+using Overoom.Application.Abstractions.MovieApi.Exceptions;
+using Overoom.Application.Abstractions.MovieApi.Interfaces;
 using Overoom.Infrastructure.Movie.Abstractions;
 using RestSharp;
 
@@ -19,11 +19,11 @@ public class VideoCdnApi : IVideoCdnApiService
         _cdnClient.AddDefaultQueryParameter("api_token", cdnToken);
     }
 
-    public async Task<Cdn> GetInfoAsync(long kpId)
+    public async Task<Cdn> GetInfoAsync(long kpId, CancellationToken token = default)
     {
         var request = new RestRequest("https://videocdn.tv/api/short");
         request.AddQueryParameter("kinopoisk_id", kpId.ToString());
-        var response = await _cdnClient.GetAsync(request);
+        var response = await _cdnClient.GetAsync(request, cancellationToken: token);
         if (response.StatusCode == HttpStatusCode.NotFound) throw new ApiNotFoundException();
         if (response.StatusCode != HttpStatusCode.OK)
             throw new ApiException($"The request was executed with the code {(int)response.StatusCode}",

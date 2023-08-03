@@ -12,7 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\FilmLoad\" />
+      <Compile Remove="Controllers\PlaylistManagementController.cs" />
+      <Compile Remove="Mappers\PlaylistManagementMapper.cs" />
     </ItemGroup>
 
 </Project>
