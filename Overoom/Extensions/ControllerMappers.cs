@@ -7,7 +7,8 @@ public static class ControllerMappers
 {
     public static void AddControllerMappers(this IServiceCollection services)
     {
-        services.AddScoped<IContentMapper, ContentMapper>();
+        services.AddScoped<IFilmsMapper, FilmsMapper>();
+        services.AddScoped<IPlaylistsMapper, PlaylistsMapper>();
         services.AddScoped<IFilmMapper, FilmMapper>();
         services.AddScoped<IHomeMapper, HomeMapper>();
         services.AddScoped<IFilmRoomMapper, FilmRoomMapper>();

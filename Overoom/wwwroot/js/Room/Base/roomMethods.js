@@ -1,9 +1,42 @@
 function leave(room, user) {
     room.Users.splice(room.Users.indexOf(user), 1);
     $("#" + user.Id).remove();
+    updateOnline(room)
+}
+
+
+function beep() {
+    let beep = $('#beep')[0];
+    beep.currentTime = 0
+    beep.volume = 0.1;
+    beep.play()
+}
+
+function scream() {
+    let container = $('.container')
+    let screamer = $('#scream')
+
+    container.addClass('d-none')
+    screamer.removeClass('d-none')
+    screamer[0].volume = 0.3;
+    screamer[0].play();
+    setTimeout(() => {
+        screamer.addClass('d-none')
+        container.removeClass('d-none')
+    }, 2000)
+}
+
+function updateOnline(room) {
     $("#countViewers").html("В сети: " + room.Users.length);
 }
 
+function updateName(user) {
+    $('#' + user.Id + ' .name-block').html(user.Name)
+}
+
+function updateTime(user) {
+    $("#" + user.Id).find('.time-block').html(getTimeString(user.Second))
+}
 
 function getTimeString(time) {
     let hours = Math.floor(time / 3600);
@@ -13,6 +46,19 @@ function getTimeString(time) {
     if (minutes < 10) minutes = "0" + minutes;
     if (seconds < 10) seconds = "0" + seconds;
     return hours + ":" + minutes + ":" + seconds;
+}
+
+
+function updateInfo(user) {
+    let userEl = $("#" + user.Id)
+    userEl.find(".pause").toggleClass("d-none", !user.Pause);
+    if (user.FullScreen) {
+        userEl.find(".fullscreen-off").addClass('d-none')
+        userEl.find(".fullscreen-on").removeClass('d-none')
+    } else {
+        userEl.find(".fullscreen-off").removeClass('d-none')
+        userEl.find(".fullscreen-on").addClass('d-none')
+    }
 }
 
 
@@ -79,45 +125,94 @@ function initTimer(room) {
         room.Users.forEach((user) => {
             if (user.Pause === false) {
                 user.Second = (user.Second + (delta / 1000))
-                $("#" + user.Id).find('.time-block').html(getTimeString(user.Second))
+                updateTime(user)
             }
         })
     }, 1000)
 }
 
-function messageKeyUp(room, event) {
-    if (event.keyCode === 13 && !event.shiftKey) {
-        let messageEl = $('#message');
-        let message = messageEl.val()
-        messageEl.val('')
-        room.ProcessUserEvent(new MessageUserEvent(message.substring(0, message.length - 1)))
-    } else {
-        room.ProcessUserEvent(new TypeUserEvent())
-    }
+
+function initMessage(room) {
+    let block = $('.message-block')
+    let input = block.find('textarea')
+    let span = block.find('span')
+    input.keyup((event) => {
+        if (event.keyCode === 13 && !event.shiftKey) {
+            let message = input.val()
+            if (!/((.|\s)*\S(.|\s)*){1,1000}/.test(message)) return
+            input.val('')
+            room.ProcessUserEvent(new MessageUserEvent(message.substring(0, message.length - 1)))
+        } else {
+            room.ProcessUserEvent(new TypeUserEvent())
+        }
+    })
+
+    input.on('input', () => {
+        let val = input.val()
+        if (/((.|\s)*\S(.|\s)*){1,1000}/.test(val) || val.length === 0) {
+            span.addClass('d-none')
+            input.removeClass('input-validation-error')
+        } else {
+            span.removeClass('d-none')
+            input.addClass('input-validation-error')
+        }
+    })
+    div.ready(() => div.scrollTop(div.prop('scrollHeight')))
 }
 
-
 function initActions(room, user) {
-    $('.beep-button[action-target="' + user.Id + '"]').click(e => {
-        let target = parseInt($(e.currentTarget).attr('action-target'))
-        room.ProcessUserEvent(new BeepUserEvent(target))
-        return false;
-    })
-    $('.scream-button[action-target="' + user.Id + '"]').click(e => {
-        let target = parseInt($(e.currentTarget).attr('action-target'))
-        room.ProcessUserEvent(new ScreamUserEvent(target))
-        return false;
-    })
+    if (user.AllowBeep) {
+        $('.beep-button[action-target="' + user.Id + '"]').click(e => {
+            let target = parseInt($(e.currentTarget).attr('action-target'))
+            room.ProcessUserEvent(new BeepUserEvent(target))
+            return false;
+        })
+    }
+    if (user.AllowScream) {
+        $('.scream-button[action-target="' + user.Id + '"]').click(e => {
+            let target = parseInt($(e.currentTarget).attr('action-target'))
+            room.ProcessUserEvent(new ScreamUserEvent(target))
+            return false;
+        })
+    }
     $('.kick-button[action-target="' + user.Id + '"]').click(e => {
         let target = parseInt($(e.currentTarget).attr('action-target'))
         room.ProcessUserEvent(new KickUserEvent(target))
         return false;
     })
-    $('.change-button[action-target="' + user.Id + '"]').click(e => {
-        let target = parseInt($(e.currentTarget).attr('action-target'))
-        $('.change-block[change-target="' + target + '"]').toggleClass('d-none')
-        return false;
-    })
+    if (user.AllowChange) {
+
+        let block = $('.change-block[change-target="' + user.Id + '"]')
+        let input = block.find('input')
+        let span = block.find('span')
+        let button = block.find('button')
+        let id = user.Id
+
+        input.on('input', () => {
+            let val = input.val()
+            if (/^[a-zA-Zа-яА-Я0-9_ ]{3,20}$/.test(val) || val.length === 0) {
+                span.addClass('d-none')
+                input.removeClass('input-validation-error')
+            } else {
+                span.removeClass('d-none')
+                input.addClass('input-validation-error')
+            }
+        })
+        button.click(() => {
+            let val = input.val()
+            if (!/^[a-zA-Zа-яА-Я0-9_ ]{3,20}$/.test(val)) return;
+            room.ProcessUserEvent(new ChangeUserEvent(id, val))
+            input.val('')
+            block.addClass('d-none')
+        })
+
+        $('.change-button[action-target="' + user.Id + '"]').click(e => {
+            let target = parseInt($(e.currentTarget).attr('action-target'))
+            $('.change-block[change-target="' + target + '"]').toggleClass('d-none')
+            return false;
+        })
+
+    }
     if (room.CurrentId === user.Id)
         $('.sync-button').click(() => {
             room.ProcessUserEvent(new SyncUserEvent())
@@ -179,7 +274,7 @@ function withInfo(html, room, user) {
 
 
 function withActions(html, room, user) {
-    if (room.CurrentId !== user.Id) {
+    if (room.CurrentId !== user.Id && (room.CurrentId === room.OwnerId || user.AllowBeep || user.AllowScream || user.AllowChange)) {
         html +=
             '<div class="actions-block viewer-block">'
         if (room.CurrentId === room.OwnerId) html +=
@@ -196,7 +291,16 @@ function withActions(html, room, user) {
             '                <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>' +
             '            </svg>' +
             '        </div>' +
-            '    </a>'
+            '    </a>' +
+            '    <div class="d-none change-block" change-target="' + user.Id + '">' +
+            '         <input class="form-control" type="text">' +
+            '         <button class="btn btn-success">' +
+            '             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">' +
+            '                 <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>' +
+            '             </svg>' +
+            '         </button>' +
+            '         <span class="text-danger d-none">Некорректный формат имени</span>' +
+            '    </div>'
         if (user.AllowBeep) html +=
             '    <a href="#" action-target="' + user.Id + '" class="beep-button">' +
             '        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-music-note-beamed" viewBox="0 0 16 16">' +

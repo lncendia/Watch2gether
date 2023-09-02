@@ -3,20 +3,14 @@ function onLeaveReceive(room, event) {
     if (user == null) return;
     leave(room, user)
     showNotify("#813232", user.Name + " покинул комнату");
+    if(room.CurrentId === event.Id) showNotify("#813232", "Перезагрузите страницу");
 }
 
 function onFullScreenReceive(room, event) {
     let user = room.Users.find(x => x.Id === event.Id);
     if (user == null) return
     user.FullScreen = event.FullScreen
-    let userEl = $("#" + user.Id)
-    if (event.FullScreen) {
-        userEl.find(".fullscreen-off").addClass('d-none')
-        userEl.find(".fullscreen-on").removeClass('d-none')
-    } else {
-        userEl.find(".fullscreen-off").removeClass('d-none')
-        userEl.find(".fullscreen-on").addClass('d-none')
-    }
+    updateInfo(user)
 }
 
 function onMessageReceive(room, event) {
@@ -37,12 +31,7 @@ function onBeepReceive(room, event) {
     let target = room.Users.find(x => x.Id === event.Target)
     if (target == null) return
     showNotify("#606baf", user.Name + " разбудил " + target.Name);
-    if (room.CurrentId === event.Target) {
-        let beep = $('#beep')[0];
-        beep.currentTime = 0
-        beep.volume = 0.1;
-        beep.play()
-    }
+    if (room.CurrentId === event.Target) beep()
 }
 
 function onScreamReceive(room, event) {
@@ -51,17 +40,17 @@ function onScreamReceive(room, event) {
     let target = room.Users.find(x => x.Id === event.Target)
     if (target == null) return
     showNotify("#606baf", user.Name + " напугал " + target.Name);
-    let container = $('.container')
-    let screamer = $('#scream')
-    
-    container.addClass('d-none')
-    screamer.removeClass('d-none')
-    screamer[0].volume = 0.3;
-    screamer[0].play();
-    setTimeout(() => {
-        screamer.addClass('d-none')
-        container.removeClass('d-none')
-    }, 2000)
+    if (room.CurrentId === event.Target) scream()
+}
+
+function onChangeReceive(room, event) {
+    let user = room.Users.find(x => x.Id === event.Id)
+    if (user == null) return
+    let target = room.Users.find(x => x.Id === event.Target)
+    if (target == null) return
+    showNotify("#606baf", user.Name + " изменил имя " + target.Name);
+    target.Name = event.Username
+    updateName(target)
 }
 
 function onKickReceive(room, event) {

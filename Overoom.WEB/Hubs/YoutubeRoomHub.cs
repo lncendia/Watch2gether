@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
-using Overoom.Domain.Rooms.BaseRoom.Exceptions;
 using Overoom.Domain.Rooms.YoutubeRoom.Exceptions;
 using Overoom.WEB.Hubs.Models;
 
@@ -28,13 +26,7 @@ public class YoutubeRoomHub : HubBase
         }
         catch (Exception ex)
         {
-            var error = ex switch
-            {
-                RoomNotFoundException => "Комната не найдена.",
-                ViewerNotFoundException => "Зритель не найден.",
-                _ => "Неизвестная ошибка."
-            };
-            await Clients.Caller.SendAsync("ReceiveMessage", data.Id, error);
+            await HandleException(ex, data);
         }
     }
 
@@ -44,41 +36,11 @@ public class YoutubeRoomHub : HubBase
         try
         {
             var id = await _roomManager.AddVideoAsync(data.RoomId, data.Id, new Uri(url));
-            //TODO: Exceptions
-            await Clients.Group(data.RoomIdString).SendAsync("AddVideo", id);
+            await Clients.OthersInGroup(data.RoomIdString).SendAsync("AddVideo", id);
         }
         catch (Exception ex)
         {
-            var error = ex switch
-            {
-                RoomNotFoundException => "Комната не найдена.",
-                ViewerNotFoundException => "Зритель не найден.",
-                InvalidVideoUrlException => "Неверный URL.",
-                UriFormatException => "Неверный формат URL.",
-                _ => "Неизвестная ошибка"
-            };
-            await Clients.Caller.SendAsync("ReceiveMessage", data.Id, error);
-        }
-    }
-
-    public async Task RemoveVideo(string id)
-    {
-        var data = GetData();
-        try
-        {
-            await _roomManager.RemoveVideoAsync(data.RoomId, id);
-            await Clients.Group(data.RoomIdString).SendAsync("RemoveVideo", id);
-        }
-        catch (Exception ex)
-        {
-            var error = ex switch
-            {
-                RoomNotFoundException => "Ошибка. Комната не найдена.",
-                ViewerNotFoundException => "Ошибка. Зритель не найден.",
-                InvalidVideoUrlException => "Ошибка. Неверный URL.",
-                _ => "Неизвестная ошибка"
-            };
-            await Clients.Caller.SendAsync("ReceiveMessage", data.Id, error);
+            await HandleException(ex, data);
         }
     }
 
@@ -98,13 +60,26 @@ public class YoutubeRoomHub : HubBase
         }
         catch (Exception ex)
         {
-            var error = ex switch
-            {
-                RoomNotFoundException => "Комната не найдена.",
-                ViewerNotFoundException => "Зритель не найден.",
-                _ => "Неизвестная ошибка."
-            };
-            await Clients.Caller.SendAsync("ReceiveMessage", data.Id, error);
+            await HandleException(ex, data);
         }
+    }
+
+
+    protected override Task HandleException(Exception ex, DataModel data)
+    {
+        string? error;
+        switch (ex)
+        {
+            case InvalidVideoUrlException:
+                error = "Неверный URL.";
+                break;
+            case UriFormatException:
+                error = "Неверный формат URL.";
+                break;
+            default:
+                return base.HandleException(ex, data);
+        }
+
+        return Clients.Caller.SendAsync("Error", data.Id, error);
     }
 }

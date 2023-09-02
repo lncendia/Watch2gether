@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Overoom.Application.Abstractions
+@using Overoom.WEB.Authentication
 @using Overoom.WEB.RoomAuthentication
 @{
     var roomAuth = await Context.AuthenticateAsync(ApplicationConstants.RoomScheme);
@@ -10,12 +11,11 @@
 <nav class="navbar navbar-expand-xxl navbar-toggleable-xxl navbar-dark nav-background mb-3">
     <div class="container-fluid">
         <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-            <span>
-                Over
-                <svg width="20" height="30" fill="currentColor" class="bi bi-list-nested" viewBox="0 0 500 400">
+            <b>
+                Over<svg width="20" height="30" fill="currentColor" class="bi bi-list-nested" viewBox="0 0 500 400">
                     <path d="M160,0c35.622-.7,99.805,39.235,72,73-14.661,17.8-42.593-7.6-64-1-23.526,7.255-53.218,65.441-59,92H392v-1c-13.412-30.072-27.337-79.882-59-91-21.586-7.58-42.917,17.092-61,4-15.05-10.9-6.777-34.677,2-46,16.088-20.756,58.284-41.262,90-22,38.939,23.649,125.567,138.851,136,190V346c-2.4,10.114-9.574,20.662-17,26-15.05,10.818-45.206,8-71,8H332c-11.974-2.9-71.042-48.193-80-58l-81,57H32c-9.552-2.692-19.766-9.791-25-17-13.427-18.494-7-88.009-7-120V198C11.164,146.59,94,37.9,132,11,140.247,5.161,149.684,4.521,160,0ZM49,212V331H157c21.428-8.719,73.666-68.53,98-64,28.706,5.344,63.036,55.29,89,64H451V212H49Zm12,20c23.283-.342,132.629-4.085,143,3,7.889,5.389,11.813,18.953,12,32l-70,50H102l-41-1V232Zm378,0q-0.5,42.5-1,85H353l-69-51c0.39-13.258,5.161-27.208,14-32C311.17,226.86,414.9,231.663,439,232Z"/>
                 </svg>m
-            </span>
+            </b>
         </a>
         <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
             <span class="navbar-toggler-icon"></span>
@@ -23,7 +23,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Content" asp-action="Films">
+                    <a class="nav-link" asp-controller="Films" asp-action="Films">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-reels-fill" viewBox="0 0 16 16">
                             <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                             <path d="M9 6a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Content" asp-action="Playlists">
+                    <a class="nav-link" asp-controller="Playlists" asp-action="Playlists">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-binoculars-fill" viewBox="0 0 16 16">
                             <path d="M4.5 1A1.5 1.5 0 0 0 3 2.5V3h4v-.5A1.5 1.5 0 0 0 5.5 1h-1zM7 4v1h2V4h4v.882a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V13H9v-1.5a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5V13H1V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882V4h4zM1 14v.5A1.5 1.5 0 0 0 2.5 16h3A1.5 1.5 0 0 0 7 14.5V14H1zm8 0v.5a1.5 1.5 0 0 0 1.5 1.5h3a1.5 1.5 0 0 0 1.5-1.5V14H9zm4-11H9v-.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5V3z"/>
                         </svg>
@@ -78,7 +78,7 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <form asp-controller="Content" asp-action="FilmsList" method="get" id="films-search-form">
+                    <form asp-controller="Films" asp-action="FilmsList" method="get" id="films-search-form">
                         <input type="text" name="Title" id="films-search" class="form-control" placeholder="Название">
                     </form>
                     <div class="films-search-block" style="display: none;"></div>
@@ -86,17 +86,17 @@
                 @if (!appAuth.None)
                 {
                     <li class="nav-item d-none d-xxl-flex align-items-center">
-                        <img src="~/@User.GetAvatar()" class="avatar" alt="...">
+                        <img src="~/@appAuth.Principal!.GetAvatar()" class="avatar" alt="...">
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-nowrap" asp-controller="Profile" asp-action="Index" title="Профиль">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill d-xxl-none" viewBox="0 0 16 16">
                                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
                             </svg>
-                            @User.GetName()
+                            @appAuth.Principal!.GetName()
                         </a>
                     </li>
-                    @if (User.IsAdmin())
+                    @if (@appAuth.Principal!.IsAdmin())
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">

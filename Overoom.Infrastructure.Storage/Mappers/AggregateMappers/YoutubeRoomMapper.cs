@@ -19,7 +19,7 @@ internal class YoutubeRoomMapper : IAggregateMapperUnit<YoutubeRoom, YoutubeRoom
 
     public YoutubeRoom Map(YoutubeRoomModel model)
     {
-        var room = new YoutubeRoom(MockUri, model.AddAccess, model.IsOpen, MockViewer);
+        var room = new YoutubeRoom(MockUri, model.Access, model.IsOpen, MockViewer);
         Ids.SetValue(room, model.VideoIds.Select(x => x.VideoId).ToList());
         var viewers = model.Viewers.Select(CreateViewer);
         var messages = model.Messages.Select(x =>

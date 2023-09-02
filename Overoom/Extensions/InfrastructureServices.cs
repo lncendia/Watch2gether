@@ -21,7 +21,7 @@ public static class InfrastructureServices
 
         var avatarPath = configuration.GetValue<string>("Thumbnails:Avatar") ??
                          throw new ConfigurationException("Thumbnails:Avatar");
-        var posterPath = configuration.GetValue<string>("Thumbnails:Poster") ??
+        var contentPath = configuration.GetValue<string>("Thumbnails:Poster") ??
                          throw new ConfigurationException("Thumbnails:Poster");
 
         var kpToken = configuration.GetValue<string>("MovieApi:Kinopoisk") ??
@@ -35,7 +35,7 @@ public static class InfrastructureServices
 
         services.AddScoped<IUserThumbnailService, UserThumbnailService>(_ =>
             new UserThumbnailService(rootPath, avatarPath));
-        services.AddScoped<IPosterService, PosterService>(_ => new PosterService(rootPath, posterPath));
+        services.AddScoped<IPosterService, PosterService>(_ => new PosterService(rootPath, contentPath));
 
 
         services.AddScoped<IKpResponseParser, KpResponseParser>();

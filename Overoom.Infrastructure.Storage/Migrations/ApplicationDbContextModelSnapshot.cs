@@ -147,7 +147,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Country.CountryModel", b =>
@@ -166,7 +166,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.CdnModel", b =>
@@ -193,7 +193,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("FilmId");
 
-                    b.ToTable("FilmCdns", (string)null);
+                    b.ToTable("FilmCdns");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.FilmActorModel", b =>
@@ -217,7 +217,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("FilmActors", (string)null);
+                    b.ToTable("FilmActors");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Film.FilmModel", b =>
@@ -268,7 +268,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Films", (string)null);
+                    b.ToTable("Films");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.FilmRoom.FilmMessageModel", b =>
@@ -299,7 +299,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("ViewerId");
 
-                    b.ToTable("FilmRoomMessages", (string)null);
+                    b.ToTable("FilmRoomMessages");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.FilmRoom.FilmRoomModel", b =>
@@ -330,7 +330,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("FilmId");
 
-                    b.ToTable("FilmRooms", (string)null);
+                    b.ToTable("FilmRooms");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.FilmRoom.FilmViewerModel", b =>
@@ -388,7 +388,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("FilmRoomViewers", (string)null);
+                    b.ToTable("FilmRoomViewers");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Genre.GenreModel", b =>
@@ -407,7 +407,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Person.PersonModel", b =>
@@ -426,7 +426,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persons", (string)null);
+                    b.ToTable("Persons");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistFilmModel", b =>
@@ -447,7 +447,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("PlaylistId");
 
-                    b.ToTable("PlaylistFilms", (string)null);
+                    b.ToTable("PlaylistFilms");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Playlist.PlaylistModel", b =>
@@ -477,7 +477,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Playlists", (string)null);
+                    b.ToTable("Playlists");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Rating.RatingModel", b =>
@@ -504,7 +504,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Ratings", (string)null);
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom.VideoIdModel", b =>
@@ -524,7 +524,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("YoutubeRoomVideoIds", (string)null);
+                    b.ToTable("YoutubeRoomVideoIds");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.User.HistoryModel", b =>
@@ -548,7 +548,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserHistory", (string)null);
+                    b.ToTable("UserHistory");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.User.UserModel", b =>
@@ -588,7 +588,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.User.WatchlistModel", b =>
@@ -612,7 +612,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserWatchlist", (string)null);
+                    b.ToTable("UserWatchlist");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.Voice.VoiceModel", b =>
@@ -631,7 +631,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Voices", (string)null);
+                    b.ToTable("Voices");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.YoutubeRoom.YoutubeMessageModel", b =>
@@ -662,7 +662,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("ViewerId");
 
-                    b.ToTable("YoutubeRoomMessages", (string)null);
+                    b.ToTable("YoutubeRoomMessages");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.YoutubeRoom.YoutubeRoomModel", b =>
@@ -671,7 +671,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("AddAccess")
+                    b.Property<bool>("Access")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("IdCounter")
@@ -688,7 +688,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("YoutubeRooms", (string)null);
+                    b.ToTable("YoutubeRooms");
                 });
 
             modelBuilder.Entity("Overoom.Infrastructure.Storage.Models.YoutubeRoom.YoutubeViewerModel", b =>
@@ -744,7 +744,7 @@ namespace Overoom.Infrastructure.Storage.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("YoutubeRoomViewers", (string)null);
+                    b.ToTable("YoutubeRoomViewers");
                 });
 
             modelBuilder.Entity("CdnModelVoiceModel", b =>

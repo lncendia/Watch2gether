@@ -121,11 +121,17 @@ html {
     }
 }
 
+@font-face {
+    font-family: "RobotoFlex";
+    src: url("../fonts/RobotoFlex.ttf") format("truetype");
+}
+
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     background: #000000;
     color: #eeeeee;
+    font-family: "RobotoFlex", "Arial", sans-serif;
 }
 
 footer {
@@ -178,7 +184,37 @@ input[type="checkbox"].input-validation-error {
     align-items: center;
 }
 
-.spinner-grow{
+.spinner-grow {
     margin-left: 2px;
     margin-right: 2px;
+}
+
+
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1400px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1600px;
+    }
+}
+
+@media (min-width: 1800px) {
+    .container {
+        max-width: 1800px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .col-xxl-25 {
+        flex: 0 0 auto;
+        width: 20%;
+    }
+    .col-xxl-15 {
+        flex: 0 0 auto;
+        width: 12.5%;
+    }
 }

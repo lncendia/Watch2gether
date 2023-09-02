@@ -128,7 +128,7 @@ class ChangeUserEvent extends UserEvent {
     constructor(target, name) {
         super('Change')
         this.Target = target
-        this.Name = name
+        this.Username = name
     }
 }
 
@@ -218,7 +218,7 @@ class ChangeReceiveEvent extends ReceiveEvent {
     constructor(id, target, name) {
         super('Change', id)
         this.Target = target
-        this.Name = name
+        this.Username = name
     }
 }
 

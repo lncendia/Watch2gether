@@ -1,6 +1,5 @@
 ﻿.container {
     max-width: 95%;
-    margin: auto;
 }
 
 .message {
@@ -42,7 +41,6 @@
 }
 
 .viewer {
-    text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
     border-top: 1px solid #363636;
@@ -80,17 +78,36 @@
 }
 
 
-.change-block {
+.input-block {
     position: absolute;
     margin-top: 2px;
-    background-color: #707070;
+    background-color: #3b3b3b;
     padding: 3px;
     border-radius: 10px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.input-block > input {
+    width: 70% !important;
 }
 
 
+.input-block > button {
+    width: 25% !important;
+}
+
+.input-block > span {
+    margin-left: 7px;
+    margin-right: 7px;
+}
+
+
+
 .viewer-block {
-    font-size: 12px;
     padding: 5px;
     margin: 0 2px 5px;
     border-radius: 5px;
@@ -102,7 +119,7 @@
     background: #212121;
     color: white;
     border-radius: 15px;
-    padding: 10px 15px;
+    padding: 15px 15px;
 }
 
 .chat-scroll {

@@ -29,7 +29,7 @@ public class StartPageMapper : IStartPageMapper
     }
 
 
-    public FilmDto MapFilm(Domain.Films.Entities.Film film)
+    public FilmDto MapFilm(Film film)
     {
         return new FilmDto(film.Name, film.PosterUri, film.Id, film.FilmTags.Genres);
     }

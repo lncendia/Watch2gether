@@ -51,8 +51,8 @@
                     @foreach (var film in Model.Films)
                     {
                         <div class="film col-xxl-25 col-md-4 col-6">
-                            <div class="card film-card">
-                                <a class="film-link" asp-controller="Film" asp-action="Index" asp-route-id="@film.Id">
+                            <div class="card content-card">
+                                <a class="content-link" asp-controller="Film" asp-action="Index" asp-route-id="@film.Id">
                                     <img src="~/@film.PosterUri" class="card-img-top poster" alt="">
                                     <div class="card-body">
                                         <h5 class="card-title">@film.Name</h5>

@@ -2,8 +2,8 @@
 using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Domain.Rooms.BaseRoom.Exceptions;
+using Overoom.WEB.Authentication;
 using Overoom.WEB.Hubs.Models;
-using Overoom.WEB.RoomAuthentication;
 
 namespace Overoom.WEB.Hubs;
 
@@ -29,7 +29,6 @@ public abstract class HubBase : Hub
 
     public async Task Seek(int seconds)
     {
-        seconds++;
         var data = GetData();
         try
         {
@@ -125,13 +124,13 @@ public abstract class HubBase : Hub
     }
 
 
-    public async Task ChangeName(int target, string name)
+    public async Task Change(int target, string name)
     {
         var data = GetData();
         try
         {
             await _roomManager.ChangeNameAsync(data.RoomId, data.Id, target, name);
-            await Clients.OthersInGroup(data.RoomIdString).SendAsync("ChangeName", data.Id, target, name);
+            await Clients.OthersInGroup(data.RoomIdString).SendAsync("Change", data.Id, target, name);
         }
         catch (ActionNotAllowedException)
         {
@@ -166,20 +165,21 @@ public abstract class HubBase : Hub
     protected DataModel GetData()
     {
         var id = Context.User!.GetViewerId();
-        var username = Context.User!.GetName();
-        var avatar = Context.User!.GetAvatar();
         var roomId = Context.User!.GetRoomId();
-        return new DataModel(id, roomId, username, avatar);
+        return new DataModel(id, roomId);
     }
 
-    protected Task HandleException(Exception ex, DataModel data)
+    protected virtual Task HandleException(Exception ex, DataModel data)
     {
         var error = ex switch
         {
             RoomNotFoundException => "Комната не найдена.",
             ViewerNotFoundException => "Зритель не найден.",
+            ActionNotAllowedException => "Действие не разрешено",
+            ViewerInvalidNicknameException => "Некорректный формат имени",
+            MessageLengthException => "Сообщение должно быть от одного до тысячи символов",
             _ => "Неизвестная ошибка"
         };
-        return Clients.Caller.SendAsync("ReceiveMessage", data.Id, error);
+        return Clients.Caller.SendAsync("Error", data.Id, error);
     }
 }

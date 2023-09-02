@@ -9,6 +9,5 @@ public interface IYoutubeRoomManager : IRoomManager
     Task<(Guid roomId, int viewerId)> CreateAnonymouslyAsync(CreateYoutubeRoomDto dto, string name);
     Task<(Guid roomId, int viewerId)> CreateAsync(CreateYoutubeRoomDto dto, Guid userId);
     Task<string> AddVideoAsync(Guid roomId, int viewerId, Uri url);
-    Task RemoveVideoAsync(Guid roomId, string id);
     Task ChangeVideoAsync(Guid roomId, int viewerId, string id);
 }

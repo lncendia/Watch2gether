@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions;
 using Overoom.Application.Abstractions.Rooms.DTOs.Film;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
+using Overoom.WEB.Authentication;
 using Overoom.WEB.Contracts.Rooms;
 using Overoom.WEB.RoomAuthentication;
 
@@ -40,7 +41,7 @@ public class FilmRoomController : Controller
         var roomData = await _roomService.CreateAsync(
             new CreateFilmRoomDto(model.IsOpen!.Value, model.FilmId, model.Cdn), User.GetId());
         var viewer = await _roomService.GetAsync(roomData.roomId, roomData.viewerId);
-        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomData.roomId,
+        await HttpContext.SignInRoomAsync(viewer.Id, roomData.roomId,
             RoomType.Film);
         return RedirectToAction("Room");
     }
@@ -54,8 +55,7 @@ public class FilmRoomController : Controller
         var roomData = await _roomService.CreateAnonymouslyAsync(
             new CreateFilmRoomDto(model.IsOpen!.Value, model.FilmId, model.Cdn), model.Name!);
         var viewer = await _roomService.GetAsync(roomData.roomId, roomData.viewerId);
-        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomData.roomId,
-            RoomType.Film);
+        await HttpContext.SignInRoomAsync(viewer.Id, roomData.roomId, RoomType.Film);
         return RedirectToAction("Room");
     }
 
@@ -70,8 +70,7 @@ public class FilmRoomController : Controller
 
         var id = await _roomService.ConnectAsync(roomId, User.GetId());
         var viewer = await _roomService.GetAsync(roomId, id);
-        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomId,
-            RoomType.Film);
+        await HttpContext.SignInRoomAsync(viewer.Id, roomId, RoomType.Film);
         return RedirectToAction("Room");
     }
 
@@ -82,8 +81,7 @@ public class FilmRoomController : Controller
         if (!ModelState.IsValid) View(model);
         var id = await _roomService.ConnectAnonymouslyAsync(model.RoomId, model.Name!);
         var viewer = await _roomService.GetAsync(model.RoomId, id);
-        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, model.RoomId,
-            RoomType.Film);
+        await HttpContext.SignInRoomAsync(viewer.Id, model.RoomId, RoomType.Film);
         return RedirectToAction("Room");
     }
 

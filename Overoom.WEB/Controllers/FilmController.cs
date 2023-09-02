@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions.Comments.Interfaces;
 using Overoom.Application.Abstractions.Movie.Interfaces;
+using Overoom.WEB.Authentication;
 using Overoom.WEB.Contracts.Film;
 using Overoom.WEB.Models.Film;
 using Overoom.WEB.RoomAuthentication;

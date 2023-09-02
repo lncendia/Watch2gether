@@ -8,12 +8,12 @@
     margin: 0 auto;
 }
 
-.film-link {
+.content-link {
     --bs-link-color: #8f8f8f;
     text-decoration: none;
 }
 
-.film-link:hover {
+.content-link:hover {
     color: #b6b6b6;
 }
 

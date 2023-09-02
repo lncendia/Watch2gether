@@ -71,6 +71,7 @@ public abstract class Room : AggregateRoot
 
     public void Beep(int viewerId, int target)
     {
+        UpdateActivity();
         if (viewerId == target) throw new ActionNotAllowedException();
         var viewer = GetViewer(target);
         if (!viewer.Allows.Beep) throw new ActionNotAllowedException();
@@ -78,6 +79,7 @@ public abstract class Room : AggregateRoot
 
     public void Scream(int viewerId, int target)
     {
+        UpdateActivity();
         if (viewerId == target) throw new ActionNotAllowedException();
         var viewer = GetViewer(target);
         if (!viewer.Allows.Scream) throw new ActionNotAllowedException();
@@ -85,7 +87,8 @@ public abstract class Room : AggregateRoot
 
     public void Kick(int viewerId, int target)
     {
-        if (viewerId == target || viewerId != Owner?.Id) throw new ActionNotAllowedException();
+        UpdateActivity();
+        if (viewerId == target || viewerId != Owner.Id) throw new ActionNotAllowedException();
         var targetViewer = GetViewer(target);
         _viewersList.Remove(targetViewer);
         _messagesList.RemoveAll(x => x.ViewerId == target);
@@ -93,6 +96,7 @@ public abstract class Room : AggregateRoot
 
     public void ChangeName(int viewerId, int target, string name)
     {
+        UpdateActivity();
         if (viewerId == target) throw new ActionNotAllowedException();
         var viewer = GetViewer(target);
         if (!viewer.Allows.Change) throw new ActionNotAllowedException();

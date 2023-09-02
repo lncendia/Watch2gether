@@ -50,4 +50,8 @@
       <_ContentIncludedByDefault Remove="Views\PlaylistManagement\Load.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <AdditionalFiles Include="Views\Playlists\Playlists.cshtml" />
+    </ItemGroup>
+
 </Project>

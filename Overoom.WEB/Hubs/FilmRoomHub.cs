@@ -48,4 +48,16 @@ public class FilmRoomHub : HubBase
             await HandleException(ex, data);
         }
     }
+
+    protected override Task HandleException(Exception ex, DataModel data)
+    {
+        string? error;
+        switch (ex)
+        {
+            default:
+                return base.HandleException(ex, data);
+        }
+
+        return Clients.Caller.SendAsync("Error", data.Id, error);
+    }
 }

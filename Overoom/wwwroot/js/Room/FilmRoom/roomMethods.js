@@ -1,9 +1,9 @@
 function showUser(room, user) {
     let html = '<div id="' + user.Id + '" class="viewer d-flex justify-content-center flex-wrap">'
     html = withName(html, room, user)
+    html = withActions(html, room, user)
     html = withTime(html, room, user)
     html = withInfo(html, room, user)
-    html = withActions(html, room, user)
     html = withSerial(html, room, user)
     html += '</div>'
     $("#viewers").append(html);

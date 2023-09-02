@@ -28,17 +28,12 @@ public class FilmViewModel
         UserRatingsCount = userRatingsCount;
         ScreenWriters = screenWriters;
         Id = id;
-        TypeString = type switch
-        {
-            FilmType.Serial => $"Сериал, {countSeasons} сезон(ов), {countEpisodes} эпизод(ов)",
-            FilmType.Film => "Фильм",
-            _ => throw new NotImplementedException()
-        };
+        Type = type;
     }
 
     public Guid Id { get; }
     public string Description { get; }
-    public string TypeString { get; }
+    public FilmType Type { get; }
     public string Name { get; }
     public Uri PosterUri { get; }
     public double Rating { get; }

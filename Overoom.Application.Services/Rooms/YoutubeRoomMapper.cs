@@ -17,7 +17,7 @@ public class YoutubeRoomMapper : IYoutubeRoomMapper
                 var viewer = viewersEntities.First(x => x.Id == m.ViewerId);
                 return new MessageDto(m.Text, m.CreatedAt, viewer.Id, viewer.AvatarUri, viewer.Name);
             }).ToList();
-        return new YoutubeRoomDto(room.VideoIds, messages, viewers, room.Owner.Id, room.AddAccess, room.IsOpen);
+        return new YoutubeRoomDto(room.VideoIds, messages, viewers, room.Owner.Id, room.Access, room.IsOpen);
     }
 
     public YoutubeViewerDto Map(YoutubeViewer v)

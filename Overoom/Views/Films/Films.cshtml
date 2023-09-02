@@ -1,0 +1,121 @@
+﻿@model Overoom.WEB.Models.Films.FilmsViewModel
+@{
+    ViewData["Title"] = "Каталог";
+    var genres = new List<string>
+    {
+        "Аниме", "Боевик", "Военный", "Детектив", "Драма", "Комедия", "Мелодрама", "Мультфильм", "Приключения", "Триллер", "Ужасы", "Фантастика", "Фэнтези"
+    };
+}
+<div class="content-block">
+    <h3>Популярное сейчас</h3>
+    <div class="itc-slider" data-slider="itc-slider" data-loop="true" data-autoplay="true">
+        <div class="itc-slider__wrapper">
+            <div class="itc-slider__items">
+                @foreach (var film in Model.PopularFilms)
+                {
+                    <div class="itc-slider__item col-6 col-lg-4 col-xl-3 col-xxl-15">
+                        <div class="slider-film">
+                            <a class="content-link" asp-controller="Film" asp-action="Index" asp-route-id="@film.Id">
+                                <img src="/@film.PosterUri" class="slider-poster" alt="...">
+                                <span class="card-title">@film.Name</span>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <button class="itc-slider__btn itc-slider__btn_prev"></button>
+        <button class="itc-slider__btn itc-slider__btn_next"></button>
+    </div>
+</div>
+
+<div class="content-block">
+    <h3>Выбор пользователей</h3>
+    <div class="itc-slider" data-slider="itc-slider" data-loop="true" data-autoplay="true">
+        <div class="itc-slider__wrapper">
+            <div class="itc-slider__items">
+                @foreach (var film in Model.BestFilms)
+                {
+                    <div class="itc-slider__item col-6 col-lg-4 col-xl-3 col-xxl-15">
+                        <div class="slider-film">
+                            <a class="content-link" asp-controller="Film" asp-action="Index" asp-route-id="@film.Id">
+                                <img src="/@film.PosterUri" class="slider-poster" alt="...">
+                                <span class="card-title">@film.Name</span>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <button class="itc-slider__btn itc-slider__btn_prev"></button>
+        <button class="itc-slider__btn itc-slider__btn_next"></button>
+    </div>
+</div>
+
+<div class="content-block">
+    <h3>Жанры</h3>
+    <div class="itc-slider" data-slider="itc-slider" data-loop="true" data-autoplay="true">
+        <div class="itc-slider__wrapper">
+            <div class="itc-slider__items">
+                @foreach (var genre in genres)
+                {
+                    var route = new Dictionary<string, string> { { "genre", genre } };
+                    <div class="itc-slider__item col-6 col-lg-4 col-xl-3 col-xxl-2">
+                        <div class="genre">
+                            <a class="genre-link" asp-action="FilmSearch" asp-all-route-data="route">@genre</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <button class="itc-slider__btn itc-slider__btn_prev"></button>
+        <button class="itc-slider__btn itc-slider__btn_next"></button>
+    </div>
+</div>
+
+<form asp-action="FilmsList" id="filter" method="get"></form>
+
+<div class="content-block">
+    <h3>Новинки</h3>
+    <div class="row gy-5 films justify-content-start"></div>
+    <div class="spinner">
+        <div class="spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-secondary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-dark" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/js/slider.js"></script>
+    <script src="~/lib/infinite-ajax-scroll/dist/infinite-ajax-scroll.min.js"></script>
+    <script src="~/js/scroller.js"></script>
+    <script src="~/js/films.js"></script>
+}
+
+@section styles
+{
+    <link rel="stylesheet" href="~/css/content.css"/>
+    <link rel="stylesheet" href="~/css/slider.css"/>
+}

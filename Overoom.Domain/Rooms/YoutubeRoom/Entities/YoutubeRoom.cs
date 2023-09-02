@@ -1,22 +1,23 @@
 ﻿using Overoom.Domain.Rooms.BaseRoom.DTOs;
 using Overoom.Domain.Rooms.BaseRoom.Entities;
+using Overoom.Domain.Rooms.BaseRoom.Exceptions;
 using Overoom.Domain.Rooms.YoutubeRoom.Exceptions;
 
 namespace Overoom.Domain.Rooms.YoutubeRoom.Entities;
 
 public class YoutubeRoom : Room
 {
-    public YoutubeRoom(Uri url, bool addAccess, bool isOpen, ViewerDto viewer) : base(isOpen,
+    public YoutubeRoom(Uri url, bool access, bool isOpen, ViewerDto viewer) : base(isOpen,
         CreateViewer(viewer, GetId(url)))
     {
-        AddAccess = addAccess;
+        Access = access;
         _ids.Add(GetId(url));
     }
 
     private static Viewer CreateViewer(ViewerDto viewer, string id) => new YoutubeViewer(viewer, 1, id);
 
 
-    public bool AddAccess { get; }
+    public bool Access { get; }
     public new YoutubeViewer Owner => (YoutubeViewer)base.Owner;
     public new IReadOnlyCollection<YoutubeViewer> Viewers => base.Viewers.Cast<YoutubeViewer>().ToList();
     public IReadOnlyCollection<string> VideoIds => _ids.ToList();
@@ -37,19 +38,12 @@ public class YoutubeRoom : Room
 
     public string AddVideo(int viewerId, Uri url)
     {
-        if (viewerId != Owner.Id && !AddAccess) throw new AddVideoException();
+        if (viewerId != Owner.Id && !Access) throw new ActionNotAllowedException();
         var id = GetId(url);
         _ids.Add(id);
         return id;
     }
-
-    public void RemoveId(string id)
-    {
-        if (_ids.Count == 1) throw new LastVideoException();
-        if (Viewers.Any(x => x.CurrentVideoId == id)) throw new VideoInViewException();
-        _ids.Remove(id);
-    }
-
+    
     private static string GetId(Uri uri)
     {
         string id;

@@ -14,5 +14,5 @@ public class YoutubeRoomModel : IAggregateModel
     public int OwnerId { get; set; }
     public DateTime LastActivity { get; set; }
     public List<VideoIdModel> VideoIds { get; set; } = new();
-    public bool AddAccess { get; set; }
+    public bool Access { get; set; }
 }

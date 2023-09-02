@@ -26,7 +26,7 @@ public class YoutubeRoomManager : IYoutubeRoomManager
     public Task<(Guid roomId, int viewerId)> CreateAnonymouslyAsync(CreateYoutubeRoomDto dto, string name)
     {
         var viewer = new ViewerDto(name, ApplicationConstants.DefaultAvatar);
-        var room = new YoutubeRoom(dto.Url, dto.AddAccess, dto.IsOpen, viewer);
+        var room = new YoutubeRoom(dto.Url, dto.Access, dto.IsOpen, viewer);
         return AddAsync(room);
     }
 
@@ -35,7 +35,7 @@ public class YoutubeRoomManager : IYoutubeRoomManager
         var user = await _unitOfWork.UserRepository.Value.GetAsync(userId);
         if (user == null) throw new UserNotFoundException();
         var viewer = new ViewerDto(user);
-        var room = new YoutubeRoom(dto.Url, dto.AddAccess, dto.IsOpen, viewer);
+        var room = new YoutubeRoom(dto.Url, dto.Access, dto.IsOpen, viewer);
         return await AddAsync(room);
     }
 
@@ -68,13 +68,6 @@ public class YoutubeRoomManager : IYoutubeRoomManager
         return id;
     }
 
-    public async Task RemoveVideoAsync(Guid roomId, string id)
-    {
-        var room = await GetRoomAsync(roomId);
-        room.RemoveId(id);
-        await SaveRoomAsync(room);
-    }
-
     public async Task ChangeVideoAsync(Guid roomId, int viewerId, string id)
     {
         var room = await GetRoomAsync(roomId);
@@ -93,18 +86,21 @@ public class YoutubeRoomManager : IYoutubeRoomManager
     {
         var room = await GetRoomAsync(roomId);
         room.Beep(viewerId, target);
+        await SaveRoomAsync(room);
     }
 
     public async Task ScreamAsync(Guid roomId, int viewerId, int target)
     {
         var room = await GetRoomAsync(roomId);
         room.Scream(viewerId, target);
+        await SaveRoomAsync(room);
     }
 
     public async Task ChangeNameAsync(Guid roomId, int viewerId, int target, string name)
     {
         var room = await GetRoomAsync(roomId);
         room.ChangeName(viewerId, target, name);
+        await SaveRoomAsync(room);
     }
 
     public async Task KickAsync(Guid roomId, int viewerId, int target)

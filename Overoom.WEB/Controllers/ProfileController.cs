@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions;
 using Overoom.Application.Abstractions.Profile.Interfaces;
+using Overoom.WEB.Authentication;
 using Overoom.WEB.Contracts.Settings;
-using Overoom.WEB.RoomAuthentication;
 using IProfileMapper = Overoom.WEB.Mappers.Abstractions.IProfileMapper;
 
 namespace Overoom.WEB.Controllers;
@@ -14,15 +14,15 @@ namespace Overoom.WEB.Controllers;
 [Authorize(Policy = "User")]
 public class ProfileController : Controller
 {
-    private readonly IUserProfileService _userService;
-    private readonly IUserSettingsService _userSettings;
+    private readonly IProfileService _service;
+    private readonly ISettingsService _settings;
     private readonly IProfileMapper _mapper;
 
-    public ProfileController(IUserProfileService userService, IProfileMapper mapper, IUserSettingsService userSettings)
+    public ProfileController(IProfileService service, IProfileMapper mapper, ISettingsService settings)
     {
-        _userService = userService;
+        _service = service;
         _mapper = mapper;
-        _userSettings = userSettings;
+        _settings = settings;
         //todo: exception
     }
 
@@ -30,8 +30,8 @@ public class ProfileController : Controller
     public async Task<IActionResult> Index(string? message)
     {
         ViewData["Alert"] = message;
-        var profile = await _userService.GetProfileAsync(User.GetId());
-        var genres = await _userService.GetGenresAsync(User.GetId());
+        var profile = await _service.GetProfileAsync(User.GetId());
+        var genres = await _service.GetGenresAsync(User.GetId());
         return View(_mapper.Map(profile, genres));
     }
 
@@ -39,7 +39,7 @@ public class ProfileController : Controller
     {
         try
         {
-            var ratings = await _userService.GetRatingsAsync(User.GetId(), page);
+            var ratings = await _service.GetRatingsAsync(User.GetId(), page);
             if (!ratings.Any()) return NoContent();
             var ratingModels = ratings.Select(_mapper.Map).ToList();
             return Json(ratingModels);
@@ -55,7 +55,7 @@ public class ProfileController : Controller
     public async Task<IActionResult> ChangeEmail(ChangeEmailParameters model)
     {
         if (!ModelState.IsValid) RedirectToAction("Index", "Home", new { message = "Указаны некорректные данные." });
-        await _userSettings.RequestResetEmailAsync(User.GetId(), model.Email!, Url.Action(
+        await _settings.RequestResetEmailAsync(User.GetId(), model.Email!, Url.Action(
             "AcceptChangeEmail", "Profile", null, HttpContext.Request.Scheme)!);
 
         return RedirectToAction("Index", "Home",
@@ -69,7 +69,7 @@ public class ProfileController : Controller
     public async Task<IActionResult> AcceptChangeEmail(AcceptChangeEmailParameters model)
     {
         if (!ModelState.IsValid) return RedirectToAction("Index", "Home", new { message = "Некорректная ссылка." });
-        await _userSettings.ResetEmailAsync(User.GetId(), model.Email!, model.Code!);
+        await _settings.ResetEmailAsync(User.GetId(), model.Email!, model.Code!);
         await UpdateEmailAsync(model.Email!);
         return RedirectToAction("Index", "Home", new { message = "Почта успешно изменена." });
     }
@@ -80,7 +80,7 @@ public class ProfileController : Controller
     public async Task<IActionResult> ChangePassword(ChangePasswordParameters model)
     {
         if (!ModelState.IsValid) RedirectToAction("Index", "Home", new { message = "Указаны некорректные данные." });
-        await _userSettings.ChangePasswordAsync(User.GetId(), model.OldPassword!, model.Password!);
+        await _settings.ChangePasswordAsync(User.GetId(), model.OldPassword!, model.Password!);
         return RedirectToAction("Index", "Home", new { message = "Пароль успешно изменен." }); //todo:exception
     }
 
@@ -90,7 +90,7 @@ public class ProfileController : Controller
     public async Task<IActionResult> ChangeName(ChangeNameParameters model)
     {
         if (!ModelState.IsValid) RedirectToAction("Index", "Home", new { message = "Указаны некорректные данные." });
-        await _userSettings.ChangeNameAsync(User.GetId(), model.Name!);
+        await _settings.ChangeNameAsync(User.GetId(), model.Name!);
         await UpdateNameAsync(model.Name!);
         return RedirectToAction("Index", "Home", new { message = "Имя успешно изменено." });
     }
@@ -102,7 +102,7 @@ public class ProfileController : Controller
         await using var stream = uploadedFile.OpenReadStream();
         if (uploadedFile.Length > 15728640)
             return RedirectToAction("Index", "Home", new { message = "Размер аватара не может превышать 15 Мб." });
-        var uri = await _userSettings.ChangeAvatarAsync(User.GetId(), stream);
+        var uri = await _settings.ChangeAvatarAsync(User.GetId(), stream);
         await UpdateThumbnailAsync(uri);
         return RedirectToAction("Index", "Home", new { message = "Аватар успешно изменён." });
     }
@@ -112,7 +112,7 @@ public class ProfileController : Controller
     public async Task<ActionResult> ChangeAllows(ChangeAllowsParameters model)
     {
         if (!ModelState.IsValid) RedirectToAction("Index", "Home", new { message = "Указаны некорректные данные." });
-        await _userSettings.ChangeAllowsAsync(User.GetId(),model.Beep, model.Scream, model.Change);
+        await _settings.ChangeAllowsAsync(User.GetId(),model.Beep, model.Scream, model.Change);
         return RedirectToAction("Index", "Home", new { message = "Разрешения успешно изменены." });
     }
 

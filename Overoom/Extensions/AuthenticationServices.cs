@@ -67,8 +67,6 @@ public static class AuthenticationServices
                 policy.AddAuthenticationSchemes(ApplicationConstants.RoomScheme);
                 policy.RequireClaim("RoomId");
                 policy.RequireClaim(ClaimTypes.NameIdentifier);
-                policy.RequireClaim(ClaimTypes.Name);
-                policy.RequireClaim(ApplicationConstants.AvatarClaimType);
                 policy.RequireClaim("RoomType", RoomType.Film.ToString());
             });
             options.AddPolicy("YoutubeRoom", policy =>
@@ -77,8 +75,6 @@ public static class AuthenticationServices
                 policy.AddAuthenticationSchemes(ApplicationConstants.RoomScheme);
                 policy.RequireClaim("RoomId");
                 policy.RequireClaim(ClaimTypes.NameIdentifier);
-                policy.RequireClaim(ClaimTypes.Name);
-                policy.RequireClaim(ApplicationConstants.AvatarClaimType);
                 policy.RequireClaim("RoomType", RoomType.Youtube.ToString());
             });
             options.AddPolicy("User", policy =>

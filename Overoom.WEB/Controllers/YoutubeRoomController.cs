@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions;
 using Overoom.Application.Abstractions.Rooms.DTOs.Youtube;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
+using Overoom.WEB.Authentication;
 using Overoom.WEB.Contracts.Rooms;
 using Overoom.WEB.RoomAuthentication;
 using IYoutubeRoomMapper = Overoom.WEB.Mappers.Abstractions.IYoutubeRoomMapper;
@@ -36,9 +37,9 @@ public class YoutubeRoomController : Controller
         if (!ModelState.IsValid)
             return RedirectToAction("Index", "Home", new { message = "Не удалось создать комнату" });
         var roomData = await _roomService.CreateAsync(
-            new CreateYoutubeRoomDto(model.IsOpen!.Value, new Uri(model.Url!), model.AddAccess), User.GetId());
+            new CreateYoutubeRoomDto(model.IsOpen!.Value, new Uri(model.Url!), model.Access), User.GetId());
         var viewer = await _roomService.GetAsync(roomData.roomId, roomData.viewerId);
-        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomData.roomId,
+        await HttpContext.SignInRoomAsync(viewer.Id, roomData.roomId,
             RoomType.Youtube);
         return RedirectToAction("Room");
     }
@@ -50,9 +51,9 @@ public class YoutubeRoomController : Controller
         if (!ModelState.IsValid)
             return RedirectToAction("Index", "Home", new { message = "Не удалось создать комнату" });
         var roomData = await _roomService.CreateAnonymouslyAsync(
-            new CreateYoutubeRoomDto(model.IsOpen!.Value, new Uri(model.Url!), model.AddAccess), model.Name!);
+            new CreateYoutubeRoomDto(model.IsOpen!.Value, new Uri(model.Url!), model.Access), model.Name!);
         var viewer = await _roomService.GetAsync(roomData.roomId, roomData.viewerId);
-        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomData.roomId,
+        await HttpContext.SignInRoomAsync(viewer.Id, roomData.roomId,
             RoomType.Youtube);
         return RedirectToAction("Room");
     }
@@ -62,13 +63,13 @@ public class YoutubeRoomController : Controller
     public async Task<IActionResult> Connect(Guid roomId)
     {
         var roomData = await HttpContext.AuthenticateAsync(ApplicationConstants.RoomScheme);
-        if (!roomData.None && roomData.Principal!.GetId() == roomId) return RedirectToAction("Room");
+        if (!roomData.None && roomData.Principal!.GetRoomId() == roomId) return RedirectToAction("Room");
         var data = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
         if (data.None) return View(new ConnectRoomAnonymouslyParameters { RoomId = roomId });
 
         var id = await _roomService.ConnectAsync(roomId, User.GetId());
         var viewer = await _roomService.GetAsync(roomId, id);
-        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, roomId, RoomType.Youtube);
+        await HttpContext.SignInRoomAsync(viewer.Id, roomId, RoomType.Youtube);
         return RedirectToAction("Room");
     }
 
@@ -79,7 +80,7 @@ public class YoutubeRoomController : Controller
         if (!ModelState.IsValid) return View(model);
         var id = await _roomService.ConnectAnonymouslyAsync(model.RoomId, model.Name!);
         var viewer = await _roomService.GetAsync(model.RoomId, id);
-        await HttpContext.SignInRoomAsync(viewer.Username, viewer.Id, viewer.AvatarUrl, model.RoomId, RoomType.Youtube);
+        await HttpContext.SignInRoomAsync(viewer.Id, model.RoomId, RoomType.Youtube);
         return RedirectToAction("Room");
     }
 

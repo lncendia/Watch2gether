@@ -63,7 +63,7 @@ public partial class User : AggregateRoot
     public void AddFilmToWatchlist(Guid filmId)
     {
         _watchlist.RemoveAll(x => x.FilmId == filmId);
-        if (_watchlist.Count > 30) _watchlist.Remove(_watchlist.OrderBy(x => x.Date).First());
+        if (_watchlist.Count > 14) _watchlist.Remove(_watchlist.OrderBy(x => x.Date).First());
         _watchlist.Add(new FilmNote(filmId));
     }
 
@@ -72,7 +72,7 @@ public partial class User : AggregateRoot
     public void AddFilmToHistory(Guid filmId)
     {
         _history.RemoveAll(x => x.FilmId == filmId);
-        if (_history.Count > 30) _history.Remove(_history.First());
+        if (_history.Count > 14) _history.Remove(_history.First());
         _history.Add(new FilmNote(filmId));
     }
 

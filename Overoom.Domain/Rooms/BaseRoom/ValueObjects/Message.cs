@@ -6,9 +6,10 @@ public class Message
 {
     internal Message(int viewerId, string text)
     {
-        if (string.IsNullOrEmpty(text) || text.Length > 1000) throw new MessageLengthException();
+        var count = text.Count(t => t != ' ' && t != '\n');
+        if (count == 0 || text.Length > 1000) throw new MessageLengthException();
         ViewerId = viewerId;
-        Text = text;
+        Text = text.Replace('\n', ' ');
     }
 
     public int ViewerId { get; }

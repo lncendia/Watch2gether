@@ -33,21 +33,6 @@ class AddVideoReceiveEvent extends ReceiveEvent {
     }
 }
 
-class RemoveVideoReceiveEvent extends ReceiveEvent {
-    constructor(id, videoId) {
-        super('RemoveVideo', id)
-        this.VideoId = videoId
-    }
-}
-
-class AddAccessReceiveEvent extends ReceiveEvent {
-    constructor(id, add) {
-        super('AddAccess', id)
-        this.AddAccess = add
-    }
-}
-
-
 
 
 class ChangeVideoUserEvent extends UserEvent {
@@ -61,19 +46,5 @@ class AddVideoUserEvent extends UserEvent {
     constructor(url) {
         super('AddVideo')
         this.Url = url
-    }
-}
-
-class RemoveVideoUserEvent extends UserEvent {
-    constructor(id) {
-        super('RemoveVideo')
-        this.Id = id
-    }
-}
-
-class AddAccessUserEvent extends UserEvent {
-    constructor(add) {
-        super('AddAccess')
-        this.AddAccess = add
     }
 }

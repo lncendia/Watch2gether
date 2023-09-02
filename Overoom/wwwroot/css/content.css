@@ -1,37 +1,116 @@
-﻿
+﻿h3{
+    margin-bottom: 25px;
+}
+
 .poster {
     display: block;
-    height: 250px;
+    height: 270px;
     max-width: 180px;
     margin: 0 auto;
     box-shadow: 0 3px 8px var(--shadow-red);
 }
 
-.film-card {
+.content-card {
+    width: 100%;
     height: 100%;
+    margin: 0 auto;
     --bs-card-bg: #1e1e21;
     --bs-card-cap-bg: #101010;
     box-shadow: 0 0 15px var(--shadow-dark);
 }
 
-.film-link {
+.content-card:hover {
+    box-shadow: 0 0 15px var(--shadow-red);
+}
+
+.content-link {
     --bs-link-color: #eeeeee;
     text-decoration: none;
     height: 100%;
 }
 
-.film-link:hover {
+.content-link:hover {
     color: #eeeeee;
 }
 
 
-.film-description {
+.content-description {
     color: #919191;
 }
 
-.block-background {
-    padding: 15px;
-    background: var(--color-dark);
+
+.itc-slider__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider-film {
+    width: 83%;
+    height: 93%;
+    background-color: #111113;
+    box-shadow: 0 0 10px var(--shadow-dark);
+    margin: 5px 10px;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 15px;
+    padding-bottom: 20px;
+    padding-top: 5px;
+}
+
+.slider-film:hover {
+    width: 87%;
+    height: 95%;
+    box-shadow: 0 0 10px var(--shadow-red);
+}
+
+.slider-poster {
+    width: 100%;
+    display: block;
+    height: 150px;
+    max-width: 100px;
+    margin: 0 auto;
+    box-shadow: 0 3px 15px var(--shadow-purple);
+    border-radius: 10px;
+}
+
+.genre{
+    width: 90%;
+    height: 93%;
+    text-align: center;
+    margin: 5px 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background-color: #111113;
     border-radius: 15px;
     box-shadow: 0 0 10px var(--shadow-dark);
+}
+
+.genre:hover{
+    width: 95%;
+    height: 95%;
+    box-shadow: 0 0 10px var(--shadow-red);
+}
+
+@font-face {
+    font-family: "Morice-Bejar";
+    src: url("../fonts/Morice-Bejar.ttf") format("truetype");
+}
+
+.genre-link{
+    color: white;
+    text-decoration: none;
+    font-family: "Morice-Bejar", "Arial", sans-serif;
+    font-size: 50px;
+}
+
+
+.genre-link:hover{
+    color: white;
+    
+}
+
+.content-block {
+    margin-top: 10px;
+    margin-bottom: 40px;
 }

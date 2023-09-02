@@ -115,12 +115,14 @@ public class FilmRoomManager : IFilmRoomManager
     {
         var room = await GetRoomAsync(roomId);
         room.Beep(viewerId, target);
+        await SaveRoomAsync(room);
     }
 
     public async Task ScreamAsync(Guid roomId, int viewerId, int target)
     {
         var room = await GetRoomAsync(roomId);
         room.Scream(viewerId, target);
+        await SaveRoomAsync(room);
     }
 
     public async Task KickAsync(Guid roomId, int viewerId, int target)

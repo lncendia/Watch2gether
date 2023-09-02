@@ -15,7 +15,9 @@ public class VideoCdnApi : IVideoCdnApiService
     public VideoCdnApi(string cdnToken, IVideoCdnResponseParser parser, HttpClient? client = null)
     {
         _parser = parser;
-        _cdnClient = client != null ? new RestClient(client, true) : new RestClient();
+        _cdnClient = client != null
+            ? new RestClient(client, true, options => options.MaxTimeout = 15000)
+            : new RestClient(options => options.MaxTimeout = 15000);
         _cdnClient.AddDefaultQueryParameter("api_token", cdnToken);
     }
 

@@ -9,6 +9,7 @@ room.RegisterReceiveEvent('FullScreen', onFullScreenReceive)
 room.RegisterReceiveEvent('Kick', onKickReceive)
 room.RegisterReceiveEvent('Beep', onBeepReceive)
 room.RegisterReceiveEvent('Scream', onScreamReceive)
+room.RegisterReceiveEvent('Change', onChangeReceive)
 
 
 room.RegisterUserEvent('Load', onLoadUser)
@@ -21,6 +22,7 @@ room.RegisterUserEvent('FullScreen', onFullScreenUser)
 room.RegisterUserEvent('Beep', onBeepUser)
 room.RegisterUserEvent('Kick', onKickUser)
 room.RegisterUserEvent('Scream', onScreamUser)
+room.RegisterUserEvent('Change', onChangeUser)
 room.RegisterUserEvent('Sync', onSyncUser)
 
 
@@ -36,6 +38,7 @@ hubConnection.on('Leave', (id) => room.ProcessReceiveEvent(new LeaveReceiveEvent
 hubConnection.on('Type', (id) => room.ProcessReceiveEvent(new TypeReceiveEvent(id)));
 hubConnection.on('Beep', (id, target) => room.ProcessReceiveEvent(new BeepReceiveEvent(id, target)));
 hubConnection.on('Scream', (id, target) => room.ProcessReceiveEvent(new ScreamReceiveEvent(id, target)));
+hubConnection.on('Change', (id, target, name) => room.ProcessReceiveEvent(new ChangeReceiveEvent(id, target, name)));
 hubConnection.on('Kick', (id, target) => room.ProcessReceiveEvent(new KickReceiveEvent(id, target)));
 hubConnection.on('FullScreen', (id, fullscreen) => room.ProcessReceiveEvent(new FullScreenReceiveEvent(id, fullscreen)));
 hubConnection.on('Connect', (data) => {

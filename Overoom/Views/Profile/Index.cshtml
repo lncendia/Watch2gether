@@ -19,7 +19,7 @@
                             var el = Model.Genres.ElementAt(index);
                             var coma = index != count;
                             var route = new Dictionary<string, string> { { "genre", el } };
-                            <a class="films-search" asp-controller="Content" asp-action="Films" asp-all-route-data="route">@el</a>if (coma){<span>, </span>}
+                            <a class="films-search" asp-controller="Films" asp-action="Films" asp-all-route-data="route">@el</a>if (coma){<span>, </span>}
                         }
                     }
                 </div>
@@ -33,7 +33,7 @@
                     @foreach (var film in Model.WatchedFilms)
                     {
                         <div class="col-lg-2 col-md-3 col-4 text-center">
-                            <a asp-controller="Film" asp-action="Index" asp-route-id="@film.Id" class="film-link">
+                            <a asp-controller="Film" asp-action="Index" asp-route-id="@film.Id" class="content-link">
 
                                 <img class="poster" src="~/@film.Poster" alt="">
                                 <span>@film.Name</span>
@@ -52,8 +52,7 @@
                     @foreach (var film in Model.FavoriteFilms)
                     {
                         <div class="col-lg-2 col-md-3 col-4 text-center">
-                            <a asp-controller="Film" asp-action="Index" asp-route-id="@film.Id" class="film-link">
-
+                            <a asp-controller="Film" asp-action="Index" asp-route-id="@film.Id" class="content-link">
                                 <img class="poster" src="~/@film.Poster" alt="">
                                 <span>@film.Name</span>
                             </a>

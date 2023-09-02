@@ -12,7 +12,7 @@ public class YoutubeRoomMapper : IYoutubeRoomMapper
     {
         var messages = dto.Messages.Select(Map).ToList();
         var viewers = dto.Viewers.Select(Map).ToList();
-        return new YoutubeRoomViewModel(messages, viewers, url, dto.OwnerId, id, dto.Ids, dto.AddAccess, dto.IsOpen);
+        return new YoutubeRoomViewModel(messages, viewers, url, dto.OwnerId, id, dto.Ids, dto.Access, dto.IsOpen);
     }
 
     private static YoutubeViewerViewModel Map(YoutubeViewerDto dto) =>
