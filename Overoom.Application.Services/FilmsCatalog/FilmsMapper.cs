@@ -2,7 +2,7 @@ using Overoom.Application.Abstractions.Films.DTOs;
 using Overoom.Application.Abstractions.Films.Interfaces;
 using Overoom.Domain.Films.Entities;
 
-namespace Overoom.Application.Services.Films;
+namespace Overoom.Application.Services.FilmsCatalog;
 
 public class FilmsMapper : IFilmsMapper
 {

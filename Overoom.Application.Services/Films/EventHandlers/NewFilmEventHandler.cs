@@ -2,13 +2,12 @@ using MediatR;
 using Overoom.Application.Abstractions.Common.Interfaces;
 using Overoom.Application.Abstractions.Movie.Exceptions;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
-using Overoom.Domain.Films.Entities;
 using Overoom.Domain.Films.Events;
 using Overoom.Domain.Films.Specifications;
 using Overoom.Domain.Films.Specifications.Visitor;
 using Overoom.Domain.Specifications;
 
-namespace Overoom.Application.Services.Movie.EventHandlers;
+namespace Overoom.Application.Services.Films.EventHandlers;
 
 public class NewFilmEventHandler : INotificationHandler<NewFilmEvent>
 {
@@ -24,7 +23,7 @@ public class NewFilmEventHandler : INotificationHandler<NewFilmEvent>
 
     public async Task Handle(NewFilmEvent notification, CancellationToken cancellationToken)
     {
-        var filmSpec = new AndSpecification<Film, IFilmSpecificationVisitor>(
+        var filmSpec = new AndSpecification<Domain.Films.Entities.Film, IFilmSpecificationVisitor>(
             new FilmByNameSpecification(notification.Film.Name),
             new FilmByYearsSpecification(notification.Film.Year, notification.Film.Year));
 

@@ -9,10 +9,10 @@ using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Application.Abstractions.StartPage.Interfaces;
 using Overoom.Application.Services.Comments;
 using Overoom.Application.Services.Films;
+using Overoom.Application.Services.FilmsCatalog;
 using Overoom.Application.Services.FilmsInformation;
 using Overoom.Application.Services.FilmsManagement;
-using Overoom.Application.Services.Movie;
-using Overoom.Application.Services.Playlists;
+using Overoom.Application.Services.PlaylistsCatalog;
 using Overoom.Application.Services.Profile;
 using Overoom.Application.Services.Rooms;
 using Overoom.Application.Services.StartPage;
@@ -23,15 +23,15 @@ public static class ApplicationMappers
 {
     public static void AddApplicationMappers(this IServiceCollection services)
     {
-        services.AddScoped<ICommentMapper, CommentMapper>();
-        services.AddScoped<IFilmKpMapper, FilmKpMapper>();
-        services.AddScoped<IFilmManagementMapper, FilmManagementMapper>();
-        services.AddScoped<IFilmMapper, FilmMapper>();
-        services.AddScoped<IProfileMapper, ProfileMapper>();
-        services.AddScoped<IPlaylistsMapper, PlaylistsMapper>();
-        services.AddScoped<IFilmsMapper, FilmsMapper>();
-        services.AddScoped<IFilmRoomMapper, FilmRoomMapper>();
-        services.AddScoped<IYoutubeRoomMapper, YoutubeRoomMapper>();
-        services.AddScoped<IStartPageMapper, StartPageMapper>();
+        services.AddSingleton<ICommentMapper, CommentMapper>();
+        services.AddSingleton<IFilmKpMapper, FilmKpMapper>();
+        services.AddSingleton<IFilmManagementMapper, FilmManagementMapper>();
+        services.AddSingleton<IFilmMapper, FilmMapper>();
+        services.AddSingleton<IProfileMapper, ProfileMapper>();
+        services.AddSingleton<IPlaylistsMapper, PlaylistsMapper>();
+        services.AddSingleton<IFilmsMapper, FilmsMapper>();
+        services.AddSingleton<IFilmRoomMapper, FilmRoomMapper>();
+        services.AddSingleton<IYoutubeRoomMapper, YoutubeRoomMapper>();
+        services.AddSingleton<IStartPageMapper, StartPageMapper>();
     }
 }

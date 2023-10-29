@@ -30,6 +30,6 @@ public partial class PasswordValidator : IPasswordValidator<UserData>
         return Task.FromResult(errors.Count == 0 ? IdentityResult.Success : IdentityResult.Failed(errors.ToArray()));
     }
 
-    [GeneratedRegex("^(?=.*?[A-Za-z])^(?=.*?[0-9])^(?=.*?[^a-zA-Z0-9])[a-zA-Z0-9_\\/\\*.#]+$")]
+    [GeneratedRegex(@"^(?=.*?[A-Za-z])^(?=.*?[0-9])^(?=.*?[^a-zA-Z0-9])[a-zA-Z0-9_\/\*.#]+$")]
     private static partial Regex MyRegex();
 }

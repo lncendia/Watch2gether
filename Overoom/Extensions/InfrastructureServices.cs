@@ -38,9 +38,9 @@ public static class InfrastructureServices
         services.AddScoped<IPosterService, PosterService>(_ => new PosterService(rootPath, contentPath));
 
 
-        services.AddScoped<IKpResponseParser, KpResponseParser>();
-        services.AddScoped<IVideoCdnResponseParser, VideoCdnResponseParser>();
-        services.AddScoped<IBazonResponseParser, BazonResponseParser>();
+        services.AddSingleton<IKpResponseParser, KpResponseParser>();
+        services.AddSingleton<IVideoCdnResponseParser, VideoCdnResponseParser>();
+        services.AddSingleton<IBazonResponseParser, BazonResponseParser>();
         services.AddScoped<IKpApiService, KpApi>(s => new KpApi(kpToken, s.GetRequiredService<IKpResponseParser>()));
         services.AddScoped<IVideoCdnApiService, VideoCdnApi>(s =>
             new VideoCdnApi(videoCdnToken, s.GetRequiredService<IVideoCdnResponseParser>()));

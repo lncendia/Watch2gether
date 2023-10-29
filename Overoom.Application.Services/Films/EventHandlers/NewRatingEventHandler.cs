@@ -2,14 +2,13 @@ using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
-using Overoom.Domain.Films.Entities;
 using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Ratings.Events;
 using Overoom.Domain.Ratings.Specifications;
 using Overoom.Domain.Ratings.Specifications.Visitor;
 using Overoom.Domain.Specifications;
 
-namespace Overoom.Application.Services.Movie.EventHandlers;
+namespace Overoom.Application.Services.Films.EventHandlers;
 
 public class NewRatingEventHandler : INotificationHandler<NewRatingEvent>
 {
@@ -24,7 +23,7 @@ public class NewRatingEventHandler : INotificationHandler<NewRatingEvent>
 
     public async Task Handle(NewRatingEvent notification, CancellationToken cancellationToken)
     {
-        if (!_memoryCache.TryGetValue(notification.Rating.FilmId, out Film? film))
+        if (!_memoryCache.TryGetValue(notification.Rating.FilmId, out Domain.Films.Entities.Film? film))
         {
             film = await _unitOfWork.FilmRepository.Value.GetAsync(notification.Rating.FilmId);
             if (film == null) throw new FilmNotFoundException();

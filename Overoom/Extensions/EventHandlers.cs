@@ -1,5 +1,5 @@
 using MediatR;
-using Overoom.Application.Services.Movie.EventHandlers;
+using Overoom.Application.Services.Films.EventHandlers;
 using Overoom.Application.Services.PlaylistsManagement.EventHandlers;
 using Overoom.Domain.Films.Events;
 using Overoom.Domain.Playlists.Events;

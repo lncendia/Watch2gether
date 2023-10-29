@@ -2,7 +2,7 @@ using Overoom.Application.Abstractions.Playlists.DTOs;
 using Overoom.Application.Abstractions.Playlists.Interfaces;
 using Overoom.Domain.Playlists.Entities;
 
-namespace Overoom.Application.Services.Playlists;
+namespace Overoom.Application.Services.PlaylistsCatalog;
 
 public class PlaylistsMapper : IPlaylistsMapper
 {

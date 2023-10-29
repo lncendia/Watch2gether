@@ -6,7 +6,7 @@ using Overoom.Domain.Playlists.Entities;
 using Overoom.Domain.Playlists.Ordering;
 using Overoom.Domain.Playlists.Ordering.Visitor;
 
-namespace Overoom.Application.Services.Playlists;
+namespace Overoom.Application.Services.PlaylistsCatalog;
 
 public class PlaylistsManager : IPlaylistsManager
 {

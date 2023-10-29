@@ -47,7 +47,7 @@ public partial class UserValidator : IUserValidator<UserData>
 
         try
         {
-            var unused = new MailAddress(email);
+            _ = new MailAddress(email);
         }
         catch (FormatException)
         {
