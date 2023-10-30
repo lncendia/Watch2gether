@@ -2,7 +2,7 @@
 
 public class ChangeDto
 {
-    public ChangeDto(Guid filmId, string? description, string? shortDescription, Uri? posterUri, double? rating,
+    public ChangeDto(Guid filmId, string? description, string shortDescription, Uri? posterUri, double? rating,
         IReadOnlyCollection<CdnDto>? cdnList, int? countSeasons, int? countEpisodes, Stream? posterStream)
     {
         CountSeasons = countSeasons;
@@ -18,7 +18,7 @@ public class ChangeDto
 
     public Guid FilmId { get; }
     public string? Description { get; }
-    public string? ShortDescription { get; }
+    public string ShortDescription { get; }
     public Uri? PosterUri { get; }
     public Stream? PosterStream { get; }
     public double? Rating { get; }

@@ -23,5 +23,6 @@ public class ChangeParameters
     [DataType(DataType.Upload)]
     public IFormFile? NewPoster { get; set; }
 
-    public List<FilmParameters> Films { get; set; } = new();
+    [Display(Name = "Фильмы")]
+    public List<FilmParameters> Films { get; set; }
 }

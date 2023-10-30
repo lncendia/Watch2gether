@@ -51,7 +51,7 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
 
         film.PosterUri = entity.PosterUri;
         film.Description = entity.Description;
-        film.ShortDescription = entity.ShortDescription;
+        film.ShortDescription = entity.ShortDescription; //todo:get with reflection
         film.Rating = entity.Rating;
         film.UserRating = entity.UserRating;
         film.CountSeasons = entity.CountSeasons;

@@ -81,7 +81,7 @@ public class FilmRepository : IFilmRepository
 
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
-
+        
         var models = await query.ToListAsync();
         foreach (var model in models) await LoadCollectionsAsync(model);
         return models.Select(_aggregateMapper.Map).ToList();

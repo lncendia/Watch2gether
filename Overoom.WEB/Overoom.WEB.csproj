@@ -11,9 +11,4 @@
       <ProjectReference Include="..\Overoom.Application.Abstractions\Overoom.Application.Abstractions.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="Controllers\PlaylistManagementController.cs" />
-      <Compile Remove="Mappers\PlaylistManagementMapper.cs" />
-    </ItemGroup>
-
 </Project>

@@ -4,6 +4,7 @@ using Overoom.Application.Abstractions.FilmsInformation.Interfaces;
 using Overoom.Application.Abstractions.FilmsManagement.Interfaces;
 using Overoom.Application.Abstractions.Movie.Interfaces;
 using Overoom.Application.Abstractions.Playlists.Interfaces;
+using Overoom.Application.Abstractions.PlaylistsManagement.Interfaces;
 using Overoom.Application.Abstractions.Profile.Interfaces;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Application.Abstractions.StartPage.Interfaces;
@@ -13,6 +14,7 @@ using Overoom.Application.Services.FilmsInformation;
 using Overoom.Application.Services.FilmsManagement;
 using Overoom.Application.Services.Movie;
 using Overoom.Application.Services.Playlists;
+using Overoom.Application.Services.PlaylistsManagement;
 using Overoom.Application.Services.Profile;
 using Overoom.Application.Services.Rooms;
 using Overoom.Application.Services.StartPage;
@@ -33,5 +35,6 @@ public static class ApplicationMappers
         services.AddScoped<IFilmRoomMapper, FilmRoomMapper>();
         services.AddScoped<IYoutubeRoomMapper, YoutubeRoomMapper>();
         services.AddScoped<IStartPageMapper, StartPageMapper>();
+        services.AddSingleton<IPlaylistManagementMapper, PlaylistManagementMapper>();
     }
 }

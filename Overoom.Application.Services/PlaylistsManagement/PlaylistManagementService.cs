@@ -3,6 +3,7 @@ using Overoom.Application.Abstractions.Common.Interfaces;
 using Overoom.Application.Abstractions.PlaylistsManagement.DTOs;
 using Overoom.Application.Abstractions.PlaylistsManagement.Interfaces;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
+using Overoom.Domain.Films.Specifications;
 using Overoom.Domain.Playlists.Ordering;
 using Overoom.Domain.Playlists.Ordering.Visitor;
 using Overoom.Domain.Playlists.Specifications;
@@ -70,7 +71,9 @@ public class PlaylistManagementService : IPlaylistManagementService
     {
         var playlist = await _unitOfWork.PlaylistRepository.Value.GetAsync(playlistId);
         if (playlist == null) throw new PlaylistNotFoundException();
-        return _mapper.MapGet(playlist);
+        var filmSpec = new FilmByIdsSpecification(playlist.Films);
+        var films = await _unitOfWork.FilmRepository.Value.FindAsync(filmSpec);
+        return _mapper.MapGet(playlist, films);
     }
 
     public async Task<List<PlaylistShortDto>> FindAsync(int page, string? query = null)

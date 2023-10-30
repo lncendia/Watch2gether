@@ -18,7 +18,7 @@ public class ChangeParameters
 
     [StringLength(500, ErrorMessage = "Не больше 500 символов")]
     [Display(Name = "Короткое описание")]
-    public string? ShortDescription { get; set; }
+    public string ShortDescription { get; set; }
 
 
     [Display(Name = "Ссылка на постер")]
@@ -37,5 +37,5 @@ public class ChangeParameters
 
     [Display(Name = "Количество серий")] public int? CountEpisodes { get; set; }
 
-    [Display(Name = "Cdn")] public List<CdnParameters> Cdns { get; set; } = new();
+    [Display(Name = "Cdn")] public List<CdnParameters> Cdns { get; set; }
 }

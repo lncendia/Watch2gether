@@ -8,11 +8,7 @@ public class FilmsMapper : IFilmsMapper
 {
     public FilmDto Map(Film film)
     {
-        var description = !string.IsNullOrEmpty(film.ShortDescription)
-            ? film.ShortDescription
-            : film.Description[..100] + "...";
-
         return new FilmDto(film.Id, film.Name, film.PosterUri, film.Rating,
-            description, film.Year, film.Type, film.CountSeasons, film.FilmTags.Genres);
+            film.ShortDescription, film.Year, film.Type, film.CountSeasons, film.FilmTags.Genres);
     }
 }

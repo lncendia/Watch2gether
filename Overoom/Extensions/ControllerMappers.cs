@@ -15,5 +15,6 @@ public static class ControllerMappers
         services.AddScoped<IYoutubeRoomMapper, YoutubeRoomMapper>();
         services.AddScoped<IFilmManagementMapper, FilmManagementMapper>();
         services.AddScoped<IProfileMapper, ProfileMapper>();
+        services.AddSingleton<IPlaylistManagementMapper, PlaylistManagementMapper>();
     }
 }

@@ -2,7 +2,6 @@ using Overoom.Application.Abstractions.Movie.DTOs;
 using Overoom.Application.Abstractions.Movie.Interfaces;
 using Overoom.Domain.Films.Entities;
 using Overoom.Domain.Films.Enums;
-using Overoom.Domain.Ratings;
 using Overoom.Domain.Ratings.Entities;
 using Overoom.Domain.Users.Entities;
 

@@ -2,7 +2,7 @@
 
 public class PlaylistDto
 {
-    public PlaylistDto(Guid id, string name, string description, Uri posterUri, IReadOnlyCollection<Guid> films)
+    public PlaylistDto(Guid id, string name, string description, Uri posterUri, IReadOnlyCollection<FilmDto> films)
     {
         Id = id;
         Name = name;
@@ -15,5 +15,5 @@ public class PlaylistDto
     public string Name { get; }
     public string Description { get; }
     public Uri PosterUri { get; }
-    public IReadOnlyCollection<Guid> Films { get; }
+    public IReadOnlyCollection<FilmDto> Films { get; }
 }

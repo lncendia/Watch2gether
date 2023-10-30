@@ -14,7 +14,7 @@ public class FilmModel : IAggregateModel
     public string NameNormalized { get; set; } = null!;
     public Uri PosterUri { get; set; } = null!;
     public string Description { get; set; } = null!;
-    public string? ShortDescription { get; set; }
+    public string ShortDescription { get; set; }
     public int Year { get; set; }
     public double Rating { get; set; }
     public double UserRating { get; set; }
