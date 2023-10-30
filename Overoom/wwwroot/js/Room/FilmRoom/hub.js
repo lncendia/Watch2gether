@@ -46,4 +46,3 @@ hubConnection.on('Connect', (data) => {
 });
 
 hubConnection.start().then();
-room.ProcessUserEvent(new LoadUserEvent())

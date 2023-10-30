@@ -37,12 +37,21 @@ function addVideo() {
     
 }
 
+function withVideoInfo(html, room, user) {
+     html +=
+        '<div class="serial-block viewer-block">' +
+         '    Видео ' + (room.Ids.indexOf(user.VideoId) + 1) +
+        '</div>'
+    return html;
+}
+
 function showUser(room, user) {
     let html = '<div id="' + user.Id + '" class="viewer d-flex justify-content-center flex-wrap">'
     html = withName(html, room, user)
     html = withActions(html, room, user)
     html = withTime(html, room, user)
     html = withInfo(html, room, user)
+    html = withVideoInfo(html, room, user)
     html += '</div>'
     $("#viewers").append(html);
 }

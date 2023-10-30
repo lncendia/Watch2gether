@@ -117,7 +117,6 @@ public abstract class Room : AggregateRoot
     protected int AddViewer(Viewer viewer)
     {
         if (_viewersList.Any(x => x.Id == viewer.Id)) throw new ViewerAlreadyExistsException();
-        viewer.Online = true;
         _viewersList.Add(viewer);
         UpdateActivity();
         _idCounter++;

@@ -1,5 +1,4 @@
 ﻿using Overoom.Infrastructure.Storage.Models.Abstractions;
-using Overoom.Infrastructure.Storage.Models.Film;
 using Overoom.Infrastructure.Storage.Models.Genre;
 
 namespace Overoom.Infrastructure.Storage.Models.User;

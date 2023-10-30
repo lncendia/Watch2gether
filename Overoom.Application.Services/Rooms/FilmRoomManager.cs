@@ -166,7 +166,7 @@ public class FilmRoomManager : IFilmRoomManager
         if (!_memoryCache.TryGetValue(id, out FilmRoom? room))
         {
             room = await _unitOfWork.FilmRoomRepository.Value.GetAsync(id);
-            if (room == null) throw new FilmNotFoundException();
+            if (room == null) throw new RoomNotFoundException();
             _memoryCache.Set(id, room, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
         }
         else

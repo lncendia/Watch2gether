@@ -173,7 +173,7 @@ public class YoutubeRoomManager : IYoutubeRoomManager
         if (!_memoryCache.TryGetValue(id, out YoutubeRoom? room))
         {
             room = await _unitOfWork.YoutubeRoomRepository.Value.GetAsync(id);
-            if (room == null) throw new FilmNotFoundException();
+            if (room == null) throw new RoomNotFoundException();
             _memoryCache.Set(id, room, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
         }
         else
