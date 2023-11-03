@@ -60,8 +60,7 @@ public class YoutubeRoomRepository : IYoutubeRoomRepository
         IOrderBy<YoutubeRoom, IYoutubeRoomSortingVisitor>? orderBy = null, int? skip = null,
         int? take = null)
     {
-        var query = _context.YoutubeRooms.Include(x => x.VideoIds).Include(x => x.Messages).Include(x => x.Viewers)
-            .AsQueryable();
+        var query = _context.YoutubeRooms.AsQueryable();
         if (specification != null)
         {
             var visitor = new YoutubeRoomVisitor();

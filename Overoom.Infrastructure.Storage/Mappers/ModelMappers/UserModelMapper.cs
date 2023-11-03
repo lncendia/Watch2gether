@@ -14,14 +14,18 @@ internal class UserModelMapper : IModelMapperUnit<UserModel, User>
 
     public async Task<UserModel> MapAsync(User entity)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == entity.Id);
-        if (user != null)
+        var user = _context.Users.Local.FirstOrDefault(x => x.Id == entity.Id);
+        if (user == null)
         {
-            await _context.Entry(user).Collection(x => x.History).LoadAsync();
-            await _context.Entry(user).Collection(x => x.Watchlist).LoadAsync();
-            await _context.Entry(user).Collection(x => x.Genres).LoadAsync();
+            user = await _context.Users.FirstOrDefaultAsync(x => x.Id == entity.Id);
+            if (user != null)
+            {
+                await _context.Entry(user).Collection(x => x.History).LoadAsync();
+                await _context.Entry(user).Collection(x => x.Watchlist).LoadAsync();
+                await _context.Entry(user).Collection(x => x.Genres).LoadAsync();
+            }
+            else user = new UserModel { Id = entity.Id };
         }
-        else user = new UserModel { Id = entity.Id };
 
         user.Name = entity.Name;
         user.NameNormalized = entity.Name.ToUpper();

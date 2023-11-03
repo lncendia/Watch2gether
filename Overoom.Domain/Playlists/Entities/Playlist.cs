@@ -49,14 +49,14 @@ public class Playlist : AggregateRoot
     public void AddFilms(IReadOnlyCollection<Guid> filmsIds)
     {
         if (_films.Any(filmsIds.Contains)) throw new Exception("Film already in playlist"); //todo:exception
-        _films.AddRange(filmsIds);
-        AddDomainEvent(new FilmsCollectionUpdateEvent(_films));
+        _films.AddRange(filmsIds.Distinct());
+        AddDomainEvent(new FilmsCollectionUpdateEvent(this));
     }
 
     public void RemoveFilms(IEnumerable<Guid> filmsIds)
     {
         _films.RemoveAll(filmsIds.Contains);
-        AddDomainEvent(new FilmsCollectionUpdateEvent(_films));
+        AddDomainEvent(new FilmsCollectionUpdateEvent(this));
     }
 
     public void UpdateGenres(IEnumerable<string> genres)

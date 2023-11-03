@@ -2,20 +2,21 @@
 
 public class PlaylistViewModel
 {
-    public PlaylistViewModel(Guid id, string name, IReadOnlyCollection<string> genres, string description, Uri posterUri, DateTime updated)
+    public PlaylistViewModel(Guid id, string name, IEnumerable<string> genres, string description, Uri posterUri,
+        DateTime updated)
     {
         Id = id;
         Name = name;
-        Genres = genres;
+        Genres = string.Join(", ", genres);
         Description = description;
         PosterUri = posterUri;
-        Updated = updated;
+        Updated = updated.ToString("dd.MM.yyyy");
     }
 
     public Guid Id { get; }
     public string Name { get; }
-    public IReadOnlyCollection<string> Genres { get; }
+    public string Genres { get; }
     public string Description { get; }
     public Uri PosterUri { get; }
-    public DateTime Updated { get; }
+    public string Updated { get; }
 }

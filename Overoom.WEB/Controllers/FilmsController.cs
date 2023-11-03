@@ -25,13 +25,12 @@ public class FilmsController : Controller
         return View(vm);
     }
 
-    public IActionResult FilmSearch(SearchParameters model)
+    public async Task<IActionResult> FilmSearch(SearchParameters model)
     {
-        var search = new FilmsSearchParameters
-        {
-            Genre = model.Genre, Country = model.Country, Person = model.Person, Query = model.Title, Type = model.Type,
-            PlaylistId = model.PlaylistId
-        };
+        var search = _filmsMapper.Map(model);
+
+        if (search.PlaylistId.HasValue)
+            ViewData["playlist"] = await _filmsManager.GetPlaylistNameAsync(search.PlaylistId.Value);
         return View(search);
     }
 

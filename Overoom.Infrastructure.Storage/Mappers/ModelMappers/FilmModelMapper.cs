@@ -22,31 +22,35 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
 
     public async Task<FilmModel> MapAsync(Film entity)
     {
-        var film = await _context.Films.FirstOrDefaultAsync(x => x.Id == entity.Id);
-        if (film != null)
+        var film = _context.Films.Local.FirstOrDefault(x => x.Id == entity.Id);
+        if (film == null)
         {
-            await _context.Entry(film).Collection(x => x.Countries).LoadAsync();
-            await _context.Entry(film).Collection(x => x.Directors).LoadAsync();
-            await _context.Entry(film).Collection(x => x.Actors).Query().Include(x => x.Person).LoadAsync();
-            await _context.Entry(film).Collection(x => x.Genres).LoadAsync();
-            await _context.Entry(film).Collection(x => x.ScreenWriters).LoadAsync();
-            await _context.Entry(film).Collection(x => x.CdnList).Query().Include(x => x.Voices).LoadAsync();
-        }
-        else
-        {
-            film = new FilmModel
+            film = await _context.Films.FirstOrDefaultAsync(x => x.Id == entity.Id);
+            if (film != null)
             {
-                Id = entity.Id,
-                Type = entity.Type,
-                Name = entity.Name,
-                NameNormalized = entity.Name.ToUpper(),
-                Year = entity.Year
-            };
-            await ProcessGenresAsync(entity, film);
-            await ProcessActorsAsync(entity, film);
-            await ProcessCountriesAsync(entity, film);
-            await ProcessDirectorsAsync(entity, film);
-            await ProcessScreenwritersAsync(entity, film);
+                await _context.Entry(film).Collection(x => x.Countries).LoadAsync();
+                await _context.Entry(film).Collection(x => x.Directors).LoadAsync();
+                await _context.Entry(film).Collection(x => x.Actors).Query().Include(x => x.Person).LoadAsync();
+                await _context.Entry(film).Collection(x => x.Genres).LoadAsync();
+                await _context.Entry(film).Collection(x => x.ScreenWriters).LoadAsync();
+                await _context.Entry(film).Collection(x => x.CdnList).Query().Include(x => x.Voices).LoadAsync();
+            }
+            else
+            {
+                film = new FilmModel
+                {
+                    Id = entity.Id,
+                    Type = entity.Type,
+                    Name = entity.Name,
+                    NameNormalized = entity.Name.ToUpper(),
+                    Year = entity.Year
+                };
+                await ProcessGenresAsync(entity, film);
+                await ProcessActorsAsync(entity, film);
+                await ProcessCountriesAsync(entity, film);
+                await ProcessDirectorsAsync(entity, film);
+                await ProcessScreenwritersAsync(entity, film);
+            }
         }
 
         film.PosterUri = entity.PosterUri;

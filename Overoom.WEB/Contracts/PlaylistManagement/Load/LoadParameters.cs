@@ -24,5 +24,5 @@ public class LoadParameters
 
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [Display(Name = "Фильмы")]
-    public List<FilmParameters> Films { get; set; } = new() {new FilmParameters()};
+    public List<FilmParameters> Films { get; set; } = new();
 }

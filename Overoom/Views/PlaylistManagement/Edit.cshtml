@@ -2,33 +2,42 @@
 
 @{
     ViewData["Title"] = Model.Name ?? "Редактирование";
-    var filmsCount = Model.Films.Count;
+    var filmCount = Model.Films.Count;
 }
 
-<div class="row gy-5">
-    <div class="col-lg-8">
-        <div class="d-flex justify-content-between align-content-center mb-5">
+<div class="row">
+    <div class="col-12 mb-5">
+        <div class="col-lg-8 d-flex justify-content-between align-content-center">
             <h3>Редактирование подборки «@Model.Name»</h3>
             <form asp-action="Delete" method="post">
                 <input type="hidden" name="playlistId" value="@Model.Id">
                 <input type="submit" class="btn shadow-none btn-dark" value="Удалить">
             </form>
         </div>
+    </div>
+    <div class="col-lg-4 order-lg-2">
+        <div class="block sticky-lg-top">
+            <form asp-controller="Films" asp-action="FilmsList" method="get" id="playlist-films-search-form">
+                <input type="text" name="Title" id="playlist-films-search" class="form-control" placeholder="Название">
+            </form>
+            <div class="playlist-films-search-block"></div>
+        </div>
+    </div>
+    <div class="col-lg-8 order-lg-1">
         <form asp-action="Edit" method="post" id="edit" class="form-horizontal" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly"></div>
             <div class="form-group">
-                <div class="row g-2 block">
+                <div class="row block">
                     <h4>Информация</h4>
-                    <div class="col-12">
-                        <input asp-for="Id" type="hidden"/>
-                        <label asp-for="Description"></label>
-                        <textarea asp-for="Description" class="form-control"></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
                     <div class="col-12">
                         <label asp-for="Name"></label>
                         <input asp-for="Name" class="form-control"/>
                         <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="Description"></label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div class="col-lg-6 col-12">
                         <label asp-for="NewPosterUri"></label>
@@ -41,32 +50,33 @@
                         <span asp-validation-for="NewPoster" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="row g-2 block">
-                    <h4>Фильмы</h4>
-                    <div class="col-12 block-2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <label asp-for="Films"></label>
-                            <div>
-                                <a href="#" counter="@(filmsCount - 1)" class="btn manage-button btn-outline-primary copy-button" add-target="film">+</a>
-                                <a href="#" class="btn manage-button btn-outline-danger delete-button" delete-target="film">-</a>
-                            </div>
-                        </div>
-                        <div class="row g-2" id="film">
-                            @for (var i = 0; i < filmsCount; i++)
+                <div class="block">
+                    <h4>Контент</h4>
+                    <div class="block-2">
+                        <label class="my-2" asp-for="Films"></label>
+                        <div class="row g-2" id="films" counter="@(filmCount - 1)">
+                            @for (var i = 0; i < filmCount; i++)
                             {
                                 <div class="col-12">
+                                    <div class="playlist-film-element">
+                                        <img src="/@Model.Films[i].Uri" alt="">
+                                        <div class="playlist-film-text">
+                                            <div>@Model.Films[i].Name</div>
+                                            <div class="playlist-film-description">@Model.Films[i].Description</div>
+                                        </div>
+                                    </div>
                                     <input type="hidden" asp-for="Films[i].Id"/>
                                     <input type="hidden" asp-for="Films[i].Name"/>
                                     <input type="hidden" asp-for="Films[i].Description"/>
                                     <input type="hidden" asp-for="Films[i].Uri"/>
-                                    @Model.Films[i].Name
                                 </div>
                             }
                         </div>
                     </div>
                 </div>
+
                 <div class="col-12">
-                    <input class="btn shadow-none btn-dark" type="submit" value="Изменить"/>
+                    <input class="btn shadow-none btn-dark" type="submit" value="Создать подборку"/>
                 </div>
             </div>
         </form>
@@ -76,7 +86,7 @@
 
 @section scripts
 {
-    <script src="~/js/filmEdit.js"></script>
+    <script src="~/js/playlistsEdit.js"></script>
 }
 
 @section styles

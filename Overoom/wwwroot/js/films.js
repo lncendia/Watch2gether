@@ -8,8 +8,3 @@
 
 let scroller = new Scroller( '.films', '#filter', ParseData)
 scroller.Start();
-
-$('#clearFilter').click(function () {
-    scroller.ResetData()
-    return false;
-});

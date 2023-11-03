@@ -5,5 +5,5 @@ function ParseData(elements, model) {
     })
 }
 
-let scroller = new Scroller('.films', '#filter', ParseData)
+let scroller = new Scroller('.playlists', '#filter', ParseData)
 scroller.Start();

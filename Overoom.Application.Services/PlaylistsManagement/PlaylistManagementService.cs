@@ -36,6 +36,10 @@ public class PlaylistManagementService : IPlaylistManagementService
         else if (playlist.PosterStream != null) poster = await _playlistPosterService.SaveAsync(playlist.PosterStream);
         else throw new PosterMissingException();
         var newPlaylist = new Playlist(poster, playlist.Name, playlist.Description);
+        var spec = new FilmByIdsSpecification(playlist.Films.Distinct());
+        var count = await _unitOfWork.FilmRepository.Value.CountAsync(spec);
+        if (count != playlist.Films.Count) throw new FilmNotFoundException();
+        newPlaylist.AddFilms(playlist.Films);
         await _unitOfWork.PlaylistRepository.Value.AddAsync(newPlaylist);
         await _unitOfWork.SaveChangesAsync();
     }

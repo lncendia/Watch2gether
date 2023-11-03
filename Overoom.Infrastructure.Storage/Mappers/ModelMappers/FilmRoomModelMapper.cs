@@ -19,21 +19,25 @@ internal class FilmRoomModelMapper : IModelMapperUnit<FilmRoomModel, FilmRoom>
 
     public async Task<FilmRoomModel> MapAsync(FilmRoom entity)
     {
-        var filmRoom = await _context.FilmRooms.FirstOrDefaultAsync(x => x.Id == entity.Id);
-        if (filmRoom != null)
+        var filmRoom = _context.FilmRooms.Local.FirstOrDefault(x => x.Id == entity.Id);
+        if (filmRoom == null)
         {
-            await _context.Entry(filmRoom).Collection(x => x.Messages).LoadAsync();
-            await _context.Entry(filmRoom).Collection(x => x.Viewers).LoadAsync();
-        }
-        else
-        {
-            filmRoom = new FilmRoomModel
+            filmRoom = await _context.FilmRooms.FirstOrDefaultAsync(x => x.Id == entity.Id);
+            if (filmRoom != null)
             {
-                Id = entity.Id,
-                FilmId = entity.FilmId,
-                CdnType = entity.CdnType,
-                OwnerId = entity.Owner.Id
-            };
+                await _context.Entry(filmRoom).Collection(x => x.Messages).LoadAsync();
+                await _context.Entry(filmRoom).Collection(x => x.Viewers).LoadAsync();
+            }
+            else
+            {
+                filmRoom = new FilmRoomModel
+                {
+                    Id = entity.Id,
+                    FilmId = entity.FilmId,
+                    CdnType = entity.CdnType,
+                    OwnerId = entity.Owner.Id
+                };
+            }
         }
 
         filmRoom.IsOpen = entity.IsOpen;

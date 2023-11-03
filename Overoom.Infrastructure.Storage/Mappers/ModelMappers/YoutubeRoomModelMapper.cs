@@ -20,20 +20,24 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
 
     public async Task<YoutubeRoomModel> MapAsync(YoutubeRoom entity)
     {
-        var youtubeRoom = await _context.YoutubeRooms.FirstOrDefaultAsync(x => x.Id == entity.Id);
-        if (youtubeRoom != null)
+        var youtubeRoom = _context.YoutubeRooms.Local.FirstOrDefault(x => x.Id == entity.Id);
+        if (youtubeRoom == null)
         {
-            await _context.Entry(youtubeRoom).Collection(x => x.Messages).LoadAsync();
-            await _context.Entry(youtubeRoom).Collection(x => x.Viewers).LoadAsync();
-            await _context.Entry(youtubeRoom).Collection(x => x.VideoIds).LoadAsync();
-        }
-        else
-        {
-            youtubeRoom = new YoutubeRoomModel
+            youtubeRoom = await _context.YoutubeRooms.FirstOrDefaultAsync(x => x.Id == entity.Id);
+            if (youtubeRoom != null)
             {
-                Id = entity.Id,
-                OwnerId = entity.Owner.Id
-            };
+                await _context.Entry(youtubeRoom).Collection(x => x.Messages).LoadAsync();
+                await _context.Entry(youtubeRoom).Collection(x => x.Viewers).LoadAsync();
+                await _context.Entry(youtubeRoom).Collection(x => x.VideoIds).LoadAsync();
+            }
+            else
+            {
+                youtubeRoom = new YoutubeRoomModel
+                {
+                    Id = entity.Id,
+                    OwnerId = entity.Owner.Id
+                };
+            }
         }
 
         youtubeRoom.IsOpen = entity.IsOpen;

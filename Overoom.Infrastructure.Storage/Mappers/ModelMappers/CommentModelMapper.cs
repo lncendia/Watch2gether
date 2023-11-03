@@ -14,8 +14,12 @@ internal class CommentModelMapper : IModelMapperUnit<CommentModel, Comment>
 
     public async Task<CommentModel> MapAsync(Comment entity)
     {
-        var comment = await _context.Comments.FirstOrDefaultAsync(x => x.Id == entity.Id) ??
+        var comment = _context.Comments.Local.FirstOrDefault(x => x.Id == entity.Id);
+        if (comment == null)
+        {
+            comment = await _context.Comments.FirstOrDefaultAsync(x => x.Id == entity.Id) ??
                       new CommentModel { Id = entity.Id };
+        }
         comment.FilmId = entity.FilmId;
         comment.Text = entity.Text;
         comment.CreatedAt = entity.CreatedAt;
