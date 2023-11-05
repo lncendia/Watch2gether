@@ -57,7 +57,5 @@ public class FilmRoomHub : HubBase
             default:
                 return base.HandleException(ex, data);
         }
-
-        return Clients.Caller.SendAsync("Error", data.Id, error);
     }
 }

@@ -9,15 +9,6 @@ function onLoadUser(room) {
     }
 }
 
-function onSyncUser(room) {
-    let user = room.Users.find(x => x.Id === room.CurrentId)
-    if (user == null) return
-    let owner = room.Users.find(x => x.Id === room.OwnerId)
-    if (owner == null) return
-    Sync(owner.Second, owner.Pause)
-    showNotify("#606baf", 'Вы синхронизированы');
-}
-
 function onSeriesChangedUser(room, event) {
     let user = room.Users.find(x => x.Id === room.CurrentId)
     if (user === null) return

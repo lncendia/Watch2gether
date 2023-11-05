@@ -1,15 +1,16 @@
 function onConnectReceive(room, event) {
     if (room.Users.some(x => x.Id === event.Id)) {
         if(room.CurrentId === event.Id) showNotify("#813232", "Просмотр с двух вкладок может приветси к ошибкам");
-        return;
     }
-    let user = new YoutubeUser(event.Id, event.Username, event.Avatar, event.Time, true, false, event.Beep, event.Scream, event.Change, event.VideoId)
-    room.Users.push(user)
-    updateOnline(room)
-    showUser(room, user)
-    initActions(room, user)
-    initYoutubeActions(room, user)
-    showNotify("#8eb969", event.Username + " подключился к комнате");
+    else {
+        let user = new YoutubeUser(event.Id, event.Username, event.Avatar, event.Time, true, false, event.Beep, event.Scream, event.Change, event.VideoId)
+        room.Users.push(user)
+        updateOnline(room)
+        showUser(room, user)
+        initActions(room, user)
+        initYoutubeActions(room, user)
+        showNotify("#8eb969", event.Username + " подключился к комнате");
+    }
     if (room.CurrentId === event.Id) room.ProcessUserEvent(new LoadUserEvent())
 }
 

@@ -284,9 +284,6 @@ public abstract class Room : AggregateRoot
         // Проверяем, что зритель с таким идентификатором уже не существует в списке зрителей. 
         if (_viewersList.Any(x => x.Id == viewer.Id)) throw new ViewerAlreadyExistsException();
         
-        // Устанавливаем флаг онлайн для зрителя. 
-        viewer.Online = true;
-        
         // Добавляем зрителя в список зрителей комнаты. 
         _viewersList.Add(viewer);
         

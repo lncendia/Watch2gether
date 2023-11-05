@@ -5,7 +5,7 @@ function onSyncUser(room) {
     if (owner == null) return
     user.Pause = owner.Pause;
     user.Second = owner.Second;
-    Sync(user.Second, user.Pause)
+    Sync(owner.Second, owner.Pause)
     updateTime(user)
     showNotify("#606baf", 'Вы синхронизированы');
 }
