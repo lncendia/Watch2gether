@@ -52,7 +52,7 @@
                 <span class="film-key">Тип:</span>
                 @{
                         var type = Model.Film.Type switch{
-                            FilmType.Serial => "Сериал",
+                            FilmType.Serial => "Сериал,",
                             FilmType.Film => "Фильм",
                             _ => throw new ArgumentOutOfRangeException()};
                     var data = new Dictionary<string, string> { { "type", Model.Film.Type.ToString() } };

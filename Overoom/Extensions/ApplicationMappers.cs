@@ -14,7 +14,6 @@ using Overoom.Application.Services.FilmsCatalog;
 using Overoom.Application.Services.FilmsInformation;
 using Overoom.Application.Services.FilmsManagement;
 using Overoom.Application.Services.PlaylistsCatalog;
-using Overoom.Application.Services.Movie;
 using Overoom.Application.Services.PlaylistsManagement;
 using Overoom.Application.Services.Profile;
 using Overoom.Application.Services.Rooms;

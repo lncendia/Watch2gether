@@ -1,4 +1,3 @@
-using Overoom.Application.Services.PlaylistsManagement;
 using Overoom.WEB.Mappers;
 using Overoom.WEB.Mappers.Abstractions;
 

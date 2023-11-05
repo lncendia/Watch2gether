@@ -40,7 +40,7 @@ function addVideo() {
 function withVideoInfo(html, room, user) {
      html +=
         '<div class="serial-block viewer-block">' +
-         '    Видео ' + (room.Ids.indexOf(user.VideoId) + 1) +
+         'Видео ' + (room.Ids.indexOf(user.VideoId) + 1) +
         '</div>'
     return html;
 }

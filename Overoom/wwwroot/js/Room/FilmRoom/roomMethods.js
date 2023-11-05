@@ -12,7 +12,7 @@ function showUser(room, user) {
 function withSerial(html, room, user) {
     if (room.Type === 'Serial') html +=
         '<div class="serial-block viewer-block">' +
-        '    z ' + user.Season + ', серия ' + user.Series +
+        'Сезон' + user.Season + ', серия ' + user.Series +
         '</div>'
     return html;
 }
