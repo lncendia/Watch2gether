@@ -3,7 +3,6 @@ using Overoom.WEB.Contracts.FilmManagement.Change;
 using Overoom.WEB.Contracts.FilmManagement.Load;
 using Overoom.WEB.Mappers.Abstractions;
 using Overoom.WEB.Models.FilmManagement;
-using CdnParameters = Overoom.WEB.Contracts.FilmManagement.Load.CdnParameters;
 
 namespace Overoom.WEB.Mappers;
 
@@ -11,10 +10,10 @@ public class FilmManagementMapper : IFilmManagementMapper
 {
     public ChangeParameters Map(FilmDto dto)
     {
-        var cdns = dto.CdnList.Select(x => new CdnParameters
+        var cdns = dto.CdnList.Select(x => new Contracts.FilmManagement.Change.CdnParameters
         {
             Quality = x.Quality, Type = x.Type, Uri = x.Uri.ToString(),
-            Voices = x.Voices.Select(v => new VoiceParameters { Name = v }).ToList()
+            Voices = x.Voices.Select(v => new Contracts.FilmManagement.Change.VoiceParameters { Name = v }).ToList()
         }).ToList();
         return new ChangeParameters
         {

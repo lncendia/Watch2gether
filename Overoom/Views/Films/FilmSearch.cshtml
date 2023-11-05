@@ -20,7 +20,7 @@
         else if (Model.Type != null) text = $"Тип: {(Model.Type == FilmType.Film ? "Фильм" : "Сериал")}";
         else if (Model.Genre != null) text = $"Жанр: {Model.Genre}";
         else if (Model.Country != null) text = $"Страна: {Model.Country}";
-        else if (Model.PlaylistId != null) text = "Подборка " + ViewData["playlist"];
+        else if (Model.PlaylistId != null) text = $"Подборка «{ViewData["playlist"]}»";
         else text = "Поиск без параметров";
         <h3>@text</h3>
     }

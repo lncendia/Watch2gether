@@ -15,11 +15,11 @@
     background-color: #1e2126;
 }
 
-.short-input{
+.short-input {
     width: 90%;
 }
 
-.manage-button{
+.manage-button {
     width: 38px;
 }
 
@@ -32,6 +32,10 @@
     border-radius: 0 0 7px 7px;
     text-decoration: none;
     color: white;
+}
+
+.playlist-film-search-element.invalid {
+    border-bottom: 1px solid #c20000;
 }
 
 .playlist-film-search-element:hover {
@@ -85,4 +89,15 @@
 .playlist-film-description {
     color: #858585;
     font-size: 11px;
+}
+
+.playlist-film-delete {
+    width: 30px;
+    align-self: center;
+    margin-left: auto;
+    color: white;
+}
+
+.playlist-film-delete:hover {
+    color: #c0c0c0;
 }

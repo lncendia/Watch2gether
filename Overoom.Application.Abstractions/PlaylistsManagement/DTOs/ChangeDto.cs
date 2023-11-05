@@ -3,7 +3,7 @@
 public class ChangeDto
 {
     public ChangeDto(Guid id, string? name, string? description, Uri? posterUri, Stream? posterStream,
-        IReadOnlyCollection<Guid>? films)
+        IReadOnlyCollection<Guid> films)
     {
         Description = description;
         PosterUri = posterUri;
@@ -18,5 +18,5 @@ public class ChangeDto
     public string? Description { get; }
     public Uri? PosterUri { get; }
     public Stream? PosterStream { get; }
-    public IReadOnlyCollection<Guid>? Films { get; }
+    public IReadOnlyCollection<Guid> Films { get; }
 }

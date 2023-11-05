@@ -46,16 +46,17 @@ public class Playlist : AggregateRoot
     public IReadOnlyCollection<Guid> Films => _films.AsReadOnly();
     public IReadOnlyCollection<string> Genres => _genres.AsReadOnly();
 
-    public void AddFilms(IReadOnlyCollection<Guid> filmsIds)
+    public void UpdateFilms(IEnumerable<Guid> filmsIds)
     {
-        if (_films.Any(filmsIds.Contains)) throw new Exception("Film already in playlist"); //todo:exception
-        _films.AddRange(filmsIds.Distinct());
-        AddDomainEvent(new FilmsCollectionUpdateEvent(this));
-    }
 
-    public void RemoveFilms(IEnumerable<Guid> filmsIds)
-    {
-        _films.RemoveAll(filmsIds.Contains);
+        var updateCollection = filmsIds.Distinct().ToList();
+
+        var newFilms = updateCollection.Where(x => !_films.Contains(x));
+        
+        var removeFilms = _films.Where(x => !updateCollection.Contains(x)).ToList();
+
+        _films.RemoveAll(removeFilms.Contains);
+        _films.AddRange(newFilms);
         AddDomainEvent(new FilmsCollectionUpdateEvent(this));
     }
 

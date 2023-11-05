@@ -39,7 +39,7 @@ public class PlaylistManagementService : IPlaylistManagementService
         var spec = new FilmByIdsSpecification(playlist.Films.Distinct());
         var count = await _unitOfWork.FilmRepository.Value.CountAsync(spec);
         if (count != playlist.Films.Count) throw new FilmNotFoundException();
-        newPlaylist.AddFilms(playlist.Films);
+        newPlaylist.UpdateFilms(playlist.Films);
         await _unitOfWork.PlaylistRepository.Value.AddAsync(newPlaylist);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -60,6 +60,8 @@ public class PlaylistManagementService : IPlaylistManagementService
             await _playlistPosterService.DeleteAsync(playlist.PosterUri);
             playlist.PosterUri = poster;
         }
+        
+        playlist.UpdateFilms(change.Films);
 
         await _unitOfWork.PlaylistRepository.Value.UpdateAsync(playlist);
         await _unitOfWork.SaveChangesAsync();
