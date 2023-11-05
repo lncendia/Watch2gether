@@ -27,31 +27,4 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
     </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Views\PlaylistManagement\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="Views\PlaylistManagement\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Remove="Views\PlaylistManagement\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Views\PlaylistManagement\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Views\PlaylistManagement\Edit.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\PlaylistManagement\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\PlaylistManagement\Load.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Views\Playlists\Playlists.cshtml" />
-    </ItemGroup>
-
 </Project>

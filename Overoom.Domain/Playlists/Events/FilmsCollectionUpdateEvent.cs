@@ -1,10 +1,11 @@
 using Overoom.Domain.Abstractions;
+using Overoom.Domain.Playlists.Entities;
 
 namespace Overoom.Domain.Playlists.Events;
 
 public class FilmsCollectionUpdateEvent : IDomainEvent
 {
-    public FilmsCollectionUpdateEvent(IReadOnlyCollection<Guid> films) => Films = films;
+    public FilmsCollectionUpdateEvent(Playlist playlist) => Playlist = playlist;
 
-    public IReadOnlyCollection<Guid> Films { get; }
+    public Playlist Playlist { get; }
 }

@@ -6,6 +6,7 @@ using Overoom.Application.Abstractions.FilmsLoading;
 using Overoom.Application.Abstractions.FilmsManagement.Interfaces;
 using Overoom.Application.Abstractions.Movie.Interfaces;
 using Overoom.Application.Abstractions.Playlists.Interfaces;
+using Overoom.Application.Abstractions.PlaylistsManagement.Interfaces;
 using Overoom.Application.Abstractions.Profile.Interfaces;
 using Overoom.Application.Abstractions.Rooms.Interfaces;
 using Overoom.Application.Abstractions.StartPage.Interfaces;
@@ -30,6 +31,7 @@ public static class ApplicationServices
         services.AddScoped<ICommentManager, CommentManager>();
         services.AddScoped<IFilmManager, FilmManager>();
         services.AddScoped<IFilmManagementService, FilmManagementService>();
+        services.AddScoped<IPlaylistManagementService, PlaylistManagementService>();
         services.AddScoped<IFilmsManager, FilmsManager>();
         services.AddScoped<IPlaylistsManager, PlaylistsManager>();
         services.AddScoped<IFilmRoomManager, FilmRoomManager>();

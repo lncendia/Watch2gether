@@ -50,8 +50,10 @@ public class PlaylistRepository : IPlaylistRepository
 
     public async Task<Playlist?> GetAsync(Guid id)
     {
-        var playlist = await _context.Playlists.Include(x=>x.Films).FirstOrDefaultAsync(playlistModel => playlistModel.Id == id);
-        return playlist == null ? null : _aggregateMapper.Map(playlist);
+        var playlist = await _context.Playlists.FirstOrDefaultAsync(playlistModel => playlistModel.Id == id);
+        if (playlist == null) return null;
+        await LoadCollectionsAsync(playlist);
+        return _aggregateMapper.Map(playlist);
     }
 
     public async Task<IList<Playlist>> FindAsync(ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification,
@@ -81,8 +83,10 @@ public class PlaylistRepository : IPlaylistRepository
 
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
-
-        return (await query.ToListAsync()).Select(_aggregateMapper.Map).ToList();
+        
+        var models = await query.ToListAsync();
+        foreach (var model in models) await LoadCollectionsAsync(model);
+        return models.Select(_aggregateMapper.Map).ToList();
     }
 
     public Task<int> CountAsync(ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification)
@@ -94,5 +98,11 @@ public class PlaylistRepository : IPlaylistRepository
         if (visitor.Expr != null) query = query.Where(visitor.Expr);
 
         return query.CountAsync();
+    }
+    
+    private async Task LoadCollectionsAsync(PlaylistModel model)
+    {
+        await _context.Entry(model).Collection(x => x.Films).LoadAsync();
+        await _context.Entry(model).Collection(x => x.Genres).LoadAsync();
     }
 }

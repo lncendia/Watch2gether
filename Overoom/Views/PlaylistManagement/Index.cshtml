@@ -4,28 +4,49 @@
     ViewData["Title"] = "Управление контентом";
 }
 
-<div class="block-background mt-5">
-    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
-        <h4>Подборки</h4>
-        <div>
-            <form asp-action="PlaylistsList" id="filter">
-                <label asp-for="Query"></label>
-                <input asp-for="Query" class="form-control d-inline-block" style="width: auto">
-            </form>
+<div class="row">
+    <div class="col-12 mb-5">
+        <h3>Подборки</h3>
+    </div>
+    <div class="col-md-3 order-md-3">
+        <div class="sticky-md-top block-background">
+            <div>
+                <form asp-action="PlaylistsList" id="filter">
+                    <label asp-for="Query"></label>
+                    <input asp-for="Query" class="form-control">
+                </form>
+            </div>
+            <a class="btn shadow-none btn-outline-primary mt-3" asp-action="Load">Создать подборку</a>
         </div>
     </div>
-    <div class="row gx-3 gy-3 films"></div>
-    <div class="spinner">
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
+    <div class="col-md-9 order-md-2 block-background">
+        <div class="row gx-3 gy-3 playlists"></div>
+        <div class="spinner">
+            <div class="spinner-grow text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-secondary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-success" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-danger" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-info" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-dark" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </div>
 </div>
 

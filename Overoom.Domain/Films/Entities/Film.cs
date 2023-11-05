@@ -80,9 +80,9 @@ public class Film : AggregateRoot
 
     private string? _shortDescription;
 
-    public string? ShortDescription
+    public string ShortDescription
     {
-        get => _shortDescription;
+        get => string.IsNullOrEmpty(_shortDescription) ? _description[..100] + "..." : _shortDescription;
         set
         {
             if (string.IsNullOrEmpty(value) || value.Length > 500) throw new ShortDescriptionLengthException();

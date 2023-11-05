@@ -15,8 +15,13 @@ internal class RatingModelMapper : IModelMapperUnit<RatingModel, Rating>
 
     public async Task<RatingModel> MapAsync(Rating entity)
     {
-        var rating = await _context.Ratings.FirstOrDefaultAsync(x => x.Id == entity.Id) ??
+        var rating = _context.Ratings.Local.FirstOrDefault(x => x.Id == entity.Id);
+        if (rating == null)
+        {
+            rating = await _context.Ratings.FirstOrDefaultAsync(x => x.Id == entity.Id) ??
                      new RatingModel { Id = entity.Id };
+        }
+
         rating.FilmId = entity.FilmId;
         rating.Score = entity.Score;
         rating.UserId = entity.UserId;

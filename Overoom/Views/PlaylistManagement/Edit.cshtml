@@ -1,49 +1,45 @@
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@using Overoom.Domain.Films.Enums
 @model Overoom.WEB.Contracts.PlaylistManagement.Change.ChangeParameters
 
 @{
     ViewData["Title"] = Model.Name ?? "Редактирование";
+    var filmCount = Model.Films.Count;
 }
 
-<div class="row gy-5">
-    <div class="col-lg-8">
-        <div class="d-flex justify-content-between align-content-center mb-5">
-            <h3>Редактирование фильма «@Model.Name»</h3>
+<div class="row">
+    <div class="col-12 mb-5">
+        <div class="col-lg-8 d-flex justify-content-between align-content-center">
+            <h3>Редактирование подборки «@Model.Name»</h3>
             <form asp-action="Delete" method="post">
-                <input type="hidden" name="filmId" value="@Model.Id">
+                <input type="hidden" name="playlistId" value="@Model.Id">
                 <input type="submit" class="btn shadow-none btn-dark" value="Удалить">
             </form>
         </div>
+    </div>
+    <div class="col-lg-4 order-lg-2">
+        <div class="block sticky-lg-top">
+            <form asp-controller="Films" asp-action="FilmsList" method="get" id="playlist-films-search-form">
+                <input type="text" name="Title" id="playlist-films-search" class="form-control" placeholder="Название">
+            </form>
+            <div class="playlist-films-search-block"></div>
+        </div>
+    </div>
+    <div class="col-lg-8 order-lg-1">
         <form asp-action="Edit" method="post" id="edit" class="form-horizontal" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly"></div>
             <div class="form-group">
-                <div class="row g-2 block">
+                <div class="row block">
                     <h4>Информация</h4>
                     <div class="col-12">
                         <input asp-for="Id" type="hidden"/>
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control"/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
                         <label asp-for="Description"></label>
                         <textarea asp-for="Description" class="form-control"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
-                    <div class="col-12">
-                        <label asp-for="ShortDescription"></label>
-                        <textarea asp-for="ShortDescription" class="form-control"></textarea>
-                        <span asp-validation-for="ShortDescription" class="text-danger"></span>
-                    </div>
-                    @if (Model.CountSeasons.HasValue)
-                    {
-                        <div class="col-6">
-                            <label asp-for="CountSeasons"></label>
-                            <input asp-for="CountSeasons" class="form-control"/>
-                            <span asp-validation-for="CountSeasons" class="text-danger"></span>
-                        </div>
-                        <div class="col-6">
-                            <label asp-for="CountEpisodes"></label>
-                            <input asp-for="CountEpisodes" class="form-control"/>
-                            <span asp-validation-for="CountEpisodes" class="text-danger"></span>
-                        </div>
-                    }
                     <div class="col-lg-6 col-12">
                         <label asp-for="NewPosterUri"></label>
                         <input asp-for="NewPosterUri" class="form-control"/>
@@ -54,119 +50,49 @@
                         <input asp-for="NewPoster" class="form-control" accept="image/jpeg,image/png"/>
                         <span asp-validation-for="NewPoster" class="text-danger"></span>
                     </div>
-                    <div class="col-6">
-                        <label asp-for="Rating"></label>
-                        <input asp-for="Rating" class="form-control"/>
-                        <span asp-validation-for="Rating" class="text-danger"></span>
-                    </div>
                 </div>
-                <div class="row g-2 block">
-                    <h4>Ссылки</h4>
-                    <div class="col-12" id="cdn">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <label asp-for="Cdns"></label>
-                            <div>
-                                <a href="#" counter="@(cdnCount - 1)" class="btn manage-button btn-outline-primary copy-cdn" add-target="cdn">+</a>
-                                <a href="#" class="btn manage-button btn-outline-danger delete-button" delete-target="cdn">-</a>
-                            </div>
-                        </div>
-                        @for (var i = 0; i < cdnCount; i++)
-                        {
-                            <div class="row g-2 block-2">
-                                <div class="col-lg-6 col-12">
-                                    <label asp-for="Cdns[i].Type"></label>
-                                    <select asp-for="Cdns[i].Type" class="form-control">
-                                        <option selected="selected" value="">Не выбрано</option>
-                                        <option value="@CdnType.Bazon">Bazon</option>
-                                        <option value="@CdnType.VideoCdn">VideoCDN</option>
-                                    </select>
-                                    <span asp-validation-for="Cdns[i].Type" class="text-danger"></span>
-                                </div>
-                                <div class="col-lg-6 col-12">
-                                    <label asp-for="Cdns[i].Quality"></label>
-                                    <input asp-for="Cdns[i].Quality" class="form-control"/>
-                                    <span asp-validation-for="Cdns[i].Quality" class="text-danger"></span>
-                                </div>
+                <div class="block">
+                    <h4>Контент</h4>
+                    <div class="block-2">
+                        <label class="my-2" asp-for="Films"></label>
+                        <div class="row g-2" id="films" counter="@(filmCount - 1)">
+                            @for (var i = 0; i < filmCount; i++)
+                            {
                                 <div class="col-12">
-                                    <label asp-for="Cdns[i].Uri"></label>
-                                    <input asp-for="Cdns[i].Uri" class="form-control"/>
-                                    <span asp-validation-for="Cdns[i].Uri" class="text-danger"></span>
-                                </div>
-                                <div class="col-12">
-                                    @{
-                                        int count = Model.Cdns[i].Voices.Count;
-                                    }
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <label asp-for="Cdns[i].Voices"></label>
-                                        <div>
-                                            <a href="#" counter="@(count - 1)" cdn-counter="@i" class="btn manage-button btn-outline-primary copy-voice-cdn" add-target="voiceCdn[@i]">+</a>
-                                            <a href="#" class="btn manage-button btn-outline-danger delete-button" delete-target="voiceCdn[@i]">-</a>
+                                    <div class="playlist-film-element">
+                                        <img src="/@Model.Films[i].Uri" alt="">
+                                        <div class="playlist-film-text">
+                                            <div>@Model.Films[i].Name</div>
+                                            <div class="playlist-film-description">@Model.Films[i].Description</div>
                                         </div>
-
+                                        <a class="playlist-film-delete" href="#">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
+                                            </svg>
+                                        </a>
                                     </div>
-                                    <div class="row g-2" id="voiceCdn[@i]">
-                                        @for (int j = 0; j < count; j++)
-                                        {
-                                            <div class="col-12">
-                                                <label asp-for="Cdns[i].Voices[j].Name"></label>
-                                                <input asp-for="Cdns[i].Voices[j].Name" class="form-control"/>
-                                                <span asp-validation-for="Cdns[i].Voices[j].Name" class="text-danger"></span>
-                                            </div>
-                                        }
-                                    </div>
+                                    <input type="hidden" asp-for="Films[i].Id"/>
+                                    <input type="hidden" asp-for="Films[i].Name"/>
+                                    <input type="hidden" asp-for="Films[i].Description"/>
+                                    <input type="hidden" asp-for="Films[i].Uri"/>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
                     </div>
                 </div>
+
                 <div class="col-12">
-                    <input class="btn shadow-none btn-dark" type="submit" value="Изменить"/>
+                    <input class="btn shadow-none btn-dark" type="submit" value="Изменить подборку"/>
                 </div>
             </div>
         </form>
-    </div>
-    <div class="col-lg-4">
-        <a class="btn shadow-none btn-dark mb-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-            Поиск
-        </a>
-        <div class="collapse" id="collapseExample">
-            <div class="block">
-                <label>Название</label>
-                <div class="d-flex justify-content-between align-items-center">
-                    <input name="title" id="title" class="form-control" value="@Model.Name" style="width: 70% !important;"/>
-                    <a href="#" id="titleSearch">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                        </svg>
-                    </a>
-                </div>
-                <label>Kinopoisk</label>
-                <div class="d-flex justify-content-between align-items-center">
-                    <input name="id" id="kpId" class="form-control" style="width: 70% !important;"/>
-                    <a href="#" id="kpIdSearch">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                        </svg>
-                    </a>
-                </div>
-                <label>Imdb</label>
-                <div class="d-flex justify-content-between align-items-center">
-                    <input name="id" id="imdbId" class="form-control" style="width: 70% !important;"/>
-                    <a href="#" id="imdbIdSearch">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
 
 @section scripts
 {
-    <script src="~/js/filmEdit.js"></script>
+     <script src="~/js/playlistManagementFilmsSearch.js"></script>
 }
 
 @section styles

@@ -16,12 +16,12 @@
             </form>
         </div>
     </div>
-    <div class="col-lg-4 order-lg-3">
+    <div class="col-lg-4 order-lg-2">
         <div class="block sticky-lg-top">
             <label>Название</label>
             <div class="d-flex justify-content-between align-items-center">
                 <input name="title" id="title" class="form-control" value="@Model.Name" style="width: 70% !important;"/>
-                 <button class="btn btn-success" id="titleSearch">
+                <button class="btn btn-success" id="titleSearch">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                     </svg>
@@ -39,7 +39,7 @@
             <label>Imdb</label>
             <div class="d-flex justify-content-between align-items-center">
                 <input name="id" id="imdbId" class="form-control" style="width: 70% !important;"/>
-                 <button class="btn btn-success" id="imdbIdSearch">
+                <button class="btn btn-success" id="imdbIdSearch">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                     </svg>
@@ -47,11 +47,11 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-8 order-lg-2">
+    <div class="col-lg-8 order-lg-1">
         <form asp-action="Edit" method="post" id="edit" class="form-horizontal" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly"></div>
             <div class="form-group">
-                <div class="row g-2 block">
+                <div class="row block">
                     <h4>Информация</h4>
                     <div class="col-12">
                         <input asp-for="Id" type="hidden"/>
@@ -93,7 +93,7 @@
                         <span asp-validation-for="Rating" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="row g-2 block">
+                <div class="block">
                     <h4>Ссылки</h4>
                     <div class="col-12" id="cdn">
                         <div class="d-flex justify-content-between align-items-center">
@@ -105,47 +105,49 @@
                         </div>
                         @for (var i = 0; i < cdnCount; i++)
                         {
-                            <div class="row g-2 block-2">
-                                <div class="col-lg-6 col-12">
-                                    <label asp-for="Cdns[i].Type"></label>
-                                    <select asp-for="Cdns[i].Type" class="form-control">
-                                        <option selected="selected" value="">Не выбрано</option>
-                                        <option value="@CdnType.Bazon">Bazon</option>
-                                        <option value="@CdnType.VideoCdn">VideoCDN</option>
-                                    </select>
-                                    <span asp-validation-for="Cdns[i].Type" class="text-danger"></span>
-                                </div>
-                                <div class="col-lg-6 col-12">
-                                    <label asp-for="Cdns[i].Quality"></label>
-                                    <input asp-for="Cdns[i].Quality" class="form-control"/>
-                                    <span asp-validation-for="Cdns[i].Quality" class="text-danger"></span>
-                                </div>
-                                <div class="col-12">
-                                    <label asp-for="Cdns[i].Uri"></label>
-                                    <input asp-for="Cdns[i].Uri" class="form-control"/>
-                                    <span asp-validation-for="Cdns[i].Uri" class="text-danger"></span>
-                                </div>
-                                <div class="col-12">
-                                    @{
-                                        int count = Model.Cdns[i].Voices.Count;
-                                    }
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <label asp-for="Cdns[i].Voices"></label>
-                                        <div>
-                                            <a href="#" counter="@(count - 1)" cdn-counter="@i" class="btn manage-button btn-outline-primary copy-voice-cdn" add-target="voiceCdn[@i]">+</a>
-                                            <a href="#" class="btn manage-button btn-outline-danger delete-button" delete-target="voiceCdn[@i]">-</a>
-                                        </div>
-
+                            <div class="block-2">
+                                <div class="row g-2 pt-2">
+                                    <div class="col-lg-6 col-12">
+                                        <label asp-for="Cdns[i].Type"></label>
+                                        <select asp-for="Cdns[i].Type" class="form-control">
+                                            <option selected="selected" value="">Не выбрано</option>
+                                            <option value="@CdnType.Bazon">Bazon</option>
+                                            <option value="@CdnType.VideoCdn">VideoCDN</option>
+                                        </select>
+                                        <span asp-validation-for="Cdns[i].Type" class="text-danger"></span>
                                     </div>
-                                    <div class="row g-2" id="voiceCdn[@i]">
-                                        @for (int j = 0; j < count; j++)
-                                        {
-                                            <div class="col-12">
-                                                <label asp-for="Cdns[i].Voices[j].Name"></label>
-                                                <input asp-for="Cdns[i].Voices[j].Name" class="form-control"/>
-                                                <span asp-validation-for="Cdns[i].Voices[j].Name" class="text-danger"></span>
-                                            </div>
+                                    <div class="col-lg-6 col-12">
+                                        <label asp-for="Cdns[i].Quality"></label>
+                                        <input asp-for="Cdns[i].Quality" class="form-control"/>
+                                        <span asp-validation-for="Cdns[i].Quality" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-12">
+                                        <label asp-for="Cdns[i].Uri"></label>
+                                        <input asp-for="Cdns[i].Uri" class="form-control"/>
+                                        <span asp-validation-for="Cdns[i].Uri" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-12 mt-4">
+                                        @{
+                                            int count = Model.Cdns[i].Voices.Count;
                                         }
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label asp-for="Cdns[i].Voices"></label>
+                                            <div>
+                                                <a href="#" counter="@(count - 1)" cdn-counter="@i" class="btn manage-button btn-outline-primary copy-voice-cdn" add-target="voiceCdn[@i]">+</a>
+                                                <a href="#" class="btn manage-button btn-outline-danger delete-button" delete-target="voiceCdn[@i]">-</a>
+                                            </div>
+
+                                        </div>
+                                        <div class="row g-2" id="voiceCdn[@i]">
+                                            @for (int j = 0; j < count; j++)
+                                            {
+                                                <div class="col-12">
+                                                    <label asp-for="Cdns[i].Voices[j].Name"></label>
+                                                    <input asp-for="Cdns[i].Voices[j].Name" class="form-control"/>
+                                                    <span asp-validation-for="Cdns[i].Voices[j].Name" class="text-danger"></span>
+                                                </div>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>

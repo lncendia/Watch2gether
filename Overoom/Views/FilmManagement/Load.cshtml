@@ -50,7 +50,7 @@
 <form asp-action="Load" method="post" id="load" class="form-horizontal" enctype="multipart/form-data">
 <div asp-validation-summary="ModelOnly"></div>
 <div class="form-group">
-<div class="row g-2 block">
+<div class="row block">
     <h4>Информация</h4>
     <div class="col-12">
         <label asp-for="Name"></label>
@@ -145,9 +145,9 @@
         </div>
     </div>
 </div>
-<div class="row g-2 block">
+<div class="block">
     <h4>Ссылки</h4>
-    <div class="col-12" id="cdn">
+    <div id="cdn">
         <div class="d-flex justify-content-between align-items-center">
             <label asp-for="Cdns"></label>
             <div>
@@ -157,47 +157,48 @@
         </div>
         @for (var i = 0; i < cdnCount; i++)
         {
-            <div class="row g-2 block-2">
-                <div class="col-lg-6 col-12">
-                    <label asp-for="Cdns[i].Type"></label>
-                    <select asp-for="Cdns[i].Type" class="form-control">
-                        <option selected="selected" value="">Не выбрано</option>
-                        <option value="@CdnType.Bazon">Bazon</option>
-                        <option value="@CdnType.VideoCdn">VideoCDN</option>
-                    </select>
-                    <span asp-validation-for="Cdns[i].Type" class="text-danger"></span>
-                </div>
-                <div class="col-lg-6 col-12">
-                    <label asp-for="Cdns[i].Quality"></label>
-                    <input asp-for="Cdns[i].Quality" class="form-control"/>
-                    <span asp-validation-for="Cdns[i].Quality" class="text-danger"></span>
-                </div>
-                <div class="col-12">
-                    <label asp-for="Cdns[i].Uri"></label>
-                    <input asp-for="Cdns[i].Uri" class="form-control"/>
-                    <span asp-validation-for="Cdns[i].Uri" class="text-danger"></span>
-                </div>
-                <div class="col-12">
-                    @{
-                        var count = Model.Cdns[i].Voices.Count;
-                    }
-                    <div class="d-flex justify-content-between align-items-center">
-                        <label asp-for="Cdns[i].Voices"></label>
-                        <div>
-                            <a href="#" counter="@(count - 1)" cdn-counter="@i" class="btn manage-button btn-outline-primary copy-voice-cdn" add-target="voiceCdn[@i]">+</a>
-                            <a href="#" class="btn manage-button btn-outline-danger delete-button" delete-target="voiceCdn[@i]">-</a>
-                        </div>
-
+            <div class="block-2">
+                <div class="row g-2 pt-2">
+                    <div class="col-lg-6 col-12">
+                        <label asp-for="Cdns[i].Type"></label>
+                        <select asp-for="Cdns[i].Type" class="form-control">
+                            <option selected="selected" value="">Не выбрано</option>
+                            <option value="@CdnType.Bazon">Bazon</option>
+                            <option value="@CdnType.VideoCdn">VideoCDN</option>
+                        </select>
+                        <span asp-validation-for="Cdns[i].Type" class="text-danger"></span>
                     </div>
-                    <div class="row g-2" id="voiceCdn[@i]">
-                        @for (var j = 0; j < count; j++)
-                        {
-                            <div class="col-12">
-                                <label asp-for="Cdns[i].Voices[j].Name"></label>
-                                <input asp-for="Cdns[i].Voices[j].Name" class="form-control"/>
-                                <span asp-validation-for="Cdns[i].Voices[j].Name" class="text-danger"></span>
-                            </div>
+                    <div class="col-lg-6 col-12">
+                        <label asp-for="Cdns[i].Quality"></label>
+                        <input asp-for="Cdns[i].Quality" class="form-control"/>
+                        <span asp-validation-for="Cdns[i].Quality" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="Cdns[i].Uri"></label>
+                        <input asp-for="Cdns[i].Uri" class="form-control"/>
+                        <span asp-validation-for="Cdns[i].Uri" class="text-danger"></span>
+                    </div>
+                    <div class="col-12 mt-4">
+                        @{
+                            var count = Model.Cdns[i].Voices.Count;
                         }
+                        <div class="d-flex justify-content-between align-items-center">
+                            <label asp-for="Cdns[i].Voices"></label>
+                            <div>
+                                <a href="#" counter="@(count - 1)" cdn-counter="@i" class="btn manage-button btn-outline-primary copy-voice-cdn" add-target="voiceCdn[@i]">+</a>
+                                <a href="#" class="btn manage-button btn-outline-danger delete-button" delete-target="voiceCdn[@i]">-</a>
+                            </div>
+                        </div>
+                        <div class="row g-2" id="voiceCdn[@i]">
+                            @for (var j = 0; j < count; j++)
+                            {
+                                <div class="col-12">
+                                    <label asp-for="Cdns[i].Voices[j].Name"></label>
+                                    <input asp-for="Cdns[i].Voices[j].Name" class="form-control"/>
+                                    <span asp-validation-for="Cdns[i].Voices[j].Name" class="text-danger"></span>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -206,9 +207,9 @@
 </div>
 
 
-<div class="row g-2 block">
+<div class="block">
     <h4>Люди</h4>
-    <div class="col-12 block-2" id="actor">
+    <div class="block-2" id="actor">
         <div class="d-flex justify-content-between align-items-center">
             <label asp-for="Actors"></label>
             <div>
@@ -232,7 +233,7 @@
             </div>
         }
     </div>
-    <div class="col-12 block-2">
+    <div class="block-2">
         <div class="d-flex justify-content-between align-items-center">
             <label asp-for="Screenwriters"></label>
             <div>
@@ -251,7 +252,7 @@
             }
         </div>
     </div>
-    <div class="col-12 block-2">
+    <div class="block-2">
         <div class="d-flex justify-content-between align-items-center">
             <label asp-for="Directors"></label>
             <div>

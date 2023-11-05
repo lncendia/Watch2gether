@@ -3,6 +3,7 @@ using Overoom.Application.Abstractions.Common.Interfaces;
 using Overoom.Application.Abstractions.PlaylistsManagement.DTOs;
 using Overoom.Application.Abstractions.PlaylistsManagement.Interfaces;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
+using Overoom.Domain.Films.Specifications;
 using Overoom.Domain.Playlists.Ordering;
 using Overoom.Domain.Playlists.Ordering.Visitor;
 using Overoom.Domain.Playlists.Specifications;
@@ -35,6 +36,10 @@ public class PlaylistManagementService : IPlaylistManagementService
         else if (playlist.PosterStream != null) poster = await _playlistPosterService.SaveAsync(playlist.PosterStream);
         else throw new PosterMissingException();
         var newPlaylist = new Playlist(poster, playlist.Name, playlist.Description);
+        var spec = new FilmByIdsSpecification(playlist.Films.Distinct());
+        var count = await _unitOfWork.FilmRepository.Value.CountAsync(spec);
+        if (count != playlist.Films.Count) throw new FilmNotFoundException();
+        newPlaylist.UpdateFilms(playlist.Films);
         await _unitOfWork.PlaylistRepository.Value.AddAsync(newPlaylist);
         await _unitOfWork.SaveChangesAsync();
     }
@@ -55,6 +60,8 @@ public class PlaylistManagementService : IPlaylistManagementService
             await _playlistPosterService.DeleteAsync(playlist.PosterUri);
             playlist.PosterUri = poster;
         }
+        
+        playlist.UpdateFilms(change.Films);
 
         await _unitOfWork.PlaylistRepository.Value.UpdateAsync(playlist);
         await _unitOfWork.SaveChangesAsync();
@@ -70,7 +77,9 @@ public class PlaylistManagementService : IPlaylistManagementService
     {
         var playlist = await _unitOfWork.PlaylistRepository.Value.GetAsync(playlistId);
         if (playlist == null) throw new PlaylistNotFoundException();
-        return _mapper.MapGet(playlist);
+        var filmSpec = new FilmByIdsSpecification(playlist.Films);
+        var films = await _unitOfWork.FilmRepository.Value.FindAsync(filmSpec);
+        return _mapper.MapGet(playlist, films);
     }
 
     public async Task<List<PlaylistShortDto>> FindAsync(int page, string? query = null)

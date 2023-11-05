@@ -7,4 +7,5 @@ public interface IFilmsManager
     Task<List<FilmDto>> PopularFilmsAsync();
     Task<List<FilmDto>> BestFilmsAsync();
     Task<List<FilmDto>> FindAsync(FilmSearchQuery searchQuery);
+    Task<string> GetPlaylistNameAsync(Guid id);
 }

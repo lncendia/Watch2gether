@@ -7,6 +7,13 @@ namespace Overoom.WEB.Mappers;
 
 public class FilmsMapper : IFilmsMapper
 {
+    public FilmsSearchParameters Map(SearchParameters model) =>
+        new()
+        {
+            Genre = model.Genre, Country = model.Country, Person = model.Person, Query = model.Title, Type = model.Type,
+            PlaylistId = model.PlaylistId
+        };
+
     public FilmSearchQuery Map(FilmsSearchParameters model) =>
         new(model.Query, model.Genre, model.Country, model.Person, model.Type, model.PlaylistId, model.Page);
 

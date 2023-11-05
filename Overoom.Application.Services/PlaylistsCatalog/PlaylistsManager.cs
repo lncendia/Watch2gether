@@ -19,11 +19,11 @@ public class PlaylistsManager : IPlaylistsManager
         _mapper = mapper;
     }
 
-    public async Task<List<PlaylistDto>> FindAsync(int page)
+    public async Task<List<PlaylistDto>> FindAsync(PlaylistSearchQuery query)
     {
         var orderBy = new DescendingOrder<Playlist, IPlaylistSortingVisitor>(new PlaylistOrderByUpdateDate());
 
-        var playlists = await _unitOfWork.PlaylistRepository.Value.FindAsync(null, orderBy, (page - 1) * 10, 10);
+        var playlists = await _unitOfWork.PlaylistRepository.Value.FindAsync(null, orderBy, (query.Page - 1) * 10, 10);
         return playlists.Select(_mapper.Map).ToList();
     }
 }

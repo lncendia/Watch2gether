@@ -59,7 +59,7 @@ public class FilmRoomRepository : IFilmRoomRepository
         IOrderBy<FilmRoom, IFilmRoomSortingVisitor>? orderBy = null, int? skip = null,
         int? take = null)
     {
-        var query = _context.FilmRooms.Include(x => x.Messages).Include(x => x.Viewers).AsQueryable();
+        var query = _context.FilmRooms.AsQueryable();
         if (specification != null)
         {
             var visitor = new FilmRoomVisitor();

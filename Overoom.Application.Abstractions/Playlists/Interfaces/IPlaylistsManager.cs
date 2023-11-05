@@ -4,5 +4,5 @@ namespace Overoom.Application.Abstractions.Playlists.Interfaces;
 
 public interface IPlaylistsManager
 {
-    Task<List<PlaylistDto>> FindAsync(int page = 1);
+    Task<List<PlaylistDto>> FindAsync(PlaylistSearchQuery query);
 }

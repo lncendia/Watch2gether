@@ -15,17 +15,24 @@ internal class PlaylistModelMapper : IModelMapperUnit<PlaylistModel, Playlist>
 
     public async Task<PlaylistModel> MapAsync(Playlist entity)
     {
-        var playlist = await _context.Playlists.FirstOrDefaultAsync(x => x.Id == entity.Id);
-        if (playlist != null)
+        var playlist = _context.Playlists.Local.FirstOrDefault(x => x.Id == entity.Id);
+        if (playlist == null)
         {
-            await _context.Entry(playlist).Collection(x => x.Films).LoadAsync();
-            await _context.Entry(playlist).Collection(x => x.Genres).LoadAsync();
+            playlist = _context.Playlists.Local.FirstOrDefault(x => x.Id == entity.Id);
+
+            if (playlist != null)
+            {
+                await _context.Entry(playlist).Collection(x => x.Films).LoadAsync();
+                await _context.Entry(playlist).Collection(x => x.Genres).LoadAsync();
+            }
+            else playlist = new PlaylistModel { Id = entity.Id };
         }
-        else playlist = new PlaylistModel { Id = entity.Id };
 
         playlist.Name = entity.Name;
+        playlist.NameNormalized = entity.Name.ToUpper();
         playlist.Description = entity.Description;
         playlist.Updated = entity.Updated;
+        playlist.PosterUri = entity.PosterUri;
 
 
         var newFilms = entity.Films.Where(x => playlist.Films.All(m => m.FilmId != x));
@@ -37,6 +44,7 @@ internal class PlaylistModelMapper : IModelMapperUnit<PlaylistModel, Playlist>
         var databaseGenres = _context.Genres.Where(x => newGenres.Select(s => s.ToUpper()).Any(g => g == x.NameNormalized)).ToList();
         playlist.Genres.AddRange(databaseGenres);
         playlist.Genres.RemoveAll(g => removeGenres.Contains(g));
+        var x = _context.Entry(playlist);
 
 
         return playlist;

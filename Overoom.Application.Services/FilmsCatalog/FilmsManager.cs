@@ -1,3 +1,4 @@
+using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Application.Abstractions.Films.DTOs;
 using Overoom.Application.Abstractions.Films.Interfaces;
 using Overoom.Domain.Abstractions.Repositories.UnitOfWorks;
@@ -113,6 +114,13 @@ public class FilmsManager : IFilmsManager
         
         // Преобразуем фильмы в список DTO фильмов 
         return films.Select(_mapper.Map).ToList();
+    }
+
+    public async Task<string> GetPlaylistNameAsync(Guid id)
+    {
+        var playlist = await _unitOfWork.PlaylistRepository.Value.GetAsync(id);
+        if (playlist == null) throw new PlaylistNotFoundException();
+        return playlist.Name;
     }
 
 

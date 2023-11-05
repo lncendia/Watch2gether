@@ -1,3 +1,4 @@
+using Overoom.Application.Services.PlaylistsManagement;
 using Overoom.WEB.Mappers;
 using Overoom.WEB.Mappers.Abstractions;
 
@@ -15,5 +16,6 @@ public static class ControllerMappers
         services.AddSingleton<IYoutubeRoomMapper, YoutubeRoomMapper>();
         services.AddSingleton<IFilmManagementMapper, FilmManagementMapper>();
         services.AddSingleton<IProfileMapper, ProfileMapper>();
+        services.AddSingleton<IPlaylistManagementMapper, PlaylistManagementMapper>();
     }
 }

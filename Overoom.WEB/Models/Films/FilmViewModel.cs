@@ -5,7 +5,7 @@ namespace Overoom.WEB.Models.Films;
 public class FilmViewModel
 {
     public FilmViewModel(Guid id, string name, Uri posterUri, double rating, string description, int year,
-        FilmType type, int? countSeasons, IReadOnlyCollection<string> genres)
+        FilmType type, int? countSeasons, IEnumerable<string> genres)
     {
         Id = id;
         Name = name + " (" + year + ")";

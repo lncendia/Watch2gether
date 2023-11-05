@@ -1,4 +1,4 @@
-namespace Overoom.Application.Abstractions.Authentication.DTOs;
+namespace Overoom.Application.Abstractions.Profile.DTOs;
 
 public class FilmDto
 {

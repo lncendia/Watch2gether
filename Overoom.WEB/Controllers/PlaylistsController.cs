@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Overoom.Application.Abstractions.Playlists.Interfaces;
+using Overoom.WEB.Contracts.Playlists;
 using IPlaylistsMapper = Overoom.WEB.Mappers.Abstractions.IPlaylistsMapper;
 
 namespace Overoom.WEB.Controllers;
@@ -21,14 +22,19 @@ public class PlaylistsController : Controller
         return View();
     }
     
+    
+    // public IActionResult PlaylistSearch(SearchParameters model)
+    // {
+    //     return View(_playlistsMapper.Map(model));
+    // }
 
     [HttpGet]
-    public async Task<IActionResult> PlaylistsList(int page = 1)
+    public async Task<IActionResult> PlaylistsList(PlaylistsSearchParameters searchParameters)
     {
         if (!ModelState.IsValid) return NoContent();
         try
         {
-            var playlists = await _playlistsManager.FindAsync(page);
+            var playlists = await _playlistsManager.FindAsync(_playlistsMapper.Map(searchParameters));
             if (!playlists.Any()) return NoContent();
             var playlistsModels = playlists.Select(_playlistsMapper.Map).ToList();
             return Json(playlistsModels);
