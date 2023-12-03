@@ -9,4 +9,11 @@ public interface IFilmManager
     Task ToggleWatchlistAsync(Guid id, Guid userId);
     Task<RatingDto> AddRatingAsync(Guid id, Guid userId, double score);
     Task<Uri> GetFilmUriAsync(Guid id, CdnType type);
+
+    /// <summary>
+    /// Асинхронно добавляет фильм в историю.
+    /// </summary>
+    /// <param name="id">Идентификатор фильма.</param>
+    /// <param name="userId">Идентификатор пользователя.</param>
+    public Task AddToHistoryAsync(Guid id, Guid userId);
 }

@@ -3,61 +3,81 @@
     ViewData["Title"] = "Вход";
 }
 
-<style>
-    .oauth {
-        width: 128px;
-        height: 32px;
-    }
-</style>
+<h5 class="card-title">Вход</h5>
+<span class="card-logo">
+    <img src="~/img/favicon.ico" alt="">
+</span>
+<form asp-action="Login" method="post" class="mt-5">
+    <div asp-validation-summary="ModelOnly"></div>
+    <input asp-for="ReturnUrl" type="hidden"/>
 
-<div class="col-lg-10">
-    <div class="row gx-5">
-        <div class="col-6 border-end">
-            <h3>Вход в приложение</h3>
-            <form asp-action="Login" method="post" class="form-horizontal pb-3">
-                <div asp-validation-summary="ModelOnly"></div>
-                <div class="form-group">
-                    <div class="row g-3">
-                        <input asp-for="ReturnUrl" type="hidden">
-                        <div class="col-12">
-                            <label asp-for="Email"></label>
-                            <input asp-for="Email" class="form-control"/>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                        <div class="col-12">
-                            <label asp-for="Password"></label>
-                            <input asp-for="Password" class="form-control"/>
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="remember" asp-for="RememberMe">
-                                <label asp-for="RememberMe" class="form-check-label" for="remember"></label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <input class="btn shadow-none btn-dark" type="submit" value="Войти"/>
-                        </div>
-                    </div>
-                </div>
-            </form>
+    <div class="wrap-input">
+        <input asp-for="Email" autofocus>
+        <span class="focus-input"
+              asp-placeholder-for="Email">
+        </span>
+    </div>
+    <div class="wrap-error mb-4">
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div class="wrap-input">
+        <span class="btn-show-pass">
+            <i class="zmdi zmdi-eye"></i>
+        </span>
+        <input asp-for="Password"/>
+        <span class="focus-input"
+              asp-placeholder-for="Password">
+        </span>
+    </div>
+    <div class="wrap-error mb-2">
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div class="d-flex mb-5">
+        <div class="form-check">
+            <input asp-for="RememberMe"
+                   class="form-check-input">
+            <label asp-for="RememberMe"
+                   class="form-check-label">
+            </label>
         </div>
-        <div class="col-6 border-start">
-            <h3>Войти с помощью</h3>
-            <a class="btn btn-secondary shadow-none mb-2" asp-action="LoginOauth" asp-route-provider="Vkontakte" asp-route-returnUrl="@Model.ReturnUrl">
-                <img class="oauth" src="~/img/vkontakte.svg" alt="">
-            </a>
-            <a class="btn btn-secondary shadow-none mb-2" asp-action="LoginOauth" asp-route-provider="Yandex" asp-route-returnUrl="@Model.ReturnUrl">
-                <img class="oauth" src="~/img/yandex.svg" alt="">
-            </a>
+        <a asp-action="ResetPassword" class="card-link ms-auto">Забыли пароль?</a>
+    </div>
+    <div class="oauth-block mb-5">
+        <a asp-action="LoginOauth" asp-route-provider="Vkontakte" asp-route-returnUrl="@Model.ReturnUrl">
+            <img class="oauth oauth-vkontakte" src="~/img/vkontakte.svg" alt="">
+        </a>
+        <a asp-action="LoginOauth" asp-route-provider="Yandex" asp-route-returnUrl="@Model.ReturnUrl">
+            <img class="oauth oauth-yandex" src="~/img/yandex.svg" alt="">
+        </a>
+    </div>
+    <div class="container-btn mb-4">
+        <div class="wrap-btn on-load">
+            <div class="bg-btn"></div>
+            <input class="m-btn" type="submit" value="Войти">
         </div>
     </div>
-    <div class="row gy-3">
-        <div class="col-12">
-            <a asp-action="Register">Впервые здесь? Зарегистрироваться</a>
-        </div>
-        <div class="col-12">
-            <a asp-action="ResetPassword">Забыли пароль?</a>
-        </div>
+</form>
+<div class="container-btn mb-5">
+    <div class="wrap-btn on-hover">
+        <div class="bg-btn"></div>
+        <a class="m-btn" href="@Model.ReturnUrl">
+            Отмена
+        </a>
     </div>
 </div>
+<div class="text-center mt-5 card-subtitle">
+    <span>
+        Нет аккаунта?
+    </span>
+
+    <a class="card-link" asp-action="Register" asp-route-returnUrl="@Model.ReturnUrl">
+        Регистрация
+    </a>
+</div>
+
+@section scripts
+{
+    <script src="~/js/Account/login.js"></script>
+}

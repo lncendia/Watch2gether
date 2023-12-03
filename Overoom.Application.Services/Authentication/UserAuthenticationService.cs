@@ -59,7 +59,7 @@ public class UserAuthenticationService : IUserAuthenticationService
             "Vkontakte" => await _thumbnailService.SaveAsync(
                 new Uri(info.Principal.FindFirstValue("urn:vkontakte:photo:link")!)),
             "Yandex" => await _thumbnailService.SaveAsync(new Uri(
-                @$"https://avatars.yandex.net/get-yapic/{info.Principal.FindFirstValue("urn:yandex:user:avatar")}/islands-75")),
+                $"https://avatars.yandex.net/get-yapic/{info.Principal.FindFirstValue("urn:yandex:user:avatar")}/islands-75")),
             _ => ApplicationConstants.DefaultAvatar
         };
 

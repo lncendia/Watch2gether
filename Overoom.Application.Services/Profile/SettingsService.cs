@@ -85,7 +85,7 @@ public class SettingsService : ISettingsService
         if (user == null) throw new UserNotFoundException();
         var result = await _userManager.ChangeEmailAsync(user, newEmail, code);
         CheckResult(result);
-        //todo:check invalid code exception InvalidCodeException
+        //todo:check invalid code exception InvalidCodeException name = InvalidToken
         var userDomain = await _unitOfWork.UserRepository.Value.GetAsync(id);
         if (userDomain == null) throw new UserNotFoundException();
         userDomain.Email = newEmail;

@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Overoom.Domain.Abstractions\Overoom.Domain.Abstractions.csproj" />
+      <ProjectReference Include="..\Overoom.Application.Abstractions\Overoom.Application.Abstractions.csproj" />
     </ItemGroup>
 
     <ItemGroup>

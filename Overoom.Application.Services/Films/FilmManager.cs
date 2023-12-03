@@ -66,12 +66,6 @@ namespace Overoom.Application.Services.Films
             user = await _unitOfWork.UserRepository.Value.GetAsync(userId.Value);
             if (user == null) throw new UserNotFoundException();
             
-            // Добавляем фильм в историю пользователя 
-            user.AddFilmToHistory(id);
-            // Обновляем данные пользователя в репозитории 
-            await _unitOfWork.UserRepository.Value.UpdateAsync(user);
-            await _unitOfWork.SaveChangesAsync();
-            
             // Создаем спецификации для получения рейтинга пользователя для данного фильма 
             var userSpec = new RatingByUserSpecification(userId.Value);
             var filmSpec = new RatingByFilmSpecification(id);
@@ -86,6 +80,24 @@ namespace Overoom.Application.Services.Films
             // Возвращаем отображение фильма с рейтингом и пользователем 
             return _mapper.Map(film, rating, user);
         }
+        
+        /// <summary>
+        /// Асинхронно добавляет фильм в историю.
+        /// </summary>
+        /// <param name="id">Идентификатор фильма.</param>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        public async Task AddToHistoryAsync(Guid id, Guid userId)
+        {
+            // Получаем пользователя по его идентификатору 
+            var user = await _unitOfWork.UserRepository.Value.GetAsync(userId);
+            if (user == null) throw new UserNotFoundException();
+            
+            // Добавляем фильм в историю пользователя 
+            user.AddFilmToHistory(id);
+            // Обновляем данные пользователя в репозитории 
+            await _unitOfWork.UserRepository.Value.UpdateAsync(user);
+            await _unitOfWork.SaveChangesAsync();
+        }
 
         /// <summary>
         /// Асинхронно переключает статус списка просмотра фильма для указанного пользователя.
@@ -94,9 +106,6 @@ namespace Overoom.Application.Services.Films
         /// <param name="userId">Идентификатор пользователя.</param>
         public async Task ToggleWatchlistAsync(Guid id, Guid userId)
         {
-            // Получаем фильм по его идентификатору 
-            await GetFilmAsync(id);
-            
             // Получаем пользователя по его идентификатору 
             var user = await _unitOfWork.UserRepository.Value.GetAsync(userId);
             if (user == null) throw new UserNotFoundException();

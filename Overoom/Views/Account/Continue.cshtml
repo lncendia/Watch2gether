@@ -1,0 +1,18 @@
+﻿@model Overoom.WEB.Models.Account.ContinueViewModel;
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<h5 class="card-title">Подтверждение отправлено на почту</h5>
+<span class="card-logo">
+    <img src="~/img/favicon.ico" alt="">
+</span>
+
+<div class="container-btn mb-5">
+    <div class="wrap-btn on-hover">
+        <div class="bg-btn"></div>
+        <a class="m-btn" href="@Model.ReturnUrl">
+            Продолжить
+        </a>
+    </div>
+</div>

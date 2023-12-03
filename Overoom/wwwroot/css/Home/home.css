@@ -1,10 +1,23 @@
-﻿.nav-background {
-    background: transparent;
+﻿body {
+    background-blend-mode: screen;
+    background: linear-gradient(#1f052c, transparent),
+    linear-gradient(90deg, #052126, transparent),
+    linear-gradient(-90deg, #261106, transparent);
+    background-size: cover;
 }
 
-
-body {
+header{
     background: black;
+}
+
+.nav-background {
+    background: transparent;
+    --link-color: #d2d2d2;
+    --link-hover-color: #8a8a8a;
+}
+
+footer {
+    background: var(--color-dark) !important;
 }
 
 .form-control {
@@ -18,11 +31,13 @@ body {
 }
 
 .comment-card {
-    --bs-card-cap-bg: #0c0c0c;
+    --bs-card-cap-bg: var(--color-black);
     --bs-card-bg: var(--color-dark);
     border-radius: 10px;
     box-shadow: 2px 2px 3px var(--shadow-purple);
+    transition: all 0.3s;
 }
+
 .comment-card:hover {
     box-shadow: 2px 2px 3px var(--shadow-red);
 }
@@ -37,16 +52,15 @@ body {
 
 
 .poster {
-    height: 270px;
+    height: 230px;
 }
-
 
 .content-card {
     height: 100%;
-    margin: 0 auto;
-    max-width: 180px;
+    margin: auto;
     --bs-card-bg: var(--color-dark);
-    box-shadow: 2px 2px 7px var(--shadow-purple)
+    box-shadow: 2px 2px 7px var(--shadow-purple);
+    transition: all 0.3s;
 }
 
 .content-card:hover {
@@ -74,7 +88,7 @@ video {
     left: 0;
     height: 100%;
     width: 100%;
-    opacity: 0.3;
+    opacity: 0.5;
 }
 
 .video-wrapper {
@@ -175,9 +189,4 @@ video {
     position: absolute;
     bottom: 10px;
     right: 20px;
-}
-
-
-footer {
-    background-color: #111111 !important;
 }

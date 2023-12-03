@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Overoom.Application.Abstractions
 @using Overoom.WEB.Authentication
 @using Overoom.WEB.RoomAuthentication
@@ -8,7 +7,8 @@
     var roomAuth = await Context.AuthenticateAsync(ApplicationConstants.RoomScheme);
     var appAuth = await Context.AuthenticateAsync(IdentityConstants.ApplicationScheme);
 }
-<nav class="navbar navbar-expand-xxl navbar-toggleable-xxl navbar-dark nav-background mb-3">
+
+<nav class="navbar navbar-expand-xxl navbar-toggleable-xxl navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" asp-controller="Home" asp-action="Index">
             <b>

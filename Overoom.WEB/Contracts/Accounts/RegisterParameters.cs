@@ -32,4 +32,6 @@ public class RegisterParameters
     [DataType(DataType.Password)]
     [Display(Name = "Подтвердить пароль")]
     public string? PasswordConfirm { get; set; }
+
+    public string ReturnUrl { get; set; } = "/";
 }

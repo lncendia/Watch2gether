@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using Overoom.Application.Abstractions.Authentication.Interfaces;
 using Overoom.Application.Abstractions.Common.Exceptions;
 using Overoom.Domain.Users.Exceptions;
 using Overoom.WEB.Contracts.Accounts;
+using Overoom.WEB.Models.Account;
 
 namespace Overoom.WEB.Controllers;
 
@@ -17,17 +19,16 @@ public class AccountController : Controller
     private readonly IUserAuthenticationService _userAuthenticationService;
     private readonly SignInManager<UserData> _signInManager;
 
-    public AccountController(IUserAuthenticationService userAuthenticationService,
-        SignInManager<UserData> signInManager)
+    public AccountController(IUserAuthenticationService userAuthenticationService, SignInManager<UserData> signInManager)
     {
         _userAuthenticationService = userAuthenticationService;
         _signInManager = signInManager;
     }
 
     [HttpGet]
-    public IActionResult Register()
+    public IActionResult Register(string returnUrl = "/")
     {
-        return View();
+        return View(new RegisterParameters {ReturnUrl = returnUrl});
     }
 
     [HttpPost]
@@ -40,8 +41,7 @@ public class AccountController : Controller
             await _userAuthenticationService.CreateAsync(new UserCreateDto(model.Name!, model.Password!, model.Email!),
                 Url.Action("AcceptCode", "Account", null, HttpContext.Request.Scheme)!);
 
-            return RedirectToAction("Index", "Home",
-                new { message = "Завершите регистрацию, перейдя по ссылке, отправленной вам на почту." });
+            return RedirectToAction("Continue", new { returnUrl = model.ReturnUrl });
         }
         catch (Exception ex)
         {
@@ -77,6 +77,11 @@ public class AccountController : Controller
         }
     }
 
+    public IActionResult Continue(string returnUrl = "/")
+    {
+        return View(new ContinueViewModel(returnUrl));
+    }
+
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> AcceptCode(string? email, string? code)
@@ -93,6 +98,7 @@ public class AccountController : Controller
 
     public IActionResult LoginOauth(string provider, string returnUrl = "/")
     {
+        //todo: check scheme
         var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
         var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         return new ChallengeResult(provider, properties);

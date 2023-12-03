@@ -1,0 +1,62 @@
+.navbar {
+  .avatar {
+    margin-left: var(--bs-navbar-nav-link-padding-x);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+
+  a.nav-link {
+    --bs-nav-link-color: var(--link-color);
+    --bs-nav-link-hover-color: var(--link-hover-color);
+  }
+
+  a.navbar-brand {
+    --bs-navbar-brand-color: var(--link-color);
+    --bs-navbar-brand-hover-color: var(--link-hover-color);
+  }
+}
+
+.films-search-block {
+  position: absolute;
+  z-index: 2000;
+  margin-top: 5px;
+  background: var(--color-black);
+  width: 300px;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ced4da;
+  border-radius: 10px 10px;
+  padding: 5px 2px 5px 2px;
+
+  .film-search-element {
+    display: flex;
+    justify-content: start;
+    padding: 3px;
+    border-bottom: 1px solid #545454;
+    border-radius: 0 0 7px 7px;
+    text-decoration: none;
+    color: white;
+
+    .film-search-text {
+      max-width: 80%;
+    }
+
+    .film-search-description {
+      color: #858585;
+      font-size: 11px;
+    }
+
+    img {
+      border-radius: 5px;
+      width: 50px;
+      height: 75px;
+      margin-right: 7px;
+    }
+  }
+
+  .film-search-element:hover {
+    color: white;
+    background: #11111EE5;
+  }
+}

@@ -56,24 +56,6 @@ public class FilmsManager : IFilmsManager
     }
 
     /// <summary> 
-    /// Возвращает список лучших фильмов. 
-    /// </summary> 
-    /// <returns>Список DTO фильмов.</returns> 
-    public async Task<List<FilmDto>> BestFilmsAsync()
-    {
-        // Определяем порядок сортировки по дате и пользовательскому рейтингу 
-        var date = new DescendingOrder<Film, IFilmSortingVisitor>(new FilmOrderByDate()); 
-        var rating = new DescendingOrder<Film, IFilmSortingVisitor>(new FilmOrderByUserRating()); 
-        var order = new ThenByOrder<Film, IFilmSortingVisitor>(date, rating); 
- 
-        // Получаем список фильмов из репозитория с применением сортировки и ограничением на количество 
-        var films = await _unitOfWork.FilmRepository.Value.FindAsync(null, order, 0, 15); 
- 
-        // Преобразуем фильмы в список DTO фильмов 
-        return films.Select(_mapper.Map).ToList(); 
-    }
-
-    /// <summary> 
     /// Поиск фильмов с заданными параметрами. 
     /// </summary> 
     /// <param name="searchQuery">Параметры поиска.</param> 

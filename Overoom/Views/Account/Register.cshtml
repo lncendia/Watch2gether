@@ -3,36 +3,76 @@
     ViewData["Title"] = "Регистрация";
 }
 
-<div class="col-lg-6">
-    <h3>Регистрация</h3>
-    <form asp-action="Register" method="post" class="form-horizontal">
-        <div asp-validation-summary="ModelOnly"></div>
-        <div class="form-group">
-            <div class="row g-3">
-                <div class="col-12">
-                    <label asp-for="Name"></label>
-                    <input asp-for="Name" class="form-control"/>
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="col-12">
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control"/>
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="col-sm-6">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control"/>
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="col-sm-6">
-                    <label asp-for="PasswordConfirm"></label>
-                    <input asp-for="PasswordConfirm" class="form-control"/>
-                    <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
-                </div>
-                <div class="col-12">
-                    <input class="btn shadow-none btn-dark" type="submit" value="Регистрация"/>
-                </div>
-            </div>
+<h5 class="card-title">Регистрация</h5>
+<span class="card-logo">
+    <img src="~/img/favicon.ico" alt="">
+</span>
+<form asp-action="Register" method="post" class="mt-5">
+    <div asp-validation-summary="ModelOnly"></div>
+    <input asp-for="ReturnUrl" type="hidden"/>
+
+    <div class="wrap-input">
+        <input asp-for="Email" autofocus>
+        <span class="focus-input"
+              asp-placeholder-for="Email">
+        </span>
+    </div>
+    <div class="wrap-error mb-4">
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div class="wrap-input">
+        <span class="btn-show-pass" id="show-pass">
+            <i class="zmdi zmdi-eye"></i>
+        </span>
+        <input asp-for="Password"/>
+        <span class="focus-input"
+              asp-placeholder-for="Password">
+        </span>
+    </div>
+    <div class="wrap-error mb-4">
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div class="wrap-input">
+        <span class="btn-show-pass" id="show-pass-confirm">
+            <i class="zmdi zmdi-eye"></i>
+        </span>
+        <input asp-for="PasswordConfirm"/>
+        <span class="focus-input"
+              asp-placeholder-for="PasswordConfirm">
+        </span>
+    </div>
+    <div class="wrap-error mb-5">
+        <span asp-validation-for="PasswordConfirm"></span>
+    </div>
+
+    <div class="container-btn mb-4">
+        <div class="wrap-btn on-load">
+            <div class="bg-btn"></div>
+            <input class="m-btn" type="submit" value="Регистрация">
         </div>
-    </form>
+    </div>
+</form>
+<div class="container-btn mb-5">
+    <div class="wrap-btn on-hover">
+        <div class="bg-btn"></div>
+        <a class="m-btn" href="@Model.ReturnUrl">
+            Отмена
+        </a>
+    </div>
 </div>
+<div class="text-center mt-5 card-subtitle">
+    <span>
+        Есть аккаунт?
+    </span>
+
+    <a class="card-link" asp-action="Login">
+        Войти
+    </a>
+</div>
+
+@section scripts
+{
+    <script src="~/js/Account/registration.js"></script>
+}

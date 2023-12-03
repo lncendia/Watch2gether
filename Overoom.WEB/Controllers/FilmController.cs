@@ -7,7 +7,6 @@ using Overoom.Application.Abstractions.Movie.Interfaces;
 using Overoom.WEB.Authentication;
 using Overoom.WEB.Contracts.Film;
 using Overoom.WEB.Models.Film;
-using Overoom.WEB.RoomAuthentication;
 using IFilmMapper = Overoom.WEB.Mappers.Abstractions.IFilmMapper;
 
 namespace Overoom.WEB.Controllers;
@@ -23,6 +22,7 @@ public class FilmController : Controller
         _filmManager = manager;
         _filmMapper = filmMapper;
         _commentManager = commentManager;
+        //todo: exceptions
     }
 
     public async Task<IActionResult> Index(Guid id)
@@ -52,9 +52,19 @@ public class FilmController : Controller
     public async Task<IActionResult> GetFilmUri(GetUriParameters model)
     {
         if (!ModelState.IsValid) return BadRequest();
+        Guid? userId = null;
+        try
+        {
+            userId = User.GetId();
+        }
+        catch
+        {
+            // ignored
+        }
         try
         {
             var uri = await _filmManager.GetFilmUriAsync(model.Id, model.CdnType);
+            if(userId.HasValue) await _filmManager.AddToHistoryAsync(model.Id, userId.Value);
             return Json(new FilmUrlViewModel(uri));
         }
         catch (Exception e)

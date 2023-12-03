@@ -20,8 +20,7 @@ public class FilmsController : Controller
     public async Task<IActionResult> Films()
     {
         var popular = await _filmsManager.PopularFilmsAsync();
-        var best = await _filmsManager.BestFilmsAsync();
-        var vm = new FilmsViewModel(popular.Select(_filmsMapper.MapShort).ToList(), best.Select(_filmsMapper.MapShort).ToList());
+        var vm = new FilmsViewModel(popular.Select(_filmsMapper.MapShort).ToList());
         return View(vm);
     }
 

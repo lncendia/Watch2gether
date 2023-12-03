@@ -24,7 +24,7 @@ builder.Services.AddEventHandlers();
 
 builder.Services.AddHostedService<FilmLoadHostedService>();
 builder.Services.AddSignalR();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 
 var app = builder.Build();

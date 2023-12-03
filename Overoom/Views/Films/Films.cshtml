@@ -16,30 +16,7 @@
                     <div class="itc-slider__item col-6 col-lg-4 col-xl-3 col-xxl-15">
                         <div class="slider-film">
                             <a class="content-link" asp-controller="Film" asp-action="Index" asp-route-id="@film.Id">
-                                <img src="/@film.PosterUri" class="slider-poster" alt="...">
-                                <span class="card-title">@film.Name</span>
-                            </a>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-        <button class="itc-slider__btn itc-slider__btn_prev"></button>
-        <button class="itc-slider__btn itc-slider__btn_next"></button>
-    </div>
-</div>
-
-<div class="content-block">
-    <h3>Выбор пользователей</h3>
-    <div class="itc-slider" data-slider="itc-slider" data-loop="true" data-autoplay="true">
-        <div class="itc-slider__wrapper">
-            <div class="itc-slider__items">
-                @foreach (var film in Model.BestFilms)
-                {
-                    <div class="itc-slider__item col-6 col-lg-4 col-xl-3 col-xxl-15">
-                        <div class="slider-film">
-                            <a class="content-link" asp-controller="Film" asp-action="Index" asp-route-id="@film.Id">
-                                <img src="/@film.PosterUri" class="slider-poster" alt="...">
+                                <img src="/@film.PosterUri" alt="...">
                                 <span class="card-title">@film.Name</span>
                             </a>
                         </div>
@@ -62,7 +39,7 @@
                     var route = new Dictionary<string, string> { { "genre", genre } };
                     <div class="itc-slider__item col-6 col-lg-4 col-xl-3 col-xxl-2">
                         <div class="genre">
-                            <a class="genre-link" asp-action="FilmSearch" asp-all-route-data="route">@genre</a>
+                            <a asp-action="FilmSearch" asp-all-route-data="route">@genre</a>
                         </div>
                     </div>
                 }
@@ -116,6 +93,6 @@
 
 @section styles
 {
-    <link rel="stylesheet" href="~/css/content.css"/>
-    <link rel="stylesheet" href="~/css/slider.css"/>
+    <link rel="stylesheet" href="~/css/Main/content.css"/>
+    <link rel="stylesheet" href="~/css/Main/slider.css"/>
 }
