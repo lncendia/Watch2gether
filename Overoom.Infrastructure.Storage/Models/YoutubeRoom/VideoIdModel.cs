@@ -1,6 +1,4 @@
-﻿using Overoom.Infrastructure.Storage.Models.YoutubeRoom;
-
-namespace Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
+﻿namespace Overoom.Infrastructure.Storage.Models.YoutubeRoom;
 
 public class VideoIdModel
 {

@@ -18,12 +18,12 @@ public class UserVisitor : BaseVisitor<UserModel, IUserSpecificationVisitor, Use
     }
 
     public void Visit(UserByEmailSpecification specification) =>
-        Expr = x => x.EmailNormalized == specification.Email.ToUpper();
+        Expr = x => x.Email.ToUpper() == specification.Email.ToUpper();
 
     public void Visit(UserByIdSpecification specification) => Expr = x => x.Id == specification.Id;
 
     public void Visit(UserByIdsSpecification specification) => Expr = x => specification.Ids.Any(id => id == x.Id);
 
     public void Visit(UserByNameSpecification specification) =>
-        Expr = x => x.NameNormalized.Contains(specification.Name.ToUpper());
+        Expr = x => x.Name.ToUpper().Contains(specification.Name.ToUpper());
 }

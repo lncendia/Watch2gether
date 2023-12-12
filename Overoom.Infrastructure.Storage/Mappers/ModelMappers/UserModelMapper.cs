@@ -28,9 +28,7 @@ internal class UserModelMapper : IModelMapperUnit<UserModel, User>
         }
 
         user.Name = entity.Name;
-        user.NameNormalized = entity.Name.ToUpper();
         user.Email = entity.Email;
-        user.EmailNormalized = entity.Email.ToUpper();
         user.AvatarUri = entity.AvatarUri;
         user.Beep = entity.Allows.Beep;
         user.Scream = entity.Allows.Scream;
@@ -57,10 +55,10 @@ internal class UserModelMapper : IModelMapperUnit<UserModel, User>
 
         if (entity.Genres.Any())
         {
-            var newGenres = entity.Genres.Where(x => user.Genres.All(m => m.NameNormalized != x.ToUpper()));
-            var removeGenres = user.Genres.Where(x => entity.Genres.All(m => m.ToUpper() != x.NameNormalized));
+            var newGenres = entity.Genres.Where(x => user.Genres.All(m => !string.Equals(m.Name, x, StringComparison.CurrentCultureIgnoreCase)));
+            var removeGenres = user.Genres.Where(x => entity.Genres.All(m => !string.Equals(m, x.Name, StringComparison.CurrentCultureIgnoreCase)));
             var databaseGenres = _context.Genres
-                .Where(x => newGenres.Select(s => s.ToUpper()).Any(g => g == x.NameNormalized)).ToList();
+                .Where(x => newGenres.Select(s => s.ToUpper()).Any(g => g == x.Name.ToUpper())).ToList();
             user.Genres.AddRange(databaseGenres);
             user.Genres.RemoveAll(g => removeGenres.Contains(g));
         }

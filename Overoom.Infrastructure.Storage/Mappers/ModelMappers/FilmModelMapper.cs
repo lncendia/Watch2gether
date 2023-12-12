@@ -42,7 +42,6 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
                     Id = entity.Id,
                     Type = entity.Type,
                     Name = entity.Name,
-                    NameNormalized = entity.Name.ToUpper(),
                     Year = entity.Year
                 };
                 await ProcessGenresAsync(entity, film);
@@ -79,14 +78,14 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
             cdnModel.Quality = cdn.Quality;
             cdnModel.Type = cdn.Type;
 
-            var newVoices = cdn.Voices.Where(x => cdnModel.Voices.All(m => m.NameNormalized != x.ToUpper())).ToList();
-            var removeVoices = cdnModel.Voices.Where(x => cdn.Voices.All(m => m.ToUpper() != x.NameNormalized));
-            var databaseVoices = await _context.Voices.Where(x => newVoices.Select(s => s.ToUpper()).Any(v => v == x.NameNormalized))
+            var newVoices = cdn.Voices.Where(x => cdnModel.Voices.All(m => !string.Equals(m.Name, x, StringComparison.CurrentCultureIgnoreCase))).ToList();
+            var removeVoices = cdnModel.Voices.Where(x => cdn.Voices.All(m => !string.Equals(m, x.Name, StringComparison.CurrentCultureIgnoreCase)));
+            var databaseVoices = await _context.Voices.Where(x => newVoices.Select(s => s.ToUpper()).Any(v => v == x.Name.ToUpper()))
                 .ToListAsync();
             databaseVoices =
-                databaseVoices.Concat(_voices.Where(x => newVoices.Any(v => v.ToUpper() == x.NameNormalized))).ToList();
-            var notDatabaseVoices = newVoices.Where(x => databaseVoices.All(v => v.NameNormalized != x.ToUpper()))
-                .Select(v => new VoiceModel { Name = v, NameNormalized = v.ToUpper() }).ToList();
+                databaseVoices.Concat(_voices.Where(x => newVoices.Any(v => string.Equals(v, x.Name, StringComparison.CurrentCultureIgnoreCase)))).ToList();
+            var notDatabaseVoices = newVoices.Where(x => databaseVoices.All(v => !string.Equals(v.Name, x, StringComparison.CurrentCultureIgnoreCase)))
+                .Select(v => new VoiceModel { Name = v }).ToList();
             _voices.AddRange(notDatabaseVoices);
             cdnModel.Voices.AddRange(databaseVoices.Concat(notDatabaseVoices));
             cdnModel.Voices.RemoveAll(g => removeVoices.Contains(g));
@@ -98,15 +97,15 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
     private async Task ProcessCountriesAsync(Film entity, FilmModel film)
     {
         var newCountries =
-            entity.FilmTags.Countries.Where(x => film.Countries.All(m => m.NameNormalized != x.ToUpper())).ToList();
+            entity.FilmTags.Countries.Where(x => film.Countries.All(m => !string.Equals(m.Name, x, StringComparison.CurrentCultureIgnoreCase))).ToList();
         var databaseCountries = await _context.Countries
-            .Where(x => newCountries.Select(s => s.ToUpper()).Any(c => c == x.NameNormalized))
+            .Where(x => newCountries.Select(s => s.ToUpper()).Any(c => c == x.Name.ToUpper()))
             .ToListAsync();
         databaseCountries =
-            databaseCountries.Concat(_countries.Where(x => newCountries.Any(c => c.ToUpper() == x.NameNormalized)))
+            databaseCountries.Concat(_countries.Where(x => newCountries.Any(c => string.Equals(c, x.Name, StringComparison.CurrentCultureIgnoreCase))))
                 .ToList();
-        var notDatabaseCountries = newCountries.Where(x => databaseCountries.All(c => c.NameNormalized != x.ToUpper()))
-            .Select(c => new CountryModel { Name = c, NameNormalized = c.ToUpper() }).ToList();
+        var notDatabaseCountries = newCountries.Where(x => databaseCountries.All(c => !string.Equals(c.Name, x, StringComparison.CurrentCultureIgnoreCase)))
+            .Select(c => new CountryModel { Name = c }).ToList();
         _countries.AddRange(notDatabaseCountries);
         film.Countries.AddRange(databaseCountries.Concat(notDatabaseCountries));
     }
@@ -114,16 +113,16 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
     private async Task ProcessActorsAsync(Film entity, FilmModel film)
     {
         var newActors =
-            entity.FilmTags.Actors.Where(x => film.Actors.All(m => m.Person.NameNormalized != x.ActorName.ToUpper()))
+            entity.FilmTags.Actors.Where(x => film.Actors.All(m => m.Person.Name.ToUpper() != x.ActorName.ToUpper()))
                 .ToList();
         var databaseActors = await _context.Persons
-            .Where(x => newActors.Select(s => s.ActorName.ToUpper()).Any(p => p == x.NameNormalized))
+            .Where(x => newActors.Select(s => s.ActorName.ToUpper()).Any(p => p == x.Name.ToUpper()))
             .ToListAsync();
         databaseActors =
-            databaseActors.Concat(_persons.Where(x => newActors.Any(p => p.ActorName.ToUpper() == x.NameNormalized)))
+            databaseActors.Concat(_persons.Where(x => newActors.Any(p => p.ActorName.ToUpper() == x.Name.ToUpper())))
                 .ToList();
-        var notDatabaseActors = newActors.Where(x => databaseActors.All(p => p.NameNormalized != x.ActorName.ToUpper()))
-            .Select(p => new PersonModel { Name = p.ActorName, NameNormalized = p.ActorName.ToUpper() }).ToList();
+        var notDatabaseActors = newActors.Where(x => databaseActors.All(p => p.Name.ToUpper() != x.ActorName.ToUpper()))
+            .Select(p => new PersonModel { Name = p.ActorName }).ToList();
         _persons.AddRange(notDatabaseActors);
         _context.Persons.AddRange(notDatabaseActors);
         var filmActors = databaseActors.Concat(notDatabaseActors)
@@ -135,15 +134,15 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
     private async Task ProcessGenresAsync(Film entity, FilmModel film)
     {
         var newGenres =
-            entity.FilmTags.Genres.Where(x => film.Genres.All(m => m.NameNormalized != x.ToUpper())).ToList();
+            entity.FilmTags.Genres.Where(x => film.Genres.All(m => !string.Equals(m.Name, x, StringComparison.CurrentCultureIgnoreCase))).ToList();
         var databaseGenres = await _context.Genres
-            .Where(x => newGenres.Select(s => s.ToUpper()).Any(g => g == x.NameNormalized))
+            .Where(x => newGenres.Select(s => s.ToUpper()).Any(g => g == x.Name.ToUpper()))
             .ToListAsync();
         databaseGenres =
-            databaseGenres.Concat(_genres.Where(x => newGenres.Any(g => g.ToUpper() == x.NameNormalized)))
+            databaseGenres.Concat(_genres.Where(x => newGenres.Any(g => string.Equals(g, x.Name, StringComparison.CurrentCultureIgnoreCase))))
                 .ToList();
-        var notDatabaseGenres = newGenres.Where(x => databaseGenres.All(g => g.NameNormalized != x.ToUpper()))
-            .Select(g => new GenreModel { Name = g, NameNormalized = g.ToUpper() }).ToList();
+        var notDatabaseGenres = newGenres.Where(x => databaseGenres.All(g => !string.Equals(g.Name, x, StringComparison.CurrentCultureIgnoreCase)))
+            .Select(g => new GenreModel { Name = g }).ToList();
         _genres.AddRange(notDatabaseGenres);
         film.Genres.AddRange(databaseGenres.Concat(notDatabaseGenres));
     }
@@ -151,15 +150,15 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
     private async Task ProcessDirectorsAsync(Film entity, FilmModel film)
     {
         var newDirectors =
-            entity.FilmTags.Directors.Where(x => film.Directors.All(m => m.NameNormalized != x.ToUpper())).ToList();
+            entity.FilmTags.Directors.Where(x => film.Directors.All(m => !string.Equals(m.Name, x, StringComparison.CurrentCultureIgnoreCase))).ToList();
         var databaseDirectors = await _context.Persons
-            .Where(x => newDirectors.Select(s => s.ToUpper()).Any(p => p == x.NameNormalized))
+            .Where(x => newDirectors.Select(s => s.ToUpper()).Any(p => p == x.Name.ToUpper()))
             .ToListAsync();
         databaseDirectors =
-            databaseDirectors.Concat(_persons.Where(x => newDirectors.Any(p => p.ToUpper() == x.NameNormalized)))
+            databaseDirectors.Concat(_persons.Where(x => newDirectors.Any(p => string.Equals(p, x.Name, StringComparison.CurrentCultureIgnoreCase))))
                 .ToList();
-        var notDatabaseDirectors = newDirectors.Where(x => databaseDirectors.All(p => p.NameNormalized != x.ToUpper()))
-            .Select(p => new PersonModel { Name = p, NameNormalized = p.ToUpper() }).ToList();
+        var notDatabaseDirectors = newDirectors.Where(x => databaseDirectors.All(p => !string.Equals(p.Name, x, StringComparison.CurrentCultureIgnoreCase)))
+            .Select(p => new PersonModel { Name = p }).ToList();
         _persons.AddRange(notDatabaseDirectors);
         film.Directors.AddRange(databaseDirectors.Concat(notDatabaseDirectors));
     }
@@ -167,18 +166,18 @@ internal class FilmModelMapper : IModelMapperUnit<FilmModel, Film>
     private async Task ProcessScreenwritersAsync(Film entity, FilmModel film)
     {
         var newScreenwriters =
-            entity.FilmTags.Screenwriters.Where(x => film.ScreenWriters.All(m => m.NameNormalized != x.ToUpper()))
+            entity.FilmTags.Screenwriters.Where(x => film.ScreenWriters.All(m => !string.Equals(m.Name, x, StringComparison.CurrentCultureIgnoreCase)))
                 .ToList();
         var databaseScreenwriters = await _context.Persons
-            .Where(x => newScreenwriters.Select(s => s.ToUpper()).Any(p => p == x.NameNormalized))
+            .Where(x => newScreenwriters.Select(s => s.ToUpper()).Any(p => p == x.Name.ToUpper()))
             .ToListAsync();
         databaseScreenwriters =
             databaseScreenwriters
-                .Concat(_persons.Where(x => newScreenwriters.Any(p => p.ToUpper() == x.NameNormalized)))
+                .Concat(_persons.Where(x => newScreenwriters.Any(p => string.Equals(p, x.Name, StringComparison.CurrentCultureIgnoreCase))))
                 .ToList();
         var notDatabaseScreenwriters = newScreenwriters
-            .Where(x => databaseScreenwriters.All(p => p.NameNormalized != x.ToUpper()))
-            .Select(p => new PersonModel { Name = p, NameNormalized = p.ToUpper() }).ToList();
+            .Where(x => databaseScreenwriters.All(p => !string.Equals(p.Name, x, StringComparison.CurrentCultureIgnoreCase)))
+            .Select(p => new PersonModel { Name = p }).ToList();
         _persons.AddRange(notDatabaseScreenwriters);
         film.ScreenWriters.AddRange(databaseScreenwriters.Concat(notDatabaseScreenwriters));
     }

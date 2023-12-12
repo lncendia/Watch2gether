@@ -22,8 +22,8 @@ public class PlaylistVisitor : BaseVisitor<PlaylistModel, IPlaylistSpecification
         Expr = model => model.Films.Any(x => x.FilmId == specification.Id);
 
     public void Visit(PlaylistByNameSpecification specification) =>
-        Expr = model => model.NameNormalized.Contains(specification.Name.ToUpper());
+        Expr = model => model.Name.ToUpper().Contains(specification.Name.ToUpper());
 
     public void Visit(PlaylistByGenreSpecification specification) =>
-        Expr = model => model.Genres.Any(x => x.NameNormalized == specification.Genre.ToUpper());
+        Expr = model => model.Genres.Any(x => x.Name.ToUpper() == specification.Genre.ToUpper());
 }

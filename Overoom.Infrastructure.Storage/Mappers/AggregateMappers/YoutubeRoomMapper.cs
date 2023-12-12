@@ -23,7 +23,7 @@ internal class YoutubeRoomMapper : IAggregateMapperUnit<YoutubeRoom, YoutubeRoom
         Ids.SetValue(room, model.VideoIds.Select(x => x.VideoId).ToList());
         var viewers = model.Viewers.Select(CreateViewer);
         var messages = model.Messages.Select(x =>
-            RoomInitializer.CreateMessage(x.ViewerEntityId, x.Text, x.CreatedAt));
+            RoomInitializer.CreateMessage(x.Viewer.EntityId, x.Text, x.CreatedAt));
         RoomInitializer.InitRoom(room, model.Id, model.LastActivity, model.IdCounter, viewers, model.OwnerId, messages);
         return room;
     }

@@ -14,9 +14,10 @@ public static class PersistenceServices
         var connectionString = configuration.GetConnectionString("DefaultConnection") ??
                                throw new ConfigurationException("ConnectionStrings:DefaultConnection");
         services.AddDbContext<ApplicationContext>(options =>
-            options.UseSqlite(connectionString));
+            options.UseSqlServer(connectionString));
+        
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlite(connectionString));
+            options.UseSqlServer(connectionString));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

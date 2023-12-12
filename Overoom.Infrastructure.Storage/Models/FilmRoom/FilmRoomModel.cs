@@ -1,4 +1,5 @@
-﻿using Overoom.Domain.Films.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Overoom.Domain.Films.Enums;
 using Overoom.Infrastructure.Storage.Models.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Film;
 
@@ -6,6 +7,7 @@ namespace Overoom.Infrastructure.Storage.Models.FilmRoom;
 
 public class FilmRoomModel : IAggregateModel
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid FilmId { get; set; }
     public FilmModel Film { get; set; } = null!;
     public CdnType CdnType { get; set; }

@@ -3,8 +3,6 @@
 public class YoutubeMessageModel
 {
     public long Id { get; set; }
-    public int ViewerEntityId { get; set; }
-    public long ViewerId { get; set; }
     public YoutubeViewerModel Viewer { get; set; } = null!;
 
     public Guid RoomId { get; set; }

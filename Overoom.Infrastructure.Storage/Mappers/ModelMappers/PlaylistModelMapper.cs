@@ -29,7 +29,6 @@ internal class PlaylistModelMapper : IModelMapperUnit<PlaylistModel, Playlist>
         }
 
         playlist.Name = entity.Name;
-        playlist.NameNormalized = entity.Name.ToUpper();
         playlist.Description = entity.Description;
         playlist.Updated = entity.Updated;
         playlist.PosterUri = entity.PosterUri;
@@ -39,9 +38,9 @@ internal class PlaylistModelMapper : IModelMapperUnit<PlaylistModel, Playlist>
         playlist.Films.AddRange(newFilms.Select(x => new PlaylistFilmModel { FilmId = x }));
         _context.PlaylistFilms.RemoveRange(playlist.Films.Where(x => entity.Films.All(m => m != x.FilmId)));
 
-        var newGenres = entity.Genres.Where(x => playlist.Genres.All(m => m.NameNormalized != x.ToUpper()));
-        var removeGenres = playlist.Genres.Where(x => entity.Genres.All(m => m.ToUpper() != x.NameNormalized));
-        var databaseGenres = _context.Genres.Where(x => newGenres.Select(s => s.ToUpper()).Any(g => g == x.NameNormalized)).ToList();
+        var newGenres = entity.Genres.Where(x => playlist.Genres.All(m => !string.Equals(m.Name, x, StringComparison.CurrentCultureIgnoreCase)));
+        var removeGenres = playlist.Genres.Where(x => entity.Genres.All(m => !string.Equals(m, x.Name, StringComparison.CurrentCultureIgnoreCase)));
+        var databaseGenres = _context.Genres.Where(x => newGenres.Select(s => s.ToUpper()).Any(g => g == x.Name.ToUpper())).ToList();
         playlist.Genres.AddRange(databaseGenres);
         playlist.Genres.RemoveAll(g => removeGenres.Contains(g));
         var x = _context.Entry(playlist);

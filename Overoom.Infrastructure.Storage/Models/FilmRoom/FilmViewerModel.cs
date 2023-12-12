@@ -4,12 +4,10 @@ namespace Overoom.Infrastructure.Storage.Models.FilmRoom;
 
 public class FilmViewerModel : IEntityModel
 {
-    public long Id { get; set; }
     public int EntityId { get; set; }
+    public Guid RoomId { get; set; }
 
     public string Name { get; set; } = null!;
-    public string NameNormalized { get; set; } = null!;
-    public Guid RoomId { get; set; }
     public FilmRoomModel Room { get; set; } = null!;
     public Uri AvatarUri { get; set; } = null!;
     public bool Online { get; set; }

@@ -8,7 +8,6 @@ using Overoom.Infrastructure.Storage.Models.Genre;
 using Overoom.Infrastructure.Storage.Models.Person;
 using Overoom.Infrastructure.Storage.Models.Playlist;
 using Overoom.Infrastructure.Storage.Models.Rating;
-using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
 using Overoom.Infrastructure.Storage.Models.User;
 using Overoom.Infrastructure.Storage.Models.Voice;
 using Overoom.Infrastructure.Storage.Models.YoutubeRoom;
@@ -22,37 +21,37 @@ public class ApplicationDbContext : DbContext
     {
     }
 
-    internal List<INotification> Notifications { get; } = new();
-    internal DbSet<UserModel> Users { get; set; } = null!;
-    internal DbSet<HistoryModel> UserHistory { get; set; } = null!;
-    internal DbSet<WatchlistModel> UserWatchlist { get; set; } = null!;
+    public List<INotification> Notifications { get; } = new();
+    public DbSet<UserModel> Users { get; set; } = null!;
+    public DbSet<HistoryModel> UserHistory { get; set; } = null!;
+    public DbSet<WatchlistModel> UserWatchlist { get; set; } = null!;
 
 
-    internal DbSet<FilmModel> Films { get; set; } = null!;
-    internal DbSet<CdnModel> FilmCdns { get; set; } = null!;
-    internal DbSet<FilmActorModel> FilmActors { get; set; } = null!;
+    public DbSet<FilmModel> Films { get; set; } = null!;
+    public DbSet<CdnModel> FilmCdns { get; set; } = null!;
+    public DbSet<FilmActorModel> FilmActors { get; set; } = null!;
 
 
-    internal DbSet<PersonModel> Persons { get; set; } = null!;
-    internal DbSet<CountryModel> Countries { get; set; } = null!;
-    internal DbSet<GenreModel> Genres { get; set; } = null!;
-    internal DbSet<VoiceModel> Voices { get; set; } = null!;
+    public DbSet<PersonModel> Persons { get; set; } = null!;
+    public DbSet<CountryModel> Countries { get; set; } = null!;
+    public DbSet<GenreModel> Genres { get; set; } = null!;
+    public DbSet<VoiceModel> Voices { get; set; } = null!;
 
 
-    internal DbSet<PlaylistModel> Playlists { get; set; } = null!;
-    internal DbSet<PlaylistFilmModel> PlaylistFilms { get; set; } = null!;
+    public DbSet<PlaylistModel> Playlists { get; set; } = null!;
+    public DbSet<PlaylistFilmModel> PlaylistFilms { get; set; } = null!;
 
-    internal DbSet<CommentModel> Comments { get; set; } = null!;
+    public DbSet<CommentModel> Comments { get; set; } = null!;
 
-    internal DbSet<RatingModel> Ratings { get; set; } = null!;
+    public DbSet<RatingModel> Ratings { get; set; } = null!;
 
-    internal DbSet<FilmRoomModel> FilmRooms { get; set; } = null!;
-    internal DbSet<FilmViewerModel> FilmRoomViewers { get; set; } = null!;
-    internal DbSet<FilmMessageModel> FilmRoomMessages { get; set; } = null!;
-    internal DbSet<YoutubeRoomModel> YoutubeRooms { get; set; } = null!;
-    internal DbSet<YoutubeViewerModel> YoutubeRoomViewers { get; set; } = null!;
-    internal DbSet<YoutubeMessageModel> YoutubeRoomMessages { get; set; } = null!;
-    internal DbSet<VideoIdModel> YoutubeRoomVideoIds { get; set; } = null!;
+    public DbSet<FilmRoomModel> FilmRooms { get; set; } = null!;
+    public DbSet<FilmViewerModel> FilmRoomViewers { get; set; } = null!;
+    public DbSet<FilmMessageModel> FilmRoomMessages { get; set; } = null!;
+    public DbSet<YoutubeRoomModel> YoutubeRooms { get; set; } = null!;
+    public DbSet<YoutubeViewerModel> YoutubeRoomViewers { get; set; } = null!;
+    public DbSet<YoutubeMessageModel> YoutubeRoomMessages { get; set; } = null!;
+    public DbSet<VideoIdModel> YoutubeRoomVideoIds { get; set; } = null!;
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -72,11 +71,11 @@ public class ApplicationDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<FilmRoomModel>().HasMany(x => x.Viewers).WithOne(x => x.Room).HasForeignKey(x => x.RoomId)
             .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<FilmViewerModel>().HasKey("EntityId", "RoomId");
         modelBuilder.Entity<FilmRoomModel>().HasOne(x => x.Film).WithMany().HasForeignKey(x => x.FilmId)
             .OnDelete(DeleteBehavior.Restrict);
-        modelBuilder.Entity<FilmMessageModel>().HasOne(x => x.Viewer).WithMany().HasForeignKey(x => x.ViewerId)
-            .OnDelete(DeleteBehavior.Cascade);
-
+        modelBuilder.Entity<FilmMessageModel>().HasOne(x => x.Viewer).WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.Messages).WithOne(x => x.Room)
             .HasForeignKey(x => x.RoomId)
@@ -84,8 +83,9 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.Viewers).WithOne(x => x.Room)
             .HasForeignKey(x => x.RoomId)
             .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<YoutubeMessageModel>().HasOne(x => x.Viewer).WithMany().HasForeignKey(x => x.ViewerId)
-            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<YoutubeViewerModel>().HasKey("EntityId", "RoomId");
+        modelBuilder.Entity<YoutubeMessageModel>().HasOne(x => x.Viewer).WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
         modelBuilder.Entity<YoutubeRoomModel>().HasMany(x => x.VideoIds).WithOne(x => x.Room)
             .HasForeignKey(x => x.RoomId).OnDelete(DeleteBehavior.Cascade);
 

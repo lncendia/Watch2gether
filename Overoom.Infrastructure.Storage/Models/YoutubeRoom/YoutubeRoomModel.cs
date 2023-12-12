@@ -1,11 +1,11 @@
-﻿using Overoom.Infrastructure.Storage.Models.Abstractions;
-using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Overoom.Infrastructure.Storage.Models.Abstractions;
 
 namespace Overoom.Infrastructure.Storage.Models.YoutubeRoom;
 
 public class YoutubeRoomModel : IAggregateModel
 {
-    
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid Id { get; set; }
     public bool IsOpen { get; set; }
     public int IdCounter { get; set; }

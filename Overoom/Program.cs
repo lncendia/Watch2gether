@@ -1,6 +1,7 @@
 using System.Globalization;
 using Overoom.Extensions;
 using Overoom.HostedServices;
+using Overoom.Infrastructure.Storage.Context;
 using Overoom.WEB.Hubs;
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("ru-RU")
@@ -26,10 +27,7 @@ builder.Services.AddHostedService<FilmLoadHostedService>();
 builder.Services.AddSignalR();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-
 var app = builder.Build();
-//await app.Services.CreateScope().ServiceProvider.GetService<IRoomService>()!.RemoveAllRooms();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

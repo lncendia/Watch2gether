@@ -45,14 +45,14 @@ internal class FilmRoomModelMapper : IModelMapperUnit<FilmRoomModel, FilmRoom>
         filmRoom.IdCounter = (int)IdCounter.GetValue(entity)!;
 
         var newMessages = entity.Messages.Where(x =>
-            filmRoom.Messages.All(m => m.ViewerEntityId != x.ViewerId || m.CreatedAt != x.CreatedAt));
+            filmRoom.Messages.All(m => m.Viewer.EntityId != x.ViewerId || m.CreatedAt != x.CreatedAt));
         filmRoom.Messages.AddRange(newMessages.Select(x => new FilmMessageModel
         {
-            ViewerEntityId = x.ViewerId, Text = x.Text, CreatedAt = x.CreatedAt,
-            ViewerId = filmRoom.Viewers.First(v => v.EntityId == x.ViewerId).Id
+            Text = x.Text, CreatedAt = x.CreatedAt,
+            Viewer = filmRoom.Viewers.First(v => v.EntityId == x.ViewerId)
         }));
         _context.FilmRoomMessages.RemoveRange(filmRoom.Messages.Where(x =>
-            entity.Messages.All(m => m.ViewerId != x.ViewerEntityId && m.CreatedAt != x.CreatedAt)));
+            entity.Messages.All(m => m.ViewerId != x.Viewer.EntityId && m.CreatedAt != x.CreatedAt)));
 
 
         _context.FilmRoomViewers.RemoveRange(filmRoom.Viewers.Where(x => entity.Viewers.All(m => m.Id != x.EntityId)));
@@ -65,7 +65,6 @@ internal class FilmRoomModelMapper : IModelMapperUnit<FilmRoomModel, FilmRoom>
                 AvatarUri = viewer.AvatarUri
             };
             viewerModel.Name = viewer.Name;
-            viewerModel.NameNormalized = viewer.Name.ToUpper();
             viewerModel.Season = viewer.Season;
             viewerModel.Series = viewer.Series;
             viewerModel.Online = viewer.Online;
@@ -75,7 +74,7 @@ internal class FilmRoomModelMapper : IModelMapperUnit<FilmRoomModel, FilmRoom>
             viewerModel.Beep = viewer.Allows.Beep;
             viewerModel.Scream = viewer.Allows.Scream;
             viewerModel.Change = viewer.Allows.Change;
-            if (viewerModel.Id == default) filmRoom.Viewers.Add(viewerModel);
+            if (viewerModel.EntityId == default) filmRoom.Viewers.Add(viewerModel); //todo: fix that
         }
 
         return filmRoom;

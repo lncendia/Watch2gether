@@ -4,7 +4,6 @@ using Overoom.Domain.Rooms.BaseRoom.Entities;
 using Overoom.Domain.Rooms.YoutubeRoom.Entities;
 using Overoom.Infrastructure.Storage.Context;
 using Overoom.Infrastructure.Storage.Mappers.Abstractions;
-using Overoom.Infrastructure.Storage.Models.Room.YoutubeRoom;
 using Overoom.Infrastructure.Storage.Models.YoutubeRoom;
 
 namespace Overoom.Infrastructure.Storage.Mappers.ModelMappers;
@@ -46,14 +45,14 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
         youtubeRoom.Access = entity.Access;
 
         var newMessages = entity.Messages.Where(x =>
-            youtubeRoom.Messages.All(m => m.ViewerEntityId != x.ViewerId || m.CreatedAt != x.CreatedAt));
+            youtubeRoom.Messages.All(m => m.Viewer.EntityId != x.ViewerId || m.CreatedAt != x.CreatedAt));
         youtubeRoom.Messages.AddRange(newMessages.Select(x => new YoutubeMessageModel
         {
-            ViewerEntityId = x.ViewerId, Text = x.Text, CreatedAt = x.CreatedAt,
-            ViewerId = youtubeRoom.Viewers.First(v => v.EntityId == x.ViewerId).Id
+            Text = x.Text, CreatedAt = x.CreatedAt,
+            Viewer = youtubeRoom.Viewers.First(v => v.EntityId == x.ViewerId)
         }));
         _context.YoutubeRoomMessages.RemoveRange(youtubeRoom.Messages.Where(x =>
-            entity.Messages.All(m => m.ViewerId != x.ViewerEntityId && m.CreatedAt != x.CreatedAt)));
+            entity.Messages.All(m => m.ViewerId != x.Viewer.EntityId && m.CreatedAt != x.CreatedAt)));
 
         var newIds = entity.VideoIds.Where(x => youtubeRoom.VideoIds.All(m => m.VideoId != x));
         youtubeRoom.VideoIds.AddRange(newIds.Select(x => new VideoIdModel { VideoId = x }));
@@ -72,7 +71,6 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
                     AvatarUri = viewer.AvatarUri
                 };
             viewerModel.Name = viewer.Name;
-            viewerModel.NameNormalized = viewer.Name.ToUpper();
             viewerModel.CurrentVideoId = viewer.CurrentVideoId;
             viewerModel.Online = viewer.Online;
             viewerModel.Pause = viewer.Pause;
@@ -81,7 +79,7 @@ internal class YoutubeRoomModelMapper : IModelMapperUnit<YoutubeRoomModel, Youtu
             viewerModel.Beep = viewer.Allows.Beep;
             viewerModel.Scream = viewer.Allows.Scream;
             viewerModel.Change = viewer.Allows.Change;
-            if (viewerModel.Id == default) youtubeRoom.Viewers.Add(viewerModel);
+            if (viewerModel.EntityId == default) youtubeRoom.Viewers.Add(viewerModel);
         }
 
         return youtubeRoom;

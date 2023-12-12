@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Overoom.Domain.Films.Enums;
 using Overoom.Infrastructure.Storage.Models.Voice;
 

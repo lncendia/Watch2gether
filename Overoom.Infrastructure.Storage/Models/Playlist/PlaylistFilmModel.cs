@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Overoom.Infrastructure.Storage.Models.Playlist;
 
 public class PlaylistFilmModel

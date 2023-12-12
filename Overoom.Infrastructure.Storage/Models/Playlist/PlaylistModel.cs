@@ -1,15 +1,16 @@
-﻿using Overoom.Infrastructure.Storage.Models.Abstractions;
-using Overoom.Infrastructure.Storage.Models.Film;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Overoom.Infrastructure.Storage.Models.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Genre;
 
 namespace Overoom.Infrastructure.Storage.Models.Playlist;
 
 public class PlaylistModel : IAggregateModel
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid Id { get; set; }
-    public string Name { get; set; } = null!;
-    public string NameNormalized { get; set; } = null!;
-    public string Description { get; set; } = null!;
+    [MaxLength(200)] public string Name { get; set; } = null!;
+    [MaxLength(500)]public string Description { get; set; } = null!;
     public List<PlaylistFilmModel> Films { get; set; } = new();
     public List<GenreModel> Genres { get; set; } = new();
     public DateTime Updated { get; set; }

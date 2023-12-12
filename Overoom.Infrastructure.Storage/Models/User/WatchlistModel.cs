@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Overoom.Infrastructure.Storage.Models.Film;
 
 namespace Overoom.Infrastructure.Storage.Models.User;

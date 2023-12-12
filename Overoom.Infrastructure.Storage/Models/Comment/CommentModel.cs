@@ -1,4 +1,5 @@
-﻿using Overoom.Infrastructure.Storage.Models.Abstractions;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Overoom.Infrastructure.Storage.Models.Abstractions;
 using Overoom.Infrastructure.Storage.Models.Film;
 using Overoom.Infrastructure.Storage.Models.User;
 
@@ -6,6 +7,7 @@ namespace Overoom.Infrastructure.Storage.Models.Comment;
 
 public class CommentModel : IAggregateModel
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid Id { get; set; }
     public string Text { get; set; } = null!;
     public DateTime CreatedAt { get; set; }
