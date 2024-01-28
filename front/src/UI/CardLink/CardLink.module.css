@@ -1,0 +1,11 @@
+.link {
+    --link-color: #9297a1;
+    color: var(--link-color);
+    --bs-card-title-color: var(--link-color);
+    --bs-card-color: var(--link-color);
+    text-decoration: none;
+}
+
+.link:hover {
+    --link-color: #b8becb;
+}

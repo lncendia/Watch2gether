@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>aspnet-Watch2gether-0443B0C1-16EC-4947-9CA3-809A17128A62</UserSecretsId>
+        <LangVersion>12</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Films.Application.Services\Films.Application.Services.csproj" />
+      <ProjectReference Include="..\Films.Domain.Abstractions\Films.Domain.Abstractions.csproj" />
+      <ProjectReference Include="..\Films.Domain\Films.Domain.csproj" />
+      <ProjectReference Include="..\AuthService.Infrastructure.Mailing\AuthService.Infrastructure.Mailing.csproj" />
+      <ProjectReference Include="..\Films.Infrastructure.Movie\Films.Infrastructure.Movie.csproj" />
+      <ProjectReference Include="..\Films.Infrastructure.Storage\Films.Infrastructure.Storage.csproj" />
+      <ProjectReference Include="..\Films.Infrastructure.Web\Films.Infrastructure.Web.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.13" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Account\Continue.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\Login.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\NewPassword.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\Register.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\ResetPassword.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Account\login.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Account\registration.js" />
+    </ItemGroup>
+</Project>

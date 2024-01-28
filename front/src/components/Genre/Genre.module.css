@@ -1,0 +1,50 @@
+@font-face {
+    font-family: "Morice-Bejar";
+    src: url("../../fonts/Morice-Bejar.ttf") format("truetype");
+}
+
+.genre {
+    --shadow-red: #7e0303;
+    --shadow-dark: #262626;
+    --shadow-purple: #8201b6;
+    --color-dark: rgba(17, 17, 30, 0.7);
+    width: 94%;
+    height: 94%;
+    text-align: center;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background: var(--color-dark);
+    border-radius: 15px;
+    box-shadow: 0 0 10px var(--shadow-dark);
+    color: white;
+    font-family: "Morice-Bejar", "Arial", sans-serif;
+    font-size: 30px;
+    margin: 5px auto;
+    transition: all, 0.2s;
+}
+
+@media (min-width: 1080px) {
+    .genre {
+        font-size: 40px;
+    }
+}
+
+@media (min-width: 1500px) {
+    .genre {
+        font-size: 50px;
+    }
+}
+
+.selected {
+    width: 95%;
+    height: 95%;
+    box-shadow: 0 0 10px var(--shadow-purple) !important;
+}
+
+.genre:hover {
+    transition: all, 0.2s;
+    width: 95%;
+    height: 95%;
+    box-shadow: 0 0 10px var(--shadow-red);
+    cursor: pointer;
+}

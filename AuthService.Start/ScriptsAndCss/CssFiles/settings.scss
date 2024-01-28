@@ -1,0 +1,167 @@
+.settings {
+
+  .avatar {
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: all 0.1s
+  }
+
+  .avatar:hover {
+    width: 55px;
+    height: 55px;
+    box-shadow: 1px 2px 5px 1px #3f0681;
+  }
+
+  .accordion-button {
+    font-size: 16px !important;
+    --bs-accordion-btn-padding-y: 15px;
+    --bs-accordion-btn-padding-x: 15px;
+  }
+
+  @media (max-width: 670px) {
+    .accordion-button {
+      font-size: 14px !important;
+      --bs-accordion-btn-padding-y: 10px;
+      --bs-accordion-btn-padding-x: 10px;
+    }
+
+  }
+
+  .oauth-block {
+    position: relative;
+
+    .modal-btn {
+      position: absolute;
+      top: 2px;
+      right: 3%;
+      color: #8c0000;
+    }
+
+    @media (max-width: 670px) {
+      .modal-btn {
+        top: 0;
+      }
+    }
+
+    .modal-btn:hover {
+      color: red;
+      cursor: pointer;
+    }
+
+    .provider.disabled {
+      cursor: not-allowed;
+      box-shadow: 0 0 3px 1px rgba(37, 37, 37, 0.5);
+      opacity: 0.5;
+    }
+
+    .provider.active {
+      box-shadow: 0 2px 4px 1px rgba(37, 37, 37, 0.5);
+    }
+
+    .provider {
+      display: block;
+      width: 75%;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin: auto auto 15px;
+      color: black;
+      border-radius: 15px;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: Montserrat-Medium, serif;
+      position: relative;
+      --logo-width: 21px;
+      --logo-height: 21px;
+      --name-size: 14px;
+      --svg-top: 8px;
+
+      img {
+        width: var(--logo-width);
+        height: var(--logo-height);
+        position: absolute;
+        margin-left: 5px;
+        border-radius: 50%;
+      }
+
+      .name {
+        text-align: center;
+        font-size: var(--name-size)
+      }
+
+      svg {
+        position: absolute;
+        top: var(--svg-top);
+        right: 10px;
+        color: green;
+      }
+    }
+
+    @media (max-width: 670px) {
+      .provider {
+        --logo-width: 18px;
+        --logo-height: 18px;
+        --name-size: 12px;
+        --svg-top: 6px;
+      }
+    }
+
+    .provider.active:hover {
+      width: 76%;
+      color: white;
+      border-color: transparent;
+
+      svg {
+        color: white;
+      }
+    }
+
+    .active.yandex:hover {
+      background: rgb(252, 63, 29);
+      box-shadow: 0 3px 4px 1px rgba(252, 63, 29, 0.5);
+    }
+
+    .vkid {
+      img {
+        width: calc(var(--logo-width) * 2);
+        border-radius: 20%;
+      }
+    }
+
+    .active.vkid:hover {
+      background: rgb(0, 119, 255);
+      box-shadow: 0 3px 4px 1px rgba(0, 119, 255, 0.5);
+    }
+
+    .active.github:hover {
+      background: rgb(0, 0, 0);
+      box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.5);
+
+      img {
+        background: white;
+      }
+    }
+
+    .active.google:hover {
+      background: rgb(12, 57, 239);
+      box-shadow: 0 3px 4px 1px rgba(12, 57, 239, 0.5);
+    }
+
+    .active.microsoft:hover {
+      background: rgb(43, 211, 51);
+      box-shadow: 0 3px 4px 1px rgba(43, 211, 51, 0.5);
+    }
+
+    .microsoft {
+      img {
+        border-radius: 0;
+      }
+    }
+
+    .active.x:hover {
+      background: rgb(0, 0, 0);
+      box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.5);
+    }
+  }
+}

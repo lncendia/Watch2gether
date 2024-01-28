@@ -1,0 +1,403 @@
+﻿body{
+  background-blend-mode: screen;
+  background: linear-gradient(#b721ff, transparent),
+  linear-gradient(90deg, #21d4fd, transparent),
+  linear-gradient(-90deg, coral, transparent);
+  background-size: cover;
+  --link-color: #232323;
+  --link-hover-color: #4f0000;
+}
+
+.body-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  --main-size: 16px;
+  --side-size: 14px;
+  --big-size: 18px;
+  --logo-size: 60px;
+  --logo-text-size: 40px;
+  --text-input-up: -15px;
+}
+
+svg {
+  position: relative;
+  bottom: 2px;
+}
+
+@media (max-width: 670px) {
+  .body-container {
+    --main-size: 13px;
+    --side-size: 11px;
+    --big-size: 13px;
+    --logo-size: 40px;
+    --logo-text-size: 30px;
+    --text-input-up: -10px;
+  }
+}
+
+.main-card {
+  --bs-card-border-radius: 0.6rem;
+
+  .card-body {
+    padding: 0;
+  }
+
+  .card-title {
+    text-align: center;
+    font-family: Montserrat-Bold, serif;
+    font-size: var(--logo-text-size);
+    --bs-card-title-color: #333333;
+    line-height: 1.2;
+  }
+
+  .card-logo {
+    display: block;
+    text-align: center;
+
+    i {
+      font-size: var(--logo-size);
+    }
+  }
+
+  .card-link, .form-check-label {
+    font-family: Montserrat-Regular, serif;
+    font-size: var(--side-size);
+    color: #666666;
+    margin: 0;
+    transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    text-decoration: none;
+  }
+
+  .card-link:focus {
+    outline: none !important;
+  }
+
+  .card-link:hover {
+    text-decoration: none;
+    color: #a64bf4;
+  }
+
+  .card-subtitle {
+    font-size: var(--main-size);
+    font-family: Montserrat-Regular, serif;
+
+    .card-link {
+      font-size: var(--main-size);
+      font-family: Montserrat-Regular, serif;
+    }
+  }
+}
+
+@font-face {
+  font-family: Montserrat-Bold;
+  src: url('/fonts/montserrat/Montserrat-Bold.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-Regular;
+  src: url('/fonts/montserrat/Montserrat-Regular.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-Medium;
+  src: url('/fonts/montserrat/Montserrat-Medium.ttf');
+}
+
+input:checked {
+  background-color: #a64bf4 !important;
+  border-color: #a64bf4 !important;
+}
+
+.wrap-error {
+  width: 100%;
+  position: relative;
+
+  .field-validation-error {
+    font-family: Montserrat-Regular, serif;
+    font-size: var(--side-size);
+    color: #ff8282;
+    padding-left: 5px;
+  }
+
+  .field-validation-error::before {
+    width: 100%;
+    content: "";
+    display: block;
+    position: absolute;
+    top: -2px;
+    height: 2px;
+
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+
+    background: #fa1212;
+    background: -webkit-linear-gradient(left, #ff4444, #ffa1a1);
+    background: -o-linear-gradient(left, #ff4444, #ffa1a1);
+    background: -moz-linear-gradient(left, #ff4444, #ffa1a1);
+    background: linear-gradient(left, #ff4444, #ffa1a1);
+  }
+}
+
+.wrap-input {
+  width: 100%;
+  position: relative;
+  border-bottom: 2px solid #adadad;
+
+  input {
+    font-family: Montserrat-Medium, serif;
+    font-size: var(--main-size);
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+    height: 45px;
+    background: transparent;
+    padding: 0 5px;
+    outline: none;
+    border: none;
+  }
+
+  .focus-input {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .focus-input {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .focus-input::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+
+    background: #6a7dfe;
+    background: -webkit-linear-gradient(left, #21d4fd, #b721ff);
+    background: -o-linear-gradient(left, #21d4fd, #b721ff);
+    background: -moz-linear-gradient(left, #21d4fd, #b721ff);
+    background: linear-gradient(left, #21d4fd, #b721ff);
+  }
+
+  .focus-input::after {
+    font-family: Montserrat-Regular, serif;
+    font-size: var(--side-size);
+    color: #999999;
+    line-height: 1.2;
+
+    content: attr(data-placeholder);
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: -0.2rem;
+    left: 0;
+    padding-left: 5px;
+
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+  }
+
+  .focus-input::after {
+    font-size: var(--big-size);
+  }
+
+  input:focus + .focus-input::after {
+    top: var(--text-input-up);
+  }
+
+  input:focus + .focus-input::before {
+    width: 100%;
+  }
+
+  input.has-val + .focus-input::after {
+    top: var(--text-input-up);
+  }
+
+  input.has-val + .focus-input::before {
+    width: 100%;
+  }
+
+  .btn-show-pass {
+    color: #999999;
+
+    display: flex;
+    align-items: center;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: 0;
+    padding-right: 5px;
+    cursor: pointer;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+  }
+
+  .btn-show-pass:hover {
+    color: #6a7dfe;
+    color: -webkit-linear-gradient(left, #21d4fd, #b721ff);
+    color: -o-linear-gradient(left, #21d4fd, #b721ff);
+    color: -moz-linear-gradient(left, #21d4fd, #b721ff);
+    color: linear-gradient(left, #21d4fd, #b721ff);
+  }
+
+  .btn-show-pass.active {
+    color: #6a7dfe;
+    color: -webkit-linear-gradient(left, #21d4fd, #b721ff);
+    color: -o-linear-gradient(left, #21d4fd, #b721ff);
+    color: -moz-linear-gradient(left, #21d4fd, #b721ff);
+    color: linear-gradient(left, #21d4fd, #b721ff);
+  }
+}
+
+.container-btn {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .wrap-btn {
+    width: 100%;
+    display: block;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    margin: 0 auto;
+
+    .bg-btn {
+      position: absolute;
+      z-index: -1;
+      width: 300%;
+      height: 100%;
+      background: #a64bf4;
+      background: -webkit-linear-gradient(right, #00dbde, #fc00ff, #00dbde, #fc00ff);
+      background: -o-linear-gradient(right, #00dbde, #fc00ff, #00dbde, #fc00ff);
+      background: -moz-linear-gradient(right, #00dbde, #fc00ff, #00dbde, #fc00ff);
+      background: linear-gradient(right, #00dbde, #fc00ff, #00dbde, #fc00ff);
+      top: 0;
+      left: -100%;
+
+      -webkit-transition: all 0.4s;
+      -o-transition: all 0.4s;
+      -moz-transition: all 0.4s;
+      transition: all 0.4s;
+    }
+
+    .m-btn {
+      font-family: Montserrat-Medium, serif;
+      font-size: var(--main-size);
+      line-height: 1.2;
+      text-transform: uppercase;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 20px;
+      width: 100%;
+      height: 50px;
+      outline: none !important;
+      border: none;
+      text-decoration: none;
+    }
+
+  }
+
+  @media (max-width: 670px) {
+    .wrap-btn {
+      width: 70%;
+
+      .m-btn {
+        height: 35px;
+      }
+    }
+  }
+  
+  .wrap-btn.on-load {
+    box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
+    -moz-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
+    -webkit-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
+    -o-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
+    -ms-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
+    border-radius: 25px;
+
+    .m-btn {
+      background: transparent;
+      color: white;
+    }
+  }
+
+  .wrap-btn.on-hover {
+    .m-btn {
+      transition: background 0s;
+      background: white;
+      color: black;
+    }
+
+    .m-btn:hover {
+      transition: background 0.4s;
+      background: transparent;
+      color: white;
+    }
+  }
+
+  .wrap-btn.on-hover:hover {
+    box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
+    -moz-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
+    -webkit-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
+    -o-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
+    -ms-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
+    border-radius: 25px;
+  }
+
+  .wrap-btn:hover .bg-btn {
+    left: 0;
+  }
+}
+
+.request-id {
+  font-size: 11px;
+}
+
+.strength-valid {
+
+  position: relative;
+
+  .progress-bar {
+    height: 2px;
+    position: absolute;
+    top: -2px;
+  }
+
+  span {
+    font-family: Montserrat-Regular, serif;
+    font-size: var(--side-size);
+    padding: 5px;
+    color: #666666;
+  }
+}

@@ -1,0 +1,18 @@
+.side_text {
+    font-size: 25px;
+    font-weight: 400;
+}
+
+@media (min-width: 1080px) {
+    .side_text {
+        font-size: 30px;
+        font-weight: 500;
+    }
+}
+
+
+@media (min-width: 1700px) {
+    .side_text {
+        font-size: 40px;
+    }
+}

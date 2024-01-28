@@ -1,0 +1,11 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["EmailConfirmedTitle"];
+}
+
+<h5 class="card-title">@Localizer["EmailConfirmedTitle"]</h5>
+<span class="card-logo">
+    <i class="zmdi zmdi-font"></i>
+</span>
+<div class="mt-5">@Localizer["EmailConfirmedBody"]</div>

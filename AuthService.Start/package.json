@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "name": "asp.net",
+  "private": true,
+  "devDependencies": {
+    "grunt": "1.5.3",
+    "grunt-contrib-clean": "2.0.1",
+    "grunt-contrib-concat": "2.1.0",
+    "grunt-contrib-cssmin": "4.0.0",
+    "grunt-contrib-uglify": "5.2.2",
+    "grunt-contrib-watch": "1.1.0"
+  },
+  "dependencies": {
+    "daemonite-material": "4.1.1"
+  }
+}

@@ -1,4 +1,11 @@
 ﻿obj/
 bin/
-/Overoom/wwwroot/img/Avatars/
-/Overoom/wwwroot/img/Posters/
+AuthService.Start/wwwroot/img/Avatars/
+AuthService.Start/wwwroot/img/Posters/
+*/wwwroot/css/app.min.css
+*/wwwroot/js/app.min.js
+*/ScriptsAndCss/Combined/
+*/ScriptsAndCss/JsScripts/
+*/ScriptsAndCss/CssFiles/*.css
+*/ScriptsAndCss/CssFiles/*.css.map
+node_modules/

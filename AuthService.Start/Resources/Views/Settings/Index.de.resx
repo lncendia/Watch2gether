@@ -1,0 +1,35 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="SettingsTitle" xml:space="preserve">
+        <value>Die Einstellungen</value>
+    </data>
+    <data name="ExternalProviders" xml:space="preserve">
+        <value>Verknüpfte Konten</value>
+    </data>
+    <data name="Return" xml:space="preserve">
+        <value>Zurückkehren</value>
+    </data>
+    <data name="PasswordChange" xml:space="preserve">
+        <value>Passwort ändern</value>
+    </data>
+    <data name="EmailChange" xml:space="preserve">
+        <value>Mail ändern</value>
+    </data>
+    <data name="NicknameChange" xml:space="preserve">
+        <value>Ändern des Benutzernamens</value>
+    </data>
+    <data name="AvatarChange" xml:space="preserve">
+        <value>Avatar ändern</value>
+    </data>
+</root>

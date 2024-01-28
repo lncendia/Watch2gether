@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "removeComments": true,
+    "target": "ES2016",
+    "allowJs": true,
+    "outDir": "ScriptsAndCss/JsScripts",
+    "lib": [
+      "es6",
+      "dom",
+      "es5",
+      "es2015",
+      "es2015.promise",
+      "dom.iterable"
+    ]
+  },
+  "compileOnSave": true,
+  "include": [
+    "ScriptsAndCss/TypeScripts"
+  ],
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
+}
