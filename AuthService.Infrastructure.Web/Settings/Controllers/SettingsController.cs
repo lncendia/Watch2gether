@@ -431,7 +431,26 @@ public class SettingsController : Controller
 
         return RedirectToAction("Index", new { model.ReturnUrl, expandElem = 5, message });
     }
+    
+    /// <summary>
+    /// Метод, который заканчивает другие сессии у пользователя
+    /// </summary>
+    /// <returns>Результат закрытия сессий</returns>
+    public async Task<IActionResult> CloseOtherSessions(int expandElem = 1, string returnUrl = "/")
+    {
+        // Отправляем команду на закрытие всех других сессий, возвращаем данного пользователя
+        var user = await _mediator.Send(new CloseOtherUserSessionsCommand { Id = User.Id() });
 
+        // Устанавливаем сообщение "PasswordChanged"
+        var message = _localizer["SessionsClosed"];
+
+        /*Так как Security Stamp у пользователя обновился,
+        то переавторизуем его, чтобы обновить куки с новыми данными*/
+        await _signInManager.RefreshSignInAsync(user);
+        
+        // Перенаправляем на действие "Index" с указанными параметрами returnUrl, expandElem и message
+        return RedirectToAction("Index", new { returnUrl, expandElem = 1, message });
+    }
 
     /// <summary>
     /// Метод, отвечающий за построение модели представления для страницы настроек.

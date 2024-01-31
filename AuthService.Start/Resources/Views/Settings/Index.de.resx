@@ -32,4 +32,10 @@
     <data name="AvatarChange" xml:space="preserve">
         <value>Avatar ändern</value>
     </data>
+    <data name="WarningInfo" xml:space="preserve">
+        <value>Durch Datenänderungen enden die verbleibenden Sitzungen!</value>
+    </data>
+    <data name="TerminateSessions" xml:space="preserve">
+        <value>Sitzungen beenden</value>
+    </data>
 </root>

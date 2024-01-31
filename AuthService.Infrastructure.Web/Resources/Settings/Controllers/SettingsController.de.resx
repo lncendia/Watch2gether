@@ -74,4 +74,7 @@
     <data name="AvatarChanged" xml:space="preserve">
         <value>Profilfoto geändert</value>
     </data>
+    <data name="SessionsClosed" xml:space="preserve">
+        <value>Andere Sitzungen wurden erfolgreich abgeschlossen</value>
+    </data>
 </root>

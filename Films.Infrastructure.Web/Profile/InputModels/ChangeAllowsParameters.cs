@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Films.Infrastructure.Web.Contracts.Settings;
+namespace Films.Infrastructure.Web.Profile.InputModels;
 
 public class ChangeAllowsParameters
 {

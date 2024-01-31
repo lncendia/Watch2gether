@@ -121,5 +121,24 @@ namespace AuthService.Start.Resources.Views.Settings {
                 return ResourceManager.GetString("SettingsTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terminate sessions.
+        /// </summary>
+        internal static string TerminateSessions {
+            get {
+                return ResourceManager.GetString("TerminateSessions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changing the data will terminate the remaining sessions!
+        ///.
+        /// </summary>
+        internal static string WarningInfo {
+            get {
+                return ResourceManager.GetString("WarningInfo", resourceCulture);
+            }
+        }
     }
 }

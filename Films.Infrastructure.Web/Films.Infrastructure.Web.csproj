@@ -12,4 +12,19 @@
       <ProjectReference Include="..\Films.Application.Abstractions\Films.Application.Abstractions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Comments\ViewModels\" />
+      <Folder Include="FilmsManagement\InputModels\" />
+      <Folder Include="FilmsManagement\ViewModels\" />
+      <Folder Include="Films\ViewModels\" />
+      <Folder Include="Home\ViewModels\" />
+      <Folder Include="PlaylistManagement\InputModels\" />
+      <Folder Include="PlaylistManagement\ViewModels\" />
+      <Folder Include="Playlists\ViewModels\" />
+      <Folder Include="Profile\ViewModels\" />
+      <Folder Include="Ratings\" />
+      <Folder Include="Room\InputModels\" />
+      <Folder Include="Room\ViewModels\" />
+    </ItemGroup>
+
 </Project>

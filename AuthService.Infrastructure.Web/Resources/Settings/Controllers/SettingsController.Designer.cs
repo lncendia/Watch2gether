@@ -222,6 +222,15 @@ namespace AuthService.Infrastructure.Web.Resources.Settings.Controllers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Other sessions completed successfully.
+        /// </summary>
+        internal static string SessionsClosed {
+            get {
+                return ResourceManager.GetString("SessionsClosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The user&apos;s name has been changed.
         /// </summary>
         internal static string UserNameChanged {

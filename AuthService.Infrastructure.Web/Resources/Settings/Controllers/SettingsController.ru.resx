@@ -78,4 +78,7 @@
     <data name="AvatarChanged" xml:space="preserve">
         <value>Фото профиля изменено</value>
     </data>
+    <data name="SessionsClosed" xml:space="preserve">
+        <value>Другие сессии успешно завершены</value>
+    </data>
 </root>

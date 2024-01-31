@@ -39,4 +39,11 @@
     <data name="AvatarChange" xml:space="preserve">
         <value>Avatar change</value>
     </data>
+    <data name="WarningInfo" xml:space="preserve">
+        <value>Changing the data will terminate the remaining sessions!
+</value>
+    </data>
+    <data name="TerminateSessions" xml:space="preserve">
+        <value>Terminate sessions</value>
+    </data>
 </root>

@@ -52,7 +52,7 @@ class Settings {
 
         // получаем все поля ввода с классом .input100
         document.querySelectorAll('.wrap-input input').forEach(element => {
-
+            
             // добавляем обработчик события потери фокуса
             element.addEventListener('blur', ev => this.blur((ev.currentTarget as HTMLInputElement)));
         });

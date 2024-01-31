@@ -79,7 +79,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button @elements[3].collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="@elements[3].expanded" aria-controls="collapseFour">
-                     @Localizer["NicknameChange"]
+                    @Localizer["NicknameChange"]
                 </button>
             </h2>
             <div id="collapseFour" class="accordion-collapse collapse @elements[3].show" data-bs-parent="#accordionExample">
@@ -108,5 +108,13 @@
                 @Localizer["Return"]
             </a>
         </div>
+    </div>
+    <div style="font-size: 12px">
+        <span>
+            *@Localizer["WarningInfo"]
+            <a asp-controller="Settings" asp-route-expandElem="@Model.ExpandElement" asp-route-returnUrl="@Model.ReturnUrl" asp-action="CloseOtherSessions">
+                @Localizer["TerminateSessions"]
+            </a>
+        </span>
     </div>
 </div>

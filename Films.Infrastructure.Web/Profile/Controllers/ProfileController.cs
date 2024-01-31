@@ -1,8 +1,8 @@
-﻿using Films.Infrastructure.Web.Contracts.Settings;
-using Films.Infrastructure.Web.Mappers.Abstractions;
+﻿using Films.Infrastructure.Web.Mappers.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Films.Infrastructure.Web.Authentication;
+using Films.Infrastructure.Web.Profile.InputModels;
 using Abstractions_IProfileMapper = Films.Infrastructure.Web.Mappers.Abstractions.IProfileMapper;
 
 namespace Films.Infrastructure.Web.Controllers;
