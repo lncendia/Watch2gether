@@ -1,57 +1,59 @@
 ﻿using Films.Application.Abstractions.Queries.Films;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Films.Infrastructure.Web.Contracts.Film;
-using Films.Infrastructure.Web.Models.Film;
+using Films.Application.Abstractions.Queries.Films.DTOs;
+using Films.Domain.Films.Enums;
 using Films.Infrastructure.Web.Authentication;
+using Films.Infrastructure.Web.Films.InputModels;
+using Films.Infrastructure.Web.Films.ViewModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using FilmViewModel = Films.Infrastructure.Web.Films.ViewModels.FilmViewModel;
 
-namespace Films.Infrastructure.Web.Controllers;
+namespace Films.Infrastructure.Web.Films.Controllers;
 
 [ApiController]
-[Route("filmApi/[controller]")]
+[Route("filmApi/[controller]/[action]")]
 public class FilmController(IMediator mediator) : ControllerBase
 {
-    
-    public async Task<IActionResult> Films()
+    [HttpGet]
+    public async Task<IEnumerable<FilmShortViewModel>> Popular([FromQuery] PopularFilmsInputModel model)
     {
         var popular = await mediator.Send(new PopularFilmsQuery
         {
-            Take = 10
+            Take = model.Count
         });
-        var vm = new FilmsViewModel(popular.Select(_filmsMapper.MapShort).ToList());
-        return View(vm);
-    }
 
-    public async Task<IActionResult> FilmSearch(SearchParameters model)
-    {
-        
-        if (search.PlaylistId.HasValue)
-            ViewData["playlist"] = await _filmsManager.GetPlaylistNameAsync(search.PlaylistId.Value);
-        return View(search);
+        return popular.Select(Map);
     }
 
     [HttpGet]
-    public async Task<IActionResult> FilmsList(FilmsSearchParameters model)
+    public async Task<FilmsViewModel> Search([FromQuery] FilmsSearchInputModel model)
     {
-        if (!ModelState.IsValid) return NoContent();
-        try
+        var data = await mediator.Send(new FindFilmsQuery
         {
-            var films = await _filmsManager.FindAsync(_filmsMapper.Map(model));
-            if (!films.Any()) return NoContent();
-            var filmsModels = films.Select(_filmsMapper.Map).ToList();
-            return Json(filmsModels);
-        }
-        catch (Exception e)
+            Country = model.Country,
+            Query = model.Query,
+            Genre = model.Genre,
+            Person = model.Person,
+            Type = model.Type,
+            PlaylistId = model.PlaylistId,
+            Skip = (model.Page - 1) * model.CountPerPage,
+            Take = model.CountPerPage
+        });
+
+        var countPages = data.count / model.CountPerPage;
+
+        if (data.count % model.CountPerPage > 0) countPages++;
+
+        return new FilmsViewModel
         {
-            return BadRequest(e.Message);
-        }
+            CountPages = countPages,
+            Films = data.films.Select(Map)
+        };
     }
-    
-    
-    public async Task<IActionResult> Get(Guid id)
+
+    [HttpGet]
+    public async Task<FilmViewModel> Get(Guid id)
     {
         Guid? userId = User.Identity is { IsAuthenticated: true } ? User.GetId() : null;
 
@@ -61,40 +63,86 @@ public class FilmController(IMediator mediator) : ControllerBase
             UserId = userId
         });
 
-        return View(new FilmPageViewModel(filmViewModel, null!));
+        return Map(film);
+    }
+
+    
+    [HttpGet]
+    [Authorize]
+    public async Task<IEnumerable<FilmShortViewModel>> Watchlist()
+    {
+        var films = await mediator.Send(new UserWatchlistQuery
+        {
+            Id = User.GetId(),
+        });
+
+        return films.Select(Map);
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IEnumerable<FilmShortViewModel>> History()
+    {
+        var films = await mediator.Send(new UserHistoryQuery
+        {
+            Id = User.GetId(),
+        });
+
+        return films.Select(Map);
     }
     
-
-    [HttpPost]
-    [Authorize(Policy = "User")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddRating(AddRatingInputModel model)
+    private static FilmViewModel Map(FilmDto film)
     {
-        if (!ModelState.IsValid) return BadRequest();
-        try
+        return new FilmViewModel
         {
-            var rating = await _filmManager.AddRatingAsync(model.FilmId, User.GetId(), model.Score);
-            return Json(new RatingViewModel(rating.Rating, rating.Count));
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+            Id = film.Id,
+            Description = film.Description,
+            Type = film.Type,
+            Name = film.Name,
+            PosterUrl = film.PosterUrl,
+            RatingKp = film.RatingKp,
+            RatingImdb = film.RatingImdb,
+            UserRating = film.UserRating,
+            UserRatingsCount = film.UserRatingsCount,
+            UserScore = film.UserScore,
+            InWatchlist = film.InWatchlist,
+            CdnList = film.CdnList.Select(cdn => new CdnViewModel
+            {
+                Cdn = cdn.Type,
+                Quality = cdn.Quality,
+                Voices = cdn.Voices
+            }),
+            CountSeasons = film.CountSeasons,
+            CountEpisodes = film.CountEpisodes,
+            Genres = film.Genres,
+            Countries = film.Countries,
+            Directors = film.Directors,
+            ScreenWriters = film.ScreenWriters,
+            Actors = film.Actors.Select(a => new ActorViewModel
+            {
+                Description = a.Description,
+                Name = a.Name
+            })
+        };
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    [Authorize(Policy = "User")]
-    public async Task<IActionResult> Watchlist(Guid filmId)
+    private static FilmShortViewModel Map(FilmShortDto film)
     {
-        try
+        return new FilmShortViewModel
         {
-            await _filmManager.ToggleWatchlistAsync(filmId, User.GetId());
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+            Id = film.Id,
+            Name = film.Name,
+            PosterUrl = film.PosterUrl,
+            Rating = film.Rating,
+            Description = film.Description,
+            Type = film.Type switch
+            {
+                FilmType.Film => "Фильм",
+                FilmType.Serial => "Сериал",
+                _ => throw new ArgumentOutOfRangeException()
+            },
+            Genres = film.Genres,
+            CountSeasons = film.CountSeasons
+        };
     }
 }

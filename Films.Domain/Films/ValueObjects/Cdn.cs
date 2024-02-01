@@ -6,7 +6,7 @@ namespace Films.Domain.Films.ValueObjects;
 public class Cdn
 {
     public required CdnType Type { get; init; }
-    public required Uri Uri { get; init; }
+    public required Uri Url { get; init; }
     public required string Quality { get; init; }
 
     private readonly string[] _voices = null!;

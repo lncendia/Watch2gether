@@ -15,7 +15,7 @@ public class NewRatingUserEventHandler(IUnitOfWork unitOfWork) : INotificationHa
 {
     public async Task Handle(NewRatingEvent notification, CancellationToken cancellationToken)
     {
-        var user = await unitOfWork.UserRepository.Value.GetAsync(notification.UserId);
+        var user = await unitOfWork.UserRepository.Value.GetAsync(notification.Rating.UserId!.Value);
         if (user == null) throw new UserNotFoundException();
         var spec = new RatingByUserSpecification(user.Id);
         var orderScore = new RatingOrderByScore();

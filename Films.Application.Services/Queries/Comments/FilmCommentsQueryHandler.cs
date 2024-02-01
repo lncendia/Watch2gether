@@ -16,7 +16,7 @@ namespace Films.Application.Services.Queries.Comments;
 /// Обработчик запроса для получения комментариев к фильму.
 /// </summary>
 public class FilmCommentsQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<FilmCommentsQuery, IReadOnlyCollection<CommentDto>>
+    : IRequestHandler<FilmCommentsQuery, (IReadOnlyCollection<CommentDto> comments, long count)>
 {
     /// <summary>
     /// Обрабатывает запрос на комментарии к фильму и возвращает соответствующие комментарии.
@@ -24,19 +24,24 @@ public class FilmCommentsQueryHandler(IUnitOfWork unitOfWork)
     /// <param name="request">Запрос на комментарии к фильму.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Коллекция DTO комментариев.</returns>
-    public async Task<IReadOnlyCollection<CommentDto>> Handle(FilmCommentsQuery request, CancellationToken cancellationToken)
+    public async Task<(IReadOnlyCollection<CommentDto> comments, long count)> Handle(FilmCommentsQuery request,
+        CancellationToken cancellationToken)
     {
         var specification = new FilmCommentsSpecification(request.FilmId);
         var sorting = new DescendingOrder<Comment, ICommentSortingVisitor>(new CommentOrderByDate());
         var comments =
             await unitOfWork.CommentRepository.Value.FindAsync(specification, sorting, request.Skip, request.Take);
 
-        if (!comments.Any()) return Array.Empty<CommentDto>();
+        if (comments.Count == 0) return (Array.Empty<CommentDto>(), 0);
 
         var spec = new UsersByIdsSpecification(comments.Select(x => x.UserId));
         var users = await unitOfWork.UserRepository.Value.FindAsync(spec);
 
-        return comments.Select(c => Map(c, users.First(u => u.Id == c.UserId))).ToArray();
+        var count = await unitOfWork.CommentRepository.Value.CountAsync(specification);
+
+        var commentDtos = comments.Select(c => Map(c, users.First(u => u.Id == c.UserId))).ToArray();
+
+        return (commentDtos, count);
     }
 
     /// <summary>
@@ -45,16 +50,13 @@ public class FilmCommentsQueryHandler(IUnitOfWork unitOfWork)
     /// <param name="comment">Сущность комментария.</param>
     /// <param name="user">Сущность пользователя.</param>
     /// <returns>DTO комментария.</returns>
-    private static CommentDto Map(Comment comment, User user)
+    private static CommentDto Map(Comment comment, User user) => new()
     {
-        return new CommentDto
-        {
-            Id = comment.Id,
-            UserId = user.Id,
-            Text = comment.Text,
-            CreatedAt = comment.CreatedAt,
-            Username = user.UserName,
-            PhotoUrl = user.PhotoUrl
-        };
-    }
+        Id = comment.Id,
+        UserId = user.Id,
+        Text = comment.Text,
+        CreatedAt = comment.CreatedAt,
+        Username = user.UserName,
+        PhotoUrl = user.PhotoUrl
+    };
 }

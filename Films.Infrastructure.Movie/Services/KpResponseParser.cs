@@ -1,7 +1,6 @@
 using Films.Application.Abstractions.Services.MovieApi.DTOs;
 using Films.Application.Abstractions.Services.MovieApi.Exceptions;
 using Newtonsoft.Json;
-using Films.Domain.Films.ValueObjects;
 using Films.Infrastructure.Movie.Abstractions;
 using Films.Infrastructure.Movie.Converters;
 using Films.Infrastructure.Movie.Enums;
@@ -38,7 +37,7 @@ public class KpResponseParser : IKpResponseParser
         var directors = persons.Where(x => x.Profession == Profession.Director)
             .Select(x => GetName(x.Name, x.NameEn)).ToArray();
         var actors = persons.Where(x => x.Profession == Profession.Actor)
-            .Select(x => new Actor
+            .Select(x => new ActorApiResponse
             {
                 Name = GetName(x.Name, x.NameEn),
                 Description = x.Description

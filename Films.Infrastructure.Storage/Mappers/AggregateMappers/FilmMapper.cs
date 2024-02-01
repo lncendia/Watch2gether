@@ -36,7 +36,7 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
             CdnList = model.CdnList.Select(cdn => new Cdn
             {
                 Type = cdn.Type,
-                Uri = cdn.Uri,
+                Url = cdn.Uri,
                 Quality = cdn.Quality,
                 Voices = cdn.Voices.Select(voice => voice.Name).ToArray()
             }).ToArray()

@@ -1,5 +1,5 @@
+using Films.Application.Abstractions.Common.Exceptions;
 using Films.Application.Abstractions.Common.Interfaces;
-using Films.Application.Abstractions.EventHandlers.Exceptions;
 using MediatR;
 using Films.Domain.Abstractions.Repositories.UnitOfWorks;
 using Films.Domain.Films.Entities;

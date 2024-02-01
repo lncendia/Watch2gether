@@ -1,6 +1,5 @@
 using Films.Application.Abstractions.Services.MovieApi.DTOs;
 using Newtonsoft.Json;
-using Films.Domain.Films.Enums;
 using Films.Infrastructure.Movie.Abstractions;
 using Films.Infrastructure.Movie.Converters;
 using Films.Infrastructure.Movie.Models;
@@ -20,8 +19,7 @@ public class BazonResponseParser : IBazonResponseParser
         var voices = cdn.Select(x => x.Voice!).Distinct().ToArray();
         return new CdnApiResponse
         {
-            Type = CdnType.Bazon,
-            Uri = uri,
+            Url = uri,
             Quality = quality,
             Voices = voices
         };

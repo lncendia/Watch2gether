@@ -15,7 +15,7 @@ public class VideoCdnResponseParser : IVideoCdnResponseParser
         var cdn = JsonConvert.DeserializeObject<Models.VideoCdn>(json, _settings)!;
         return new CdnApiResponse
         {
-            Uri = new Uri("https:" + cdn.Uri),
+            Url = new Uri("https:" + cdn.Uri),
             Quality = "BD",
             Voices = cdn.Voices.Where(x => !string.IsNullOrEmpty(x)).ToArray()
         };

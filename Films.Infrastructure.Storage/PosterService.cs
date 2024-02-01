@@ -20,10 +20,12 @@ public class PosterService : IPosterService
         _client = new RestClient();
     }
 
-    public async Task<Uri> SaveAsync(Stream stream)
+    public async Task<Uri> SaveAsync(string base64)
     {
         try
         {
+            var bytes = Convert.FromBase64String(base64);
+            var stream = new MemoryStream(bytes);
             using var image = await Image.LoadAsync(stream);
             image.Mutate(x => x.Resize(350, 500));
             var fileName = $"{Guid.NewGuid()}.jpg";

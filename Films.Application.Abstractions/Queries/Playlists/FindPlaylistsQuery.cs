@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Films.Application.Abstractions.Queries.Playlists;
 
-public class FindPlaylistsQuery : IRequest<IReadOnlyCollection<PlaylistDto>>
+public class FindPlaylistsQuery : IRequest<(IReadOnlyCollection<PlaylistDto> playlists, int count)>
 {
     public string? Query { get; init; }
     public string? Genre { get; init; }

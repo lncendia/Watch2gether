@@ -23,8 +23,8 @@ public class ChangeFilmCommandHandler(IUnitOfWork unitOfWork, IPosterService pos
             film.UpdateSeriesInfo(request.CountSeasons.Value, request.CountEpisodes.Value);
 
         Uri? poster = null;
-        if (request.PosterUri != null) poster = await posterService.SaveAsync(request.PosterUri);
-        else if (request.PosterStream != null) poster = await posterService.SaveAsync(request.PosterStream);
+        if (request.PosterUrl != null) poster = await posterService.SaveAsync(request.PosterUrl);
+        else if (request.PosterBase64 != null) poster = await posterService.SaveAsync(request.PosterBase64);
 
         if (poster != null)
         {
@@ -49,22 +49,16 @@ public class ChangeFilmCommandHandler(IUnitOfWork unitOfWork, IPosterService pos
     private async Task<Film> GetFilmAsync(Guid id)
     {
         // Проверяем, есть ли фильм в кэше 
-        if (!memoryCache.TryGetValue(id, out Film? film))
-        {
-            // Если фильм не найден в кэше, получаем его из репозитория
-            film = await unitOfWork.FilmRepository.Value.GetAsync(id);
+        if (memoryCache.TryGetValue(id, out Film? film)) return film!;
+        
+        // Если фильм не найден в кэше, получаем его из репозитория
+        film = await unitOfWork.FilmRepository.Value.GetAsync(id);
 
-            // Если фильм не найден, выбрасываем исключение 
-            if (film == null) throw new FilmNotFoundException();
+        // Если фильм не найден, выбрасываем исключение 
+        if (film == null) throw new FilmNotFoundException();
 
-            // Добавляем фильм в кэш с временем жизни 5 минут 
-            memoryCache.Set(id, film, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
-        }
-        else
-        {
-            // Если фильм в кэше равен null, выбрасываем исключение 
-            if (film == null) throw new FilmNotFoundException();
-        }
+        // Добавляем фильм в кэш с временем жизни 5 минут 
+        memoryCache.Set(id, film, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
 
         // Возвращаем найденный фильм 
         return film;

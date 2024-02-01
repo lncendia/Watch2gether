@@ -1,5 +1,4 @@
-﻿using Films.Application.Abstractions.Services.MovieApi.DTOs;
-using Films.Domain.Films.Enums;
+﻿using Films.Domain.Films.Enums;
 using Films.Domain.Films.ValueObjects;
 
 namespace Films.Application.Abstractions.Queries.FilmsApi.DTOs;

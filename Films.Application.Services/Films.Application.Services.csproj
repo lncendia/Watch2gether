@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Films.Application.Abstractions\Films.Application.Abstractions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Queries\Ratings\" />
+    </ItemGroup>
+
 </Project>

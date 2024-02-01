@@ -1,56 +1,78 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Films.Infrastructure.Web.Contracts.Film;
+﻿using Films.Application.Abstractions.Commands.Comments;
+using Films.Application.Abstractions.Queries.Comments;
+using Films.Application.Abstractions.Queries.Comments.DTOs;
 using Films.Infrastructure.Web.Authentication;
+using Films.Infrastructure.Web.Comments.InputModels;
+using Films.Infrastructure.Web.Comments.ViewModels;
+using Films.Infrastructure.Web.Contracts.Film;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Films.Infrastructure.Web.Controllers;
+namespace Films.Infrastructure.Web.Comments.Controllers;
 
 [ApiController]
 [Route("filmApi/[controller]")]
 public class CommentController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> Get(Guid filmId, int page)
+    public async Task<CommentsViewModel> Get([FromQuery] GetCommentsInputModel model)
     {
-        var comments = await _commentManager.GetAsync(filmId, page);
-        if (comments.Count == 0) return NoContent();
+        var data = await mediator.Send(new FilmCommentsQuery
+        {
+            FilmId = model.FilmId!.Value,
+            Skip = (model.Page - 1) * model.CountPerPage,
+            Take = model.CountPerPage
+        });
 
-        var auth = await HttpContext.AuthenticateAsync(IdentityConstants.ApplicationScheme);
-        Guid? userId = auth.None ? null : auth.Principal!.GetId();
-        var commentModels = comments.Select(c => _filmMapper.Map(c, userId)).ToList();
-        return Json(commentModels);
-    }
-    
-    [HttpPost]
-    public async Task<IActionResult> Delete(Guid commentId)
-    {
-        try
+        var countPages = data.count / model.CountPerPage;
+
+        if (data.count % model.CountPerPage > 0) countPages++;
+        
+        Guid? userId = User.Identity is { IsAuthenticated: true } ? User.GetId() : null;
+        
+        return new CommentsViewModel
         {
-            await _commentManager.DeleteAsync(commentId, User.GetId());
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+            Comments = data.comments.Select(c => Map(c, userId)),
+            CountPages = countPages
+        };
     }
 
-
-    [HttpPost]
-    public async Task<IActionResult> Add(AddCommentInputModel model)
+    [HttpDelete]
+    [Authorize]
+    public async Task Delete(Guid commentId)
     {
-        if (!ModelState.IsValid) return BadRequest();
-        var id = User.GetId();
-        try
+        await mediator.Send(new RemoveCommentCommand
         {
-            var comment = await _commentManager.AddAsync(model.FilmId, User.GetId(), model.Text!);
-            return Json(_filmMapper.Map(comment, id));
-        }
-        catch (Exception e)
+            CommentId = commentId,
+            UserId = User.GetId()
+        });
+    }
+
+
+    [HttpPut]
+    [Authorize]
+    public async Task Add(AddCommentInputModel model)
+    {
+        await mediator.Send(new AddCommentCommand
         {
-            return BadRequest(e.Message);
-        }
+            FilmId = model.FilmId,
+            UserId = User.GetId(),
+            Text = model.Text!
+        });
+    }
+
+
+    private static CommentViewModel Map(CommentDto comment, Guid? userId)
+    {
+        return new CommentViewModel
+        {
+            Id = comment.Id,
+            Username = comment.Username,
+            Text = comment.Text,
+            AvatarUrl = comment.PhotoUrl,
+            CreatedAt = comment.CreatedAt,
+            IsUserComment = comment.UserId == userId
+        };
     }
 }

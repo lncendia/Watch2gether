@@ -14,7 +14,7 @@ public class YoutubeRoomMapper : IYoutubeRoomMapper
             .Select(m =>
             {
                 var viewer = viewersEntities.First(x => x.Id == m.ViewerId);
-                return new MessageDto(m.Text, m.CreatedAt, viewer.Id, viewer.AvatarUri, viewer.Name);
+                return new MessageDto(m.Text, m.CreatedAt, viewer.Id, viewer.AvatarUrl, viewer.Name);
             }).ToList();
         return new YoutubeRoomDto(room.VideoIds, messages, viewers, room.Owner.Id, room.Access, room.IsOpen);
     }
@@ -22,7 +22,7 @@ public class YoutubeRoomMapper : IYoutubeRoomMapper
     public YoutubeViewerDto Map(YoutubeViewer v)
     {
         var allows = new AllowsDto(v.Allows.Beep, v.Allows.Scream, v.Allows.Change);
-        return new YoutubeViewerDto(v.Name, v.Id, v.AvatarUri, v.TimeLine, v.Pause, v.FullScreen, allows,
+        return new YoutubeViewerDto(v.Name, v.Id, v.AvatarUrl, v.TimeLine, v.Pause, v.FullScreen, allows,
             v.CurrentVideoId);
     }
 }

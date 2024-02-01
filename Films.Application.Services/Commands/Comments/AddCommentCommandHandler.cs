@@ -13,9 +13,9 @@ public class AddCommentCommandHandler(IUnitOfWork unitOfWork, IMemoryCache memor
 {
     public async Task<Guid> Handle(AddCommentCommand request, CancellationToken cancellationToken)
     {
-        var user = await unitOfWork.UserRepository.Value.GetAsync(request.Id);
+        var user = await unitOfWork.UserRepository.Value.GetAsync(request.UserId);
         if (user == null) throw new UserNotFoundException();
-        var comment = new Comment(await GetFilmAsync(request.FilmId), request.Id, request.Text);
+        var comment = new Comment(await GetFilmAsync(request.FilmId), request.UserId, request.Text);
         await unitOfWork.CommentRepository.Value.AddAsync(comment);
         await unitOfWork.SaveChangesAsync();
         return comment.Id;
@@ -29,22 +29,16 @@ public class AddCommentCommandHandler(IUnitOfWork unitOfWork, IMemoryCache memor
     private async Task<Film> GetFilmAsync(Guid id)
     {
         // Проверяем, есть ли фильм в кэше 
-        if (!memoryCache.TryGetValue(id, out Film? film))
-        {
-            // Если фильм не найден в кэше, получаем его из репозитория
-            film = await unitOfWork.FilmRepository.Value.GetAsync(id);
+        if (memoryCache.TryGetValue(id, out Film? film)) return film!;
+        
+        // Если фильм не найден в кэше, получаем его из репозитория
+        film = await unitOfWork.FilmRepository.Value.GetAsync(id);
 
-            // Если фильм не найден, выбрасываем исключение 
-            if (film == null) throw new FilmNotFoundException();
+        // Если фильм не найден, выбрасываем исключение 
+        if (film == null) throw new FilmNotFoundException();
 
-            // Добавляем фильм в кэш с временем жизни 5 минут 
-            memoryCache.Set(id, film, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
-        }
-        else
-        {
-            // Если фильм в кэше равен null, выбрасываем исключение 
-            if (film == null) throw new FilmNotFoundException();
-        }
+        // Добавляем фильм в кэш с временем жизни 5 минут 
+        memoryCache.Set(id, film, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
 
         // Возвращаем найденный фильм 
         return film;

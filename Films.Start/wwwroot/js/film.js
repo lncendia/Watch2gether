@@ -76,7 +76,7 @@ async function DeleteComment(e) {
 }
 
 function ShowComment(el) {
-    let text = '<div class="element"><div class="card comment-card mb-3"><div class="card-header"><span class="float-start">' + el.username + '</span><span class="float-end">' + el.createdAt + '</span></div><div class="card-body d-flex"><img src="/' + el.avatarUri + '" alt="" class="comment-avatar">' +
+    let text = '<div class="element"><div class="card comment-card mb-3"><div class="card-header"><span class="float-start">' + el.username + '</span><span class="float-end">' + el.createdAt + '</span></div><div class="card-body d-flex"><img src="/' + el.AvatarUrl + '" alt="" class="comment-avatar">' +
         '<p class="card-text">' + el.text + '</p>'
 
     if (el.isUserComment) {

@@ -1,57 +1,53 @@
-﻿using Films.Infrastructure.Web.Mappers.Abstractions;
+﻿using Films.Application.Abstractions.Commands.Films;
+using Films.Application.Abstractions.Queries.Ratings;
+using Films.Infrastructure.Web.Authentication;
+using Films.Infrastructure.Web.Films.InputModels;
+using Films.Infrastructure.Web.Profile.InputModels;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Films.Infrastructure.Web.Authentication;
-using Films.Infrastructure.Web.Profile.InputModels;
-using Abstractions_IProfileMapper = Films.Infrastructure.Web.Mappers.Abstractions.IProfileMapper;
 
-namespace Films.Infrastructure.Web.Controllers;
+namespace Films.Infrastructure.Web.Profile.Controllers;
 
 [Authorize]
-public class ProfileController : Controller
+[ApiController]
+[Route("filmApi/[controller]/[action]")]
+public class ProfileController(IMediator mediator) : ControllerBase
 {
-    private readonly IProfileService _service;
-    private readonly ISettingsService _settings;
-    private readonly IProfileMapper _mapper;
-
-    public ProfileController(IProfileService service, IProfileMapper mapper, ISettingsService settings)
-    {
-        _service = service;
-        _mapper = mapper;
-        _settings = settings;
-        //todo: exception
-    }
-
-
-    public async Task<IActionResult> Index(string? message)
-    {
-        ViewData["Alert"] = message;
-        var profile = await _service.GetProfileAsync(User.GetId());
-        var genres = await _service.GetGenresAsync(User.GetId());
-        return View(_mapper.Map(profile, genres));
-    }
-
+    [HttpGet]
     public async Task<IActionResult> Ratings(int page)
     {
-        try
-        {
-            var ratings = await _service.GetRatingsAsync(User.GetId(), page);
-            if (!ratings.Any()) return NoContent();
-            var ratingModels = ratings.Select(_mapper.Map).ToList();
-            return Json(ratingModels);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        await mediator.Send(new UserRatingsQuery())
     }
-    
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<ActionResult> ChangeAllows(ChangeAllowsParameters model)
+
+    [HttpPut]
+    public async Task AddRating(AddRatingInputModel model)
     {
-        if (!ModelState.IsValid) RedirectToAction("Index", "Home", new { message = "Указаны некорректные данные." });
-        await _settings.ChangeAllowsAsync(User.GetId(),model.Beep, model.Scream, model.Change);
-        return RedirectToAction("Index", "Home", new { message = "Разрешения успешно изменены." });
+        await mediator.Send(new AddRatingCommand
+        {
+            FilmId = model.FilmId,
+            UserId = User.GetId(),
+            Score = model.Score
+        });
+    }
+
+    [HttpPost]
+    public async Task ToggleWatchlist(Guid filmId)
+    {
+        await mediator.Send(new ToggleWatchListCommand
+        {
+            UserId = User.GetId(),
+            FilmId = filmId
+        });
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> ChangeAllows(ChangeAllowsInputModel model)
+    {
+        await mediator.Send(new 
+        {
+            UserId = User.GetId(),
+            FilmId = filmId
+        });
     }
 }

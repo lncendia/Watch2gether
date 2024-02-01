@@ -1,44 +1,13 @@
 ﻿using System.Diagnostics;
+using Films.Application.Abstractions.Common.Exceptions;
+using Films.Infrastructure.Web.Home.ViewModels;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Films.Application.Abstractions.Authentication.Exceptions;
-using Films.Application.Abstractions.Common.Exceptions;
-using Films.Application.Abstractions.StartPage.Interfaces;
-using Films.Infrastructure.Web.Mappers.Abstractions;
-using Films.Infrastructure.Web.Models.Home;
-using Films.Domain.Rooms.BaseRoom.Exceptions;
-using Films.Domain.Rooms.YoutubeRoom.Exceptions;
-using Films.Domain.Users.Exceptions;
 
-namespace Films.Infrastructure.Web.Controllers;
+namespace Films.Infrastructure.Web.Home.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly IStartPageService _startPageService;
-    private readonly IHomeMapper _homeMapper;
-
-    public HomeController(IStartPageService startPageService, IHomeMapper homeMapper)
-    {
-        _startPageService = startPageService;
-        _homeMapper = homeMapper;
-    }
-
-    public async Task<IActionResult> Index(string? message)
-    {
-        ViewData["Alert"] = message;
-        var rooms = _startPageService.GetRoomsAsync();
-        var films = _startPageService.GetFilmsAsync();
-        var comments = _startPageService.GetCommentsAsync();
-
-        await Task.WhenAll(rooms, films, comments);
-
-        var filmsViewModels = films.Result.Select(_homeMapper.Map).ToList();
-        var commentsViewModels = comments.Result.Select(_homeMapper.Map).ToList();
-        var roomsViewModels = rooms.Result.Select(_homeMapper.Map).ToList();
-        var model = new StartPageViewModel(commentsViewModels, filmsViewModels, roomsViewModels);
-        return PartialView(model);
-    }
-
     public IActionResult Privacy()
     {
         return View();
@@ -77,11 +46,9 @@ public class HomeController : Controller
             RoomIsFullException => "Комната заполнена",
             UriFormatException => "Неверный формат ссылки",
             InvalidVideoUrlException => "Неверный формат ссылки на видео",
-            _ => null
+            _ => ex.Message
         };
 
-        if (text != null) return RedirectToAction("Index", new { message = text });
-
-        return View(new ErrorViewModel(ex.Message, Activity.Current?.Id ?? HttpContext.TraceIdentifier));
+        return View(new ErrorViewModel(text, Activity.Current?.Id ?? HttpContext.TraceIdentifier));
     }
 }

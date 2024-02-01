@@ -1,49 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Films.Application.Abstractions.Playlists.Interfaces;
-using Films.Infrastructure.Web.Contracts.Playlists;
-using Abstractions_IPlaylistsMapper = Films.Infrastructure.Web.Mappers.Abstractions.IPlaylistsMapper;
-using IPlaylistsMapper = Films.Infrastructure.Web.Mappers.Abstractions.IPlaylistsMapper;
-using Mappers_Abstractions_IPlaylistsMapper = Films.Infrastructure.Web.Mappers.Abstractions.IPlaylistsMapper;
+﻿using Films.Application.Abstractions.Queries.Playlists;
+using Films.Infrastructure.Web.Playlists.InputModels;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Films.Infrastructure.Web.Controllers;
+namespace Films.Infrastructure.Web.Playlists.Controllers;
 
-public class PlaylistsController : Controller
+[ApiController]
+[Route("filmApi/[controller]")]
+public class PlaylistsController(IMediator mediator) : ControllerBase
 {
-    private readonly IPlaylistsManager _playlistsManager;
-    private readonly Mappers_Abstractions_IPlaylistsMapper _playlistsMapper;
-
-    public PlaylistsController(Mappers_Abstractions_IPlaylistsMapper mapper, IPlaylistsManager playlistsManager)
-    {
-        _playlistsMapper = mapper;
-        _playlistsManager = playlistsManager;
-    }
-    
-
-    public IActionResult Playlists()
-    {
-        return View();
-    }
-    
-    
-    // public IActionResult PlaylistSearch(SearchParameters model)
-    // {
-    //     return View(_playlistsMapper.Map(model));
-    // }
-
     [HttpGet]
-    public async Task<IActionResult> PlaylistsList(PlaylistsSearchParameters searchParameters)
+    public async Task<IActionResult> Search(PlaylistsSearchInputModel model)
     {
-        if (!ModelState.IsValid) return NoContent();
-        try
+        var playlists = await mediator.Send(new FindPlaylistsQuery
         {
-            var playlists = await _playlistsManager.FindAsync(_playlistsMapper.Map(searchParameters));
-            if (!playlists.Any()) return NoContent();
-            var playlistsModels = playlists.Select(_playlistsMapper.Map).ToList();
-            return Json(playlistsModels);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+            Genre = model.Genre,
+            Query = model.Query,
+            Skip = (model.Page - 1) * model.CountPerPage,
+            Take = model.CountPerPage
+        });
     }
 }

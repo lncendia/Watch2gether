@@ -17,7 +17,7 @@ public class AddRatingCommandHandler(IUnitOfWork unitOfWork, IMemoryCache memory
         if (user == null) throw new UserNotFoundException();
 
         // Создаем новый рейтинг с указанным идентификатором фильма, идентификатором пользователя и оценкой 
-        var rating = new Rating(await GetFilmAsync(request.Id), user, request.Score);
+        var rating = new Rating(await GetFilmAsync(request.FilmId), user, request.Score);
 
         // Добавляем рейтинг в репозиторий 
         await unitOfWork.RatingRepository.Value.AddAsync(rating);
@@ -32,22 +32,16 @@ public class AddRatingCommandHandler(IUnitOfWork unitOfWork, IMemoryCache memory
     private async Task<Film> GetFilmAsync(Guid id)
     {
         // Проверяем, есть ли фильм в кэше 
-        if (!memoryCache.TryGetValue(id, out Film? film))
-        {
-            // Если фильм не найден в кэше, получаем его из репозитория
-            film = await unitOfWork.FilmRepository.Value.GetAsync(id);
+        if (memoryCache.TryGetValue(id, out Film? film)) return film!;
+        
+        // Если фильм не найден в кэше, получаем его из репозитория
+        film = await unitOfWork.FilmRepository.Value.GetAsync(id);
 
-            // Если фильм не найден, выбрасываем исключение 
-            if (film == null) throw new FilmNotFoundException();
+        // Если фильм не найден, выбрасываем исключение 
+        if (film == null) throw new FilmNotFoundException();
 
-            // Добавляем фильм в кэш с временем жизни 5 минут 
-            memoryCache.Set(id, film, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
-        }
-        else
-        {
-            // Если фильм в кэше равен null, выбрасываем исключение 
-            if (film == null) throw new FilmNotFoundException();
-        }
+        // Добавляем фильм в кэш с временем жизни 5 минут 
+        memoryCache.Set(id, film, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
 
         // Возвращаем найденный фильм 
         return film;

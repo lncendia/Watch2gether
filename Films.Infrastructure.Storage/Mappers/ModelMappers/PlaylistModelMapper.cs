@@ -9,18 +9,14 @@ internal class PlaylistModelMapper(ApplicationDbContext context) : IModelMapperU
 {
     public async Task<PlaylistModel> MapAsync(Playlist entity)
     {
-        var playlist = context.Playlists.Local.FirstOrDefault(x => x.Id == entity.Id);
-        if (playlist == null)
-        {
-            playlist = context.Playlists.Local.FirstOrDefault(x => x.Id == entity.Id);
+        var playlist = context.Playlists.FirstOrDefault(x => x.Id == entity.Id);
 
-            if (playlist != null)
-            {
-                await context.Entry(playlist).Collection(x => x.Films).LoadAsync();
-                await context.Entry(playlist).Collection(x => x.Genres).LoadAsync();
-            }
-            else playlist = new PlaylistModel { Id = entity.Id };
+        if (playlist != null)
+        {
+            await context.Entry(playlist).Collection(x => x.Films).LoadAsync();
+            await context.Entry(playlist).Collection(x => x.Genres).LoadAsync();
         }
+        else playlist = new PlaylistModel { Id = entity.Id };
 
         playlist.Name = entity.Name;
         playlist.Description = entity.Description;
@@ -29,12 +25,14 @@ internal class PlaylistModelMapper(ApplicationDbContext context) : IModelMapperU
 
 
         var newFilms = entity.Films.Where(x => playlist.Films.All(m => m.FilmId != x));
+        var removeFilms = playlist.Films.Where(x => entity.Films.All(m => m != x.FilmId));
         playlist.Films.AddRange(newFilms.Select(x => new PlaylistFilmModel { FilmId = x }));
-        context.PlaylistFilms.RemoveRange(playlist.Films.Where(x => entity.Films.All(m => m != x.FilmId)));
+        context.PlaylistFilms.RemoveRange(removeFilms);
 
         var newGenres = entity.Genres.Where(x => playlist.Genres.All(m => !string.Equals(m.Name, x, StringComparison.CurrentCultureIgnoreCase)));
         var removeGenres = playlist.Genres.Where(x => entity.Genres.All(m => !string.Equals(m, x.Name, StringComparison.CurrentCultureIgnoreCase)));
-        var databaseGenres = context.Genres.Where(x => newGenres.Select(s => s.ToUpper()).Any(g => g.Equals(x.Name, StringComparison.CurrentCultureIgnoreCase))).ToList();
+        var databaseGenres = context.Genres.Where(x => newGenres.Any(g => g.Equals(x.Name, StringComparison.CurrentCultureIgnoreCase)));
+        
         playlist.Genres.AddRange(databaseGenres);
         playlist.Genres.RemoveAll(g => removeGenres.Contains(g));
 

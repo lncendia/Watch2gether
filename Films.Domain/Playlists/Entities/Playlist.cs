@@ -50,11 +50,7 @@ public class Playlist : AggregateRoot
 
         _films.RemoveAll(removeFilms.Contains);
         _films.AddRange(newFilms);
-        AddDomainEvent(new FilmsCollectionUpdateEvent
-        {
-            Id = Id,
-            Films = Films
-        });
+        AddDomainEvent(new FilmsCollectionUpdateEvent(this));
     }
 
     public void UpdateGenres(IEnumerable<string> genres)

@@ -13,8 +13,8 @@ public class CreatePlaylistCommandHandler(IUnitOfWork unitOfWork, IPosterService
     public async Task<Guid> Handle(CreatePlaylistCommand request, CancellationToken cancellationToken)
     {
         Uri? poster;
-        if (request.PosterUri != null) poster = await posterService.SaveAsync(request.PosterUri);
-        else if (request.PosterStream != null) poster = await posterService.SaveAsync(request.PosterStream);
+        if (request.PosterUrl != null) poster = await posterService.SaveAsync(request.PosterUrl);
+        else if (request.PosterBase64 != null) poster = await posterService.SaveAsync(request.PosterBase64);
         else throw new PosterMissingException();
         var playlist = new Playlist
         {

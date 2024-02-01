@@ -16,7 +16,7 @@ public class FilmRoomMapper : IFilmRoomMapper
             .Select(m =>
             {
                 var viewer = viewersEntities.First(x => x.Id == m.ViewerId);
-                return new MessageDto(m.Text, m.CreatedAt, viewer.Id, viewer.AvatarUri, viewer.Name);
+                return new MessageDto(m.Text, m.CreatedAt, viewer.Id, viewer.AvatarUrl, viewer.Name);
             }).ToList();
 
         var filmDto = new FilmDataDto(film.Id, film.Title, film.CdnList.First(x => x.Type == room.CdnType).Uri,
@@ -28,6 +28,6 @@ public class FilmRoomMapper : IFilmRoomMapper
     public FilmViewerDto Map(FilmViewer v)
     {
         var allows = new AllowsDto(v.Allows.Beep, v.Allows.Scream, v.Allows.Change);
-        return new FilmViewerDto(v.Name, v.Id, v.AvatarUri, v.TimeLine, v.Pause, v.FullScreen, v.Season, v.Series, allows);
+        return new FilmViewerDto(v.Name, v.Id, v.AvatarUrl, v.TimeLine, v.Pause, v.FullScreen, v.Season, v.Series, allows);
     }
 }

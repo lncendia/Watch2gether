@@ -1,9 +1,9 @@
 using Films.Domain.Abstractions;
+using Films.Domain.Playlists.Entities;
 
 namespace Films.Domain.Playlists.Events;
 
-public class FilmsCollectionUpdateEvent : IDomainEvent
+public class FilmsCollectionUpdateEvent(Playlist playlist) : IDomainEvent
 {
-    public required Guid Id { get; init; }
-    public required IReadOnlyCollection<Guid> Films { get; init; }
+    public Playlist Playlist { get; } = playlist;
 }

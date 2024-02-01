@@ -146,7 +146,7 @@
                             if (message.ViewerId != Model.CurrentViewerId)
                             {
                                 <div class="d-flex flex-row justify-content-start mb-4">
-                                    <img src="~/@message.AvatarUri" class="message-avatar" alt="">
+                                    <img src="~/@message.AvatarUrl" class="message-avatar" alt="">
                                     <div class="message message-other">
                                         <p style="font-size: 12px" class="additional-text">@message.Username</p>
                                         <p class="small text-break mb-0">@message.Text</p>
@@ -162,7 +162,7 @@
                                         <p class="small text-break mb-0">@message.Text</p>
                                         <p style="font-size: 10px" class="additional-text">@message.CreatedAt</p>
                                     </div>
-                                    <img src="~/@message.AvatarUri" class="message-avatar" alt="">
+                                    <img src="~/@message.AvatarUrl" class="message-avatar" alt="">
                                 </div>
                             }
                         }
@@ -205,7 +205,7 @@
         @foreach (var viewer in Model.Viewers)
         {
             <text>
-                room.Users.push(new FilmUser(@viewer.Id, '@Html.Raw(viewer.Username)', '@viewer.AvatarUri.ToString().Replace('\\', '/')', @viewer.Time.TotalSeconds,
+                room.Users.push(new FilmUser(@viewer.Id, '@Html.Raw(viewer.Username)', '@viewer.AvatarUrl.ToString().Replace('\\', '/')', @viewer.Time.TotalSeconds,
                     @(viewer.Pause ? "true" : "false"), @(viewer.FullScreen ? "true" : "false"), @(viewer.AllowBeep ? "true" : "false"),
                     @(viewer.AllowScream ? "true" : "false"), @(viewer.AllowChange ? "true" : "false"), @viewer.Season, @viewer.Series));
             </text>

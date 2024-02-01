@@ -6,6 +6,6 @@ public class CreatePlaylistCommand : IRequest<Guid>
 {
     public required string Name { get; init; }
     public required string Description { get; init; }
-    public Uri? PosterUri { get; init; }
-    public Stream? PosterStream { get; init; }
+    public Uri? PosterUrl { get; init; }
+    public string? PosterBase64 { get; init; }
 }

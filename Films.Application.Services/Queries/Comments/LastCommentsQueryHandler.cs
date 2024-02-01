@@ -23,7 +23,8 @@ public class LastCommentsQueryHandler(IUnitOfWork unitOfWork)
     /// <param name="request">Запрос на комментарии.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Коллекция DTO комментариев.</returns>
-    public async Task<IReadOnlyCollection<CommentDto>> Handle(LastCommentsQuery request, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<CommentDto>> Handle(LastCommentsQuery request,
+        CancellationToken cancellationToken)
     {
         var comments = await unitOfWork.CommentRepository.Value.FindAsync(null,
             new DescendingOrder<Comment, ICommentSortingVisitor>(
@@ -42,16 +43,13 @@ public class LastCommentsQueryHandler(IUnitOfWork unitOfWork)
     /// <param name="comment">Сущность комментария.</param>
     /// <param name="user">Сущность пользователя.</param>
     /// <returns>DTO комментария.</returns>
-    private static CommentDto Map(Comment comment, User user)
+    private static CommentDto Map(Comment comment, User user) => new()
     {
-        return new CommentDto
-        {
-            Id = comment.Id,
-            UserId = user.Id,
-            Text = comment.Text,
-            CreatedAt = comment.CreatedAt,
-            Username = user.UserName,
-            PhotoUrl = user.PhotoUrl
-        };
-    }
+        Id = comment.Id,
+        UserId = user.Id,
+        Text = comment.Text,
+        CreatedAt = comment.CreatedAt,
+        Username = user.UserName,
+        PhotoUrl = user.PhotoUrl
+    };
 }

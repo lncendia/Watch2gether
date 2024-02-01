@@ -9,8 +9,8 @@ public class AddFilmCommand : IRequest<Guid>
     public required string Description { get; init; }
     public string? ShortDescription { get; init; }
     public required FilmType Type { get; init; }
-    public Uri? PosterUri { get; init; }
-    public Stream? PosterStream { get; init; }
+    public Uri? PosterUrl { get; init; }
+    public string? PosterBase64 { get; init; }
     public required string Title { get; init; }
     public required int Year { get; init; }
     public double? RatingKp { get; init; }

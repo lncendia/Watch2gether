@@ -2,7 +2,7 @@
 
 public interface IPosterService
 {
-    Task<Uri> SaveAsync(Stream stream);
+    Task<Uri> SaveAsync(string base64);
     Task<Uri> SaveAsync(Uri url);
-    Task DeleteAsync(Uri uri);
+    Task DeleteAsync(Uri url);
 }
