@@ -44,7 +44,7 @@ public class RoomRepository(
         return room == null ? null : aggregateMapper.Map(room);
     }
 
-    public async Task<IList<Room>> FindAsync(
+    public async Task<IReadOnlyCollection<Room>> FindAsync(
         ISpecification<Room, IRoomSpecificationVisitor>? specification,
         IOrderBy<Room, IRoomSortingVisitor>? orderBy = null, int? skip = null,
         int? take = null)
@@ -74,8 +74,8 @@ public class RoomRepository(
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        var models = await query.ToListAsync();
-        return models.Select(aggregateMapper.Map).ToList();
+        var models = await query.ToArrayAsync();
+        return models.Select(aggregateMapper.Map).ToArray();
     }
 
     public Task<int> CountAsync(ISpecification<Room, IRoomSpecificationVisitor>? specification)

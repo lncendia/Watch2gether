@@ -10,16 +10,19 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Films.Application.Services\Films.Application.Services.csproj" />
-      <ProjectReference Include="..\Films.Domain.Abstractions\Films.Domain.Abstractions.csproj" />
-      <ProjectReference Include="..\Films.Domain\Films.Domain.csproj" />
-      <ProjectReference Include="..\AuthService.Infrastructure.Mailing\AuthService.Infrastructure.Mailing.csproj" />
       <ProjectReference Include="..\Films.Infrastructure.Movie\Films.Infrastructure.Movie.csproj" />
       <ProjectReference Include="..\Films.Infrastructure.Storage\Films.Infrastructure.Storage.csproj" />
       <ProjectReference Include="..\Films.Infrastructure.Web\Films.Infrastructure.Web.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.13" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -31,5 +34,63 @@
       <_ContentIncludedByDefault Remove="Views\Account\_Layout.cshtml" />
       <_ContentIncludedByDefault Remove="wwwroot\js\Account\login.js" />
       <_ContentIncludedByDefault Remove="wwwroot\js\Account\registration.js" />
+      <_ContentIncludedByDefault Remove="Views\FilmManagement\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmManagement\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmManagement\Load.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmRoom\Connect.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmRoom\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmRoom\CreateAnonymously.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmRoom\CreateUser.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmRoom\Room.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Films\Films.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Films\FilmSearch.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Film\AddComment.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Film\AddRating.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Film\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\About.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PlaylistManagement\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PlaylistManagement\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PlaylistManagement\Load.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Playlists\Playlists.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Room\Connect.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Room\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Room\CreateAnonymously.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Room\CreateUser.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Room\Room.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Footer.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Navbar.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\ChangeAllows.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\ChangeAvatar.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\ChangeEmail.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\ChangeName.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\ChangePassword.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Views\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Views\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Views\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Views\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\img\posters1\" />
     </ItemGroup>
 </Project>

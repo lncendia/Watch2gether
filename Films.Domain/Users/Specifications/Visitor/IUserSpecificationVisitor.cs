@@ -5,5 +5,5 @@ namespace Films.Domain.Users.Specifications.Visitor;
 
 public interface IUserSpecificationVisitor : ISpecificationVisitor<IUserSpecificationVisitor, User>
 {
-    void Visit(UsersByIdsSpecification spec);
+    void Visit(UserByIdsSpecification spec);
 }

@@ -16,7 +16,7 @@ namespace Films.Application.Services.Queries.Comments;
 /// Обработчик запроса для получения комментариев к фильму.
 /// </summary>
 public class FilmCommentsQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<FilmCommentsQuery, (IReadOnlyCollection<CommentDto> comments, long count)>
+    : IRequestHandler<FilmCommentsQuery, (IReadOnlyCollection<CommentDto> comments, int count)>
 {
     /// <summary>
     /// Обрабатывает запрос на комментарии к фильму и возвращает соответствующие комментарии.
@@ -24,7 +24,7 @@ public class FilmCommentsQueryHandler(IUnitOfWork unitOfWork)
     /// <param name="request">Запрос на комментарии к фильму.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Коллекция DTO комментариев.</returns>
-    public async Task<(IReadOnlyCollection<CommentDto> comments, long count)> Handle(FilmCommentsQuery request,
+    public async Task<(IReadOnlyCollection<CommentDto> comments, int count)> Handle(FilmCommentsQuery request,
         CancellationToken cancellationToken)
     {
         var specification = new FilmCommentsSpecification(request.FilmId);
@@ -32,10 +32,10 @@ public class FilmCommentsQueryHandler(IUnitOfWork unitOfWork)
         var comments =
             await unitOfWork.CommentRepository.Value.FindAsync(specification, sorting, request.Skip, request.Take);
 
-        if (comments.Count == 0) return (Array.Empty<CommentDto>(), 0);
+        if (comments.Count == 0) return ([], 0);
 
-        var spec = new UsersByIdsSpecification(comments.Select(x => x.UserId));
-        var users = await unitOfWork.UserRepository.Value.FindAsync(spec);
+        var usersSpecification = new UserByIdsSpecification(comments.Select(x => x.UserId));
+        var users = await unitOfWork.UserRepository.Value.FindAsync(usersSpecification);
 
         var count = await unitOfWork.CommentRepository.Value.CountAsync(specification);
 

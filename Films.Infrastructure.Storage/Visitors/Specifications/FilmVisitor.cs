@@ -18,32 +18,27 @@ public class FilmVisitor : BaseVisitor<FilmModel, IFilmSpecificationVisitor, Fil
     }
 
     public void Visit(FilmByGenreSpecification specification) =>
-        Expr = model =>
-            model.Genres.Any(g => g.Name.ToUpper() == specification.Genre.ToUpper());
+        Expr = model => model.Genres.Any(g => g.Name == specification.Genre);
 
     public void Visit(FilmByActorSpecification specification) =>
-        Expr = model =>
-            model.Actors.Any(g => g.Person.Name.ToUpper().Contains(specification.Actor.ToUpper()));
+        Expr = model => model.Actors.Any(g => g.Person.Name.Contains(specification.Actor));
 
     public void Visit(FilmByDirectorSpecification specification) =>
-        Expr = model =>
-            model.Directors.Any(g => g.Name.ToUpper().Contains(specification.Director.ToUpper()));
+        Expr = model => model.Directors.Any(g => g.Name.Contains(specification.Director));
 
     public void Visit(FilmByScreenWriterSpecification specification) =>
-        Expr = model =>
-            model.ScreenWriters.Any(g => g.Name.ToUpper().Contains(specification.ScreenWriter.ToUpper()));
+        Expr = model => model.Screenwriters.Any(g => g.Name.Contains(specification.ScreenWriter));
 
     public void Visit(FilmByTypeSpecification specification) => Expr = model => model.Type == specification.Type;
 
     public void Visit(FilmByNameSpecification specification) =>
-        Expr = model => model.Title.ToUpper().Contains(specification.Title.ToUpper());
+        Expr = model => model.Title.Contains(specification.Title);
 
     public void Visit(FilmByYearsSpecification specification) => Expr = model =>
         model.Year <= specification.MaxYear && model.Year >= specification.MinYear;
 
     public void Visit(FilmByCountrySpecification specification) =>
-        Expr = model =>
-            model.Countries.Any(g => g.Name.ToUpper() == specification.Country.ToUpper());
+        Expr = model => model.Countries.Any(g => g.Name == specification.Country);
 
     public void Visit(FilmByIdSpecification specification) => Expr = model => specification.Id == model.Id;
 

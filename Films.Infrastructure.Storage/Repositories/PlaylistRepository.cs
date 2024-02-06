@@ -56,7 +56,8 @@ public class PlaylistRepository : IPlaylistRepository
         return _aggregateMapper.Map(playlist);
     }
 
-    public async Task<IList<Playlist>> FindAsync(ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification,
+    public async Task<IReadOnlyCollection<Playlist>> FindAsync(
+        ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification,
         IOrderBy<Playlist, IPlaylistSortingVisitor>? orderBy = null, int? skip = null, int? take = null)
     {
         var query = _context.Playlists.Include(x=>x.Films).AsQueryable();
@@ -84,9 +85,9 @@ public class PlaylistRepository : IPlaylistRepository
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
         
-        var models = await query.ToListAsync();
+        var models = await query.ToArrayAsync();
         foreach (var model in models) await LoadCollectionsAsync(model);
-        return models.Select(_aggregateMapper.Map).ToList();
+        return models.Select(_aggregateMapper.Map).ToArray();
     }
 
     public Task<int> CountAsync(ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification)

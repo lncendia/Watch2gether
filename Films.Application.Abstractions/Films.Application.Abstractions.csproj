@@ -13,7 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Commands\Profile\" />
       <Folder Include="Services\" />
     </ItemGroup>
 

@@ -53,7 +53,8 @@ public class RatingRepository : IRatingRepository
         return rating == null ? null : _aggregateMapper.Map(rating);
     }
 
-    public async Task<IList<Rating>> FindAsync(ISpecification<Rating, IRatingSpecificationVisitor>? specification,
+    public async Task<IReadOnlyCollection<Rating>> FindAsync(
+        ISpecification<Rating, IRatingSpecificationVisitor>? specification,
         IOrderBy<Rating, IRatingSortingVisitor>? orderBy = null, int? skip = null, int? take = null)
     {
         var query = _context.Ratings.AsQueryable();
@@ -81,7 +82,7 @@ public class RatingRepository : IRatingRepository
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        return (await query.ToListAsync()).Select(_aggregateMapper.Map).ToList();
+        return (await query.ToArrayAsync()).Select(_aggregateMapper.Map).ToArray();
     }
 
     public Task<int> CountAsync(ISpecification<Rating, IRatingSpecificationVisitor>? specification)

@@ -1,59 +1,90 @@
-using Films.Start.Application.Abstractions.FilmsLoading;
-using Films.Start.Application.Abstractions.Movie.Exceptions;
-using Films.Start.Application.Abstractions.MovieApi.Exceptions;
-using Films.Start.Domain.Films.Exceptions;
+using Films.Application.Abstractions.Commands.FilmsManagement;
+using Films.Application.Abstractions.Queries.FilmsApi;
+using Films.Domain.Films.Enums;
+using Films.Domain.Films.ValueObjects;
+using Films.Infrastructure.Storage.Context;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Films.Start.HostedServices;
 
-public class FilmLoadHostedService : BackgroundService
+public class FilmLoadHostedService(IServiceProvider serviceProvider) : BackgroundService
 {
-    private readonly IServiceProvider _serviceProvider;
-    private readonly ILogger<FilmLoadHostedService> _logger;
-
-    public FilmLoadHostedService(IServiceProvider serviceProvider, ILogger<FilmLoadHostedService> logger)
-    {
-        _serviceProvider = serviceProvider;
-        _logger = logger;
-    }
+    // protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    // {
+    //     int[] films = [447301];
+    //     foreach (var film in films)
+    //     {
+    //         using var scope = serviceProvider.CreateScope();
+    //         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+    //         var filmFromKp = await mediator.Send(new FindFilmByKpIdQuery { Id = film }, stoppingToken);
+    //         await mediator.Send(new AddFilmCommand
+    //         {
+    //             Title = filmFromKp.Title,
+    //             Description = filmFromKp.Description!,
+    //             ShortDescription = filmFromKp.ShortDescription,
+    //             Type = filmFromKp.Type,
+    //             Year = filmFromKp.Year,
+    //             CdnList = filmFromKp.Cdn,
+    //             Countries = filmFromKp.Countries,
+    //             Actors = filmFromKp.Actors.Take(15).ToArray(),
+    //             Directors = filmFromKp.Directors,
+    //             Genres = filmFromKp.Genres,
+    //             Screenwriters = filmFromKp.Screenwriters,
+    //             CountSeasons = filmFromKp.CountSeasons,
+    //             CountEpisodes = filmFromKp.CountEpisodes,
+    //             RatingKp = filmFromKp.RatingKp,
+    //             RatingImdb = filmFromKp.RatingImdb,
+    //             PosterUrl = filmFromKp.PosterUrl
+    //         }, stoppingToken);
+    //     }
+    // }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var list = new List<long>
+        using var scope = serviceProvider.CreateScope();
+
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext2>();
+
+        var films = await context.Films
+            .Include(filmModel => filmModel.Countries)
+            .Include(filmModel => filmModel.Actors)
+            .ThenInclude(model => model.Person)
+            .Include(filmModel => filmModel.Directors)
+            .Include(filmModel => filmModel.Genres)
+            .Include(filmModel => filmModel.Screenwriters)
+            .Include(filmModel => filmModel.CdnList)
+            .ThenInclude(cdnModel => cdnModel.Voices)
+            .ToArrayAsync(cancellationToken: stoppingToken);
+
+        foreach (var film in films)
         {
-        };
-        foreach (var id in list)
-        {
-            await Task.Delay(1500, stoppingToken);
-            try
+            using var dscope = scope.ServiceProvider.CreateScope();
+            var mediator = dscope.ServiceProvider.GetRequiredService<IMediator>();
+            if (film.CdnList.All(c => c.Type != CdnType.VideoCdn)) continue;
+            await mediator.Send(new AddFilmCommand
             {
-                await AddFilmAsync(id, stoppingToken);
-            }
-            catch (Exception ex)
-            {
-                switch (ex)
+                Title = film.Title,
+                Description = film.Description,
+                ShortDescription = film.ShortDescription,
+                Type = film.Type,
+                Year = film.Year,
+                CdnList = film.CdnList.Where(x => x.Type == CdnType.VideoCdn).Select(x => new Cdn
                 {
-                    case ApiNotFoundException:
-                        _logger.LogWarning("Information not found for ID {ID}", id);
-                        break;
-                    case EmptyCdnsCollectionException:
-                        _logger.LogWarning("CDNs not found for ID {ID}", id);
-                        break;
-                    case FilmAlreadyExistsException:
-                        _logger.LogWarning("Film {ID} already exists", id);
-                        break;
-                    default:
-                        throw;
-                }
-            }
+                    Quality = x.Quality, Type = x.Type,
+                    Url = x.Url, Voices = x.Voices.Select(a => a.Name).ToArray()
+                }).ToArray(),
+                Countries = film.Countries.Select(a => a.Name).ToArray(),
+                Actors = film.Actors.Take(15).Select(a => new Actor(a.Person.Name, a.Description)).ToArray(),
+                Directors = film.Directors.Select(a => a.Name).ToArray(),
+                Genres = film.Genres.Select(a => a.Name).ToArray(),
+                Screenwriters = film.Screenwriters.Select(a => a.Name).ToArray(),
+                CountSeasons = film.CountSeasons,
+                CountEpisodes = film.CountEpisodes,
+                RatingKp = film.RatingKp,
+                RatingImdb = film.RatingKp,
+                PosterUrl = film.PosterUrl
+            }, stoppingToken);
         }
-
-        _logger.LogInformation("All films are uploaded");
-    }
-
-    private async Task AddFilmAsync(long id, CancellationToken token)
-    {
-        using var scope = _serviceProvider.CreateScope();
-        var autoLoader = scope.ServiceProvider.GetRequiredService<IFilmAutoLoader>();
-        await autoLoader.LoadAsync(id, token);
     }
 }

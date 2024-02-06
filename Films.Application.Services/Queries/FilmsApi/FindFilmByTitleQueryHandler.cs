@@ -5,9 +5,8 @@ using MediatR;
 
 namespace Films.Application.Services.Queries.FilmsApi;
 
-public class FindFilmByTitleQueryHandler(
-    IKpApiService kpApi, IVideoCdnApiService videoCdnApi,
-    IBazonApiService bazonApiService) : IRequestHandler<FindFilmByTitleQuery, FilmApiDto>
+public class FindFilmByTitleQueryHandler(IKpApiService kpApi, IVideoCdnApiService videoCdnApi)
+    : IRequestHandler<FindFilmByTitleQuery, FilmApiDto>
 {
     public async Task<FilmApiDto> Handle(FindFilmByTitleQuery request, CancellationToken cancellationToken)
     {
@@ -18,9 +17,8 @@ public class FindFilmByTitleQueryHandler(
         var staff = await kpApi.GetActorsAsync(kpId, cancellationToken);
         var seasons = film.Serial ? await kpApi.GetSeasonsAsync(kpId, cancellationToken) : null;
 
-        var bazon = await bazonApiService.GetInfoAsync(kpId, cancellationToken);
         var videoCdn = await videoCdnApi.GetInfoAsync(kpId, cancellationToken);
 
-        return Mapper.Map(film, staff, videoCdn, bazon, seasons);
+        return Mapper.Map(film, staff, videoCdn, seasons);
     }
 }

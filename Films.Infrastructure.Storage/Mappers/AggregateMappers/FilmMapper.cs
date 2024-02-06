@@ -27,16 +27,12 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
             Genres = model.Genres.Select(x => x.Name).ToArray(),
             Countries = model.Countries.Select(x => x.Name).ToArray(),
             Directors = model.Directors.Select(x => x.Name).ToArray(),
-            Actors = model.Actors.Select(x => new Actor
-            {
-                Name = x.Person.Name,
-                Description = x.Description
-            }).ToArray(),
-            Screenwriters = model.ScreenWriters.Select(x => x.Name).ToArray(),
+            Actors = model.Actors.Select(x => new Actor(x.Person.Name, x.Description)).ToArray(),
+            Screenwriters = model.Screenwriters.Select(x => x.Name).ToArray(),
             CdnList = model.CdnList.Select(cdn => new Cdn
             {
                 Type = cdn.Type,
-                Url = cdn.Uri,
+                Url = cdn.Url,
                 Quality = cdn.Quality,
                 Voices = cdn.Voices.Select(voice => voice.Name).ToArray()
             }).ToArray()

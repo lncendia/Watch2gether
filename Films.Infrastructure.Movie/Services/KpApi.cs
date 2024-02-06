@@ -7,7 +7,7 @@ using RestSharp;
 
 namespace Films.Infrastructure.Movie.Services;
 
-public class KpApi : IKpApiService
+public class KpApi : IKpApiService, IDisposable
 {
     private readonly RestClient _kpClient;
     private readonly IKpResponseParser _parser;
@@ -75,5 +75,10 @@ public class KpApi : IKpApiService
             throw new ApiException($"The request was executed with the code {(int)response.StatusCode}",
                 response.ErrorException);
         return response.Content!;
+    }
+
+    public void Dispose()
+    {
+        _kpClient.Dispose();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Films.Domain.Abstractions;
+using Films.Domain.Extensions;
 using Films.Domain.Films.Entities;
 using Films.Domain.Users.ValueObjects;
 
@@ -44,7 +45,7 @@ public class User : AggregateRoot
     public void UpdateGenres(IEnumerable<string> genres)
     {
         _genres.Clear();
-        _genres.AddRange(genres.Distinct());
+        _genres.AddRange(genres.Select(s=>s.GetUpper()).Distinct());
     }
 
     public void UpdateAllows(bool beep, bool scream, bool change)

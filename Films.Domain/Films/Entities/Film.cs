@@ -1,4 +1,5 @@
 ﻿using Films.Domain.Abstractions;
+using Films.Domain.Extensions;
 using Films.Domain.Films.Enums;
 using Films.Domain.Films.Events;
 using Films.Domain.Films.Exceptions;
@@ -35,7 +36,7 @@ public class Film : AggregateRoot
         init
         {
             if (string.IsNullOrEmpty(value) || value.Length > 200) throw new NameLengthException();
-            _title = value;
+            _title = value.GetUpper();
         }
     }
 
@@ -45,7 +46,7 @@ public class Film : AggregateRoot
         set
         {
             if (string.IsNullOrEmpty(value) || value.Length > 1500) throw new DescriptionLengthException();
-            _description = value;
+            _description = value.GetUpper();
         }
     }
 
@@ -55,7 +56,7 @@ public class Film : AggregateRoot
         set
         {
             if (value?.Length > 500) throw new ShortDescriptionLengthException();
-            _shortDescription = value;
+            _shortDescription = value?.GetUpper();
         }
     }
 
@@ -78,7 +79,7 @@ public class Film : AggregateRoot
         init
         {
             if (value.Count == 0) throw new EmptyTagsCollectionException();
-            _genres = value.ToArray();
+            _genres = value.Select(s=>s.GetUpper()).ToArray();
         }
     }
 
@@ -88,7 +89,7 @@ public class Film : AggregateRoot
         init
         {
             if (value.Count == 0) throw new EmptyTagsCollectionException();
-            _countries = value.ToArray();
+            _countries = value.Select(s=>s.GetUpper()).ToArray();
         }
     }
 
@@ -98,7 +99,7 @@ public class Film : AggregateRoot
         init
         {
             if (value.Count == 0) throw new EmptyTagsCollectionException();
-            _directors = value.ToArray();
+            _directors = value.Select(s=>s.GetUpper()).ToArray();
         }
     }
 
@@ -118,7 +119,7 @@ public class Film : AggregateRoot
         init
         {
             if (value.Count == 0) throw new EmptyTagsCollectionException();
-            _screenwriters = value.ToArray();
+            _screenwriters = value.Select(s=>s.GetUpper()).ToArray();
         }
     }
 
@@ -184,7 +185,7 @@ public class Film : AggregateRoot
 
     #region Cdn
 
-    private readonly List<Cdn> _cdnList = null!;
+    private readonly List<Cdn> _cdnList = [];
 
     public required IReadOnlyCollection<Cdn> CdnList
     {

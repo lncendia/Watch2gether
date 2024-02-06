@@ -2,6 +2,7 @@ using Films.Application.Abstractions.Common.Exceptions;
 using MediatR;
 using Films.Application.Abstractions.Queries.Films;
 using Films.Application.Abstractions.Queries.Films.DTOs;
+using Films.Application.Services.Common;
 using Microsoft.Extensions.Caching.Memory;
 using Films.Domain.Abstractions.Repositories.UnitOfWorks;
 using Films.Domain.Films.Entities;
@@ -19,7 +20,7 @@ public class FilmByIdQueryHandler(IUnitOfWork unitOfWork, IMemoryCache memoryCac
     public async Task<FilmDto> Handle(FilmByIdQuery request, CancellationToken cancellationToken)
     {
         // Получаем фильм по его идентификатору 
-        var film = await GetFilmAsync(request.Id);
+        var film = await memoryCache.TryGetFilmFromCache(request.Id, unitOfWork);
 
         Rating? rating = null;
         User? user = null;
@@ -67,27 +68,4 @@ public class FilmByIdQueryHandler(IUnitOfWork unitOfWork, IMemoryCache memoryCac
         UserScore = rating?.Score,
         InWatchlist = user?.Watchlist.Any(f => f.FilmId == film.Id)
     };
-
-    /// <summary>
-    /// Асинхронно получает фильм из кэша или базы данных по его идентификатору.
-    /// </summary>
-    /// <param name="id">Идентификатор фильма.</param>
-    /// <returns>Объект фильма.</returns>
-    private async Task<Film> GetFilmAsync(Guid id)
-    {
-        // Проверяем, есть ли фильм в кэше 
-        if (memoryCache.TryGetValue(id, out Film? film)) return film!;
-
-        // Если фильм не найден в кэше, получаем его из репозитория
-        film = await unitOfWork.FilmRepository.Value.GetAsync(id);
-
-        // Если фильм не найден, выбрасываем исключение 
-        if (film == null) throw new FilmNotFoundException();
-
-        // Добавляем фильм в кэш с временем жизни 5 минут 
-        memoryCache.Set(id, film, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
-
-        // Возвращаем найденный фильм 
-        return film;
-    }
 }

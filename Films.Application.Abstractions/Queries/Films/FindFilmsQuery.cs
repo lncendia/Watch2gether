@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Films.Application.Abstractions.Queries.Films;
 
-public class FindFilmsQuery : IRequest<(IReadOnlyCollection<FilmShortDto> films, long count)>
+public class FindFilmsQuery : IRequest<(IReadOnlyCollection<FilmShortDto> films, int count)>
 {
     public string? Query { get; init; }
     public string? Genre { get; init; }

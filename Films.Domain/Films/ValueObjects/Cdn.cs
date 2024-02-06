@@ -1,3 +1,4 @@
+using Films.Domain.Extensions;
 using Films.Domain.Films.Enums;
 using Films.Domain.Films.Exceptions;
 
@@ -17,7 +18,7 @@ public class Cdn
         init
         {
             if (value.Count == 0) throw new EmptyVoicesCollectionException();
-            _voices = value.ToArray();
+            _voices = value.Select(s=>s.GetUpper()).ToArray();
         }
     }
 }

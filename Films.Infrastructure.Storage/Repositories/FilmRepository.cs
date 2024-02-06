@@ -54,7 +54,8 @@ public class FilmRepository : IFilmRepository
         return _aggregateMapper.Map(film);
     }
 
-    public async Task<IList<Film>> FindAsync(ISpecification<Film, IFilmSpecificationVisitor>? specification,
+    public async Task<IReadOnlyCollection<Film>> FindAsync(
+        ISpecification<Film, IFilmSpecificationVisitor>? specification,
         IOrderBy<Film, IFilmSortingVisitor>? orderBy = null, int? skip = null, int? take = null)
     {
         var query = _context.Films.AsQueryable();
@@ -82,9 +83,9 @@ public class FilmRepository : IFilmRepository
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
         
-        var models = await query.ToListAsync();
+        var models = await query.ToArrayAsync();
         foreach (var model in models) await LoadCollectionsAsync(model);
-        return models.Select(_aggregateMapper.Map).ToList();
+        return models.Select(_aggregateMapper.Map).ToArray();
     }
 
     public Task<int> CountAsync(ISpecification<Film, IFilmSpecificationVisitor>? specification)
@@ -104,7 +105,7 @@ public class FilmRepository : IFilmRepository
         await _context.Entry(model).Collection(x => x.Countries).LoadAsync();
         await _context.Entry(model).Collection(x => x.Directors).LoadAsync();
         await _context.Entry(model).Collection(x => x.Genres).LoadAsync();
-        await _context.Entry(model).Collection(x => x.ScreenWriters).LoadAsync();
+        await _context.Entry(model).Collection(x => x.Screenwriters).LoadAsync();
         await _context.Entry(model).Collection(x => x.CdnList).Query().Include(x => x.Voices).LoadAsync();
     }
 }

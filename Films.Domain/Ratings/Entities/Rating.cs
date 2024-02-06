@@ -14,7 +14,11 @@ public class Rating : AggregateRoot
         UserId = user.Id;
         if (score is < 0 or > 10) throw new ScoreException();
         Score = score;
-        AddDomainEvent(new NewRatingEvent(this));
+        AddDomainEvent(new NewRatingEvent
+        {
+            Rating = this,
+            Film = film
+        });
     }
 
     public Guid FilmId { get; }

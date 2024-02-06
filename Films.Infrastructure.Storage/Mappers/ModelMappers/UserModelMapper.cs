@@ -3,6 +3,8 @@ using Films.Domain.Users.Entities;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Models.User;
+// ReSharper disable EntityFramework.NPlusOne.IncompleteDataUsage
+// ReSharper disable EntityFramework.NPlusOne.IncompleteDataQuery
 
 namespace Films.Infrastructure.Storage.Mappers.ModelMappers;
 
@@ -26,13 +28,22 @@ internal class UserModelMapper(ApplicationDbContext context) : IModelMapperUnit<
         user.Change = entity.Allows.Change;
 
 
-        #region History
+        ProcessHistory(entity, user);
 
+        ProcessWatchlist(entity, user);
+
+        await ProcessGenresAsync(entity, user);
+
+        return user;
+    }
+
+    private static void ProcessHistory(User entity, UserModel user)
+    {
         // Нужно удалить из UserHistory записи, которых нет в entity.History
         var historyToRemove =
             user.History.Where(uh => !entity.History.Any(eh => eh.FilmId == uh.FilmId && eh.Date == uh.Date));
 
-        context.UserHistory.RemoveRange(historyToRemove);
+        user.History.RemoveAll(g => historyToRemove.Contains(g));
 
         // Нужно добавить в UserHistory новые записи, которых там еще нет
         var historyToAdd = entity.History
@@ -40,16 +51,15 @@ internal class UserModelMapper(ApplicationDbContext context) : IModelMapperUnit<
             .Select(eh => new HistoryModel { FilmId = eh.FilmId, Date = eh.Date });
 
         user.History.AddRange(historyToAdd);
-
-        #endregion
-
-        #region Watchlist
-
+    }
+    
+    private static void ProcessWatchlist(User entity, UserModel user)
+    {
         // Нужно удалить из UserWatchlist записи, которых нет в entity.Watchlist
         var watchlistToRemove =
             user.Watchlist.Where(uh => !entity.Watchlist.Any(eh => eh.FilmId == uh.FilmId && eh.Date == uh.Date));
 
-        context.UserWatchlist.RemoveRange(watchlistToRemove);
+        user.Watchlist.RemoveAll(g => watchlistToRemove.Contains(g));
 
         // Нужно добавить в UserWatchlist новые записи, которых там еще нет
         var watchlistToAdd = entity.Watchlist
@@ -57,16 +67,26 @@ internal class UserModelMapper(ApplicationDbContext context) : IModelMapperUnit<
             .Select(eh => new WatchlistModel { FilmId = eh.FilmId, Date = eh.Date });
 
         user.Watchlist.AddRange(watchlistToAdd);
-
-        #endregion
-
-
-        var newGenres = entity.Genres.Where(x => user.Genres.All(m => !string.Equals(m.Name, x, StringComparison.CurrentCultureIgnoreCase)));
-        var removeGenres = user.Genres.Where(x => entity.Genres.All(m => !string.Equals(m, x.Name, StringComparison.CurrentCultureIgnoreCase)));
-        var databaseGenres = context.Genres.Where(x => newGenres.Any(g => g.Equals(x.Name, StringComparison.CurrentCultureIgnoreCase)));
-        user.Genres.AddRange(databaseGenres);
+    }
+    
+    private async Task ProcessGenresAsync(User entity, UserModel user)
+    {
+        var removeGenres = user.Genres
+            .Where(x => entity.Genres.All(m => m != x.Name));
+        
         user.Genres.RemoveAll(g => removeGenres.Contains(g));
-
-        return user;
+        
+        var newGenres = entity.Genres
+            .Where(x => user.Genres.All(m => m.Name != x))
+            .ToArray();
+        
+        if (newGenres.Length != 0)
+        {
+            var databaseGenres = await context.Genres
+                .Where(x => newGenres.Any(g => g == x.Name))
+                .ToArrayAsync();
+            
+            user.Genres.AddRange(databaseGenres);
+        }
     }
 }

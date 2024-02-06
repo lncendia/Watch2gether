@@ -6,14 +6,31 @@
         <Nullable>enable</Nullable>
         <OutputType>Library</OutputType>
         <LangVersion>12</LangVersion>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Films.Application.Abstractions\Films.Application.Abstractions.csproj" />
+        <ProjectReference Include="..\Films.Application.Abstractions\Films.Application.Abstractions.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="IdentityModel" Version="6.2.0" />
+        <PackageReference Include="IdentityModel" Version="6.2.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="Room\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Remove="Room\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Remove="Room\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Room\**"/>
     </ItemGroup>
 
 </Project>

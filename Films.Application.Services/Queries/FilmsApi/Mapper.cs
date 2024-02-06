@@ -8,7 +8,7 @@ namespace Films.Application.Services.Queries.FilmsApi;
 internal static class Mapper
 {
     internal static FilmApiDto Map(FilmApiResponse filmApiResponse, FilmStaffApiResponse staffApiResponse,
-        CdnApiResponse videoCdn, CdnApiResponse bazonCdn, IReadOnlyCollection<SeasonApiResponse>? seasons)
+        CdnApiResponse videoCdn, IReadOnlyCollection<SeasonApiResponse>? seasons)
     {
         return new FilmApiDto
         {
@@ -19,18 +19,15 @@ internal static class Mapper
             Year = filmApiResponse.Year,
             CountSeasons = seasons?.Count,
             CountEpisodes = seasons?.SelectMany(s => s.Episodes).Count(),
-            Cdn = [Map(videoCdn, CdnType.VideoCdn), Map(bazonCdn, CdnType.Bazon)],
+            Cdn = [Map(videoCdn, CdnType.VideoCdn)],
             Countries = filmApiResponse.Countries,
-            Actors = staffApiResponse.Actors.Select(a => new Actor
-            {
-                Name = a.Name,
-                Description = a.Description
-            }).ToArray(),
+            Actors = staffApiResponse.Actors.Select(a => new Actor(a.Name, a.Description)).ToArray(),
             Directors = staffApiResponse.Directors,
             Genres = filmApiResponse.Genres,
             Screenwriters = staffApiResponse.ScreenWriters,
             RatingKp = filmApiResponse.RatingKp,
-            RatingImdb = filmApiResponse.RatingImdb
+            RatingImdb = filmApiResponse.RatingImdb,
+            PosterUrl = filmApiResponse.PosterUrl
         };
     }
 

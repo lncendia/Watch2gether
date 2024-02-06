@@ -7,7 +7,7 @@ using RestSharp;
 
 namespace Films.Infrastructure.Movie.Services;
 
-public class VideoCdnApi : IVideoCdnApiService
+public class VideoCdnApi : IVideoCdnApiService, IDisposable
 {
     private readonly RestClient _cdnClient;
     private readonly IVideoCdnResponseParser _parser;
@@ -31,5 +31,10 @@ public class VideoCdnApi : IVideoCdnApiService
             throw new ApiException($"The request was executed with the code {(int)response.StatusCode}",
                 response.ErrorException);
         return _parser.Get(response.Content!);
+    }
+
+    public void Dispose()
+    {
+        _cdnClient.Dispose();
     }
 }

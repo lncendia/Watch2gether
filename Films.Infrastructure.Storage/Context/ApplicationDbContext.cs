@@ -64,13 +64,13 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .HasOne(x => x.Film)
             .WithMany()
             .HasForeignKey(x => x.FilmId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<HistoryModel>()
             .HasOne(x => x.Film)
             .WithMany()
             .HasForeignKey(x => x.FilmId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
 
         modelBuilder.Entity<FilmModel>()
@@ -84,7 +84,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .UsingEntity(e => e.ToTable("FilmDirectors"));
 
         modelBuilder.Entity<FilmModel>()
-            .HasMany(x => x.ScreenWriters)
+            .HasMany(x => x.Screenwriters)
             .WithMany()
             .UsingEntity(e => e.ToTable("FilmScreenWriters"));
 
@@ -97,17 +97,17 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .HasMany(x => x.Countries)
             .WithMany()
             .UsingEntity(e => e.ToTable("FilmCountries"));
-        
+
         modelBuilder.Entity<FilmModel>()
             .HasMany(x => x.CdnList)
             .WithOne(x => x.Film)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         modelBuilder.Entity<CdnModel>()
             .HasMany(x => x.Voices)
             .WithMany()
             .UsingEntity(e => e.ToTable("CndVoices"));
-        
+
         modelBuilder.Entity<FilmActorModel>()
             .HasOne(x => x.Person)
             .WithMany()
@@ -115,15 +115,14 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
         modelBuilder.Entity<PlaylistModel>()
             .HasMany(x => x.Films)
-            .WithMany()
-            .UsingEntity(e => e.ToTable("PlaylistFilms"));
-        
+            .WithOne(x => x.Playlist);
+
         modelBuilder.Entity<PlaylistFilmModel>()
             .HasOne(x => x.Film)
             .WithMany()
             .HasForeignKey(x => x.FilmId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         modelBuilder.Entity<PlaylistModel>()
             .HasMany(x => x.Genres)
             .WithMany()
@@ -134,25 +133,25 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.SetNull);
-        
+
         modelBuilder.Entity<RatingModel>()
             .HasOne(x => x.Film)
             .WithMany()
             .HasForeignKey(x => x.FilmId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<CommentModel>()
             .HasOne(x => x.User)
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.SetNull);
-        
+
         modelBuilder.Entity<CommentModel>()
             .HasOne(x => x.Film)
             .WithMany()
             .HasForeignKey(x => x.FilmId)
-            .OnDelete(DeleteBehavior.Restrict);
-        
+            .OnDelete(DeleteBehavior.Cascade);
+
         base.OnModelCreating(modelBuilder);
     }
 }

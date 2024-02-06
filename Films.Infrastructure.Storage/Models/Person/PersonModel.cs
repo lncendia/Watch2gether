@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Films.Infrastructure.Storage.Models.Film;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Films.Infrastructure.Storage.Models.Person;
 
 public class PersonModel
 {
     public long Id { get; set; }
-    public string Name { get; set; } = null!;
+    [MaxLength(50)] public string Name { get; set; } = null!;
 }

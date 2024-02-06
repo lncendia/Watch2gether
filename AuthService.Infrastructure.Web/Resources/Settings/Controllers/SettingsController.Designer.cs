@@ -60,7 +60,7 @@ namespace AuthService.Infrastructure.Web.Resources.Settings.Controllers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Profile photo has been changed.
+        ///   Looks up a localized string similar to User photo has been changed.
         /// </summary>
         internal static string AvatarChanged {
             get {

@@ -33,5 +33,5 @@ public class FilmModel : IAggregateModel
     public List<CountryModel> Countries { get; set; } = [];
     public List<FilmActorModel> Actors { get; set; } = [];
     public List<PersonModel> Directors { get; set; } = [];
-    public List<PersonModel> ScreenWriters { get; set; } = [];
+    public List<PersonModel> Screenwriters { get; set; } = [];
 }

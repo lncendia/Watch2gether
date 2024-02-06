@@ -58,7 +58,8 @@ public class CommentRepository : ICommentRepository
         return comment == null ? null : _aggregateMapper.Map(comment);
     }
 
-    public async Task<IList<Comment>> FindAsync(ISpecification<Comment, ICommentSpecificationVisitor>? specification,
+    public async Task<IReadOnlyCollection<Comment>> FindAsync(
+        ISpecification<Comment, ICommentSpecificationVisitor>? specification,
         IOrderBy<Comment, ICommentSortingVisitor>? orderBy = null, int? skip = null, int? take = null)
     {
         var query = _context.Comments.AsQueryable();
@@ -86,7 +87,7 @@ public class CommentRepository : ICommentRepository
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        return (await query.ToListAsync()).Select(_aggregateMapper.Map).ToList();
+        return (await query.ToArrayAsync()).Select(_aggregateMapper.Map).ToArray();
     }
 
     public Task<int> CountAsync(ISpecification<Comment, ICommentSpecificationVisitor>? specification)

@@ -1,23 +1,24 @@
-using Films.Start.Exceptions;
+using Films.Application.Abstractions.Common.Interfaces;
+using Films.Domain.Abstractions.Repositories.UnitOfWorks;
+using Films.Infrastructure.Storage;
+using Films.Infrastructure.Storage.Context;
 using Microsoft.EntityFrameworkCore;
-using Films.Start.Domain.Abstractions.Repositories.UnitOfWorks;
-using Films.Start.Infrastructure.ApplicationData;
-using Films.Start.Infrastructure.Storage;
-using Films.Start.Infrastructure.Storage.Context;
 
 namespace Films.Start.Extensions;
 
 public static class PersistenceServices
 {
-    public static void AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddPersistenceServices(this IServiceCollection services, IConfiguration configuration,
+        string rootPath)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection") ??
-                               throw new ConfigurationException("ConnectionStrings:DefaultConnection");
-        services.AddDbContext<ApplicationContext>(options =>
-            options.UseSqlServer(connectionString));
-        
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(connectionString));
+        var connectionString = configuration.GetRequiredValue<string>("ConnectionStrings:DefaultConnection");
+
+        var contentPath = configuration.GetRequiredValue<string>("Thumbnails");
+
+        services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+        services.AddDbContext<ApplicationDbContext2>(options => options.UseSqlite("DataSource=app.db;Cache=Shared"));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<IPosterService, PosterService>(_ => new PosterService(rootPath, contentPath));
     }
 }

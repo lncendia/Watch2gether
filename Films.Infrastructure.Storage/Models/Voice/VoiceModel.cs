@@ -1,9 +1,9 @@
-using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Films.Infrastructure.Storage.Models.Voice;
 
 public class VoiceModel
 {
     public long Id { get; set; }
-    public string Name { get; set; } = null!;
+    [MaxLength(60)] public string Name { get; set; } = null!;
 }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Films.Infrastructure.Web.FilmsApi.Controllers;
 
 [ApiController]
-[Authorize(Policy = "Admin")]
+[Authorize("admin")]
 [Route("filmApi/[controller]/[action]")]
 public class FilmApiController(IMediator mediator) : ControllerBase
 {
@@ -42,35 +42,33 @@ public class FilmApiController(IMediator mediator) : ControllerBase
         return Map(film);
     }
 
-    private static FilmApiViewModel Map(FilmApiDto film)
+    private static FilmApiViewModel Map(FilmApiDto film) => new()
     {
-        return new FilmApiViewModel
+        Type = film.Type,
+        Title = film.Title,
+        Year = film.Year,
+        Cdn = film.Cdn.Select(c => new CdnApiViewModel
         {
-            Type = film.Type,
-            Title = film.Title,
-            Year = film.Year,
-            Cdn = film.Cdn.Select(c => new CdnViewModel
-            {
-                Cdn = c.Type,
-                Quality = c.Quality,
-                Voices = c.Voices
-            }).ToArray(),
-            Countries = film.Countries,
-            Actors = film.Actors.Select(a => new ActorViewModel
-            {
-                Name = a.Name,
-                Description = a.Description
-            }).ToArray(),
-            Directors = film.Directors,
-            Genres = film.Genres,
-            Screenwriters = film.Screenwriters,
-            CountSeasons = film.CountSeasons,
-            CountEpisodes = film.CountEpisodes,
-            RatingKp = film.RatingKp,
-            RatingImdb = film.RatingImdb,
-            Description = film.Description,
-            ShortDescription = film.ShortDescription,
-            PosterUrl = film.PosterUrl
-        };
-    }
+            Cdn = c.Type,
+            Quality = c.Quality,
+            Voices = c.Voices,
+            Url = c.Url
+        }),
+        Countries = film.Countries,
+        Actors = film.Actors.Select(a => new ActorApiViewModel
+        {
+            Name = a.Name,
+            Description = a.Description
+        }),
+        Directors = film.Directors,
+        Genres = film.Genres,
+        Screenwriters = film.Screenwriters,
+        CountSeasons = film.CountSeasons,
+        CountEpisodes = film.CountEpisodes,
+        RatingKp = film.RatingKp,
+        RatingImdb = film.RatingImdb,
+        Description = film.Description,
+        ShortDescription = film.ShortDescription,
+        PosterUrl = film.PosterUrl
+    };
 }

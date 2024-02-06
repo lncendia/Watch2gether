@@ -14,10 +14,10 @@ public class FilmApiViewModel
     public double? RatingImdb { get; init; }
     public int? CountSeasons { get; init; }
     public int? CountEpisodes { get; init; }
-    public required IReadOnlyCollection<CdnViewModel> Cdn { get; init; }
-    public required IReadOnlyCollection<string> Countries { get; init; }
-    public required IReadOnlyCollection<ActorViewModel> Actors { get; init; }
-    public required IReadOnlyCollection<string> Directors { get; init; }
-    public required IReadOnlyCollection<string> Genres { get; init; }
-    public required IReadOnlyCollection<string> Screenwriters { get; init; }
+    public required IEnumerable<CdnApiViewModel> Cdn { get; init; }
+    public required IEnumerable<string> Countries { get; init; }
+    public required IEnumerable<ActorApiViewModel> Actors { get; init; }
+    public required IEnumerable<string> Directors { get; init; }
+    public required IEnumerable<string> Genres { get; init; }
+    public required IEnumerable<string> Screenwriters { get; init; }
 }

@@ -1,7 +1,9 @@
-﻿namespace Films.Domain.Films.ValueObjects;
+﻿using Films.Domain.Extensions;
 
-public class Actor
+namespace Films.Domain.Films.ValueObjects;
+
+public class Actor(string name, string? description)
 {
-    public required string Name { get; init; }
-    public string? Description { get; init; }
+    public string Name { get; } = name.GetUpper();
+    public string? Description { get; } = description;
 }

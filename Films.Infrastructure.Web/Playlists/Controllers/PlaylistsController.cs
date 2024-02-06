@@ -1,5 +1,7 @@
 ﻿using Films.Application.Abstractions.Queries.Playlists;
+using Films.Application.Abstractions.Queries.Playlists.DTOs;
 using Films.Infrastructure.Web.Playlists.InputModels;
+using Films.Infrastructure.Web.Playlists.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,14 +12,35 @@ namespace Films.Infrastructure.Web.Playlists.Controllers;
 public class PlaylistsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> Search(PlaylistsSearchInputModel model)
+    public async Task<PlaylistsViewModel> Search(PlaylistsSearchInputModel model)
     {
-        var playlists = await mediator.Send(new FindPlaylistsQuery
+        var data = await mediator.Send(new FindPlaylistsQuery
         {
             Genre = model.Genre,
             Query = model.Query,
             Skip = (model.Page - 1) * model.CountPerPage,
             Take = model.CountPerPage
         });
+
+
+        var countPages = data.count / model.CountPerPage;
+
+        if (data.count % model.CountPerPage > 0) countPages++;
+
+        return new PlaylistsViewModel
+        {
+            CountPages = countPages,
+            Playlists = data.playlists.Select(Map)
+        };
     }
+
+    private static PlaylistViewModel Map(PlaylistDto dto) => new()
+    {
+        Id = dto.Id,
+        Name = dto.Name,
+        Genres = dto.Genres,
+        Description = dto.Description,
+        PosterUrl = dto.PosterUrl,
+        Updated = dto.Updated
+    };
 }

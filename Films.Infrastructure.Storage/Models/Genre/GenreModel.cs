@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Films.Infrastructure.Storage.Models.Genre;
 
 public class GenreModel
 {
     public long Id { get; set; }
-    public string Name { get; set; } = null!;
+    [MaxLength(30)] public string Name { get; set; } = null!;
 }

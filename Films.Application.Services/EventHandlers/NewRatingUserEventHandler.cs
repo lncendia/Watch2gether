@@ -17,17 +17,25 @@ public class NewRatingUserEventHandler(IUnitOfWork unitOfWork) : INotificationHa
     {
         var user = await unitOfWork.UserRepository.Value.GetAsync(notification.Rating.UserId!.Value);
         if (user == null) throw new UserNotFoundException();
-        var spec = new RatingByUserSpecification(user.Id);
+        
+        var specification = new RatingByUserSpecification(user.Id);
         var orderScore = new RatingOrderByScore();
         var orderDate = new RatingOrderByDate();
         var order = new DescendingOrder<Rating, IRatingSortingVisitor>(
             new ThenByOrder<Rating, IRatingSortingVisitor>(orderDate, orderScore));
+        
         var ratings =
-            await unitOfWork.RatingRepository.Value.FindAsync(spec, order, 0, 10);
-        var films = await unitOfWork.FilmRepository.Value.FindAsync(
-            new FilmByIdsSpecification(ratings.Select(x => x.FilmId)));
-        var genres = ratings.SelectMany(x => films.First(f => f.Id == x.FilmId).Genres).GroupBy(g => g)
-            .OrderByDescending(genre => genre.Count()).Select(x => x.Key).Take(5);
+            await unitOfWork.RatingRepository.Value.FindAsync(specification, order, 0, 10);
+
+        var filmsSpecification = new FilmByIdsSpecification(ratings.Select(x => x.FilmId));
+        var films = await unitOfWork.FilmRepository.Value.FindAsync(filmsSpecification);
+        var genres = ratings
+            .SelectMany(x => films.First(f => f.Id == x.FilmId).Genres)
+            .GroupBy(g => g)
+            .OrderByDescending(genre => genre.Count())
+            .Select(x => x.Key)
+            .Take(5);
+        
         user.UpdateGenres(genres);
         await unitOfWork.UserRepository.Value.UpdateAsync(user);
     }

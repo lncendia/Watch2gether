@@ -12,7 +12,7 @@ public interface IRepository<T, in TK, out TX, out TM> where T : class
     Task DeleteAsync(TK id);
     Task<T?> GetAsync(TK id);
 
-    Task<IList<T>> FindAsync(ISpecification<T, TX>? specification, IOrderBy<T, TM>? orderBy = null, int? skip = null,
+    Task<IReadOnlyCollection<T>> FindAsync(ISpecification<T, TX>? specification, IOrderBy<T, TM>? orderBy = null, int? skip = null,
         int? take = null);
 
     Task<int> CountAsync(ISpecification<T, TX>? specification);

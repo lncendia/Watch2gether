@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Films.Infrastructure.Web.FilmsManagement.Controllers;
 
 [ApiController]
-[Authorize(Policy = "Admin")]
+[Authorize("admin")]
 [Route("filmApi/[controller]")]
 public class FilmLoadingController(IMediator mediator) : ControllerBase
 {
@@ -33,11 +33,7 @@ public class FilmLoadingController(IMediator mediator) : ControllerBase
                 Voices = c.Voices!.Select(v => v.Name!).ToArray()
             }).ToArray(),
             Countries = model.Countries!.Select(c => c.Name!).ToArray(),
-            Actors = model.Actors!.Select(a => new Actor
-            {
-                Name = a.Name!,
-                Description = a.Description
-            }).ToArray(),
+            Actors = model.Actors!.Select(a => new Actor(a.Name!, a.Description)).ToArray(),
             Directors = model.Directors!.Select(d => d.Name!).ToArray(),
             Genres = model.Genres!.Select(g => g.Name!).ToArray(),
             Screenwriters = model.Screenwriters!.Select(s => s.Name!).ToArray()

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Films.Infrastructure.Web.PlaylistManagement.Controllers;
 
 [ApiController]
-[Authorize(Policy = "Admin")]
+[Authorize("admin")]
 [Route("filmApi/[controller]")]
 public class PlaylistManagementController(IMediator mediator) : ControllerBase
 {

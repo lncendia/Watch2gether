@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Films.Infrastructure.Storage.Models.Abstractions;
 using Films.Infrastructure.Storage.Models.Film;
 using Films.Infrastructure.Storage.Models.User;
@@ -9,7 +10,7 @@ public class CommentModel : IAggregateModel
 {
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid Id { get; set; }
-    public string Text { get; set; } = null!;
+    [MaxLength(1000)] public string Text { get; set; } = null!;
     public DateTime CreatedAt { get; set; }
     public Guid? UserId { get; set; }
     public UserModel? User { get; set; }

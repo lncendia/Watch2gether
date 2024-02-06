@@ -54,7 +54,8 @@ public class UserRepository : IUserRepository
         return _aggregateMapper.Map(user);
     }
 
-    public async Task<IList<User>> FindAsync(ISpecification<User, IUserSpecificationVisitor>? specification,
+    public async Task<IReadOnlyCollection<User>> FindAsync(
+        ISpecification<User, IUserSpecificationVisitor>? specification,
         IOrderBy<User, IUserSortingVisitor>? orderBy = null, int? skip = null, int? take = null)
     {
         var query = _context.Users.AsQueryable();
@@ -82,9 +83,9 @@ public class UserRepository : IUserRepository
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        var models = await query.ToListAsync();
+        var models = await query.ToArrayAsync();
         foreach (var model in models) await LoadCollectionsAsync(model);
-        return models.Select(_aggregateMapper.Map).ToList();
+        return models.Select(_aggregateMapper.Map).ToArray();
     }
 
     public Task<int> CountAsync(ISpecification<User, IUserSpecificationVisitor>? specification)

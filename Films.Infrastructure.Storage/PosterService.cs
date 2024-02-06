@@ -42,7 +42,8 @@ public class PosterService : IPosterService
     {
         try
         {
-            var stream = await _client.DownloadStreamAsync(new RestRequest(url));
+            var uri = new Uri($"https://localhost:7131/{url}");
+            var stream = await _client.DownloadStreamAsync(new RestRequest(uri));
             using var image = await Image.LoadAsync(stream ?? throw new NullReferenceException());
             image.Mutate(x => x.Resize(350, 500));
             var fileName = $"{Guid.NewGuid()}.jpg";

@@ -18,5 +18,5 @@ public class UserVisitor : BaseVisitor<UserModel, IUserSpecificationVisitor, Use
     }
     
 
-    public void Visit(UsersByIdsSpecification spec) => Expr = x => spec.Ids.Any(id => id == x.Id);
+    public void Visit(UserByIdsSpecification spec) => Expr = x => spec.Ids.Any(id => id == x.Id);
 }

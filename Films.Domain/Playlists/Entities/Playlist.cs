@@ -1,4 +1,5 @@
 ﻿using Films.Domain.Abstractions;
+using Films.Domain.Extensions;
 using Films.Domain.Playlists.Events;
 using Films.Domain.Playlists.Exceptions;
 
@@ -14,7 +15,7 @@ public class Playlist : AggregateRoot
         set
         {
             if (string.IsNullOrEmpty(value) || value.Length > 200) throw new NameLengthException();
-            _name = value;
+            _name = value.GetUpper();
         }
     }
 
@@ -26,7 +27,7 @@ public class Playlist : AggregateRoot
         set
         {
             if (string.IsNullOrEmpty(value) || value.Length > 500) throw new DescriptionLengthException();
-            _description = value;
+            _description = value.GetUpper();
         }
     }
 
@@ -56,6 +57,6 @@ public class Playlist : AggregateRoot
     public void UpdateGenres(IEnumerable<string> genres)
     {
         _genres.Clear();
-        _genres.AddRange(genres.Distinct());
+        _genres.AddRange(genres.Select(s=>s.GetUpper()).Distinct());
     }
 }

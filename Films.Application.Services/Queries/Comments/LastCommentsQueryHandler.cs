@@ -30,9 +30,9 @@ public class LastCommentsQueryHandler(IUnitOfWork unitOfWork)
             new DescendingOrder<Comment, ICommentSortingVisitor>(
                 new CommentOrderByDate()), take: 20);
 
-        var spec = new UsersByIdsSpecification(comments.Select(x => x.UserId));
+        var specification = new UserByIdsSpecification(comments.Select(x => x.UserId));
 
-        var users = await unitOfWork.UserRepository.Value.FindAsync(spec);
+        var users = await unitOfWork.UserRepository.Value.FindAsync(specification);
 
         return comments.Select(x => Map(x, users.First(u => u.Id == x.UserId))).ToArray();
     }
