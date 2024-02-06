@@ -91,6 +91,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\img\posters1\" />
+      <Folder Include="wwwroot\img\posters\" />
     </ItemGroup>
 </Project>

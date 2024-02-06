@@ -34,13 +34,13 @@ public class PlaylistsController(IMediator mediator) : ControllerBase
         };
     }
 
-    private static PlaylistViewModel Map(PlaylistDto dto) => new()
+    private PlaylistViewModel Map(PlaylistDto dto) => new()
     {
         Id = dto.Id,
         Name = dto.Name,
         Genres = dto.Genres,
         Description = dto.Description,
-        PosterUrl = dto.PosterUrl,
+        PosterUrl = $"{Request.Scheme}://{Request.Host}/{dto.PosterUrl.ToString().Replace('\\', '/')}",
         Updated = dto.Updated
     };
 }

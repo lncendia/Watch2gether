@@ -14,7 +14,7 @@ builder.Configuration
 
 builder.Services.AddMemoryCache();
 
-builder.Services.AddHostedService<FilmLoadHostedService>();
+//builder.Services.AddHostedService<FilmLoadHostedService>();
 
 builder.Services.AddInfrastructureServices(builder.Configuration);
 

@@ -16,7 +16,6 @@ public static class PersistenceServices
         var contentPath = configuration.GetRequiredValue<string>("Thumbnails");
 
         services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
-        services.AddDbContext<ApplicationDbContext2>(options => options.UseSqlite("DataSource=app.db;Cache=Shared"));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped<IPosterService, PosterService>(_ => new PosterService(rootPath, contentPath));

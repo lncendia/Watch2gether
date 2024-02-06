@@ -11,10 +11,13 @@ internal class Mapper
         Name = film.Title,
         PosterUrl = film.PosterUrl,
         Year = film.Year,
-        Rating = film.UserRating,
+        UserRating = film.UserRating,
+        RatingKp = film.RatingKp,
+        RatingImdb = film.RatingImdb,
         Description = film.ShortDescription!,
         Type = film.Type,
         Genres = film.Genres,
-        CountSeasons = film.CountSeasons
+        CountSeasons = film.CountSeasons,
+        CountEpisodes = film.CountEpisodes
     };
 }

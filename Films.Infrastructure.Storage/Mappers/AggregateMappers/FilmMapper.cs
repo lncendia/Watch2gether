@@ -22,8 +22,11 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
         {
             Title = model.Title,
             Description = model.Description,
+            ShortDescription = model.ShortDescription,
             Year = model.Year,
             PosterUrl = model.PosterUrl,
+            RatingKp = model.RatingKp,
+            RatingImdb = model.RatingImdb,
             Genres = model.Genres.Select(x => x.Name).ToArray(),
             Countries = model.Countries.Select(x => x.Name).ToArray(),
             Directors = model.Directors.Select(x => x.Name).ToArray(),

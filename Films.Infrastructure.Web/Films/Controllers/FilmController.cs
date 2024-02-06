@@ -1,4 +1,5 @@
-﻿using Films.Application.Abstractions.Queries.Films;
+﻿using System.ComponentModel.DataAnnotations;
+using Films.Application.Abstractions.Queries.Films;
 using Films.Application.Abstractions.Queries.Films.DTOs;
 using Films.Domain.Films.Enums;
 using Films.Infrastructure.Web.Authentication;
@@ -7,7 +8,6 @@ using Films.Infrastructure.Web.Films.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FilmViewModel = Films.Infrastructure.Web.Films.ViewModels.FilmViewModel;
 
 namespace Films.Infrastructure.Web.Films.Controllers;
 
@@ -66,7 +66,7 @@ public class FilmController(IMediator mediator) : ControllerBase
         return Map(film);
     }
 
-    
+
     [HttpGet]
     [Authorize]
     public async Task<IEnumerable<FilmShortViewModel>> Watchlist()
@@ -90,59 +90,61 @@ public class FilmController(IMediator mediator) : ControllerBase
 
         return films.Select(Map);
     }
-    
-    private static FilmViewModel Map(FilmDto film)
-    {
-        return new FilmViewModel
-        {
-            Id = film.Id,
-            Description = film.Description,
-            Type = film.Type,
-            Name = film.Name,
-            PosterUrl = film.PosterUrl,
-            RatingKp = film.RatingKp,
-            RatingImdb = film.RatingImdb,
-            UserRating = film.UserRating,
-            UserRatingsCount = film.UserRatingsCount,
-            UserScore = film.UserScore,
-            InWatchlist = film.InWatchlist,
-            CdnList = film.CdnList.Select(cdn => new CdnViewModel
-            {
-                Cdn = cdn.Type,
-                Quality = cdn.Quality,
-                Voices = cdn.Voices
-            }),
-            CountSeasons = film.CountSeasons,
-            CountEpisodes = film.CountEpisodes,
-            Genres = film.Genres,
-            Countries = film.Countries,
-            Directors = film.Directors,
-            ScreenWriters = film.ScreenWriters,
-            Actors = film.Actors.Select(a => new ActorViewModel
-            {
-                Description = a.Description,
-                Name = a.Name
-            })
-        };
-    }
 
-    private static FilmShortViewModel Map(FilmShortDto film)
+    private FilmViewModel Map(FilmDto film) => new()
     {
-        return new FilmShortViewModel
+        Id = film.Id,
+        Description = film.Description,
+        Type = film.Type switch
         {
-            Id = film.Id,
-            Name = film.Name,
-            PosterUrl = film.PosterUrl,
-            Rating = film.Rating,
-            Description = film.Description,
-            Type = film.Type switch
-            {
-                FilmType.Film => "Фильм",
-                FilmType.Serial => "Сериал",
-                _ => throw new ArgumentOutOfRangeException()
-            },
-            Genres = film.Genres,
-            CountSeasons = film.CountSeasons
-        };
-    }
+            FilmType.Film => "Фильм",
+            FilmType.Serial => "Сериал",
+            _ => throw new ArgumentOutOfRangeException()
+        },
+        Name = film.Name,
+        PosterUrl = $"{Request.Scheme}://{Request.Host}/{film.PosterUrl.ToString().Replace('\\', '/')}",
+        RatingKp = film.RatingKp,
+        RatingImdb = film.RatingImdb,
+        UserRating = film.UserRating,
+        UserRatingsCount = film.UserRatingsCount,
+        UserScore = film.UserScore,
+        InWatchlist = film.InWatchlist,
+        CdnList = film.CdnList.Select(cdn => new CdnViewModel
+        {
+            Cdn = cdn.Type.ToString(),
+            Quality = cdn.Quality,
+            Voices = cdn.Voices
+        }),
+        CountSeasons = film.CountSeasons,
+        CountEpisodes = film.CountEpisodes,
+        Genres = film.Genres,
+        Countries = film.Countries,
+        Directors = film.Directors,
+        ScreenWriters = film.ScreenWriters,
+        Actors = film.Actors.Select(a => new ActorViewModel
+        {
+            Description = a.Description,
+            Name = a.Name
+        })
+    };
+
+    private FilmShortViewModel Map(FilmShortDto film) => new()
+    {
+        Id = film.Id,
+        Name = film.Name,
+        PosterUrl = $"{Request.Scheme}://{Request.Host}/{film.PosterUrl.ToString().Replace('\\', '/')}",
+        UserRating = film.UserRating,
+        RatingKp = film.RatingKp,
+        RatingImdb = film.RatingImdb,
+        Description = film.Description,
+        Type = film.Type switch
+        {
+            FilmType.Film => "Фильм",
+            FilmType.Serial => "Сериал",
+            _ => throw new ArgumentOutOfRangeException()
+        },
+        Genres = film.Genres,
+        CountSeasons = film.CountSeasons,
+        CountEpisodes = film.CountEpisodes
+    };
 }
