@@ -6,4 +6,19 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Room.Domain.Abstractions\Room.Domain.Abstractions.csproj" />
+      <ProjectReference Include="..\Room.Domain\Room.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Common\" />
+      <Folder Include="Queries\FilmRooms\" />
+      <Folder Include="Queries\YoutubeRooms\" />
+    </ItemGroup>
+
 </Project>

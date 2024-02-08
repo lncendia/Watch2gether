@@ -1,5 +1,5 @@
 using Films.Application.Abstractions.Common.Exceptions;
-using Films.Domain.Abstractions.Repositories.UnitOfWorks;
+using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films.Entities;
 using Microsoft.Extensions.Caching.Memory;
 

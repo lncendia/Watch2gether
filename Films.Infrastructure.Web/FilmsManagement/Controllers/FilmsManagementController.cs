@@ -27,8 +27,8 @@ public class FilmsManagementController(IMediator mediator) : ControllerBase
             PosterBase64 = model.PosterBase64,
             CdnList = model.Cdns!.Select(c => new Cdn
             {
+                Name = c.Name!,
                 Quality = c.Quality!,
-                Type = c.Type!.Value,
                 Url = new Uri(c.Url!),
                 Voices = c.Voices!.Select(v => v.Name!).ToArray()
             }).ToArray(),
@@ -56,7 +56,7 @@ public class FilmsManagementController(IMediator mediator) : ControllerBase
             ShortDescription = model.ShortDescription,
             CdnList = model.Cdns?.Select(c => new Cdn
             {
-                Type = c.Type!.Value,
+                Name = c.Name!,
                 Url = new Uri(c.Url!),
                 Quality = c.Quality!,
                 Voices = c.Voices!.Select(v => v.Name!).ToArray()

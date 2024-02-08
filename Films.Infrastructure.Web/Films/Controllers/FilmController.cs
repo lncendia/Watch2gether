@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Films.Application.Abstractions.Queries.Films;
+﻿using Films.Application.Abstractions.Queries.Films;
 using Films.Application.Abstractions.Queries.Films.DTOs;
 using Films.Domain.Films.Enums;
 using Films.Infrastructure.Web.Authentication;
@@ -111,7 +110,7 @@ public class FilmController(IMediator mediator) : ControllerBase
         InWatchlist = film.InWatchlist,
         CdnList = film.CdnList.Select(cdn => new CdnViewModel
         {
-            Cdn = cdn.Type.ToString(),
+            Cdn = cdn.Name,
             Quality = cdn.Quality,
             Voices = cdn.Voices
         }),

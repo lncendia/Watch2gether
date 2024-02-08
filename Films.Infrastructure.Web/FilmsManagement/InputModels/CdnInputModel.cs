@@ -7,7 +7,7 @@ public class CdnInputModel
 {
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [Display(Name = "Тип")]
-    public CdnType? Type { get; init; }
+    public string? Name { get; init; }
 
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [DataType(DataType.Url)]

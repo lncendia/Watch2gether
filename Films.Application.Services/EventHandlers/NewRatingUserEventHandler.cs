@@ -1,6 +1,6 @@
 using Films.Application.Abstractions.Common.Exceptions;
+using Films.Domain.Abstractions.Interfaces;
 using MediatR;
-using Films.Domain.Abstractions.Repositories.UnitOfWorks;
 using Films.Domain.Films.Specifications;
 using Films.Domain.Ordering;
 using Films.Domain.Ratings.Entities;

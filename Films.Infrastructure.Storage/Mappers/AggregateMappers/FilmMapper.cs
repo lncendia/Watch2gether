@@ -34,7 +34,7 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
             Screenwriters = model.Screenwriters.Select(x => x.Name).ToArray(),
             CdnList = model.CdnList.Select(cdn => new Cdn
             {
-                Type = cdn.Type,
+                Name = cdn.Name,
                 Url = cdn.Url,
                 Quality = cdn.Quality,
                 Voices = cdn.Voices.Select(voice => voice.Name).ToArray()
@@ -43,7 +43,7 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
 
         UserRating.SetValue(film, model.UserRating);
         UserRatingsCount.SetValue(film, model.UserRatingsCount);
-        
+
         IdFields.AggregateId.SetValue(film, model.Id);
         var domainCollection = (List<IDomainEvent>)IdFields.DomainEvents.GetValue(film)!;
         domainCollection.Clear();

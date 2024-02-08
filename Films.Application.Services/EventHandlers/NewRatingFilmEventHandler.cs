@@ -1,5 +1,5 @@
+using Films.Domain.Abstractions.Interfaces;
 using MediatR;
-using Films.Domain.Abstractions.Repositories.UnitOfWorks;
 using Films.Domain.Ratings.Entities;
 using Films.Domain.Ratings.Events;
 using Films.Domain.Ratings.Specifications;

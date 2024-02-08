@@ -6,4 +6,13 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="QueryHandlers\FilmRooms\" />
+      <Folder Include="QueryHandlers\YoutubeRooms\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Room.Application.Abstractions\Room.Application.Abstractions.csproj" />
+    </ItemGroup>
+
 </Project>

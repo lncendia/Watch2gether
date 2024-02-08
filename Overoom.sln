@@ -51,6 +51,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusContracts", "BusContracts\BusContracts.csproj", "{A3A40E9C-C7D0-4429-9B5A-7F99460F1068}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{34EAE6C0-49F0-4ED2-BE0C-5C2810B52A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34EAE6C0-49F0-4ED2-BE0C-5C2810B52A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34EAE6C0-49F0-4ED2-BE0C-5C2810B52A77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3A40E9C-C7D0-4429-9B5A-7F99460F1068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3A40E9C-C7D0-4429-9B5A-7F99460F1068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3A40E9C-C7D0-4429-9B5A-7F99460F1068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3A40E9C-C7D0-4429-9B5A-7F99460F1068}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ADFB62FA-43A5-4FCA-9586-42D8E054D82B} = {F19D4E6A-23C2-45A6-A6EB-5A65B308C482}

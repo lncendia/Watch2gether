@@ -1,5 +1,5 @@
+using Films.Domain.Abstractions.Interfaces;
 using MediatR;
-using Films.Domain.Abstractions.Repositories.UnitOfWorks;
 using Films.Domain.Films.Specifications;
 using Films.Domain.Playlists.Events;
 

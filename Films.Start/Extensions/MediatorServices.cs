@@ -1,4 +1,4 @@
-using Films.Application.Services.Queries.Films;
+using Films.Application.Services.QueryHandlers.Films;
 
 namespace Films.Start.Extensions;
 

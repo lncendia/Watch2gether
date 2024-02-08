@@ -1,5 +1,5 @@
 using Films.Application.Abstractions.Common.Interfaces;
-using Films.Domain.Abstractions.Repositories.UnitOfWorks;
+using Films.Domain.Abstractions.Interfaces;
 using Films.Infrastructure.Storage;
 using Films.Infrastructure.Storage.Context;
 using Microsoft.EntityFrameworkCore;

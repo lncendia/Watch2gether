@@ -83,27 +83,27 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
     {
         // Получаем записи, которые есть в модели EF, но уже нет в сущности
         var removeCdns = film.CdnList
-            .Where(x => entity.CdnList.All(m => x.Type != m.Type));
+            .Where(x => entity.CdnList.All(m => x.Name != m.Name));
 
         // Удаляем эти записи из коллекции в модели EF
         film.CdnList.RemoveAll(g => removeCdns.Contains(g));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
         var newCdns = entity.CdnList
-            .Where(x => film.CdnList.All(m => x.Type != m.Type))
-            .Select(c => new CdnModel { Type = c.Type })
+            .Where(x => film.CdnList.All(m => x.Name != m.Name))
+            .Select(c => new CdnModel { Name = c.Name })
             .ToArray();
 
         var voices = await GetVoicesAsync(entity);
 
         foreach (var cdnModel in film.CdnList)
         {
-            ProcessCdn(entity.CdnList.First(c => c.Type == cdnModel.Type), cdnModel, voices);
+            ProcessCdn(entity.CdnList.First(c => c.Name == cdnModel.Name), cdnModel, voices);
         }
 
         foreach (var cdnModel in newCdns)
         {
-            ProcessCdn(entity.CdnList.First(c => c.Type == cdnModel.Type), cdnModel, voices);
+            ProcessCdn(entity.CdnList.First(c => c.Name == cdnModel.Name), cdnModel, voices);
         }
 
         film.CdnList.AddRange(newCdns);

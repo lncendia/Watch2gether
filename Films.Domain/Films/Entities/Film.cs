@@ -55,8 +55,12 @@ public class Film : AggregateRoot
         get => string.IsNullOrEmpty(_shortDescription) ? _description[..100] + "..." : _shortDescription;
         set
         {
-            if (value?.Length > 500) throw new ShortDescriptionLengthException();
-            _shortDescription = value?.GetUpper();
+            if (value == null) _shortDescription = null;
+            else
+            {
+                if(value == string.Empty || value.Length > 500) throw new ShortDescriptionLengthException();
+                _shortDescription = value.GetUpper();
+            }
         }
     }
 
@@ -193,14 +197,14 @@ public class Film : AggregateRoot
         init
         {
             if (value.Count == 0) throw new EmptyCdnsCollectionException();
-            if (_cdnList.GroupBy(x => x.Type).Any(x => x.Count() > 1)) throw new DuplicateCdnException();
+            if (_cdnList.GroupBy(x => x.Name).Any(x => x.Count() > 1)) throw new DuplicateCdnException();
             _cdnList = value.ToList();
         }
     }
 
     public void AddOrChangeCdn(Cdn cdn)
     {
-        _cdnList.RemoveAll(x => x.Type == cdn.Type);
+        _cdnList.RemoveAll(x => x.Name == cdn.Name);
         _cdnList.Add(cdn);
     }
 

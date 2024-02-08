@@ -49,7 +49,7 @@ public class FilmApiController(IMediator mediator) : ControllerBase
         Year = film.Year,
         Cdn = film.Cdn.Select(c => new CdnApiViewModel
         {
-            Cdn = c.Type,
+            Cdn = c.Name,
             Quality = c.Quality,
             Voices = c.Voices,
             Url = c.Url
