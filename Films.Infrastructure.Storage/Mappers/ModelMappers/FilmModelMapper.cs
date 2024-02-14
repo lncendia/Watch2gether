@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Films.Domain.Films.Entities;
 using Films.Domain.Films.ValueObjects;
 using Films.Infrastructure.Storage.Context;
+using Films.Infrastructure.Storage.Extensions;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Models.Country;
 using Films.Infrastructure.Storage.Models.Film;
@@ -11,33 +13,23 @@ using Films.Infrastructure.Storage.Models.Voice;
 
 namespace Films.Infrastructure.Storage.Mappers.ModelMappers;
 
-// ReSharper disable EntityFramework.NPlusOne.IncompleteDataUsage
-// ReSharper disable EntityFramework.NPlusOne.IncompleteDataQuery
 internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<FilmModel, Film>
 {
+    private static readonly FieldInfo ShortDescription =
+        typeof(Film).GetField("_shortDescription", BindingFlags.Instance | BindingFlags.NonPublic)!;
+
     public async Task<FilmModel> MapAsync(Film entity)
     {
-        var film = await context.Films.FirstOrDefaultAsync(x => x.Id == entity.Id);
-        if (film != null)
-        {
-            await context.Entry(film).Collection(x => x.Countries).LoadAsync();
-            await context.Entry(film).Collection(x => x.Directors).LoadAsync();
-            await context.Entry(film).Collection(x => x.Actors).Query().Include(x => x.Person).LoadAsync();
-            await context.Entry(film).Collection(x => x.Genres).LoadAsync();
-            await context.Entry(film).Collection(x => x.Screenwriters).LoadAsync();
-            await context.Entry(film).Collection(x => x.CdnList).Query().Include(x => x.Voices).LoadAsync();
-        }
-        else
-        {
-            film = new FilmModel { Id = entity.Id };
-        }
+        var film = await context.Films
+            .LoadDependencies()
+            .FirstOrDefaultAsync(x => x.Id == entity.Id) ?? new FilmModel { Id = entity.Id };
 
         film.Type = entity.Type;
         film.Title = entity.Title;
         film.Year = entity.Year;
         film.PosterUrl = entity.PosterUrl;
         film.Description = entity.Description;
-        film.ShortDescription = entity.ShortDescription;
+        film.ShortDescription = (string?)ShortDescription.GetValue(entity);
         film.RatingKp = entity.RatingKp;
         film.RatingImdb = entity.RatingImdb;
         film.UserRating = entity.UserRating;
@@ -50,7 +42,7 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
         ProcessActors(entity, film, persons);
         ProcessDirectors(entity, film, persons);
         ProcessScreenwriters(entity, film, persons);
-        
+
         await ProcessGenresAsync(entity, film);
         await ProcessCountriesAsync(entity, film);
         await ProcessCdnsAsync(entity, film);
@@ -81,12 +73,8 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
 
     private async Task ProcessCdnsAsync(Film entity, FilmModel film)
     {
-        // Получаем записи, которые есть в модели EF, но уже нет в сущности
-        var removeCdns = film.CdnList
-            .Where(x => entity.CdnList.All(m => x.Name != m.Name));
-
         // Удаляем эти записи из коллекции в модели EF
-        film.CdnList.RemoveAll(g => removeCdns.Contains(g));
+        film.CdnList.RemoveAll(x => entity.CdnList.All(m => x.Name != m.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
         var newCdns = entity.CdnList
@@ -130,12 +118,8 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
         cdn.Quality = valueObject.Quality;
         cdn.Url = valueObject.Url;
 
-        // Получаем записи, которые есть в модели EF, но уже нет в сущности
-        var removeVoices = cdn.Voices
-            .Where(x => valueObject.Voices.All(m => m != x.Name));
-
         // Удаляем эти записи из коллекции в модели EF
-        cdn.Voices.RemoveAll(g => removeVoices.Contains(g));
+        cdn.Voices.RemoveAll(x => valueObject.Voices.All(m => m != x.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
         var newVoices = valueObject.Voices
@@ -146,8 +130,7 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
         if (newVoices.Length == 0) return;
 
         // Запрашиваем все существующие модели EF для новых записей
-        var databaseVoices = voices
-            .Where(x => newVoices.Any(g => g == x.Name));
+        var databaseVoices = voices.Where(x => newVoices.Any(g => g == x.Name));
 
         // Добавляем полученные модели EF в коллекцию обрабатываемой модели EF
         cdn.Voices.AddRange(databaseVoices);
@@ -155,12 +138,8 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
 
     private async Task ProcessCountriesAsync(Film entity, FilmModel film)
     {
-        // Получаем записи, которые есть в модели EF, но уже нет в сущности
-        var removeCountries = film.Countries
-            .Where(x => entity.Countries.All(m => m != x.Name));
-
         // Удаляем эти записи из коллекции в модели EF
-        film.Countries.RemoveAll(g => removeCountries.Contains(g));
+        film.Countries.RemoveAll(x => entity.Countries.All(m => m != x.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
         var newCountries = entity.Countries
@@ -190,12 +169,8 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
 
     private static void ProcessActors(Film entity, FilmModel film, IEnumerable<PersonModel> persons)
     {
-        // Получаем записи, которые есть в модели EF, но уже нет в сущности
-        var removeActors = film.Actors
-            .Where(x => entity.Actors.All(m => m.Name != x.Person.Name));
-
         // Удаляем эти записи из коллекции в модели EF
-        film.Actors.RemoveAll(g => removeActors.Contains(g));
+        film.Actors.RemoveAll(x => entity.Actors.All(m => m.Name != x.Person.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
         var newActors = entity.Actors
@@ -217,12 +192,8 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
 
     private async Task ProcessGenresAsync(Film entity, FilmModel film)
     {
-        // Получаем записи, которые есть в модели EF, но уже нет в сущности
-        var removeGenres = film.Genres
-            .Where(x => entity.Genres.All(m => m != x.Name));
-
         // Удаляем эти записи из коллекции в модели EF
-        film.Genres.RemoveAll(g => removeGenres.Contains(g));
+        film.Genres.RemoveAll(x => entity.Genres.All(m => m != x.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
         var newGenres = entity.Genres
@@ -252,12 +223,8 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
 
     private static void ProcessDirectors(Film entity, FilmModel film, IEnumerable<PersonModel> persons)
     {
-        // Получаем записи, которые есть в модели EF, но уже нет в сущности
-        var removeDirectors = film.Directors
-            .Where(x => entity.Directors.All(m => m != x.Name));
-
         // Удаляем эти записи из коллекции в модели EF
-        film.Directors.RemoveAll(g => removeDirectors.Contains(g));
+        film.Directors.RemoveAll(x => entity.Directors.All(m => m != x.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
         var newDirectors = entity.Directors
@@ -276,12 +243,8 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
 
     private static void ProcessScreenwriters(Film entity, FilmModel film, IEnumerable<PersonModel> persons)
     {
-        // Получаем записи, которые есть в модели EF, но уже нет в сущности
-        var removeScreenwriters = film.Screenwriters
-            .Where(x => entity.Screenwriters.All(m => m != x.Name));
-
         // Удаляем эти записи из коллекции в модели EF
-        film.Screenwriters.RemoveAll(g => removeScreenwriters.Contains(g));
+        film.Screenwriters.RemoveAll(x => entity.Screenwriters.All(m => m != x.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
         var newScreenwriters = entity.Screenwriters

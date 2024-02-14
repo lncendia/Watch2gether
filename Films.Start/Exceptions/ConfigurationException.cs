@@ -1,11 +1,6 @@
 ﻿namespace Films.Start.Exceptions;
 
-public class ConfigurationException : Exception
+public class ConfigurationException(string name) : Exception($"The configuration path \"{name}\" does not exist")
 {
-    public string Name { get; }
-
-    public ConfigurationException(string name) : base($"The configuration path \"{name}\" does not exist")
-    {
-        Name = name;
-    }
+    public string Name { get; } = name;
 }

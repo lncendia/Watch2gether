@@ -4,8 +4,8 @@ using Room.Application.Abstractions.Common.Exceptions;
 using Room.Application.Abstractions.DTOs.YoutubeRoom;
 using Room.Application.Services.Mappers;
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.Rooms.FilmRoom.Entities;
 using Room.Domain.Rooms.YoutubeRoom.Entities;
+using Room.Domain.Rooms.YoutubeRoom.ValueObjects;
 
 namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 
@@ -24,7 +24,7 @@ public class CreateRoomCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
         if (user == null) throw new UserNotFoundException();
 
         // Создаем комнату
-        var room = new YoutubeRoom(user, request.VideoUrl, request.IsOpen, request.VideoAccess);
+        var room = new YoutubeRoom(user, new Video(request.VideoUrl), request.IsOpen, request.VideoAccess);
 
         // Добавляем комнату в репозиторий
         await unitOfWork.YoutubeRoomRepository.Value.AddAsync(room);

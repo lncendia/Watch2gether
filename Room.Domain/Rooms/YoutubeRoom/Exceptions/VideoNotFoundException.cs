@@ -1,8 +1,3 @@
-﻿namespace Overoom.Domain.Rooms.YoutubeRoom.Exceptions;
+﻿namespace Room.Domain.Rooms.YoutubeRoom.Exceptions;
 
-public class VideoNotFoundException : Exception
-{
-    public VideoNotFoundException() : base("Video not found")
-    {
-    }
-}
+public class VideoNotFoundException() : Exception("Video not found");

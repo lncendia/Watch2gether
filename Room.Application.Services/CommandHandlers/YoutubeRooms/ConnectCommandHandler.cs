@@ -1,7 +1,9 @@
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
 using Room.Application.Abstractions.Common.Exceptions;
 using Room.Application.Abstractions.DTOs.YoutubeRoom;
+using Room.Application.Services.Common;
 using Room.Application.Services.Mappers;
 using Room.Domain.Abstractions.Interfaces;
 
@@ -11,15 +13,13 @@ namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 /// Обработчик команды на подключение к комнате
 /// </summary>
 /// <param name="unitOfWork">Единица работы</param>
-public class ConnectCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<ConnectCommand, YoutubeRoomDto>
+/// <param name="cache">Сервис кеша в памяти</param>
+public class ConnectCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) : IRequestHandler<ConnectCommand, YoutubeRoomDto>
 {
     public async Task<YoutubeRoomDto> Handle(ConnectCommand request, CancellationToken cancellationToken)
     {
-        // Получаем комнату из репозитория
-        var room = await unitOfWork.YoutubeRoomRepository.Value.GetAsync(request.RoomId);
-
-        // Если комната не найдена - вызываем исключение
-        if (room == null) throw new RoomNotFoundException();
+        // Получаем комнату
+        var room = await cache.TryGetYoutubeRoomFromCache(request.RoomId, unitOfWork);
 
         // Если зритель уже подключен к комнате
         if (room.Viewers.Any(v => v.UserId == request.UserId))

@@ -6,6 +6,7 @@ using Films.Domain.Playlists.Ordering.Visitor;
 using Films.Domain.Playlists.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
 using Films.Infrastructure.Storage.Context;
+using Films.Infrastructure.Storage.Extensions;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Models.Playlist;
 using Films.Infrastructure.Storage.Visitors.Sorting;
@@ -13,54 +14,47 @@ using Films.Infrastructure.Storage.Visitors.Specifications;
 
 namespace Films.Infrastructure.Storage.Repositories;
 
-public class PlaylistRepository : IPlaylistRepository
+public class PlaylistRepository(
+    ApplicationDbContext context,
+    IAggregateMapperUnit<Playlist, PlaylistModel> aggregateMapper,
+    IModelMapperUnit<PlaylistModel, Playlist> modelMapper)
+    : IPlaylistRepository
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IAggregateMapperUnit<Playlist, PlaylistModel> _aggregateMapper;
-    private readonly IModelMapperUnit<PlaylistModel, Playlist> _modelMapper;
-
-    public PlaylistRepository(ApplicationDbContext context,
-        IAggregateMapperUnit<Playlist, PlaylistModel> aggregateMapper,
-        IModelMapperUnit<PlaylistModel, Playlist> modelMapper)
-    {
-        _context = context;
-        _aggregateMapper = aggregateMapper;
-        _modelMapper = modelMapper;
-    }
-
     public async Task AddAsync(Playlist entity)
     {
-        _context.Notifications.AddRange(entity.DomainEvents);
-        var playlist = await _modelMapper.MapAsync(entity);
-        await _context.AddAsync(playlist);
+        context.Notifications.AddRange(entity.DomainEvents);
+        var playlist = await modelMapper.MapAsync(entity);
+        await context.AddAsync(playlist);
     }
 
     public async Task UpdateAsync(Playlist entity)
     {
-        _context.Notifications.AddRange(entity.DomainEvents);
-        await _modelMapper.MapAsync(entity);
+        context.Notifications.AddRange(entity.DomainEvents);
+        await modelMapper.MapAsync(entity);
     }
     
 
     public Task DeleteAsync(Guid id)
     {
-        _context.Remove(_context.Playlists.First(playlist => playlist.Id == id));
+        context.Remove(context.Playlists.First(playlist => playlist.Id == id));
         return Task.CompletedTask;
     }
 
     public async Task<Playlist?> GetAsync(Guid id)
     {
-        var playlist = await _context.Playlists.FirstOrDefaultAsync(playlistModel => playlistModel.Id == id);
-        if (playlist == null) return null;
-        await LoadCollectionsAsync(playlist);
-        return _aggregateMapper.Map(playlist);
+        var playlist = await context.Playlists
+            .LoadDependencies()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(playlistModel => playlistModel.Id == id);
+        
+        return playlist == null ? null : aggregateMapper.Map(playlist);
     }
 
     public async Task<IReadOnlyCollection<Playlist>> FindAsync(
         ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification,
         IOrderBy<Playlist, IPlaylistSortingVisitor>? orderBy = null, int? skip = null, int? take = null)
     {
-        var query = _context.Playlists.Include(x=>x.Films).AsQueryable();
+        var query = context.Playlists.Include(x=>x.Films).AsQueryable();
         if (specification != null)
         {
             var visitor = new PlaylistVisitor();
@@ -85,25 +79,22 @@ public class PlaylistRepository : IPlaylistRepository
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
         
-        var models = await query.ToArrayAsync();
-        foreach (var model in models) await LoadCollectionsAsync(model);
-        return models.Select(_aggregateMapper.Map).ToArray();
+        var models = await query
+            .LoadDependencies()
+            .AsNoTracking()
+            .ToArrayAsync();
+
+        return models.Select(aggregateMapper.Map).ToArray();
     }
 
     public Task<int> CountAsync(ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification)
     {
-        var query = _context.Playlists.AsQueryable();
+        var query = context.Playlists.AsQueryable();
         if (specification == null) return query.CountAsync();
         var visitor = new PlaylistVisitor();
         specification.Accept(visitor);
         if (visitor.Expr != null) query = query.Where(visitor.Expr);
 
         return query.CountAsync();
-    }
-    
-    private async Task LoadCollectionsAsync(PlaylistModel model)
-    {
-        await _context.Entry(model).Collection(x => x.Films).LoadAsync();
-        await _context.Entry(model).Collection(x => x.Genres).LoadAsync();
     }
 }

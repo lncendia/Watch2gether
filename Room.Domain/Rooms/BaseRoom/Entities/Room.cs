@@ -8,7 +8,7 @@ namespace Room.Domain.Rooms.BaseRoom.Entities;
 
 public abstract class Room<T> : AggregateRoot where T : Viewer
 {
-    protected Room(T owner, bool isOpen)
+    protected Room(T owner, bool isOpen) : base(Guid.NewGuid())
     {
         Owner = owner;
         if (isOpen) Code = GenerateRandomCode(5);
@@ -39,9 +39,9 @@ public abstract class Room<T> : AggregateRoot where T : Viewer
 
     private readonly List<Guid> _bannedList = [];
 
-    public IReadOnlyCollection<Message> Messages => _messagesList.AsReadOnly();
+    public IReadOnlyCollection<Message> Messages => _messagesList.OrderBy(m=>m.CreatedAt).ToArray();
 
-    public IReadOnlyCollection<T> Viewers => _viewersList.AsReadOnly();
+    public IReadOnlyCollection<T> Viewers => _viewersList;
 
     public void SetFullScreen(Guid target, bool isFullScreen)
     {
@@ -74,12 +74,11 @@ public abstract class Room<T> : AggregateRoot where T : Viewer
         viewer.TimeLine = time;
     }
 
-    public void SendMessage(Guid initiator, string text)
+    public void SendMessage(Message message)
     {
         UpdateActivity();
         if (_messagesList.Count >= 100) _messagesList.RemoveAt(0);
-        GetViewer(initiator);
-        var message = new Message(initiator, text);
+        GetViewer(message.UserId);
         _messagesList.Add(message);
     }
 
@@ -117,7 +116,7 @@ public abstract class Room<T> : AggregateRoot where T : Viewer
     {
         UpdateActivity();
         GetViewer(initiator.Id);
-        var targetViewer=GetViewer(target.Id);
+        var targetViewer = GetViewer(target.Id);
         if (initiator.Id == target.Id) throw new ActionNotAllowedException();
         if (!initiator.Allows.Change) throw new ActionNotAllowedException();
         if (!target.Allows.Change) throw new ActionNotAllowedException();
@@ -126,7 +125,7 @@ public abstract class Room<T> : AggregateRoot where T : Viewer
 
     protected void UpdateActivity() => LastActivity = DateTime.UtcNow;
 
-    public T GetViewer(Guid target)
+    protected T GetViewer(Guid target)
     {
         var viewer = _viewersList.FirstOrDefault(x => x.UserId == target);
         if (viewer == null) throw new ViewerNotFoundException();

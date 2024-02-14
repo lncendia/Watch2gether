@@ -1,7 +1,9 @@
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
-using Room.Application.Abstractions.Common.Exceptions;
+using Room.Application.Services.Common;
 using Room.Domain.Abstractions.Interfaces;
+using Room.Domain.Rooms.YoutubeRoom.ValueObjects;
 
 namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 
@@ -9,17 +11,15 @@ namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 /// Обработчик команды на добавление видео в очередь
 /// </summary>
 /// <param name="unitOfWork">Единица работы</param>
-public class AddVideoCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<AddVideoCommand>
+/// <param name="cache">Сервис кеша в памяти</param>
+public class AddVideoCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) : IRequestHandler<AddVideoCommand>
 {
     public async Task Handle(AddVideoCommand request, CancellationToken cancellationToken)
     {
-        // Получаем комнату из репозитория
-        var room = await unitOfWork.YoutubeRoomRepository.Value.GetAsync(request.RoomId);
-        
-        // Если комната не найдена - вызываем исключение
-        if (room == null) throw new RoomNotFoundException();
+        // Получаем комнату
+        var room = await cache.TryGetYoutubeRoomFromCache(request.RoomId, unitOfWork);
 
         // Добавляем видео
-        room.AddVideo(request.UserId, request.VideoUrl);
+        room.AddVideo(request.UserId, new Video(request.VideoUrl));
     }
 }

@@ -1,8 +1,3 @@
-﻿namespace Overoom.Domain.Rooms.YoutubeRoom.Exceptions;
+﻿namespace Room.Domain.Rooms.YoutubeRoom.Exceptions;
 
-public class InvalidVideoUrlException : Exception
-{
-    public InvalidVideoUrlException() : base("Invalid video url")
-    {
-    }
-}
+public class InvalidVideoUrlException() : Exception("Invalid video url");

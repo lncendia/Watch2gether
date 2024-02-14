@@ -7,10 +7,10 @@ namespace Room.Domain.Rooms.BaseRoom.Entities;
 public abstract partial class Viewer(User user)
 {
     public Guid UserId { get; } = user.Id;
-    public bool Online { get; set; } = true;
-    public bool FullScreen { get; set; }
-    public bool Pause { get; set; } = true;
-    public TimeSpan TimeLine { get; set; } = TimeSpan.Zero;
+    public bool Online { get; internal set; } = true;
+    public bool FullScreen { get; internal set; }
+    public bool Pause { get; internal set; } = true;
+    public TimeSpan TimeLine { get; internal set; } = TimeSpan.Zero;
 
     private string? _name;
 
@@ -25,6 +25,6 @@ public abstract partial class Viewer(User user)
         }
     }
 
-    [GeneratedRegex("^[a-zA-Zа-яА-Я0-9_ ]{3,20}$")]
+    [GeneratedRegex("^[a-zA-Zа-яА-Я0-9_ ]{1,20}$")]
     private static partial Regex MyRegex();
 }

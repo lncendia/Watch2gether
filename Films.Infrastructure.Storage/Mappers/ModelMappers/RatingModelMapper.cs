@@ -10,14 +10,13 @@ internal class RatingModelMapper(ApplicationDbContext context) : IModelMapperUni
 {
     public async Task<RatingModel> MapAsync(Rating entity)
     {
-        return await context.Ratings.FirstOrDefaultAsync(x => x.Id == entity.Id) ??
-               new RatingModel
-               {
-                   Id = entity.Id,
-                   FilmId = entity.FilmId,
-                   Score = entity.Score,
-                   UserId = entity.UserId,
-                   Date = entity.Date
-               };
+        return await context.Ratings.FirstOrDefaultAsync(x => x.Id == entity.Id) ?? new RatingModel
+        {
+            Id = entity.Id,
+            FilmId = entity.FilmId,
+            Score = entity.Score,
+            UserId = entity.UserId,
+            Date = entity.Date
+        };
     }
 }

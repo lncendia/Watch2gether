@@ -1,8 +1,3 @@
-﻿namespace Overoom.Domain.Rooms.YoutubeRoom.Exceptions;
+﻿namespace Room.Domain.Rooms.YoutubeRoom.Exceptions;
 
-public class LastVideoException:Exception
-{
-    public LastVideoException():base("Cannot remove the last video from a room")
-    {
-    }
-}
+public class LastVideoException() : Exception("Cannot remove the last video from a room");

@@ -1,6 +1,5 @@
-using Films.Infrastructure.Web.Middlewares;
 using Films.Start.Extensions;
-using Films.Start.HostedServices;
+using Films.Start.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 

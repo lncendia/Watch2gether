@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Films.Domain.Abstractions;
 using Films.Domain.Users.Entities;
 using Films.Domain.Users.ValueObjects;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
@@ -31,39 +30,47 @@ internal class UserMapper : IAggregateMapperUnit<User, UserModel>
         var user = new User
         {
             UserName = model.UserName,
-            PhotoUrl = model.PhotoUrl
+            PhotoUrl = model.PhotoUrl,
+            Allows = new Allows
+            {
+                Beep = model.Beep,
+                Scream = model.Scream,
+                Change = model.Change
+            }
         };
-        user.UpdateAllows(model.Beep, model.Scream, model.Change);
+
         IdFields.AggregateId.SetValue(user, model.Id);
 
-        object?[] args = new object[1];
-        var watchlist = model.Watchlist.Select(x =>
-        {
-            args[0] = x.FilmId;
-            var element = (FilmNote)FilmNoteType.Assembly.CreateInstance(
-                FilmNoteType.FullName!, false, BindingFlags.Instance | BindingFlags.NonPublic, null, args!,
-                null, null)!;
-            Date.SetValue(element, x.Date);
-            return element;
-        }).ToList();
-        var history = model.History.Select(x =>
-        {
-            args[0] = x.FilmId;
-            var element = (FilmNote)FilmNoteType.Assembly.CreateInstance(
-                FilmNoteType.FullName!, false, BindingFlags.Instance | BindingFlags.NonPublic, null, args!,
-                null, null)!;
-            Date.SetValue(element, x.Date);
-            return element;
-        }).ToList();
+        var watchlist = model.Watchlist
+            .Select(x =>
+            {
+                var note = new FilmNote
+                {
+                    FilmId = x.FilmId
+                };
+                Date.SetValue(note, x.Date);
+                return note;
+            })
+            .ToList();
 
-        var genres = model.Genres.Select(x => x.Name).ToList();
+        var history = model.History
+            .Select(x =>
+            {
+                var note = new FilmNote
+                {
+                    FilmId = x.FilmId
+                };
+                Date.SetValue(note, x.Date);
+                return note;
+            })
+            .ToList();
+
+        var genres = model.Genres.Select(x => x.Name).ToArray();
 
         WatchList.SetValue(user, watchlist);
         History.SetValue(user, history);
         Genres.SetValue(user, genres);
 
-        var domainCollection = (List<IDomainEvent>)IdFields.DomainEvents.GetValue(user)!;
-        domainCollection.Clear();
         return user;
     }
 }

@@ -4,7 +4,7 @@ namespace Room.Domain.Rooms.BaseRoom.ValueObjects;
 
 public class Message
 {
-    internal Message(Guid userId, string text)
+    public Message(Guid userId, string text)
     {
         var count = text.Count(t => t != ' ' && t != '\n');
         if (count == 0 || text.Length > 1000) throw new MessageLengthException();

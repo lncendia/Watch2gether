@@ -13,51 +13,43 @@ using Films.Infrastructure.Storage.Visitors.Specifications;
 
 namespace Films.Infrastructure.Storage.Repositories;
 
-public class RatingRepository : IRatingRepository
+public class RatingRepository(
+    ApplicationDbContext context,
+    IAggregateMapperUnit<Rating, RatingModel> aggregateMapper,
+    IModelMapperUnit<RatingModel, Rating> modelMapper)
+    : IRatingRepository
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IAggregateMapperUnit<Rating, RatingModel> _aggregateMapper;
-    private readonly IModelMapperUnit<RatingModel, Rating> _modelMapper;
-
-    public RatingRepository(ApplicationDbContext context, IAggregateMapperUnit<Rating, RatingModel> aggregateMapper,
-        IModelMapperUnit<RatingModel, Rating> modelMapper)
-    {
-        _context = context;
-        _aggregateMapper = aggregateMapper;
-        _modelMapper = modelMapper;
-    }
-
     public async Task AddAsync(Rating entity)
     {
-        _context.Notifications.AddRange(entity.DomainEvents);
-        var rating = await _modelMapper.MapAsync(entity);
-        await _context.AddAsync(rating);
+        context.Notifications.AddRange(entity.DomainEvents);
+        var rating = await modelMapper.MapAsync(entity);
+        await context.AddAsync(rating);
     }
 
     public async Task UpdateAsync(Rating entity)
     {
-        _context.Notifications.AddRange(entity.DomainEvents);
-        await _modelMapper.MapAsync(entity);
+        context.Notifications.AddRange(entity.DomainEvents);
+        await modelMapper.MapAsync(entity);
     }
     
 
     public Task DeleteAsync(Guid id)
     {
-        _context.Remove(_context.Ratings.First(rating => rating.Id ==id));
+        context.Remove(context.Ratings.First(rating => rating.Id ==id));
         return Task.CompletedTask;
     }
 
     public async Task<Rating?> GetAsync(Guid id)
     {
-        var rating = await _context.Ratings.FirstOrDefaultAsync(ratingModel => ratingModel.Id == id);
-        return rating == null ? null : _aggregateMapper.Map(rating);
+        var rating = await context.Ratings.AsNoTracking().FirstOrDefaultAsync(ratingModel => ratingModel.Id == id);
+        return rating == null ? null : aggregateMapper.Map(rating);
     }
 
     public async Task<IReadOnlyCollection<Rating>> FindAsync(
         ISpecification<Rating, IRatingSpecificationVisitor>? specification,
         IOrderBy<Rating, IRatingSortingVisitor>? orderBy = null, int? skip = null, int? take = null)
     {
-        var query = _context.Ratings.AsQueryable();
+        var query = context.Ratings.AsQueryable();
         if (specification != null)
         {
             var visitor = new RatingVisitor();
@@ -82,12 +74,12 @@ public class RatingRepository : IRatingRepository
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        return (await query.ToArrayAsync()).Select(_aggregateMapper.Map).ToArray();
+        return (await query.AsNoTracking().ToArrayAsync()).Select(aggregateMapper.Map).ToArray();
     }
 
     public Task<int> CountAsync(ISpecification<Rating, IRatingSpecificationVisitor>? specification)
     {
-        var query = _context.Ratings.AsQueryable();
+        var query = context.Ratings.AsQueryable();
         if (specification == null) return query.CountAsync();
         var visitor = new RatingVisitor();
         specification.Accept(visitor);

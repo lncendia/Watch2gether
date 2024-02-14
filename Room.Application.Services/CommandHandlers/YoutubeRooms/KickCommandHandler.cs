@@ -1,6 +1,7 @@
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
-using Room.Application.Abstractions.Common.Exceptions;
+using Room.Application.Services.Common;
 using Room.Domain.Abstractions.Interfaces;
 
 namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
@@ -9,15 +10,13 @@ namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 /// Обработчик команды на исключение пользователя из комнаты
 /// </summary>
 /// <param name="unitOfWork">Единица работы</param>
-public class KickCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<KickCommand>
+/// <param name="cache">Сервис кеша в памяти</param>
+public class KickCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) : IRequestHandler<KickCommand>
 {
     public async Task Handle(KickCommand request, CancellationToken cancellationToken)
     {
-        // Получаем комнату из репозитория
-        var room = await unitOfWork.YoutubeRoomRepository.Value.GetAsync(request.RoomId);
-        
-        // Если комната не найдена - вызываем исключение
-        if (room == null) throw new RoomNotFoundException();
+        // Получаем комнату
+        var room = await cache.TryGetYoutubeRoomFromCache(request.RoomId, unitOfWork);
         
         // Исключаем зрителя
         room.Kick(request.UserId, request.TargetId);

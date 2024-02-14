@@ -1,17 +1,11 @@
-using Overoom.Domain.Rooms.YoutubeRoom.Exceptions;
+using Room.Domain.Rooms.YoutubeRoom.Exceptions;
 
 namespace Room.Domain.Rooms.YoutubeRoom.ValueObjects;
 
-public class Video
+public class Video(Uri url)
 {
-    public Video(int orderNumber, Uri url)
-    {
-        OrderNumber = orderNumber;
-        Id = GetId(url);
-    }
-
-    public int OrderNumber { get; }
-    public string Id { get; }
+    public DateTime Added { get; } = DateTime.UtcNow;
+    public string Id { get; } = GetId(url);
 
     private static string GetId(Uri uri)
     {
@@ -22,15 +16,14 @@ public class Video
             {
                 "www.youtube.com" => uri.Query[3..],
                 "youtu.be" => uri.Segments[1],
-                _ => string.Empty
+                _ => throw new ArgumentOutOfRangeException(nameof(uri))
             };
         }
         catch
         {
             throw new InvalidVideoUrlException();
         }
-
-        if (string.IsNullOrEmpty(id)) throw new InvalidVideoUrlException();
+        
         return id;
     }
 }

@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Net;
 using Films.Application.Abstractions.Common.Exceptions;
 
-namespace Films.Infrastructure.Web.Middlewares;
+namespace Films.Start.Middlewares;
 
 /// <summary>
 /// Промежуточное ПО для обработки исключений.

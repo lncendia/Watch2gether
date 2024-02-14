@@ -40,7 +40,7 @@ public class RoomRepository(
 
     public async Task<Room?> GetAsync(Guid id)
     {
-        var room = await context.Rooms.FirstOrDefaultAsync(youtubeRoomModel => youtubeRoomModel.Id == id);
+        var room = await context.Rooms.AsNoTracking().FirstOrDefaultAsync(youtubeRoomModel => youtubeRoomModel.Id == id);
         return room == null ? null : aggregateMapper.Map(room);
     }
 
@@ -74,7 +74,7 @@ public class RoomRepository(
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        var models = await query.ToArrayAsync();
+        var models = await query.AsNoTracking().ToArrayAsync();
         return models.Select(aggregateMapper.Map).ToArray();
     }
 

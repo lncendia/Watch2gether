@@ -38,7 +38,5 @@ public class ChangeFilmCommandHandler(IUnitOfWork unitOfWork, IPosterService pos
 
         await unitOfWork.FilmRepository.Value.UpdateAsync(film);
         await unitOfWork.SaveChangesAsync();
-
-        memoryCache.Remove(film.Id);
     }
 }

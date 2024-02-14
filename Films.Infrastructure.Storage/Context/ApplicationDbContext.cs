@@ -115,7 +115,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
         modelBuilder.Entity<PlaylistModel>()
             .HasMany(x => x.Films)
-            .WithOne(x => x.Playlist);
+            .WithOne(x => x.Playlist)
+            .HasForeignKey(p => p.PlaylistId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<PlaylistFilmModel>()
             .HasOne(x => x.Film)

@@ -1,12 +1,4 @@
 ﻿services:
-  authservice.postgres:
-    image: postgres:latest
-    restart: always
-    environment:
-      - POSTGRES_USER=pguser
-      - POSTGRES_PASSWORD=pgpassword
-    ports:
-      - 5432:5432
   films.postgres:
     image: postgres:latest
     restart: always
@@ -15,3 +7,12 @@
       - POSTGRES_PASSWORD=pgpassword
     ports:
       - 5433:5432
+
+  rooms-1.postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=pguser
+      - POSTGRES_PASSWORD=pgpassword
+    ports:
+      - 5434:5432

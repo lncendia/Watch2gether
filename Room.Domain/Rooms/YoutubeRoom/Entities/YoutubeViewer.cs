@@ -5,7 +5,7 @@ namespace Room.Domain.Rooms.YoutubeRoom.Entities;
 
 public class YoutubeViewer : Viewer
 {
-    internal YoutubeViewer(User user, int currentVideoNumber) : base(user) => CurrentVideoNumber = currentVideoNumber;
+    internal YoutubeViewer(User user, string videoId) : base(user) => VideoId = videoId;
 
-    public int CurrentVideoNumber { get; internal set; }
+    public string VideoId { get; internal set; }
 }

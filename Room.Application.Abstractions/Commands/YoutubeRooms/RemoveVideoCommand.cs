@@ -5,10 +5,10 @@ namespace Room.Application.Abstractions.Commands.YoutubeRooms;
 /// <summary>
 /// Команда на удаление видео из списка
 /// </summary>
-public class DeleteVideoCommand : RoomCommand
+public class RemoveVideoCommand : RoomCommand
 {
     /// <summary>
-    /// Номер видео
+    /// Идентификатор видео
     /// </summary>
-    public required int VideoNumber { get; init; }
+    public required string VideoId { get; init; }
 }

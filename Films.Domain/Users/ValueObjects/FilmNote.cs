@@ -1,13 +1,17 @@
 namespace Films.Domain.Users.ValueObjects;
 
+/// <summary>
+/// Класс FilmNote представляет запись заметки к фильму.
+/// </summary>
 public class FilmNote
 {
-    internal FilmNote(Guid filmId)
-    {
-        FilmId = filmId;
-        Date = DateTime.UtcNow;
-    }
+    /// <summary>
+    /// Идентификатор фильма.
+    /// </summary>
+    public required Guid FilmId { get; init; }
 
-    public Guid FilmId { get; }
-    public DateTime Date { get; }
+    /// <summary>
+    /// Дата и время создания заметки.
+    /// </summary>
+    public DateTime Date { get; } = DateTime.UtcNow;
 }

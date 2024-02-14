@@ -11,4 +11,8 @@
       <ProjectReference Include="..\Films.Application.Abstractions\Films.Application.Abstractions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
+    </ItemGroup>
+
 </Project>

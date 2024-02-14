@@ -40,7 +40,7 @@ public class ServerRepository(
 
     public async Task<Server?> GetAsync(Guid id)
     {
-        var room = await context.Servers.FirstOrDefaultAsync(youtubeServerModel => youtubeServerModel.Id == id);
+        var room = await context.Servers.AsNoTracking().FirstOrDefaultAsync(youtubeServerModel => youtubeServerModel.Id == id);
         return room == null ? null : aggregateMapper.Map(room);
     }
 
@@ -74,7 +74,7 @@ public class ServerRepository(
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        var models = await query.ToArrayAsync();
+        var models = await query.AsNoTracking().ToArrayAsync();
         return models.Select(aggregateMapper.Map).ToArray();
     }
 

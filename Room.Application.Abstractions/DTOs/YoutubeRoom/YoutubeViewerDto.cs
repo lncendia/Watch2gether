@@ -4,5 +4,8 @@ namespace Room.Application.Abstractions.DTOs.YoutubeRoom;
 
 public class YoutubeViewerDto : ViewerDto
 {
-    public required string CurrentVideoId { get; init; }
+    /// <summary>
+    /// Идентификатор видео
+    /// </summary>
+    public required string VideoId { get; init; }
 }

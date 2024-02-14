@@ -10,9 +10,11 @@ internal class ServerModelMapper(ApplicationDbContext context) : IModelMapperUni
 {
     public async Task<ServerModel> MapAsync(Server entity)
     {
-        var server = context.Servers.Local.FirstOrDefault(x => x.Id == entity.Id) ??
-                     (await context.Servers.FirstOrDefaultAsync(x => x.Id == entity.Id) ??
-                      new ServerModel { Id = entity.Id, OwnerId = entity.OwnerId });
+        var server = await context.Servers.FirstOrDefaultAsync(x => x.Id == entity.Id) ?? new ServerModel
+        {
+            Id = entity.Id,
+            OwnerId = entity.OwnerId
+        };
         server.RoomsCount = entity.RoomsCount;
         server.IsEnabled = entity.IsEnabled;
         server.Url = entity.Url;

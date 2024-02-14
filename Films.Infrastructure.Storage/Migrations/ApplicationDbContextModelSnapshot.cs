@@ -154,13 +154,15 @@ namespace Films.Infrastructure.Storage.Migrations
                     b.Property<Guid>("FilmId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Quality")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
+                    b.Property<string>("Quality")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -183,7 +185,7 @@ namespace Films.Infrastructure.Storage.Migrations
 
                     b.Property<string>("Description")
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(100)");
 
                     b.Property<Guid>("FilmId")
                         .HasColumnType("uuid");
@@ -514,7 +516,7 @@ namespace Films.Infrastructure.Storage.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(60)
+                        .HasMaxLength(120)
                         .HasColumnType("character varying(120)");
 
                     b.HasKey("Id");

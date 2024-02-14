@@ -1,12 +1,12 @@
-﻿using Films.Domain.Films.Exceptions;
-using Room.Domain.Abstractions;
+﻿using Room.Domain.Abstractions;
 using Room.Domain.Extensions;
 using Room.Domain.Films.Enums;
+using Room.Domain.Films.Exceptions;
 using Room.Domain.Films.ValueObjects;
 
 namespace Room.Domain.Films.Entities;
 
-public class Film : AggregateRoot
+public class Film(Guid id) : AggregateRoot(id)
 {
     #region Info
 
@@ -46,7 +46,7 @@ public class Film : AggregateRoot
 
     public required IReadOnlyCollection<Cdn> CdnList
     {
-        get => _cdnList.AsReadOnly();
+        get => _cdnList;
         init
         {
             if (value.Count == 0) throw new EmptyCdnsCollectionException();

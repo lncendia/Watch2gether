@@ -37,7 +37,7 @@ public static class YoutubeRoomMapper
             Code = room.Code,
             Messages = room.Messages,
             Viewers = viewers,
-            Ids = room.Videos,
+            Videos = room.Videos,
             VideoAccess = room.VideoAccess
         };
     }
@@ -68,7 +68,7 @@ public static class YoutubeRoomMapper
             TimeLine = viewer.TimeLine,
             Allows = user.Allows,
             Online = viewer.Online,
-            CurrentVideoId = viewer.CurrentVideoNumber
+            VideoId = viewer.VideoId
         };
     }
 }

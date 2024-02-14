@@ -5,10 +5,16 @@ using Films.Domain.Playlists.Exceptions;
 
 namespace Films.Domain.Playlists.Entities;
 
+/// <summary>
+/// Плейлист фильмов.
+/// </summary>
 public class Playlist : AggregateRoot
 {
     private string _name = null!;
 
+    /// <summary>
+    /// Название плейлиста.
+    /// </summary>
     public required string Name
     {
         get => _name;
@@ -21,6 +27,9 @@ public class Playlist : AggregateRoot
 
     private string _description = null!;
 
+    /// <summary>
+    /// Описание плейлиста.
+    /// </summary>
     public required string Description
     {
         get => _description;
@@ -31,16 +40,33 @@ public class Playlist : AggregateRoot
         }
     }
 
+    /// <summary>
+    /// URL-адрес постера плейлиста.
+    /// </summary>
     public required Uri PosterUrl { get; set; }
 
+    /// <summary>
+    /// Дата обновления плейлиста.
+    /// </summary>
     public DateTime Updated { get; } = DateTime.UtcNow;
 
     private readonly List<Guid> _films = [];
     private readonly List<string> _genres = [];
 
-    public IReadOnlyCollection<Guid> Films => _films.AsReadOnly();
-    public IReadOnlyCollection<string> Genres => _genres.AsReadOnly();
+    /// <summary>
+    /// Коллекция содержащая идентификаторы фильмов в плейлисте.
+    /// </summary>
+    public IReadOnlyCollection<Guid> Films => _films;
 
+    /// <summary>
+    /// Коллекция, содержащая жанры плейлиста.
+    /// </summary>
+    public IReadOnlyCollection<string> Genres => _genres;
+
+    /// <summary>
+    /// Обновляет список фильмов в плейлисте.
+    /// </summary>
+    /// <param name="filmsIds">Коллекция идентификаторов фильмов, которые нужно добавить или удалить из плейлиста.</param>
     public void UpdateFilms(IEnumerable<Guid> filmsIds)
     {
         var updateCollection = filmsIds.Distinct().ToList();
@@ -54,6 +80,10 @@ public class Playlist : AggregateRoot
         AddDomainEvent(new FilmsCollectionUpdateEvent(this));
     }
 
+    /// <summary>
+    /// Обновляет жанры плейлиста.
+    /// </summary>
+    /// <param name="genres">Коллекция новых жанров плейлиста.</param>
     public void UpdateGenres(IEnumerable<string> genres)
     {
         _genres.Clear();

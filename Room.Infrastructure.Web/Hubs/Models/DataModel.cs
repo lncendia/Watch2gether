@@ -1,15 +1,8 @@
 ﻿namespace Overoom.Infrastructure.Web.Hubs.Models;
 
-public class DataModel
+public class DataModel(int id, Guid roomId)
 {
-    public int Id { get; }
-    public Guid RoomId { get; }
-    public string RoomIdString { get; }
-
-    public DataModel(int id, Guid roomId)
-    {
-        Id = id;
-        RoomIdString = roomId.ToString();
-        RoomId = roomId;
-    }
+    public int Id { get; } = id;
+    public Guid RoomId { get; } = roomId;
+    public string RoomIdString { get; } = roomId.ToString();
 }

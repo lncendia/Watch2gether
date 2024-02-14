@@ -7,12 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="QueryHandlers\FilmRooms\" />
-      <Folder Include="QueryHandlers\YoutubeRooms\" />
+      <ProjectReference Include="..\Room.Application.Abstractions\Room.Application.Abstractions.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Room.Application.Abstractions\Room.Application.Abstractions.csproj" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
     </ItemGroup>
 
 </Project>

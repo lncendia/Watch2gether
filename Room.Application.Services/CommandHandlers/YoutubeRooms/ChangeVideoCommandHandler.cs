@@ -1,6 +1,7 @@
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
-using Room.Application.Abstractions.Common.Exceptions;
+using Room.Application.Services.Common;
 using Room.Domain.Abstractions.Interfaces;
 
 namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
@@ -9,17 +10,15 @@ namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 /// Обработчик команды на смену текущего видео
 /// </summary>
 /// <param name="unitOfWork">Единица работы</param>
-public class ChangeVideoCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<ChangeVideoCommand>
+/// <param name="cache">Сервис кеша в памяти</param>
+public class ChangeVideoCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) : IRequestHandler<ChangeVideoCommand>
 {
     public async Task Handle(ChangeVideoCommand request, CancellationToken cancellationToken)
     {
-        // Получаем комнату из репозитория
-        var room = await unitOfWork.YoutubeRoomRepository.Value.GetAsync(request.RoomId);
-
-        // Если комната не найдена - вызываем исключение
-        if (room == null) throw new RoomNotFoundException();
+        // Получаем комнату
+        var room = await cache.TryGetYoutubeRoomFromCache(request.RoomId, unitOfWork);
 
         // Изменяем текущее видео
-        room.ChangeVideo(request.UserId, request.VideoNumber);
+        room.ChangeVideo(request.UserId, request.VideoId);
     }
 }

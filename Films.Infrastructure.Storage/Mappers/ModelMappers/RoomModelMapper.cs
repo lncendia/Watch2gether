@@ -10,14 +10,13 @@ internal class RoomModelMapper(ApplicationDbContext context) : IModelMapperUnit<
 {
     public async Task<RoomModel> MapAsync(Room entity)
     {
-        var room = await context.Rooms.FirstOrDefaultAsync(x => x.Id == entity.Id) ??
-                   new RoomModel
-                   {
-                       Id = entity.Id,
-                       OwnerId = entity.OwnerId,
-                       ServerId = entity.ServerId,
-                       Type = entity.Type
-                   };
+        var room = await context.Rooms.FirstOrDefaultAsync(x => x.Id == entity.Id) ?? new RoomModel
+        {
+            Id = entity.Id,
+            OwnerId = entity.OwnerId,
+            ServerId = entity.ServerId,
+            Type = entity.Type
+        };
 
         room.IsOpen = entity.IsOpen;
         room.ViewersCount = entity.ViewersCount;

@@ -15,7 +15,11 @@ public static class PersistenceServices
 
         var contentPath = configuration.GetRequiredValue<string>("Thumbnails");
 
-        services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+        services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseNpgsql(connectionString,
+                o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+        });
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped<IPosterService, PosterService>(_ => new PosterService(rootPath, contentPath));

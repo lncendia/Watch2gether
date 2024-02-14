@@ -6,6 +6,7 @@ using Films.Domain.Users.Entities;
 using Films.Domain.Users.Ordering.Visitor;
 using Films.Domain.Users.Specifications.Visitor;
 using Films.Infrastructure.Storage.Context;
+using Films.Infrastructure.Storage.Extensions;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Models.User;
 using Films.Infrastructure.Storage.Visitors.Sorting;
@@ -13,52 +14,46 @@ using Films.Infrastructure.Storage.Visitors.Specifications;
 
 namespace Films.Infrastructure.Storage.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository(
+    ApplicationDbContext context,
+    IAggregateMapperUnit<User, UserModel> aggregateMapper,
+    IModelMapperUnit<UserModel, User> modelMapper)
+    : IUserRepository
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IAggregateMapperUnit<User, UserModel> _aggregateMapper;
-    private readonly IModelMapperUnit<UserModel, User> _modelMapper;
-
-    public UserRepository(ApplicationDbContext context, IAggregateMapperUnit<User, UserModel> aggregateMapper,
-        IModelMapperUnit<UserModel, User> modelMapper)
-    {
-        _context = context;
-        _aggregateMapper = aggregateMapper;
-        _modelMapper = modelMapper;
-    }
-
     public async Task AddAsync(User entity)
     {
-        var user = await _modelMapper.MapAsync(entity);
-        _context.Notifications.AddRange(entity.DomainEvents);
-        await _context.AddAsync(user);
+        var user = await modelMapper.MapAsync(entity);
+        context.Notifications.AddRange(entity.DomainEvents);
+        await context.AddAsync(user);
     }
 
     public async Task UpdateAsync(User entity)
     {
-        _context.Notifications.AddRange(entity.DomainEvents);
-        await _modelMapper.MapAsync(entity);
+        context.Notifications.AddRange(entity.DomainEvents);
+        await modelMapper.MapAsync(entity);
     }
 
     public Task DeleteAsync(Guid id)
     {
-        _context.Remove(_context.Users.First(user => user.Id == id));
+        context.Remove(context.Users.First(user => user.Id == id));
         return Task.CompletedTask;
     }
 
     public async Task<User?> GetAsync(Guid id)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(userModel => userModel.Id == id);
-        if (user == null) return null;
-        await LoadCollectionsAsync(user);
-        return _aggregateMapper.Map(user);
+        var user = await context.Users
+            .LoadDependencies()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(userModel => userModel.Id == id);
+        
+        return user == null ? null : aggregateMapper.Map(user);
     }
 
     public async Task<IReadOnlyCollection<User>> FindAsync(
         ISpecification<User, IUserSpecificationVisitor>? specification,
         IOrderBy<User, IUserSortingVisitor>? orderBy = null, int? skip = null, int? take = null)
     {
-        var query = _context.Users.AsQueryable();
+        var query = context.Users.AsQueryable();
         if (specification != null)
         {
             var visitor = new UserVisitor();
@@ -83,26 +78,22 @@ public class UserRepository : IUserRepository
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        var models = await query.ToArrayAsync();
-        foreach (var model in models) await LoadCollectionsAsync(model);
-        return models.Select(_aggregateMapper.Map).ToArray();
+        var models = await query
+            .LoadDependencies()
+            .AsNoTracking()
+            .ToArrayAsync();
+
+        return models.Select(aggregateMapper.Map).ToArray();
     }
 
     public Task<int> CountAsync(ISpecification<User, IUserSpecificationVisitor>? specification)
     {
-        var query = _context.Users.AsQueryable();
+        var query = context.Users.AsQueryable();
         if (specification == null) return query.CountAsync();
         var visitor = new UserVisitor();
         specification.Accept(visitor);
         if (visitor.Expr != null) query = query.Where(visitor.Expr);
 
         return query.CountAsync();
-    }
-    
-    private async Task LoadCollectionsAsync(UserModel model)
-    {
-        await _context.Entry(model).Collection(x => x.Watchlist).LoadAsync();
-        await _context.Entry(model).Collection(x => x.History).LoadAsync();
-        await _context.Entry(model).Collection(x => x.Genres).LoadAsync();
     }
 }

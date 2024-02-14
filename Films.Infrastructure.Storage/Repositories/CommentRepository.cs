@@ -13,56 +13,42 @@ using Films.Infrastructure.Storage.Visitors.Specifications;
 
 namespace Films.Infrastructure.Storage.Repositories;
 
-public class CommentRepository : ICommentRepository
+public class CommentRepository(
+    ApplicationDbContext context,
+    IAggregateMapperUnit<Comment, CommentModel> aggregateMapper,
+    IModelMapperUnit<CommentModel, Comment> modelMapper)
+    : ICommentRepository
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IAggregateMapperUnit<Comment, CommentModel> _aggregateMapper;
-    private readonly IModelMapperUnit<CommentModel, Comment> _modelMapper;
-
-    public CommentRepository(ApplicationDbContext context, IAggregateMapperUnit<Comment, CommentModel> aggregateMapper,
-        IModelMapperUnit<CommentModel, Comment> modelMapper)
-    {
-        _context = context;
-        _aggregateMapper = aggregateMapper;
-        _modelMapper = modelMapper;
-    }
-
     public async Task AddAsync(Comment entity)
     {
-        _context.Notifications.AddRange(entity.DomainEvents);
-        var comment = await _modelMapper.MapAsync(entity);
-        await _context.AddAsync(comment);
+        context.Notifications.AddRange(entity.DomainEvents);
+        var comment = await modelMapper.MapAsync(entity);
+        await context.AddAsync(comment);
     }
 
     public async Task UpdateAsync(Comment entity)
     {
-        _context.Notifications.AddRange(entity.DomainEvents);
-        await _modelMapper.MapAsync(entity);
-    }
-    public Task DeleteAsync(Guid id)
-    {
-        _context.Remove(_context.Comments.First(comment => comment.Id == id));
-        return Task.CompletedTask;
+        context.Notifications.AddRange(entity.DomainEvents);
+        await modelMapper.MapAsync(entity);
     }
 
-    public Task DeleteRangeAsync(IEnumerable<Comment> entities)
+    public Task DeleteAsync(Guid id)
     {
-        var ids = entities.Select(comment => comment.Id);
-        _context.RemoveRange(_context.Comments.Where(comment => ids.Contains(comment.Id)));
+        context.Remove(context.Comments.First(comment => comment.Id == id));
         return Task.CompletedTask;
     }
 
     public async Task<Comment?> GetAsync(Guid id)
     {
-        var comment = await _context.Comments.FirstOrDefaultAsync(commentModel => commentModel.Id == id);
-        return comment == null ? null : _aggregateMapper.Map(comment);
+        var comment = await context.Comments.AsNoTracking().FirstOrDefaultAsync(commentModel => commentModel.Id == id);
+        return comment == null ? null : aggregateMapper.Map(comment);
     }
 
     public async Task<IReadOnlyCollection<Comment>> FindAsync(
         ISpecification<Comment, ICommentSpecificationVisitor>? specification,
         IOrderBy<Comment, ICommentSortingVisitor>? orderBy = null, int? skip = null, int? take = null)
     {
-        var query = _context.Comments.AsQueryable();
+        var query = context.Comments.AsQueryable();
         if (specification != null)
         {
             var visitor = new CommentVisitor();
@@ -87,12 +73,12 @@ public class CommentRepository : ICommentRepository
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        return (await query.ToArrayAsync()).Select(_aggregateMapper.Map).ToArray();
+        return (await query.AsNoTracking().ToArrayAsync()).Select(aggregateMapper.Map).ToArray();
     }
 
     public Task<int> CountAsync(ISpecification<Comment, ICommentSpecificationVisitor>? specification)
     {
-        var query = _context.Comments.AsQueryable();
+        var query = context.Comments.AsQueryable();
         if (specification == null) return query.CountAsync();
         var visitor = new CommentVisitor();
         specification.Accept(visitor);

@@ -4,7 +4,7 @@ using Films.Domain.Rooms.Enums;
 namespace Films.Domain.Rooms.Entities;
 
 /// <summary> 
-/// Абстрактный класс, представляющий базовую комнату. 
+/// Класс, представляющий комнату. 
 /// </summary> 
 public class Room : AggregateRoot
 {
