@@ -1,6 +1,5 @@
 ﻿using Films.Application.Abstractions.Queries.Films;
 using Films.Application.Abstractions.Queries.Films.DTOs;
-using Films.Domain.Films.Enums;
 using Films.Infrastructure.Web.Authentication;
 using Films.Infrastructure.Web.Films.InputModels;
 using Films.Infrastructure.Web.Films.ViewModels;
@@ -34,7 +33,7 @@ public class FilmController(IMediator mediator) : ControllerBase
             Query = model.Query,
             Genre = model.Genre,
             Person = model.Person,
-            Type = model.Type,
+            Serial = model.Serial,
             PlaylistId = model.PlaylistId,
             Skip = (model.Page - 1) * model.CountPerPage,
             Take = model.CountPerPage
@@ -51,7 +50,7 @@ public class FilmController(IMediator mediator) : ControllerBase
         };
     }
 
-    [HttpGet]
+    [HttpGet("{id:guid}")]
     public async Task<FilmViewModel> Get(Guid id)
     {
         Guid? userId = User.Identity is { IsAuthenticated: true } ? User.GetId() : null;
@@ -94,13 +93,8 @@ public class FilmController(IMediator mediator) : ControllerBase
     {
         Id = film.Id,
         Description = film.Description,
-        Type = film.Type switch
-        {
-            FilmType.Film => "Фильм",
-            FilmType.Serial => "Сериал",
-            _ => throw new ArgumentOutOfRangeException()
-        },
-        Name = film.Name,
+        IsSerial = film.IsSerial,
+        Title = film.Title,
         PosterUrl = $"{Request.Scheme}://{Request.Host}/{film.PosterUrl.ToString().Replace('\\', '/')}",
         RatingKp = film.RatingKp,
         RatingImdb = film.RatingImdb,
@@ -130,18 +124,13 @@ public class FilmController(IMediator mediator) : ControllerBase
     private FilmShortViewModel Map(FilmShortDto film) => new()
     {
         Id = film.Id,
-        Name = film.Name,
+        Title = film.Title,
         PosterUrl = $"{Request.Scheme}://{Request.Host}/{film.PosterUrl.ToString().Replace('\\', '/')}",
         UserRating = film.UserRating,
         RatingKp = film.RatingKp,
         RatingImdb = film.RatingImdb,
         Description = film.Description,
-        Type = film.Type switch
-        {
-            FilmType.Film => "Фильм",
-            FilmType.Serial => "Сериал",
-            _ => throw new ArgumentOutOfRangeException()
-        },
+        IsSerial = film.IsSerial,
         Genres = film.Genres,
         CountSeasons = film.CountSeasons,
         CountEpisodes = film.CountEpisodes

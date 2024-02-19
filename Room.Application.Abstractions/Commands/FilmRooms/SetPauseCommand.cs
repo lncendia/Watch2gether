@@ -1,4 +1,4 @@
-using Room.Application.Abstractions.Commands.Base;
+using Room.Application.Abstractions.Commands.BaseRooms;
 
 namespace Room.Application.Abstractions.Commands.FilmRooms;
 

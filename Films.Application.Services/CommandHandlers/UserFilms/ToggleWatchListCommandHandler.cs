@@ -23,7 +23,7 @@ public class ToggleWatchListCommandHandler(IUnitOfWork unitOfWork, IMemoryCache 
         }
         else
         {
-            var film = await memoryCache.TryGetFilmFromCache(request.FilmId, unitOfWork);
+            var film = await memoryCache.TryGetFilmFromCacheAsync(request.FilmId, unitOfWork);
             user.AddFilmToWatchlist(film); // Если нет, добавляем фильм в список просмотра 
         }
 

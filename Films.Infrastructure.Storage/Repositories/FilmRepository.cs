@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Films.Domain.Abstractions.Repositories;
-using Films.Domain.Films.Entities;
+using Films.Domain.Films;
 using Films.Domain.Films.Ordering.Visitor;
 using Films.Domain.Films.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
@@ -45,7 +45,7 @@ public class FilmRepository(
             .LoadDependencies()
             .AsNoTracking()
             .FirstOrDefaultAsync(userModel => userModel.Id == id);
-        
+
         return film == null ? null : aggregateMapper.Map(film);
     }
 
@@ -69,11 +69,17 @@ public class FilmRepository(
             var orderedQuery = firstQuery.IsDescending
                 ? query.OrderByDescending(firstQuery.Expr)
                 : query.OrderBy(firstQuery.Expr);
-            
-            query = visitor.SortItems.Skip(1)
+
+            orderedQuery = visitor.SortItems.Skip(1)
                 .Aggregate(orderedQuery, (current, sort) => sort.IsDescending
                     ? current.ThenByDescending(sort.Expr)
                     : current.ThenBy(sort.Expr));
+            
+            query = orderedQuery.ThenBy(v => v.Id);
+        }
+        else
+        {
+            query = query.OrderBy(x => x.Id);
         }
 
         if (skip.HasValue) query = query.Skip(skip.Value);

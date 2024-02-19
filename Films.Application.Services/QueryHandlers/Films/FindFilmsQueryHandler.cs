@@ -2,7 +2,7 @@ using Films.Application.Abstractions.Queries.Films;
 using Films.Application.Abstractions.Queries.Films.DTOs;
 using Films.Application.Services.Common;
 using Films.Domain.Abstractions.Interfaces;
-using Films.Domain.Films.Entities;
+using Films.Domain.Films;
 using Films.Domain.Films.Ordering;
 using Films.Domain.Films.Ordering.Visitor;
 using Films.Domain.Films.Specifications;
@@ -25,24 +25,24 @@ public class FindFilmsQueryHandler(IUnitOfWork unitOfWork)
 
         // Добавляем спецификации в соответствии с заданными параметрами поиска 
         if (!string.IsNullOrEmpty(request.Query))
-            specification = specification.AddToSpecification(new FilmByNameSpecification(request.Query));
+            specification = specification.AddToSpecification(new FilmsByTitleSpecification(request.Query));
 
         if (!string.IsNullOrEmpty(request.Genre)) 
-            specification = specification.AddToSpecification(new FilmByGenreSpecification(request.Genre));
+            specification = specification.AddToSpecification(new FilmsByGenreSpecification(request.Genre));
 
         if (!string.IsNullOrEmpty(request.Person))
             specification = specification.AddToSpecification(FilmByPerson(request.Person));
 
         if (!string.IsNullOrEmpty(request.Country))
-            specification = specification.AddToSpecification(new FilmByCountrySpecification(request.Country));
+            specification = specification.AddToSpecification(new FilmsByCountrySpecification(request.Country));
 
-        if (request.Type != null) 
-            specification = specification.AddToSpecification(new FilmByTypeSpecification(request.Type.Value));
+        if (request.Serial != null) 
+            specification = specification.AddToSpecification(new FilmsByTypeSpecification(request.Serial.Value));
 
         if (request.PlaylistId != null)
         {
             var playlist = await unitOfWork.PlaylistRepository.Value.GetAsync(request.PlaylistId.Value);
-            if (playlist != null) specification = specification.AddToSpecification(new FilmByIdsSpecification(playlist.Films));
+            if (playlist != null) specification = specification.AddToSpecification(new FilmsByIdsSpecification(playlist.Films));
         }
 
         // Определяем порядок сортировки по дате 
@@ -62,11 +62,11 @@ public class FindFilmsQueryHandler(IUnitOfWork unitOfWork)
 
     private static ISpecification<Film, IFilmSpecificationVisitor> FilmByPerson(string person)
     {
-        ISpecification<Film, IFilmSpecificationVisitor> spec = new FilmByActorSpecification(person);
+        ISpecification<Film, IFilmSpecificationVisitor> spec = new FilmsByActorSpecification(person);
 
-        spec = new OrSpecification<Film, IFilmSpecificationVisitor>(spec, new FilmByDirectorSpecification(person));
+        spec = new OrSpecification<Film, IFilmSpecificationVisitor>(spec, new FilmsByDirectorSpecification(person));
 
-        spec = new OrSpecification<Film, IFilmSpecificationVisitor>(spec, new FilmByScreenWriterSpecification(person));
+        spec = new OrSpecification<Film, IFilmSpecificationVisitor>(spec, new FilmsByScreenWriterSpecification(person));
 
         return spec;
     }

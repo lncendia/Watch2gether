@@ -1,4 +1,4 @@
-﻿using Films.Domain.Servers.Entities;
+﻿using Films.Domain.Servers;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Mappers.StaticMethods;
 using Films.Infrastructure.Storage.Models.Server;
@@ -11,7 +11,6 @@ internal class ServerMapper : IAggregateMapperUnit<Server, ServerModel>
     {
         var room = new Server
         {
-            OwnerId = model.OwnerId,
             MaxRoomsCount = model.MaxRoomsCount,
             Url = model.Url,
             IsEnabled = model.IsEnabled

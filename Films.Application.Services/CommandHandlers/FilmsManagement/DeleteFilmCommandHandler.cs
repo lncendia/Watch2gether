@@ -12,7 +12,7 @@ public class DeleteFilmCommandHandler(IUnitOfWork unitOfWork, IPosterService pos
 {
     public async Task Handle(DeleteFilmCommand request, CancellationToken cancellationToken)
     {
-        var film = await memoryCache.TryGetFilmFromCache(request.Id, unitOfWork);
+        var film = await memoryCache.TryGetFilmFromCacheAsync(request.Id, unitOfWork);
         await posterService.DeleteAsync(film.PosterUrl);
         await unitOfWork.FilmRepository.Value.DeleteAsync(request.Id);
         await unitOfWork.SaveChangesAsync();

@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
-using Room.Application.Abstractions.Common.Exceptions;
 using Room.Application.Services.Common;
 using Room.Domain.Abstractions.Interfaces;
 
@@ -19,19 +18,7 @@ public class BeepCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) : IR
         // Получаем комнату
         var room = await cache.TryGetYoutubeRoomFromCache(request.RoomId, unitOfWork);
 
-        // Получаем инициатора действия
-        var initiator = await unitOfWork.UserRepository.Value.GetAsync(request.UserId);
-
-        // Если инициатор не найден - вызываем исключение
-        if (initiator == null) throw new UserNotFoundException();
-        
-        // Получаем цель действия
-        var target = await unitOfWork.UserRepository.Value.GetAsync(request.TargetId);
-        
-        // Если цель не найдена - вызываем исключение
-        if (target == null) throw new UserNotFoundException();
-
         // Вызываем звуковой сигнал
-        room.Beep(initiator, target);
+        room.Beep(request.ViewerId, request.TargetId);
     }
 }

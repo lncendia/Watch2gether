@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Films.Domain.Comments.Entities;
+﻿using Films.Domain.Comments;
+using Microsoft.EntityFrameworkCore;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Models.Comment;
@@ -8,14 +8,14 @@ namespace Films.Infrastructure.Storage.Mappers.ModelMappers;
 
 internal class CommentModelMapper(ApplicationDbContext context) : IModelMapperUnit<CommentModel, Comment>
 {
-    public async Task<CommentModel> MapAsync(Comment entity)
+    public async Task<CommentModel> MapAsync(Comment aggregate)
     {
-        var comment = await context.Comments.FirstOrDefaultAsync(x => x.Id == entity.Id) ??
-                      new CommentModel { Id = entity.Id };
-        comment.FilmId = entity.FilmId;
-        comment.Text = entity.Text;
-        comment.CreatedAt = entity.CreatedAt;
-        comment.UserId = entity.UserId;
-        return comment;
+        var model = await context.Comments.FirstOrDefaultAsync(x => x.Id == aggregate.Id) ??
+                      new CommentModel { Id = aggregate.Id };
+        model.FilmId = aggregate.FilmId;
+        model.Text = aggregate.Text;
+        model.CreatedAt = aggregate.CreatedAt;
+        model.UserId = aggregate.UserId;
+        return model;
     }
 }

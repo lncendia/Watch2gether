@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Films.Domain.Servers.Entities;
+using Films.Domain.Servers;
 using Films.Domain.Servers.Specifications;
 using Films.Domain.Servers.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
@@ -18,6 +18,6 @@ public class ServerVisitor : BaseVisitor<ServerModel, IServerSpecificationVisito
         return visitor.Expr!;
     }
 
-    public void Visit(ServerByUserSpecification spec) => Expr = x => x.OwnerId == spec.UserId;
     public void Visit(ServerByEnabledSpecification specification) => Expr = x => x.IsEnabled;
+    public void Visit(ServersByIdsSpecification specification) => Expr = x => specification.Ids.Contains(x.Id);
 }

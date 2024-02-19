@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Films.Infrastructure.Web.Contracts.Film;
+namespace Films.Infrastructure.Web.Comments.InputModels;
 
 public class AddCommentInputModel
 {

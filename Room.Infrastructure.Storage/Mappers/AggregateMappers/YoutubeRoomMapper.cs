@@ -1,14 +1,14 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
-using Room.Domain.Abstractions;
-using Room.Domain.Rooms.BaseRoom.Entities;
-using Room.Domain.Rooms.BaseRoom.ValueObjects;
-using Room.Domain.Rooms.YoutubeRoom.Entities;
-using Room.Domain.Rooms.YoutubeRoom.ValueObjects;
+using Room.Domain.BaseRoom;
+using Room.Domain.BaseRoom.Entities;
+using Room.Domain.BaseRoom.ValueObjects;
+using Room.Domain.YoutubeRooms;
+using Room.Domain.YoutubeRooms.Entities;
+using Room.Domain.YoutubeRooms.ValueObjects;
 using Room.Infrastructure.Storage.Mappers.Abstractions;
-using Room.Infrastructure.Storage.Mappers.StaticMethods;
-using Room.Infrastructure.Storage.Models.Room.Base;
-using Room.Infrastructure.Storage.Models.Room.YoutubeRoom;
+using Room.Infrastructure.Storage.Models.BaseRoom;
+using Room.Infrastructure.Storage.Models.YoutubeRoom;
 
 namespace Room.Infrastructure.Storage.Mappers.AggregateMappers;
 
@@ -22,33 +22,18 @@ internal class YoutubeRoomMapper : IAggregateMapperUnit<YoutubeRoom, YoutubeRoom
 
     private static readonly Type VideoType = typeof(Video);
 
-
-    private static readonly FieldInfo VideoAccess =
-        YoutubeRoomType.GetField("<VideoAccess>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
-
     private static readonly FieldInfo Videos =
         YoutubeRoomType.GetField("_videos", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     private static readonly FieldInfo LastActivity =
         RoomType.GetField("<LastActivity>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
-    private static readonly FieldInfo Code =
-        RoomType.GetField("<Code>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
-
-    private static readonly FieldInfo Owner =
-        RoomType.GetField("<Owner>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
-
     private static readonly FieldInfo ViewersList =
         RoomType.GetField("_viewersList", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     private static readonly FieldInfo MessagesList =
         RoomType.GetField("_messagesList", BindingFlags.Instance | BindingFlags.NonPublic)!;
-
-    private static readonly FieldInfo BannedList =
-        RoomType.GetField("_bannedList", BindingFlags.Instance | BindingFlags.NonPublic)!;
-
-    private static readonly FieldInfo ViewerUserId =
-        ViewerType.GetField("<UserId>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
+    
 
     private static readonly FieldInfo ViewerOnline =
         ViewerType.GetField("<Online>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
@@ -61,9 +46,6 @@ internal class YoutubeRoomMapper : IAggregateMapperUnit<YoutubeRoom, YoutubeRoom
 
     private static readonly FieldInfo ViewerTimeLine =
         ViewerType.GetField("<TimeLine>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
-
-    private static readonly FieldInfo ViewerName =
-        ViewerType.GetField("_name", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
     private static readonly FieldInfo ViewerVideoId =
         YoutubeViewerType.GetField("<VideoId>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
@@ -79,43 +61,51 @@ internal class YoutubeRoomMapper : IAggregateMapperUnit<YoutubeRoom, YoutubeRoom
 
     public YoutubeRoom Map(YoutubeRoomModel model)
     {
-        var room = (YoutubeRoom)RuntimeHelpers.GetUninitializedObject(YoutubeRoomType);
+        var videos = model.Videos.Select(CreateVideo).ToList();
         var viewers = model.Viewers.Select(CreateViewer).ToList();
         var messages = model.Messages.Select(CreateMessage).ToList();
-        var bannedList = model.BannedUsers.Select(b => b.UserId).ToList();
-        var videos = model.Videos.Select(CreateVideo).ToList();
+        var owner = viewers.First(v => v.Id == model.Viewers.First(m => m.Owner).Id);
 
-        var owner = viewers.First(v => v.UserId == model.Viewers.First(m => m.Owner).UserId);
+        var room = new YoutubeRoom
+        {
+            Id = model.Id,
+            Owner = owner,
+            VideoAccess = model.VideoAccess
+        };
 
-        VideoAccess.SetValue(room, model.Access);
-        Videos.SetValue(room, videos);
         LastActivity.SetValue(room, model.LastActivity);
-        Code.SetValue(room, model.Code);
-        Owner.SetValue(room, owner);
         ViewersList.SetValue(room, viewers);
         MessagesList.SetValue(room, messages);
-        BannedList.SetValue(room, bannedList);
-        IdFields.AggregateId.SetValue(room, model.Id);
-        IdFields.DomainEvents.SetValue(room, new List<IDomainEvent>());
+        Videos.SetValue(room, videos);
         return room;
     }
 
     private static YoutubeViewer CreateViewer(YoutubeViewerModel model)
     {
-        var viewer = (YoutubeViewer)RuntimeHelpers.GetUninitializedObject(YoutubeViewerType);
-        ViewerUserId.SetValue(viewer, model.UserId);
+        var viewer = new YoutubeViewer
+        {
+            Id = model.Id,
+            Nickname = model.Nickname,
+            PhotoUrl = model.PhotoUrl,
+            Allows = new Allows
+            {
+                Beep = model.Beep,
+                Scream = model.Scream,
+                Change = model.Change
+            }
+        };
         ViewerFullScreen.SetValue(viewer, model.FullScreen);
         ViewerOnline.SetValue(viewer, model.Online);
         ViewerPause.SetValue(viewer, model.Pause);
         ViewerTimeLine.SetValue(viewer, model.TimeLine);
-        ViewerName.SetValue(viewer, model.CustomName);
         ViewerVideoId.SetValue(viewer, model.VideoId);
+
         return viewer;
     }
 
     private static Message CreateMessage(MessageModel<YoutubeRoomModel> model)
     {
-        var message = new Message(model.UserId, model.Text);
+        var message = new Message(model.ViewerId, model.Text);
         MessageCreatedAt.SetValue(message, model.CreatedAt);
         return message;
     }

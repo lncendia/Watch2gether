@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Films.Infrastructure.Web.Films.InputModels;
+namespace Films.Infrastructure.Web.User.InputModels;
 
 public class AddRatingInputModel
 {

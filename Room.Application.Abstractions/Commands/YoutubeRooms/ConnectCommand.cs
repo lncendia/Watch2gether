@@ -1,5 +1,6 @@
 using MediatR;
-using Room.Application.Abstractions.DTOs.YoutubeRoom;
+using Room.Application.Abstractions.Commands.BaseRooms;
+using Room.Application.Abstractions.Queries.DTOs.YoutubeRoom;
 
 namespace Room.Application.Abstractions.Commands.YoutubeRooms;
 
@@ -9,17 +10,12 @@ namespace Room.Application.Abstractions.Commands.YoutubeRooms;
 public class ConnectCommand : IRequest<YoutubeRoomDto>
 {
     /// <summary>
-    /// Идентификатор пользователя
+    /// Зритель
     /// </summary>
-    public required Guid UserId { get; init; }
+    public required ViewerData Viewer { get; init; }
 
     /// <summary>
     /// Идентификатор комнаты
     /// </summary>
     public required Guid RoomId { get; init; }
-
-    /// <summary>
-    /// Проверочный код
-    /// </summary>
-    public string? Code { get; init; }
 }

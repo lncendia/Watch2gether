@@ -2,7 +2,7 @@ using Films.Application.Abstractions.Commands.UserFilms;
 using Films.Application.Abstractions.Common.Exceptions;
 using Films.Application.Services.Common;
 using Films.Domain.Abstractions.Interfaces;
-using Films.Domain.Ratings.Entities;
+using Films.Domain.Ratings;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -16,7 +16,7 @@ public class AddRatingCommandHandler(IUnitOfWork unitOfWork, IMemoryCache memory
         var user = await unitOfWork.UserRepository.Value.GetAsync(request.UserId);
         if (user == null) throw new UserNotFoundException();
 
-        var film = await memoryCache.TryGetFilmFromCache(request.FilmId, unitOfWork);
+        var film = await memoryCache.TryGetFilmFromCacheAsync(request.FilmId, unitOfWork);
         
         // Создаем новый рейтинг с указанным идентификатором фильма, идентификатором пользователя и оценкой 
         var rating = new Rating(film, user, request.Score);

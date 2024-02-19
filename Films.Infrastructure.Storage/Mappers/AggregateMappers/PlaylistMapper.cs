@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Films.Domain.Playlists.Entities;
+using Films.Domain.Playlists;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Mappers.StaticMethods;
 using Films.Infrastructure.Storage.Models.Playlist;

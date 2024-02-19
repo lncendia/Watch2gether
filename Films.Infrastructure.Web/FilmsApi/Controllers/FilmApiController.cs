@@ -22,7 +22,7 @@ public class FilmApiController(IMediator mediator) : ControllerBase
         return Map(film);
     }
 
-    [HttpGet]
+    [HttpGet("{id:long}")]
     public async Task<FilmApiViewModel> GetFromKpId(long id)
     {
         var film = await mediator.Send(new FindFilmByKpIdQuery
@@ -32,7 +32,7 @@ public class FilmApiController(IMediator mediator) : ControllerBase
         return Map(film);
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<FilmApiViewModel> GetFromImdb(string id)
     {
         var film = await mediator.Send(new FindFilmByTitleQuery
@@ -44,7 +44,7 @@ public class FilmApiController(IMediator mediator) : ControllerBase
 
     private static FilmApiViewModel Map(FilmApiDto film) => new()
     {
-        Type = film.Type,
+        IsSerial = film.IsSerial,
         Title = film.Title,
         Year = film.Year,
         Cdn = film.Cdn.Select(c => new CdnApiViewModel

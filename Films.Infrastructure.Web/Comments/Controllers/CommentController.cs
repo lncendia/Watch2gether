@@ -4,7 +4,6 @@ using Films.Application.Abstractions.Queries.Comments.DTOs;
 using Films.Infrastructure.Web.Authentication;
 using Films.Infrastructure.Web.Comments.InputModels;
 using Films.Infrastructure.Web.Comments.ViewModels;
-using Films.Infrastructure.Web.Contracts.Film;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +27,9 @@ public class CommentController(IMediator mediator) : ControllerBase
         var countPages = data.count / model.CountPerPage;
 
         if (data.count % model.CountPerPage > 0) countPages++;
-        
+
         Guid? userId = User.Identity is { IsAuthenticated: true } ? User.GetId() : null;
-        
+
         return new CommentsViewModel
         {
             Comments = data.comments.Select(c => Map(c, userId)),
@@ -38,7 +37,7 @@ public class CommentController(IMediator mediator) : ControllerBase
         };
     }
 
-    [HttpDelete]
+    [HttpDelete("{commentId:guid}")]
     [Authorize]
     public async Task Delete(Guid commentId)
     {
@@ -63,16 +62,13 @@ public class CommentController(IMediator mediator) : ControllerBase
     }
 
 
-    private static CommentViewModel Map(CommentDto comment, Guid? userId)
+    private static CommentViewModel Map(CommentDto comment, Guid? userId) => new()
     {
-        return new CommentViewModel
-        {
-            Id = comment.Id,
-            Username = comment.Username,
-            Text = comment.Text,
-            AvatarUrl = comment.PhotoUrl,
-            CreatedAt = comment.CreatedAt,
-            IsUserComment = comment.UserId == userId
-        };
-    }
+        Id = comment.Id,
+        Username = comment.Username,
+        Text = comment.Text,
+        AvatarUrl = comment.PhotoUrl,
+        CreatedAt = comment.CreatedAt,
+        IsUserComment = comment.UserId == userId
+    };
 }

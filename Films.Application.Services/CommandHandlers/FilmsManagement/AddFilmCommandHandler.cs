@@ -2,7 +2,7 @@ using Films.Application.Abstractions.Commands.FilmsManagement;
 using Films.Application.Abstractions.Common.Exceptions;
 using Films.Application.Abstractions.Common.Interfaces;
 using Films.Domain.Abstractions.Interfaces;
-using Films.Domain.Films.Entities;
+using Films.Domain.Films;
 using MediatR;
 
 namespace Films.Application.Services.CommandHandlers.FilmsManagement;
@@ -16,11 +16,10 @@ public class AddFilmCommandHandler(IUnitOfWork unitOfWork, IPosterService poster
         if (request.PosterUrl != null) poster = await posterService.SaveAsync(request.PosterUrl);
         else if (request.PosterBase64 != null) poster = await posterService.SaveAsync(request.PosterBase64);
         else throw new PosterMissingException();
-        var film = new Film(request.Type, request.CountSeasons, request.CountEpisodes)
+        var film = new Film(request.IsSerial, request.CountSeasons, request.CountEpisodes)
         {
             Title = request.Title,
             Description = request.Description,
-            ShortDescription = request.ShortDescription,
             Year = request.Year,
             PosterUrl = poster,
             Genres = request.Genres,
@@ -32,6 +31,8 @@ public class AddFilmCommandHandler(IUnitOfWork unitOfWork, IPosterService poster
             RatingImdb = request.RatingImdb,
             RatingKp = request.RatingKp
         };
+
+        if (!string.IsNullOrEmpty(request.ShortDescription)) film.ShortDescription = request.ShortDescription;
         await unitOfWork.FilmRepository.Value.AddAsync(film);
         await unitOfWork.SaveChangesAsync();
         return film.Id;

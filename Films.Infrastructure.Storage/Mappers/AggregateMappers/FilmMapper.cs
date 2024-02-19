@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Films.Domain.Abstractions;
-using Films.Domain.Films.Entities;
+using Films.Domain.Films;
 using Films.Domain.Films.ValueObjects;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Mappers.StaticMethods;
@@ -18,11 +18,10 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
 
     public Film Map(FilmModel model)
     {
-        var film = new Film(model.Type, model.CountSeasons, model.CountEpisodes)
+        var film = new Film(model.IsSerial, model.CountSeasons, model.CountEpisodes)
         {
             Title = model.Title,
             Description = model.Description,
-            ShortDescription = model.ShortDescription,
             Year = model.Year,
             PosterUrl = model.PosterUrl,
             RatingKp = model.RatingKp,
@@ -40,6 +39,8 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
                 Voices = cdn.Voices.Select(voice => voice.Name).ToArray()
             }).ToArray()
         };
+
+        if (!string.IsNullOrEmpty(model.ShortDescription)) film.ShortDescription = model.ShortDescription;
 
         UserRating.SetValue(film, model.UserRating);
         UserRatingsCount.SetValue(film, model.UserRatingsCount);

@@ -4,7 +4,6 @@ using Films.Application.Abstractions.Queries.Users;
 using Films.Application.Abstractions.Queries.Users.DTOs;
 using Films.Infrastructure.Web.Authentication;
 using Films.Infrastructure.Web.Films.InputModels;
-using Films.Infrastructure.Web.Profile.InputModels;
 using Films.Infrastructure.Web.User.InputModels;
 using Films.Infrastructure.Web.User.ViewModels;
 using MediatR;

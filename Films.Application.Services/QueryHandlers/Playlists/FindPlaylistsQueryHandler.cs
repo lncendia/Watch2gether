@@ -3,7 +3,7 @@ using Films.Application.Abstractions.Queries.Playlists.DTOs;
 using Films.Application.Services.Common;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Ordering;
-using Films.Domain.Playlists.Entities;
+using Films.Domain.Playlists;
 using Films.Domain.Playlists.Ordering;
 using Films.Domain.Playlists.Ordering.Visitor;
 using Films.Domain.Playlists.Specifications;

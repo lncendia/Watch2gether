@@ -1,3 +1,5 @@
-﻿namespace Films.Domain.Films.Exceptions;
+﻿using System;
+
+namespace Films.Domain.Films.Exceptions;
 
 public class NotSerialException() : Exception("This is not a serial.");

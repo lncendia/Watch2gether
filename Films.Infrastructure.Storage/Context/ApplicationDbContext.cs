@@ -5,7 +5,9 @@ using Films.Infrastructure.Storage.Models.Genre;
 using Films.Infrastructure.Storage.Models.Person;
 using Films.Infrastructure.Storage.Models.Playlist;
 using Films.Infrastructure.Storage.Models.Rating;
-using Films.Infrastructure.Storage.Models.Room;
+using Films.Infrastructure.Storage.Models.Rooms.BaseRoom;
+using Films.Infrastructure.Storage.Models.Rooms.FilmRoom;
+using Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom;
 using Films.Infrastructure.Storage.Models.Server;
 using Films.Infrastructure.Storage.Models.User;
 using Films.Infrastructure.Storage.Models.Voice;
@@ -40,120 +42,23 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<RatingModel> Ratings { get; set; } = null!;
 
-    public DbSet<RoomModel> Rooms { get; set; } = null!;
+    public DbSet<FilmRoomModel> FilmRooms { get; set; } = null!;
+    public DbSet<ViewerModel<FilmRoomModel>> FilmViewers { get; set; } = null!;
+    public DbSet<BannedModel<FilmRoomModel>> BannedFilmViewers { get; set; } = null!;
+    public DbSet<YoutubeRoomModel> YoutubeRooms { get; set; } = null!;
+    public DbSet<ViewerModel<YoutubeRoomModel>> YoutubeViewers { get; set; } = null!;
+    public DbSet<BannedModel<YoutubeRoomModel>> BannedYoutubeViewers { get; set; } = null!;
     public DbSet<ServerModel> Servers { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserModel>()
-            .HasMany(x => x.History)
-            .WithOne(x => x.User)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<UserModel>()
-            .HasMany(x => x.Watchlist)
-            .WithOne(x => x.User)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<UserModel>()
-            .HasMany(x => x.Genres)
-            .WithMany()
-            .UsingEntity(e => e.ToTable("UserGenres"));
-
-        modelBuilder.Entity<WatchlistModel>()
-            .HasOne(x => x.Film)
-            .WithMany()
-            .HasForeignKey(x => x.FilmId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<HistoryModel>()
-            .HasOne(x => x.Film)
-            .WithMany()
-            .HasForeignKey(x => x.FilmId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-
-        modelBuilder.Entity<FilmModel>()
-            .HasMany(x => x.Actors)
-            .WithOne(x => x.Film)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<FilmModel>()
-            .HasMany(x => x.Directors)
-            .WithMany()
-            .UsingEntity(e => e.ToTable("FilmDirectors"));
-
-        modelBuilder.Entity<FilmModel>()
-            .HasMany(x => x.Screenwriters)
-            .WithMany()
-            .UsingEntity(e => e.ToTable("FilmScreenWriters"));
-
-        modelBuilder.Entity<FilmModel>()
-            .HasMany(x => x.Genres)
-            .WithMany()
-            .UsingEntity(e => e.ToTable("FilmGenres"));
-
-        modelBuilder.Entity<FilmModel>()
-            .HasMany(x => x.Countries)
-            .WithMany()
-            .UsingEntity(e => e.ToTable("FilmCountries"));
-
-        modelBuilder.Entity<FilmModel>()
-            .HasMany(x => x.CdnList)
-            .WithOne(x => x.Film)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<CdnModel>()
-            .HasMany(x => x.Voices)
-            .WithMany()
-            .UsingEntity(e => e.ToTable("CndVoices"));
-
-        modelBuilder.Entity<FilmActorModel>()
-            .HasOne(x => x.Person)
-            .WithMany()
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<PlaylistModel>()
-            .HasMany(x => x.Films)
-            .WithOne(x => x.Playlist)
-            .HasForeignKey(p => p.PlaylistId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<PlaylistFilmModel>()
-            .HasOne(x => x.Film)
-            .WithMany()
-            .HasForeignKey(x => x.FilmId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<PlaylistModel>()
-            .HasMany(x => x.Genres)
-            .WithMany()
-            .UsingEntity(e => e.ToTable("PlaylistGenres"));
-
-        modelBuilder.Entity<RatingModel>()
-            .HasOne(x => x.User)
-            .WithMany()
-            .HasForeignKey(x => x.UserId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        modelBuilder.Entity<RatingModel>()
-            .HasOne(x => x.Film)
-            .WithMany()
-            .HasForeignKey(x => x.FilmId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<CommentModel>()
-            .HasOne(x => x.User)
-            .WithMany()
-            .HasForeignKey(x => x.UserId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        modelBuilder.Entity<CommentModel>()
-            .HasOne(x => x.Film)
-            .WithMany()
-            .HasForeignKey(x => x.FilmId)
-            .OnDelete(DeleteBehavior.Cascade);
-
+        modelBuilder.ConfigureUsers();
+        modelBuilder.ConfigureFilms();
+        modelBuilder.ConfigurePlaylists();
+        modelBuilder.ConfigureComments();
+        modelBuilder.ConfigureRatings();
+        modelBuilder.ConfigureFilmRooms();
+        modelBuilder.ConfigureYoutubeRooms();
         base.OnModelCreating(modelBuilder);
     }
 }

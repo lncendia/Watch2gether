@@ -19,7 +19,7 @@ public class FilmLoadHostedService(IServiceProvider serviceProvider) : Backgroun
                 Title = filmFromKp.Title,
                 Description = filmFromKp.Description!,
                 ShortDescription = filmFromKp.ShortDescription,
-                Type = filmFromKp.Type,
+                IsSerial = filmFromKp.IsSerial,
                 Year = filmFromKp.Year,
                 CdnList = filmFromKp.Cdn,
                 Countries = filmFromKp.Countries,

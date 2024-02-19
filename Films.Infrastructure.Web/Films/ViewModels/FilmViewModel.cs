@@ -4,8 +4,8 @@ public class FilmViewModel
 {
     public required Guid Id { get; init; }
     public required string Description { get; init; }
-    public required string Type { get; init; }
-    public required string Name { get; init; }
+    public required bool IsSerial { get; init; }
+    public required string Title { get; init; }
     public required string PosterUrl { get; init; }
     public required double? RatingKp { get; init; }
     public required double? RatingImdb { get; init; }

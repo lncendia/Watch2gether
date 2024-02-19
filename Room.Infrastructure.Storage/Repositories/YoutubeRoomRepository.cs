@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Room.Domain.Abstractions.Repositories;
-using Room.Domain.Rooms.YoutubeRoom.Entities;
+using Room.Domain.YoutubeRooms;
 using Room.Infrastructure.Storage.Context;
 using Room.Infrastructure.Storage.Extensions;
 using Room.Infrastructure.Storage.Mappers.Abstractions;
-using Room.Infrastructure.Storage.Models.Room.YoutubeRoom;
+using Room.Infrastructure.Storage.Models.YoutubeRoom;
 
 namespace Room.Infrastructure.Storage.Repositories;
 

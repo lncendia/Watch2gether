@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Films.Domain.Abstractions.Repositories;
 using Films.Domain.Ordering.Abstractions;
-using Films.Domain.Ratings.Entities;
+using Films.Domain.Ratings;
 using Films.Domain.Ratings.Ordering.Visitor;
 using Films.Domain.Ratings.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
@@ -65,10 +65,17 @@ public class RatingRepository(
             var orderedQuery = firstQuery.IsDescending
                 ? query.OrderByDescending(firstQuery.Expr)
                 : query.OrderBy(firstQuery.Expr);
-            query = visitor.SortItems.Skip(1)
+
+            orderedQuery = visitor.SortItems.Skip(1)
                 .Aggregate(orderedQuery, (current, sort) => sort.IsDescending
                     ? current.ThenByDescending(sort.Expr)
                     : current.ThenBy(sort.Expr));
+            
+            query = orderedQuery.ThenBy(v => v.Id);
+        }
+        else
+        {
+            query = query.OrderBy(x => x.Id);
         }
 
         if (skip.HasValue) query = query.Skip(skip.Value);

@@ -1,30 +1,35 @@
 using MediatR;
-using Room.Application.Abstractions.DTOs.FilmRoom;
+using Room.Application.Abstractions.Commands.BaseRooms;
 
 namespace Room.Application.Abstractions.Commands.FilmRooms;
 
 /// <summary>
 /// Команда на создание комнаты
 /// </summary>
-public class CreateRoomCommand : IRequest<FilmRoomDto>
+public class CreateRoomCommand : IRequest
 {
     /// <summary>
-    /// Идентификатор фильма
+    /// Идентификатор комнаты
     /// </summary>
-    public required Guid FilmId { get; init; }
+    public required Guid Id { get; init; }
     
     /// <summary>
-    /// Идентификатор пользователя
+    /// Зритель
     /// </summary>
-    public required Guid UserId { get; init; }
+    public required ViewerData Viewer { get; init; }
 
-    /// <summary>
-    /// Имя CDN
-    /// </summary>
-    public required string CdnName { get; init; }
-    
-    /// <summary>
-    /// Флаг, открыта ли комната
-    /// </summary>
-    public required bool IsOpen { get; init; }
+    /// <summary> 
+    /// Заголовок фильма. 
+    /// </summary> 
+    public required string Title { get; init; }
+
+    /// <summary> 
+    /// URL-адрес контентного поставщика для фильма
+    /// </summary> 
+    public required Uri CdnUrl { get; init; }
+
+    /// <summary> 
+    /// Тип фильма
+    /// </summary> 
+    public required bool IsSerial { get; init; }
 }

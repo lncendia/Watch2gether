@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Films.Infrastructure.Web.Profile.InputModels;
+namespace Films.Infrastructure.Web.User.InputModels;
 
 public class ChangeAllowsInputModel
 {

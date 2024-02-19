@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Films.Domain.Users.Entities;
+﻿using Films.Domain.Users;
+using Microsoft.EntityFrameworkCore;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Extensions;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
@@ -9,58 +9,58 @@ namespace Films.Infrastructure.Storage.Mappers.ModelMappers;
 
 internal class UserModelMapper(ApplicationDbContext context) : IModelMapperUnit<UserModel, User>
 {
-    public async Task<UserModel> MapAsync(User entity)
+    public async Task<UserModel> MapAsync(User aggregate)
     {
-        var user = await context.Users
+        var model = await context.Users
             .LoadDependencies()
-            .FirstOrDefaultAsync(x => x.Id == entity.Id) ?? new UserModel { Id = entity.Id };
+            .FirstOrDefaultAsync(x => x.Id == aggregate.Id) ?? new UserModel { Id = aggregate.Id };
 
-        user.UserName = entity.UserName;
-        user.PhotoUrl = entity.PhotoUrl;
-        user.Beep = entity.Allows.Beep;
-        user.Scream = entity.Allows.Scream;
-        user.Change = entity.Allows.Change;
+        model.UserName = aggregate.UserName;
+        model.PhotoUrl = aggregate.PhotoUrl;
+        model.Beep = aggregate.Allows.Beep;
+        model.Scream = aggregate.Allows.Scream;
+        model.Change = aggregate.Allows.Change;
 
 
-        ProcessHistory(entity, user);
+        ProcessHistory(aggregate, model);
 
-        ProcessWatchlist(entity, user);
+        ProcessWatchlist(aggregate, model);
 
-        await ProcessGenresAsync(entity, user);
+        await ProcessGenresAsync(aggregate, model);
 
-        return user;
+        return model;
     }
 
-    private static void ProcessHistory(User entity, UserModel user)
+    private static void ProcessHistory(User aggregate, UserModel model)
     {
-        user.History.RemoveAll(uh => entity.History.All(eh => eh.FilmId != uh.FilmId && eh.Date != uh.Date));
+        model.History.RemoveAll(uh => aggregate.History.All(eh => eh.FilmId != uh.FilmId && eh.Date != uh.Date));
 
         // Нужно добавить в UserHistory новые записи, которых там еще нет
-        var historyToAdd = entity.History
-            .Where(eh => user.History.All(uh => uh.FilmId != eh.FilmId && uh.Date != eh.Date))
+        var historyToAdd = aggregate.History
+            .Where(eh => model.History.All(uh => uh.FilmId != eh.FilmId && uh.Date != eh.Date))
             .Select(eh => new HistoryModel { FilmId = eh.FilmId, Date = eh.Date });
 
-        user.History.AddRange(historyToAdd);
+        model.History.AddRange(historyToAdd);
     }
 
-    private static void ProcessWatchlist(User entity, UserModel user)
+    private static void ProcessWatchlist(User aggregate, UserModel model)
     {
-        user.Watchlist.RemoveAll(uw => entity.Watchlist.All(eh => eh.FilmId != uw.FilmId && eh.Date != uw.Date));
+        model.Watchlist.RemoveAll(uw => aggregate.Watchlist.All(eh => eh.FilmId != uw.FilmId && eh.Date != uw.Date));
 
         // Нужно добавить в UserWatchlist новые записи, которых там еще нет
-        var watchlistToAdd = entity.Watchlist
-            .Where(eh => user.Watchlist.All(uh => uh.FilmId != eh.FilmId && uh.Date != eh.Date))
+        var watchlistToAdd = aggregate.Watchlist
+            .Where(eh => model.Watchlist.All(uh => uh.FilmId != eh.FilmId && uh.Date != eh.Date))
             .Select(eh => new WatchlistModel { FilmId = eh.FilmId, Date = eh.Date });
 
-        user.Watchlist.AddRange(watchlistToAdd);
+        model.Watchlist.AddRange(watchlistToAdd);
     }
 
-    private async Task ProcessGenresAsync(User entity, UserModel user)
+    private async Task ProcessGenresAsync(User aggregate, UserModel model)
     {
-        user.Genres.RemoveAll(x => entity.Genres.All(m => m != x.Name));
+        model.Genres.RemoveAll(x => aggregate.Genres.All(m => m != x.Name));
 
-        var newGenres = entity.Genres
-            .Where(x => user.Genres.All(m => m.Name != x))
+        var newGenres = aggregate.Genres
+            .Where(x => model.Genres.All(m => m.Name != x))
             .ToArray();
 
         if (newGenres.Length == 0) return;
@@ -69,6 +69,6 @@ internal class UserModelMapper(ApplicationDbContext context) : IModelMapperUnit<
             .Where(x => newGenres.Any(g => g == x.Name))
             .ToArrayAsync();
 
-        user.Genres.AddRange(databaseGenres);
+        model.Genres.AddRange(databaseGenres);
     }
 }

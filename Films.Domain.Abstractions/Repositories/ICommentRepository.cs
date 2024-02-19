@@ -1,5 +1,5 @@
 ﻿using Films.Domain.Abstractions.Interfaces;
-using Films.Domain.Comments.Entities;
+using Films.Domain.Comments;
 using Films.Domain.Comments.Ordering.Visitor;
 using Films.Domain.Comments.Specifications.Visitor;
 

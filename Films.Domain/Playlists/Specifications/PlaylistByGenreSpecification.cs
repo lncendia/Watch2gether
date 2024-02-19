@@ -1,5 +1,5 @@
+using System.Linq;
 using Films.Domain.Extensions;
-using Films.Domain.Playlists.Entities;
 using Films.Domain.Playlists.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
 

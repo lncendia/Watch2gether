@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Common.Exceptions;
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.Rooms.FilmRoom.Entities;
-using Room.Domain.Rooms.YoutubeRoom.Entities;
+using Room.Domain.FilmRooms;
+using Room.Domain.YoutubeRooms;
 
 namespace Room.Application.Services.Common;
 

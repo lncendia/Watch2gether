@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using Films.Domain.Abstractions;
-using Films.Domain.Ratings.Entities;
+using Films.Domain.Ratings;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Mappers.StaticMethods;
 using Films.Infrastructure.Storage.Models.Rating;
@@ -27,13 +27,13 @@ internal class RatingMapper : IAggregateMapperUnit<Rating, RatingModel>
 
     public Rating Map(RatingModel model)
     {
-        var rating = RuntimeHelpers.GetUninitializedObject(RatingType) as Rating;
+        var rating = (Rating)RuntimeHelpers.GetUninitializedObject(RatingType);
         IdFields.AggregateId.SetValue(rating, model.Id);
         UserId.SetValue(rating, model.UserId);
         Date.SetValue(rating, model.Date);
         FilmId.SetValue(rating, model.FilmId);
         Score.SetValue(rating, Score);
         IdFields.DomainEvents.SetValue(rating, new List<IDomainEvent>());
-        return rating!;
+        return rating;
     }
 }

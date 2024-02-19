@@ -1,5 +1,5 @@
 using Films.Application.Abstractions.Queries.Films.DTOs;
-using Films.Domain.Films.Entities;
+using Films.Domain.Films;
 
 namespace Films.Application.Services.QueryHandlers.Films;
 
@@ -8,14 +8,14 @@ internal class Mapper
     internal static FilmShortDto Map(Film film) => new()
     {
         Id = film.Id,
-        Name = film.Title,
+        Title = film.Title,
         PosterUrl = film.PosterUrl,
         Year = film.Year,
         UserRating = film.UserRating,
         RatingKp = film.RatingKp,
         RatingImdb = film.RatingImdb,
-        Description = film.ShortDescription!,
-        Type = film.Type,
+        Description = film.ShortDescription,
+        IsSerial = film.IsSerial,
         Genres = film.Genres,
         CountSeasons = film.CountSeasons,
         CountEpisodes = film.CountEpisodes

@@ -1,7 +1,6 @@
-using Room.Application.Abstractions.Common.Exceptions;
-using Room.Application.Abstractions.DTOs.YoutubeRoom;
-using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.Rooms.YoutubeRoom.Entities;
+using Room.Application.Abstractions.Queries.DTOs.YoutubeRoom;
+using Room.Domain.YoutubeRooms;
+using Room.Domain.YoutubeRooms.Entities;
 
 namespace Room.Application.Services.Mappers;
 
@@ -14,31 +13,18 @@ public static class YoutubeRoomMapper
     /// Преобразует комнату в DTO
     /// </summary>
     /// <param name="room">Комната</param>
-    /// <param name="unitOfWork">Единица работы</param>
     /// <returns>DTO</returns>
-    /// <exception cref="FilmNotFoundException">Фильм не найден</exception>
-    /// <exception cref="UserNotFoundException">Пользователь не найден</exception>
-    public static async Task<YoutubeRoomDto> MapAsync(YoutubeRoom room, IUnitOfWork unitOfWork)
+    public static YoutubeRoomDto Map(YoutubeRoom room)
     {
-        // Создаем коллекцию для DTO зрителей
-        List<YoutubeViewerDto> viewers = [];
-
-        // Перебираем всех зрителей в комнате
-        foreach (var roomViewer in room.Viewers)
-        {
-            // Преобразовываем зрителя в DTO и добавляем в коллекцию 
-            viewers.Add(await MapAsync(roomViewer, unitOfWork));
-        }
-
         // Создаем DTO и возвращаем
         return new YoutubeRoomDto
         {
-            OwnerId = room.Owner.UserId,
-            Code = room.Code,
+            OwnerId = room.Owner.Id,
             Messages = room.Messages,
-            Viewers = viewers,
+            Viewers = room.Viewers.Select(Map).ToArray(),
             Videos = room.Videos,
-            VideoAccess = room.VideoAccess
+            VideoAccess = room.VideoAccess,
+            Id = room.Id
         };
     }
 
@@ -46,27 +32,19 @@ public static class YoutubeRoomMapper
     /// Преобразует зрителя в DTO
     /// </summary>
     /// <param name="viewer">Зритель</param>
-    /// <param name="unitOfWork">Единица работы</param>
     /// <returns>DTO</returns>
-    /// <exception cref="UserNotFoundException">Пользователь не найден</exception>
-    private static async Task<YoutubeViewerDto> MapAsync(YoutubeViewer viewer, IUnitOfWork unitOfWork)
+    private static YoutubeViewerDto Map(YoutubeViewer viewer)
     {
-        // Получаем пользователя
-        var user = await unitOfWork.UserRepository.Value.GetAsync(viewer.UserId);
-
-        // Если пользователь не найден - вызываем исключение
-        if (user == null) throw new UserNotFoundException();
-
         // Создаем DTO для зрителя и возвращаем
         return new YoutubeViewerDto
         {
-            UserId = user.Id,
-            UserName = user.UserName,
-            PhotoUrl = user.PhotoUrl,
+            Id = viewer.Id,
+            Nickname = viewer.Nickname,
+            PhotoUrl = viewer.PhotoUrl,
             Pause = viewer.Pause,
             FullScreen = viewer.FullScreen,
             TimeLine = viewer.TimeLine,
-            Allows = user.Allows,
+            Allows = viewer.Allows,
             Online = viewer.Online,
             VideoId = viewer.VideoId
         };

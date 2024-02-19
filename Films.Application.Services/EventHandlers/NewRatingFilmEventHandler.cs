@@ -1,6 +1,6 @@
 using Films.Domain.Abstractions.Interfaces;
+using Films.Domain.Ratings;
 using MediatR;
-using Films.Domain.Ratings.Entities;
 using Films.Domain.Ratings.Events;
 using Films.Domain.Ratings.Specifications;
 using Films.Domain.Ratings.Specifications.Visitor;
@@ -8,9 +8,9 @@ using Films.Domain.Specifications;
 
 namespace Films.Application.Services.EventHandlers;
 
-public class NewRatingFilmEventHandler(IUnitOfWork unitOfWork) : INotificationHandler<NewRatingEvent>
+public class NewRatingFilmEventHandler(IUnitOfWork unitOfWork) : INotificationHandler<NewRatingDomainEvent>
 {
-    public async Task Handle(NewRatingEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(NewRatingDomainEvent notification, CancellationToken cancellationToken)
     {
         var userSpec = new RatingByUserSpecification(notification.Rating.UserId!.Value);
         var filmSpec = new RatingByFilmSpecification(notification.Rating.FilmId);

@@ -1,4 +1,3 @@
-using Films.Domain.Films.Enums;
 using Films.Domain.Films.ValueObjects;
 using MediatR;
 
@@ -8,7 +7,7 @@ public class AddFilmCommand : IRequest<Guid>
 {
     public required string Description { get; init; }
     public string? ShortDescription { get; init; }
-    public required FilmType Type { get; init; }
+    public required bool IsSerial { get; init; }
     public Uri? PosterUrl { get; init; }
     public string? PosterBase64 { get; init; }
     public required string Title { get; init; }

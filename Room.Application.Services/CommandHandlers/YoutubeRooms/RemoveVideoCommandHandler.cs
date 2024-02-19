@@ -19,6 +19,6 @@ public class RemoveVideoCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cach
         var room = await cache.TryGetYoutubeRoomFromCache(request.RoomId, unitOfWork);
         
         // Удаляем видео
-        room.RemoveVideo(request.UserId, request.VideoId);
+        room.RemoveVideo(request.ViewerId, request.VideoId);
     }
 }

@@ -19,16 +19,25 @@ public class UnitOfWork : IUnitOfWork
         _mediator = mediator;
         UserRepository = new Lazy<IUserRepository>(() =>
             new UserRepository(_context, new UserMapper(), new UserModelMapper(_context)));
+        
         FilmRepository = new Lazy<IFilmRepository>(() =>
             new FilmRepository(_context, new FilmMapper(), new FilmModelMapper(_context)));
+        
         ServerRepository = new Lazy<IServerRepository>(() =>
             new ServerRepository(_context, new ServerMapper(), new ServerModelMapper(_context)));
-        RoomRepository = new Lazy<IRoomRepository>(() =>
-            new RoomRepository(_context, new RoomMapper(), new RoomModelMapper(_context)));
+        
+        FilmRoomRepository = new Lazy<IFilmRoomRepository>(() =>
+            new FilmRoomRepository(_context, new FilmRoomMapper(), new FilmRoomModelMapper(_context)));
+        
+        YoutubeRoomRepository = new Lazy<IYoutubeRoomRepository>(() =>
+            new YoutubeRoomRepository(_context, new YoutubeRoomMapper(), new YoutubeRoomModelMapper(_context)));
+        
         PlaylistRepository = new Lazy<IPlaylistRepository>(() =>
             new PlaylistRepository(_context, new PlaylistMapper(), new PlaylistModelMapper(_context)));
+        
         CommentRepository = new Lazy<ICommentRepository>(() =>
             new CommentRepository(_context, new CommentMapper(), new CommentModelMapper(_context)));
+        
         RatingRepository =
             new Lazy<IRatingRepository>(() =>
                 new RatingRepository(_context, new RatingMapper(), new RatingModelMapper(_context)));
@@ -40,7 +49,8 @@ public class UnitOfWork : IUnitOfWork
 
     public Lazy<IServerRepository> ServerRepository { get; }
 
-    public Lazy<IRoomRepository> RoomRepository { get; }
+    public Lazy<IYoutubeRoomRepository> YoutubeRoomRepository { get; }
+    public Lazy<IFilmRoomRepository> FilmRoomRepository { get; }
 
     public Lazy<IPlaylistRepository> PlaylistRepository { get; }
     public Lazy<ICommentRepository> CommentRepository { get; }

@@ -1,5 +1,5 @@
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.Rooms.FilmRoom.Entities;
+using Room.Domain.FilmRooms;
 
 namespace Room.Domain.Abstractions.Repositories;
 

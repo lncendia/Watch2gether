@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Films.Domain.Films.Enums;
 
 namespace Films.Infrastructure.Web.FilmsManagement.InputModels;
 

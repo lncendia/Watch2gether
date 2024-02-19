@@ -1,4 +1,4 @@
-using Films.Domain.Ratings.Entities;
+using System;
 using Films.Domain.Ratings.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
 

@@ -19,7 +19,7 @@ public class SetPauseCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) 
         var room = await cache.TryGetFilmRoomFromCache(request.RoomId, unitOfWork);
 
         // Устанавливаем флаг нахождения на паузе
-        room.SetPause(request.UserId, request.Pause);
+        room.SetPause(request.ViewerId, request.Pause);
               
         // Обновляем комнату в репозитории
         await unitOfWork.FilmRoomRepository.Value.UpdateAsync(room);

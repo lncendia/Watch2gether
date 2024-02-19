@@ -19,7 +19,7 @@ public class KickCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) : IR
         var room = await cache.TryGetYoutubeRoomFromCache(request.RoomId, unitOfWork);
         
         // Исключаем зрителя
-        room.Kick(request.UserId, request.TargetId);
+        room.Kick(request.ViewerId, request.TargetId);
               
         // Обновляем комнату в репозитории
         await unitOfWork.YoutubeRoomRepository.Value.UpdateAsync(room);

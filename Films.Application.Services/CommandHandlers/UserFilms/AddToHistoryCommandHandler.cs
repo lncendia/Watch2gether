@@ -15,7 +15,7 @@ public class AddToHistoryCommandHandler(IUnitOfWork unitOfWork, IMemoryCache mem
         var user = await unitOfWork.UserRepository.Value.GetAsync(request.UserId);
         if (user == null) throw new UserNotFoundException();
 
-        var film = await memoryCache.TryGetFilmFromCache(request.FilmId, unitOfWork);
+        var film = await memoryCache.TryGetFilmFromCacheAsync(request.FilmId, unitOfWork);
         
         // Добавляем фильм в историю пользователя 
         user.AddFilmToHistory(film);

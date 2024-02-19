@@ -1,6 +1,5 @@
 using Films.Application.Abstractions.Queries.FilmsApi.DTOs;
 using Films.Application.Abstractions.Services.MovieApi.DTOs;
-using Films.Domain.Films.Enums;
 using Films.Domain.Films.ValueObjects;
 
 namespace Films.Application.Services.QueryHandlers.FilmsApi;
@@ -14,7 +13,7 @@ internal static class Mapper
         {
             Description = filmApiResponse.Description,
             ShortDescription = filmApiResponse.ShortDescription,
-            Type = filmApiResponse.Serial ? FilmType.Serial : FilmType.Film,
+            IsSerial = filmApiResponse.Serial,
             Title = filmApiResponse.Title,
             Year = filmApiResponse.Year,
             CountSeasons = seasons?.Count,

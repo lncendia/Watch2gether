@@ -1,11 +1,11 @@
 using Films.Application.Abstractions.Queries.Comments;
 using Films.Application.Abstractions.Queries.Comments.DTOs;
 using Films.Domain.Abstractions.Interfaces;
-using Films.Domain.Comments.Entities;
+using Films.Domain.Comments;
 using Films.Domain.Comments.Ordering;
 using Films.Domain.Comments.Ordering.Visitor;
 using Films.Domain.Ordering;
-using Films.Domain.Users.Entities;
+using Films.Domain.Users;
 using Films.Domain.Users.Specifications;
 using MediatR;
 

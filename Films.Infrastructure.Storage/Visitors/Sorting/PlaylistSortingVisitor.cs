@@ -1,5 +1,5 @@
 using Films.Domain.Ordering.Abstractions;
-using Films.Domain.Playlists.Entities;
+using Films.Domain.Playlists;
 using Films.Domain.Playlists.Ordering;
 using Films.Domain.Playlists.Ordering.Visitor;
 using Films.Infrastructure.Storage.Models.Playlist;

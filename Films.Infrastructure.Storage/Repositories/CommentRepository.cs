@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Films.Domain.Abstractions.Repositories;
-using Films.Domain.Comments.Entities;
+using Films.Domain.Comments;
 using Films.Domain.Comments.Ordering.Visitor;
 using Films.Domain.Comments.Specifications.Visitor;
 using Films.Domain.Ordering.Abstractions;
@@ -64,10 +64,17 @@ public class CommentRepository(
             var orderedQuery = firstQuery.IsDescending
                 ? query.OrderByDescending(firstQuery.Expr)
                 : query.OrderBy(firstQuery.Expr);
-            query = visitor.SortItems.Skip(1)
+
+            orderedQuery = visitor.SortItems.Skip(1)
                 .Aggregate(orderedQuery, (current, sort) => sort.IsDescending
                     ? current.ThenByDescending(sort.Expr)
                     : current.ThenBy(sort.Expr));
+            
+            query = orderedQuery.ThenBy(v => v.Id);
+        }
+        else
+        {
+            query = query.OrderBy(x => x.Id);
         }
 
         if (skip.HasValue) query = query.Skip(skip.Value);

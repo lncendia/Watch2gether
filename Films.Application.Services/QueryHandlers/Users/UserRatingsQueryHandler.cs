@@ -1,10 +1,10 @@
 using Films.Application.Abstractions.Queries.Users;
 using Films.Application.Abstractions.Queries.Users.DTOs;
 using Films.Domain.Abstractions.Interfaces;
-using Films.Domain.Films.Entities;
+using Films.Domain.Films;
 using Films.Domain.Films.Specifications;
 using Films.Domain.Ordering;
-using Films.Domain.Ratings.Entities;
+using Films.Domain.Ratings;
 using Films.Domain.Ratings.Ordering;
 using Films.Domain.Ratings.Ordering.Visitor;
 using Films.Domain.Ratings.Specifications;
@@ -26,7 +26,7 @@ public class UserRatingsQueryHandler(IUnitOfWork unitOfWork)
 
         if (ratings.Count == 0) return ([], 0);
 
-        var filmSpecification = new FilmByIdsSpecification(ratings.Select(r => r.FilmId));
+        var filmSpecification = new FilmsByIdsSpecification(ratings.Select(r => r.FilmId));
 
         var films = await unitOfWork.FilmRepository.Value.FindAsync(filmSpecification);
 

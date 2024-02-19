@@ -1,5 +1,5 @@
 using MediatR;
-using Room.Application.Abstractions.DTOs.YoutubeRoom;
+using Room.Application.Abstractions.Queries.DTOs.YoutubeRoom;
 
 namespace Room.Application.Abstractions.Queries.YoutubeRooms;
 

@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Films.Domain.Users.Entities;
+using Films.Domain.Users;
 using Films.Domain.Users.ValueObjects;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Mappers.StaticMethods;

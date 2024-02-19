@@ -18,7 +18,7 @@ public class FilmsManagementController(IMediator mediator) : ControllerBase
         await mediator.Send(new AddFilmCommand
         {
             Description = model.Description!,
-            Type = model.Type!.Value,
+            IsSerial = model.IsSerial!.Value,
             Title = model.Name!,
             Year = model.Year!.Value,
             RatingKp = model.RatingKp,
@@ -64,7 +64,7 @@ public class FilmsManagementController(IMediator mediator) : ControllerBase
         });
     }
 
-    [HttpDelete]
+    [HttpDelete("{filmId:guid}")]
     public async Task Delete(Guid filmId)
     {
         await mediator.Send(new DeleteFilmCommand

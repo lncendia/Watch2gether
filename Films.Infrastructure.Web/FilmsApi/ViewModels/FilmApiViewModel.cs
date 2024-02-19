@@ -1,12 +1,10 @@
-﻿using Films.Domain.Films.Enums;
-
-namespace Films.Infrastructure.Web.FilmsApi.ViewModels;
+﻿namespace Films.Infrastructure.Web.FilmsApi.ViewModels;
 
 public class FilmApiViewModel
 {
     public string? Description { get; init; }
     public string? ShortDescription { get; init; }
-    public required FilmType Type { get; init; }
+    public required bool IsSerial { get; init; }
     public Uri? PosterUrl { get; init; }
     public required string Title { get; init; }
     public required int Year { get; init; }

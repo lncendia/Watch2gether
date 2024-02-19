@@ -292,21 +292,13 @@ namespace Films.Infrastructure.Storage.Migrations
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Playlist.PlaylistFilmModel", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
                     b.Property<Guid>("FilmId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("PlaylistId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilmId");
+                    b.HasKey("FilmId", "PlaylistId");
 
                     b.HasIndex("PlaylistId");
 
@@ -366,36 +358,113 @@ namespace Films.Infrastructure.Storage.Migrations
                     b.ToTable("Ratings");
                 });
 
-            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Room.RoomModel", b =>
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.BaseRoom.BannedModel<Films.Infrastructure.Storage.Models.Rooms.FilmRoom.FilmRoomModel>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "RoomId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("BannedFilmViewers");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.BaseRoom.BannedModel<Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom.YoutubeRoomModel>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "RoomId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("BannedYoutubeViewers");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.BaseRoom.ViewerModel<Films.Infrastructure.Storage.Models.Rooms.FilmRoom.FilmRoomModel>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "RoomId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("FilmViewers");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.BaseRoom.ViewerModel<Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom.YoutubeRoomModel>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "RoomId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("YoutubeViewers");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.FilmRoom.FilmRoomModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("IsOpen")
-                        .HasColumnType("boolean");
+                    b.Property<string>("CdnName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
-                    b.Property<Guid>("OwnerId")
+                    b.Property<string>("Code")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("FilmId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ServerId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ServerModelId")
+                    b.HasKey("Id");
+
+                    b.HasIndex("FilmId");
+
+                    b.HasIndex("ServerId");
+
+                    b.ToTable("FilmRooms");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom.YoutubeRoomModel", b =>
+                {
+                    b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
+                    b.Property<string>("Code")
+                        .HasColumnType("text");
 
-                    b.Property<int>("ViewersCount")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("ServerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("VideoAccess")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("ServerId");
 
-                    b.HasIndex("ServerModelId");
-
-                    b.ToTable("Rooms");
+                    b.ToTable("YoutubeRooms");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Server.ServerModel", b =>
@@ -409,9 +478,6 @@ namespace Films.Infrastructure.Storage.Migrations
                     b.Property<int>("MaxRoomsCount")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("OwnerId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("RoomsCount")
                         .HasColumnType("integer");
 
@@ -420,8 +486,6 @@ namespace Films.Infrastructure.Storage.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.ToTable("Servers");
                 });
@@ -472,8 +536,8 @@ namespace Films.Infrastructure.Storage.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)");
 
                     b.HasKey("Id");
 
@@ -714,30 +778,110 @@ namespace Films.Infrastructure.Storage.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Room.RoomModel", b =>
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.BaseRoom.BannedModel<Films.Infrastructure.Storage.Models.Rooms.FilmRoom.FilmRoomModel>", b =>
                 {
-                    b.HasOne("Films.Infrastructure.Storage.Models.User.UserModel", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
+                    b.HasOne("Films.Infrastructure.Storage.Models.Rooms.FilmRoom.FilmRoomModel", "Room")
+                        .WithMany("Banned")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Films.Infrastructure.Storage.Models.Server.ServerModel", "ServerModel")
+                    b.HasOne("Films.Infrastructure.Storage.Models.User.UserModel", "User")
                         .WithMany()
-                        .HasForeignKey("ServerModelId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Owner");
+                    b.Navigation("Room");
 
-                    b.Navigation("ServerModel");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Server.ServerModel", b =>
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.BaseRoom.BannedModel<Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom.YoutubeRoomModel>", b =>
                 {
-                    b.HasOne("Films.Infrastructure.Storage.Models.User.UserModel", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
+                    b.HasOne("Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom.YoutubeRoomModel", "Room")
+                        .WithMany("Banned")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Owner");
+                    b.HasOne("Films.Infrastructure.Storage.Models.User.UserModel", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.BaseRoom.ViewerModel<Films.Infrastructure.Storage.Models.Rooms.FilmRoom.FilmRoomModel>", b =>
+                {
+                    b.HasOne("Films.Infrastructure.Storage.Models.Rooms.FilmRoom.FilmRoomModel", "Room")
+                        .WithMany("Viewers")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Films.Infrastructure.Storage.Models.User.UserModel", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.BaseRoom.ViewerModel<Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom.YoutubeRoomModel>", b =>
+                {
+                    b.HasOne("Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom.YoutubeRoomModel", "Room")
+                        .WithMany("Viewers")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Films.Infrastructure.Storage.Models.User.UserModel", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.FilmRoom.FilmRoomModel", b =>
+                {
+                    b.HasOne("Films.Infrastructure.Storage.Models.Film.FilmModel", "Film")
+                        .WithMany()
+                        .HasForeignKey("FilmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Films.Infrastructure.Storage.Models.Server.ServerModel", "Server")
+                        .WithMany()
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Film");
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom.YoutubeRoomModel", b =>
+                {
+                    b.HasOne("Films.Infrastructure.Storage.Models.Server.ServerModel", "Server")
+                        .WithMany()
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Server");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.User.HistoryModel", b =>
@@ -818,6 +962,20 @@ namespace Films.Infrastructure.Storage.Migrations
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Playlist.PlaylistModel", b =>
                 {
                     b.Navigation("Films");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.FilmRoom.FilmRoomModel", b =>
+                {
+                    b.Navigation("Banned");
+
+                    b.Navigation("Viewers");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom.YoutubeRoomModel", b =>
+                {
+                    b.Navigation("Banned");
+
+                    b.Navigation("Viewers");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.User.UserModel", b =>

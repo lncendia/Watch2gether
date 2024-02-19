@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Films.Domain.Comments.Entities;
+using Films.Domain.Comments;
 using Films.Domain.Comments.Specifications;
 using Films.Domain.Comments.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;

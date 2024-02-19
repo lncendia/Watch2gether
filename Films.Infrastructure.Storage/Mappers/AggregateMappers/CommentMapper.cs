@@ -1,7 +1,8 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Films.Domain.Abstractions;
-using Films.Domain.Comments.Entities;
+using Films.Domain.Comments;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Mappers.StaticMethods;
 using Films.Infrastructure.Storage.Models.Comment;
@@ -26,7 +27,7 @@ internal class CommentMapper : IAggregateMapperUnit<Comment, CommentModel>
 
     public Comment Map(CommentModel model)
     {
-        var comment = (Comment)FormatterServices.GetUninitializedObject(CommentType);
+        var comment = (Comment)RuntimeHelpers.GetUninitializedObject(CommentType);
         IdFields.AggregateId.SetValue(comment, model.Id);
         CreatedAt.SetValue(comment, model.CreatedAt);
         UserId.SetValue(comment, model.UserId);

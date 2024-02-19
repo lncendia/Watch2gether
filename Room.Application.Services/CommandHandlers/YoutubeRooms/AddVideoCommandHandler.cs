@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
 using Room.Application.Services.Common;
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.Rooms.YoutubeRoom.ValueObjects;
+using Room.Domain.YoutubeRooms.ValueObjects;
 
 namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 
@@ -20,6 +20,6 @@ public class AddVideoCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) 
         var room = await cache.TryGetYoutubeRoomFromCache(request.RoomId, unitOfWork);
 
         // Добавляем видео
-        room.AddVideo(request.UserId, new Video(request.VideoUrl));
+        room.AddVideo(request.ViewerId, new Video(request.VideoUrl));
     }
 }

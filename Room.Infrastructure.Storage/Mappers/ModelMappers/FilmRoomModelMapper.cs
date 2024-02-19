@@ -1,82 +1,87 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Room.Domain.Rooms.BaseRoom.ValueObjects;
-using Room.Domain.Rooms.FilmRoom.Entities;
+using Room.Domain.BaseRoom.ValueObjects;
+using Room.Domain.FilmRooms;
+using Room.Domain.FilmRooms.Entities;
 using Room.Infrastructure.Storage.Context;
 using Room.Infrastructure.Storage.Extensions;
 using Room.Infrastructure.Storage.Mappers.Abstractions;
-using Room.Infrastructure.Storage.Models.Room.Base;
-using Room.Infrastructure.Storage.Models.Room.FilmRoom;
+using Room.Infrastructure.Storage.Models.BaseRoom;
+using Room.Infrastructure.Storage.Models.FilmRoom;
 
 namespace Room.Infrastructure.Storage.Mappers.ModelMappers;
 
 internal class FilmRoomModelMapper(ApplicationDbContext context) : IModelMapperUnit<FilmRoomModel, FilmRoom>
 {
-    public async Task<FilmRoomModel> MapAsync(FilmRoom entity)
+    public async Task<FilmRoomModel> MapAsync(FilmRoom aggregate)
     {
-        var filmRoom = await context.FilmRooms
+        var model = await context.FilmRooms
             .LoadDependencies()
-            .FirstOrDefaultAsync(x => x.Id == entity.Id) ?? new FilmRoomModel { Id = entity.Id };
+            .FirstOrDefaultAsync(x => x.Id == aggregate.Id) ?? new FilmRoomModel { Id = aggregate.Id };
 
-        filmRoom.FilmId = entity.FilmId;
-        filmRoom.CdnName = entity.CdnName;
-        filmRoom.Code = entity.Code;
-        filmRoom.LastActivity = entity.LastActivity;
+        model.Title = aggregate.Title;
+        model.CdnUrl = aggregate.CdnUrl;
+        model.IsSerial = aggregate.IsSerial;
+        model.LastActivity = aggregate.LastActivity;
 
-        ProcessViewers(entity, filmRoom);
-        ProcessMessages(entity, filmRoom);
+        ProcessViewers(aggregate, model);
+        ProcessMessages(aggregate, model);
 
-        return filmRoom;
+        return model;
     }
 
-    private static void ProcessViewers(FilmRoom room, FilmRoomModel model)
+    private static void ProcessViewers(FilmRoom aggregate, FilmRoomModel model)
     {
         // Удаляем эти записи из коллекции в модели EF
-        model.Viewers.RemoveAll(viewerModel => room.Viewers.All(viewer => viewerModel.UserId != viewer.UserId));
+        model.Viewers.RemoveAll(viewerModel => aggregate.Viewers.All(viewer => viewerModel.Id != viewer.Id));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
-        var newViewers = room.Viewers
-            .Where(x => model.Viewers.All(m => x.UserId != m.UserId))
-            .Select(c => new FilmViewerModel { UserId = c.UserId })
+        var newViewers = aggregate.Viewers
+            .Where(x => model.Viewers.All(m => x.Id != m.Id))
+            .Select(c => new FilmViewerModel { Id = c.Id })
             .ToArray();
 
         foreach (var viewer in model.Viewers)
         {
-            ProcessViewer(viewer, room.Viewers.First(m => m.UserId == viewer.UserId), room.Owner.UserId);
+            ProcessViewer(viewer, aggregate.Viewers.First(m => m.Id == viewer.Id), aggregate.Owner.Id);
         }
 
         foreach (var viewer in newViewers)
         {
-            ProcessViewer(viewer, room.Viewers.First(m => m.UserId == viewer.UserId), room.Owner.UserId);
+            ProcessViewer(viewer, aggregate.Viewers.First(m => m.Id == viewer.Id), aggregate.Owner.Id);
         }
 
         model.Viewers.AddRange(newViewers);
     }
 
-    private static void ProcessViewer(FilmViewerModel model, FilmViewer viewer, Guid ownerId)
+    private static void ProcessViewer(FilmViewerModel model, FilmViewer viewerEntity, Guid ownerId)
     {
-        model.Season = viewer.Season;
-        model.Series = viewer.Series;
-        model.Online = viewer.Online;
-        model.Pause = viewer.Pause;
-        model.TimeLine = viewer.TimeLine;
-        model.FullScreen = viewer.FullScreen;
-        model.CustomName = viewer.CustomName;
-        model.Owner = viewer.UserId == ownerId;
+        model.Season = viewerEntity.Season;
+        model.Series = viewerEntity.Series;
+        model.Online = viewerEntity.Online;
+        model.Pause = viewerEntity.Pause;
+        model.TimeLine = viewerEntity.TimeLine;
+        model.FullScreen = viewerEntity.FullScreen;
+        model.Nickname = viewerEntity.Nickname;
+        model.Beep = viewerEntity.Allows.Beep;
+        model.Scream = viewerEntity.Allows.Scream;
+        model.Change = viewerEntity.Allows.Change;
+        model.Owner = viewerEntity.Id == ownerId;
     }
 
-    private static void ProcessMessages(FilmRoom room, FilmRoomModel model)
+    private static void ProcessMessages(FilmRoom aggregate, FilmRoomModel model)
     {
         // Удаляем эти записи из коллекции в модели EF
-        model.Messages.RemoveAll(messageModel => room.Messages.All(valueObject => Compare(valueObject, messageModel)));
+        model.Messages.RemoveAll(messageModel =>
+            aggregate.Messages.All(valueObject => Compare(valueObject, messageModel)));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
-        var newMessages = room.Messages
+        var newMessages = aggregate.Messages
             .Where(valueObject => model.Messages.All(messageModel => Compare(valueObject, messageModel)))
             .Select(c => new MessageModel<FilmRoomModel>
             {
                 CreatedAt = c.CreatedAt,
                 Text = c.Text,
-                UserId = c.UserId
+                ViewerId = c.ViewerId
             })
             .ToArray();
 
@@ -85,7 +90,7 @@ internal class FilmRoomModelMapper(ApplicationDbContext context) : IModelMapperU
 
         bool Compare(Message valueObject, MessageModel<FilmRoomModel> messageModel)
         {
-            return messageModel.UserId != valueObject.UserId && messageModel.CreatedAt != valueObject.CreatedAt;
+            return messageModel.ViewerId != valueObject.ViewerId && messageModel.CreatedAt != valueObject.CreatedAt;
         }
     }
 }

@@ -17,15 +17,13 @@ public class UnitOfWork : IUnitOfWork
     {
         _context = context;
         _mediator = mediator;
-        UserRepository = new Lazy<IUserRepository>(() =>
-            new UserRepository(_context, new UserMapper(), new UserModelMapper(_context)));
-        FilmRepository = new Lazy<IFilmRepository>(() =>
-            new FilmRepository(_context, new FilmMapper(), new FilmModelMapper(_context)));
+        
+        FilmRoomRepository = new Lazy<IFilmRoomRepository>(() =>
+            new FilmRoomRepository(_context, new FilmRoomMapper(), new FilmRoomModelMapper(_context)));
+        YoutubeRoomRepository = new Lazy<IYoutubeRoomRepository>(() =>
+            new YoutubeRoomRepository(_context, new YoutubeRoomMapper(), new YoutubeRoomModelMapper(_context)));
+
     }
-
-    public Lazy<IUserRepository> UserRepository { get; }
-
-    public Lazy<IFilmRepository> FilmRepository { get; }
 
     public Lazy<IFilmRoomRepository> FilmRoomRepository { get; }
     public Lazy<IYoutubeRoomRepository> YoutubeRoomRepository { get; }

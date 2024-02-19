@@ -17,7 +17,7 @@ public class UserHistoryQueryHandler(IUnitOfWork unitOfWork)
 
         if (user == null) throw new UserNotFoundException();
 
-        var specification = new FilmByIdsSpecification(user.History.Select(x => x.FilmId));
+        var specification = new FilmsByIdsSpecification(user.History.Select(x => x.FilmId));
         var films = await unitOfWork.FilmRepository.Value.FindAsync(specification);
 
         var history = user.History.OrderByDescending(x => x.Date).Select(x => x.FilmId).ToList();

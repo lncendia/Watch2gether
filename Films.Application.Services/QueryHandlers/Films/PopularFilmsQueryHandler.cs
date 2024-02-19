@@ -1,7 +1,7 @@
 using Films.Application.Abstractions.Queries.Films;
 using Films.Application.Abstractions.Queries.Films.DTOs;
 using Films.Domain.Abstractions.Interfaces;
-using Films.Domain.Films.Entities;
+using Films.Domain.Films;
 using Films.Domain.Films.Ordering;
 using Films.Domain.Films.Ordering.Visitor;
 using Films.Domain.Ordering;
@@ -18,7 +18,7 @@ public class PopularFilmsQueryHandler(IUnitOfWork unitOfWork)
         var date = new DescendingOrder<Film, IFilmSortingVisitor>(new FilmOrderByDate());
         var rating = new DescendingOrder<Film, IFilmSortingVisitor>(new FilmOrderByUserRatingCount());
         var order = new ThenByOrder<Film, IFilmSortingVisitor>(date, rating);
-        var films = await unitOfWork.FilmRepository.Value.FindAsync(null, order, 0, 15);
+        var films = await unitOfWork.FilmRepository.Value.FindAsync(null, order, 0, request.Take);
 
         // Преобразуем фильмы в список DTO фильмов 
         return films.Select(Mapper.Map).ToArray();

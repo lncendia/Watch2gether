@@ -12,7 +12,7 @@ public class ChangeFilmCommandHandler(IUnitOfWork unitOfWork, IPosterService pos
 {
     public async Task Handle(ChangeFilmCommand request, CancellationToken cancellationToken)
     {
-        var film = await memoryCache.TryGetFilmFromCache(request.Id, unitOfWork);
+        var film = await memoryCache.TryGetFilmFromCacheAsync(request.Id, unitOfWork);
         if (!string.IsNullOrEmpty(request.Description)) film.Description = request.Description;
         if (!string.IsNullOrEmpty(request.ShortDescription)) film.ShortDescription = request.ShortDescription;
         if (request.RatingKp.HasValue) film.RatingKp = request.RatingKp.Value;

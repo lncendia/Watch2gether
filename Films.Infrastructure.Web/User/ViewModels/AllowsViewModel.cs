@@ -1,4 +1,4 @@
-namespace Films.Infrastructure.Web.Profile.ViewModels;
+namespace Films.Infrastructure.Web.User.ViewModels;
 
 public class AllowsViewModel
 {

@@ -1,5 +1,5 @@
 using Films.Domain.Ordering.Abstractions;
-using Films.Domain.Users.Entities;
+using Films.Domain.Users;
 using Films.Domain.Users.Ordering.Visitor;
 using Films.Infrastructure.Storage.Models.User;
 using Films.Infrastructure.Storage.Visitors.Sorting.Models;

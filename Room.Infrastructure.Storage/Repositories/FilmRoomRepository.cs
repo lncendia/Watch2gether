@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Room.Domain.Abstractions.Repositories;
-using Room.Domain.Rooms.FilmRoom.Entities;
+using Room.Domain.FilmRooms;
 using Room.Infrastructure.Storage.Context;
 using Room.Infrastructure.Storage.Extensions;
 using Room.Infrastructure.Storage.Mappers.Abstractions;
-using Room.Infrastructure.Storage.Models.Room.FilmRoom;
+using Room.Infrastructure.Storage.Models.FilmRoom;
 
 namespace Room.Infrastructure.Storage.Repositories;
 

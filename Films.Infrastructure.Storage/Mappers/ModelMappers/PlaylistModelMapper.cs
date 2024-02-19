@@ -1,4 +1,4 @@
-﻿using Films.Domain.Playlists.Entities;
+﻿using Films.Domain.Playlists;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Extensions;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
@@ -9,40 +9,40 @@ namespace Films.Infrastructure.Storage.Mappers.ModelMappers;
 
 internal class PlaylistModelMapper(ApplicationDbContext context) : IModelMapperUnit<PlaylistModel, Playlist>
 {
-    public async Task<PlaylistModel> MapAsync(Playlist entity)
+    public async Task<PlaylistModel> MapAsync(Playlist aggregate)
     {
-        var playlist = context.Playlists
+        var model = context.Playlists
             .LoadDependencies()
-            .FirstOrDefault(x => x.Id == entity.Id) ?? new PlaylistModel { Id = entity.Id };
+            .FirstOrDefault(x => x.Id == aggregate.Id) ?? new PlaylistModel { Id = aggregate.Id };
 
-        playlist.Name = entity.Name;
-        playlist.Description = entity.Description;
-        playlist.Updated = entity.Updated;
-        playlist.PosterUrl = entity.PosterUrl;
+        model.Name = aggregate.Name;
+        model.Description = aggregate.Description;
+        model.Updated = aggregate.Updated;
+        model.PosterUrl = aggregate.PosterUrl;
 
-        ProcessFilms(entity, playlist);
-        await ProcessGenresAsync(entity, playlist);
+        ProcessFilms(aggregate, model);
+        await ProcessGenresAsync(aggregate, model);
 
-        return playlist;
+        return model;
     }
 
-    private static void ProcessFilms(Playlist entity, PlaylistModel playlist)
+    private static void ProcessFilms(Playlist aggregate, PlaylistModel model)
     {
-        playlist.Films.RemoveAll(x => entity.Films.All(m => m != x.FilmId));
+        model.Films.RemoveAll(x => aggregate.Films.All(m => m != x.FilmId));
         
-        var newFilms = entity.Films
-            .Where(x => playlist.Films.All(m => m.FilmId != x))
+        var newFilms = aggregate.Films
+            .Where(x => model.Films.All(m => m.FilmId != x))
             .Select(x => new PlaylistFilmModel { FilmId = x });
         
-        playlist.Films.AddRange(newFilms);
+        model.Films.AddRange(newFilms);
     }
 
-    private async Task ProcessGenresAsync(Playlist entity, PlaylistModel playlist)
+    private async Task ProcessGenresAsync(Playlist aggregate, PlaylistModel model)
     {
-        playlist.Genres.RemoveAll(x => entity.Genres.All(m => m != x.Name));
+        model.Genres.RemoveAll(x => aggregate.Genres.All(m => m != x.Name));
 
-        var newGenres = entity.Genres
-            .Where(x => playlist.Genres.All(m => m.Name != x))
+        var newGenres = aggregate.Genres
+            .Where(x => model.Genres.All(m => m.Name != x))
             .ToArray();
 
         if (newGenres.Length != 0)
@@ -51,7 +51,7 @@ internal class PlaylistModelMapper(ApplicationDbContext context) : IModelMapperU
                 .Where(x => newGenres.Any(g => g == x.Name))
                 .ToArrayAsync();
 
-            playlist.Genres.AddRange(databaseGenres);
+            model.Genres.AddRange(databaseGenres);
         }
     }
 }

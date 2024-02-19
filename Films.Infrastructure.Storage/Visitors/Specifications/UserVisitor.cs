@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 using Films.Domain.Specifications.Abstractions;
-using Films.Domain.Users.Entities;
+using Films.Domain.Users;
 using Films.Domain.Users.Specifications;
 using Films.Domain.Users.Specifications.Visitor;
 using Films.Infrastructure.Storage.Models.User;

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
+using Films.Domain.Films;
 using Microsoft.EntityFrameworkCore;
-using Films.Domain.Films.Entities;
 using Films.Domain.Films.ValueObjects;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Extensions;
@@ -18,43 +18,43 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
     private static readonly FieldInfo ShortDescription =
         typeof(Film).GetField("_shortDescription", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
-    public async Task<FilmModel> MapAsync(Film entity)
+    public async Task<FilmModel> MapAsync(Film aggregate)
     {
-        var film = await context.Films
+        var model = await context.Films
             .LoadDependencies()
-            .FirstOrDefaultAsync(x => x.Id == entity.Id) ?? new FilmModel { Id = entity.Id };
+            .FirstOrDefaultAsync(x => x.Id == aggregate.Id) ?? new FilmModel { Id = aggregate.Id };
 
-        film.Type = entity.Type;
-        film.Title = entity.Title;
-        film.Year = entity.Year;
-        film.PosterUrl = entity.PosterUrl;
-        film.Description = entity.Description;
-        film.ShortDescription = (string?)ShortDescription.GetValue(entity);
-        film.RatingKp = entity.RatingKp;
-        film.RatingImdb = entity.RatingImdb;
-        film.UserRating = entity.UserRating;
-        film.CountSeasons = entity.CountSeasons;
-        film.CountEpisodes = entity.CountEpisodes;
-        film.UserRatingsCount = entity.UserRatingsCount;
+        model.IsSerial = aggregate.IsSerial;
+        model.Title = aggregate.Title;
+        model.Year = aggregate.Year;
+        model.PosterUrl = aggregate.PosterUrl;
+        model.Description = aggregate.Description;
+        model.ShortDescription = (string?)ShortDescription.GetValue(aggregate);
+        model.RatingKp = aggregate.RatingKp;
+        model.RatingImdb = aggregate.RatingImdb;
+        model.UserRating = aggregate.UserRating;
+        model.CountSeasons = aggregate.CountSeasons;
+        model.CountEpisodes = aggregate.CountEpisodes;
+        model.UserRatingsCount = aggregate.UserRatingsCount;
 
-        var persons = await GetPersonsAsync(entity);
+        var persons = await GetPersonsAsync(aggregate);
 
-        ProcessActors(entity, film, persons);
-        ProcessDirectors(entity, film, persons);
-        ProcessScreenwriters(entity, film, persons);
+        ProcessActors(aggregate, model, persons);
+        ProcessDirectors(aggregate, model, persons);
+        ProcessScreenwriters(aggregate, model, persons);
 
-        await ProcessGenresAsync(entity, film);
-        await ProcessCountriesAsync(entity, film);
-        await ProcessCdnsAsync(entity, film);
+        await ProcessGenresAsync(aggregate, model);
+        await ProcessCountriesAsync(aggregate, model);
+        await ProcessCdnsAsync(aggregate, model);
 
-        return film;
+        return model;
     }
 
-    private async Task<IReadOnlyCollection<PersonModel>> GetPersonsAsync(Film entity)
+    private async Task<IReadOnlyCollection<PersonModel>> GetPersonsAsync(Film aggregate)
     {
-        var persons = entity.Directors
-            .Concat(entity.Screenwriters)
-            .Concat(entity.Actors.Select(a => a.Name))
+        var persons = aggregate.Directors
+            .Concat(aggregate.Screenwriters)
+            .Concat(aggregate.Actors.Select(a => a.Name))
             .Distinct()
             .ToArray();
 
@@ -71,35 +71,35 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
         return databasePersons.Concat(notDatabasePersons).ToArray();
     }
 
-    private async Task ProcessCdnsAsync(Film entity, FilmModel film)
+    private async Task ProcessCdnsAsync(Film aggregate, FilmModel model)
     {
         // Удаляем эти записи из коллекции в модели EF
-        film.CdnList.RemoveAll(x => entity.CdnList.All(m => x.Name != m.Name));
+        model.CdnList.RemoveAll(x => aggregate.CdnList.All(m => x.Name != m.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
-        var newCdns = entity.CdnList
-            .Where(x => film.CdnList.All(m => x.Name != m.Name))
+        var newCdns = aggregate.CdnList
+            .Where(x => model.CdnList.All(m => x.Name != m.Name))
             .Select(c => new CdnModel { Name = c.Name })
             .ToArray();
 
-        var voices = await GetVoicesAsync(entity);
+        var voices = await GetVoicesAsync(aggregate);
 
-        foreach (var cdnModel in film.CdnList)
+        foreach (var cdnModel in model.CdnList)
         {
-            ProcessCdn(entity.CdnList.First(c => c.Name == cdnModel.Name), cdnModel, voices);
+            ProcessCdn(aggregate.CdnList.First(c => c.Name == cdnModel.Name), cdnModel, voices);
         }
 
         foreach (var cdnModel in newCdns)
         {
-            ProcessCdn(entity.CdnList.First(c => c.Name == cdnModel.Name), cdnModel, voices);
+            ProcessCdn(aggregate.CdnList.First(c => c.Name == cdnModel.Name), cdnModel, voices);
         }
 
-        film.CdnList.AddRange(newCdns);
+        model.CdnList.AddRange(newCdns);
     }
 
-    private async Task<IReadOnlyCollection<VoiceModel>> GetVoicesAsync(Film entity)
+    private async Task<IReadOnlyCollection<VoiceModel>> GetVoicesAsync(Film aggregate)
     {
-        var voices = entity.CdnList.SelectMany(c => c.Voices).Distinct().ToArray();
+        var voices = aggregate.CdnList.SelectMany(c => c.Voices).Distinct().ToArray();
 
         var databaseVoices = await context.Voices
             .Where(v => voices.Any(voice => voice == v.Name))
@@ -113,17 +113,17 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
         return databaseVoices.Concat(notDatabaseVoices).ToArray();
     }
 
-    private static void ProcessCdn(Cdn valueObject, CdnModel cdn, IEnumerable<VoiceModel> voices)
+    private static void ProcessCdn(Cdn valueObject, CdnModel model, IEnumerable<VoiceModel> voices)
     {
-        cdn.Quality = valueObject.Quality;
-        cdn.Url = valueObject.Url;
+        model.Quality = valueObject.Quality;
+        model.Url = valueObject.Url;
 
         // Удаляем эти записи из коллекции в модели EF
-        cdn.Voices.RemoveAll(x => valueObject.Voices.All(m => m != x.Name));
+        model.Voices.RemoveAll(x => valueObject.Voices.All(m => m != x.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
         var newVoices = valueObject.Voices
-            .Where(x => cdn.Voices.All(m => m.Name != x))
+            .Where(x => model.Voices.All(m => m.Name != x))
             .ToArray();
 
         // Если новых озвучек нет
@@ -133,17 +133,17 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
         var databaseVoices = voices.Where(x => newVoices.Any(g => g == x.Name));
 
         // Добавляем полученные модели EF в коллекцию обрабатываемой модели EF
-        cdn.Voices.AddRange(databaseVoices);
+        model.Voices.AddRange(databaseVoices);
     }
 
-    private async Task ProcessCountriesAsync(Film entity, FilmModel film)
+    private async Task ProcessCountriesAsync(Film aggregate, FilmModel model)
     {
         // Удаляем эти записи из коллекции в модели EF
-        film.Countries.RemoveAll(x => entity.Countries.All(m => m != x.Name));
+        model.Countries.RemoveAll(x => aggregate.Countries.All(m => m != x.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
-        var newCountries = entity.Countries
-            .Where(x => film.Countries.All(m => m.Name != x))
+        var newCountries = aggregate.Countries
+            .Where(x => model.Countries.All(m => m.Name != x))
             .ToArray();
 
         // Если новые записи есть
@@ -155,7 +155,7 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
                 .ToArrayAsync();
 
             // Добавляем полученные модели EF в коллекцию обрабатываемой модели EF
-            film.Countries.AddRange(databaseCountries);
+            model.Countries.AddRange(databaseCountries);
 
             // Определяем, какие модели не были получены из EF, для этих новых записей создаем новые модели EF
             var notDatabaseCountries = newCountries
@@ -163,18 +163,18 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
                 .Select(c => new CountryModel { Name = c });
 
             // Добавляем полученные модели EF в коллекцию обрабатываемой модели EF
-            film.Countries.AddRange(notDatabaseCountries);
+            model.Countries.AddRange(notDatabaseCountries);
         }
     }
 
-    private static void ProcessActors(Film entity, FilmModel film, IEnumerable<PersonModel> persons)
+    private static void ProcessActors(Film aggregate, FilmModel model, IEnumerable<PersonModel> persons)
     {
         // Удаляем эти записи из коллекции в модели EF
-        film.Actors.RemoveAll(x => entity.Actors.All(m => m.Name != x.Person.Name));
+        model.Actors.RemoveAll(x => aggregate.Actors.All(m => m.Name != x.Person.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
-        var newActors = entity.Actors
-            .Where(x => film.Actors.All(m => m.Person.Name != x.Name))
+        var newActors = aggregate.Actors
+            .Where(x => model.Actors.All(m => m.Person.Name != x.Name))
             .ToArray();
 
         // Если новых записей нет
@@ -187,17 +187,17 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
                 { Person = p, Description = newActors.First(a => a.Name == p.Name).Description });
 
         // Добавляем полученные модели EF в коллекцию обрабатываемой модели EF
-        film.Actors.AddRange(newPersons);
+        model.Actors.AddRange(newPersons);
     }
 
-    private async Task ProcessGenresAsync(Film entity, FilmModel film)
+    private async Task ProcessGenresAsync(Film aggregate, FilmModel model)
     {
         // Удаляем эти записи из коллекции в модели EF
-        film.Genres.RemoveAll(x => entity.Genres.All(m => m != x.Name));
+        model.Genres.RemoveAll(x => aggregate.Genres.All(m => m != x.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
-        var newGenres = entity.Genres
-            .Where(x => film.Genres.All(m => m.Name != x))
+        var newGenres = aggregate.Genres
+            .Where(x => model.Genres.All(m => m.Name != x))
             .ToArray();
 
         // Если новые записи есть
@@ -209,7 +209,7 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
                 .ToArrayAsync();
 
             // Добавляем полученные модели EF в коллекцию обрабатываемой модели EF
-            film.Genres.AddRange(databaseGenres);
+            model.Genres.AddRange(databaseGenres);
 
             // Определяем, какие модели не были получены из EF, для этих новых записей создаем новые модели EF
             var notDatabaseGenres = newGenres
@@ -217,18 +217,18 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
                 .Select(c => new GenreModel { Name = c });
 
             // Добавляем полученные модели EF в коллекцию обрабатываемой модели EF
-            film.Genres.AddRange(notDatabaseGenres);
+            model.Genres.AddRange(notDatabaseGenres);
         }
     }
 
-    private static void ProcessDirectors(Film entity, FilmModel film, IEnumerable<PersonModel> persons)
+    private static void ProcessDirectors(Film aggregate, FilmModel model, IEnumerable<PersonModel> persons)
     {
         // Удаляем эти записи из коллекции в модели EF
-        film.Directors.RemoveAll(x => entity.Directors.All(m => m != x.Name));
+        model.Directors.RemoveAll(x => aggregate.Directors.All(m => m != x.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
-        var newDirectors = entity.Directors
-            .Where(x => film.Directors.All(m => m.Name != x))
+        var newDirectors = aggregate.Directors
+            .Where(x => model.Directors.All(m => m.Name != x))
             .ToArray();
 
         // Если новых записей нет
@@ -238,17 +238,17 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
         var newPersons = persons.Where(x => newDirectors.Any(g => g == x.Name));
 
         // Добавляем полученные модели EF в коллекцию обрабатываемой модели EF
-        film.Directors.AddRange(newPersons);
+        model.Directors.AddRange(newPersons);
     }
 
-    private static void ProcessScreenwriters(Film entity, FilmModel film, IEnumerable<PersonModel> persons)
+    private static void ProcessScreenwriters(Film aggregate, FilmModel model, IEnumerable<PersonModel> persons)
     {
         // Удаляем эти записи из коллекции в модели EF
-        film.Screenwriters.RemoveAll(x => entity.Screenwriters.All(m => m != x.Name));
+        model.Screenwriters.RemoveAll(x => aggregate.Screenwriters.All(m => m != x.Name));
 
         // Получаем записи, которые есть в сущности, но еще нет в модели EF
-        var newScreenwriters = entity.Screenwriters
-            .Where(x => film.Screenwriters.All(m => m.Name != x))
+        var newScreenwriters = aggregate.Screenwriters
+            .Where(x => model.Screenwriters.All(m => m.Name != x))
             .ToArray();
 
         // Если новых записей нет
@@ -258,6 +258,6 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
         var newPersons = persons.Where(x => newScreenwriters.Any(g => x.Name == g));
 
         // Добавляем полученные модели EF в коллекцию обрабатываемой модели EF
-        film.Screenwriters.AddRange(newPersons);
+        model.Screenwriters.AddRange(newPersons);
     }
 }

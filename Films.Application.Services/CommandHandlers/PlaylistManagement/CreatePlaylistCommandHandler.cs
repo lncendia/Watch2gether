@@ -2,7 +2,7 @@ using Films.Application.Abstractions.Commands.PlaylistManagement;
 using Films.Application.Abstractions.Common.Exceptions;
 using Films.Application.Abstractions.Common.Interfaces;
 using Films.Domain.Abstractions.Interfaces;
-using Films.Domain.Playlists.Entities;
+using Films.Domain.Playlists;
 using MediatR;
 
 namespace Films.Application.Services.CommandHandlers.PlaylistManagement;

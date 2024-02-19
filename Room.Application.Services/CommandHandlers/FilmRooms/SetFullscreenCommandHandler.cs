@@ -19,7 +19,7 @@ public class SetFullscreenCommandHandler(IUnitOfWork unitOfWork, IMemoryCache ca
         var room = await cache.TryGetFilmRoomFromCache(request.RoomId, unitOfWork);
 
         // Устанавливаем флаг нахождения в полноэкранном режиме
-        room.SetPause(request.UserId, request.Fullscreen);
+        room.SetFullScreen(request.ViewerId, request.Fullscreen);
               
         // Обновляем комнату в репозитории
         await unitOfWork.FilmRoomRepository.Value.UpdateAsync(room);

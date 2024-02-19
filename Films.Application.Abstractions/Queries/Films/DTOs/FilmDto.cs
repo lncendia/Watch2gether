@@ -1,5 +1,4 @@
-﻿using Films.Domain.Films.Enums;
-using Films.Domain.Films.ValueObjects;
+﻿using Films.Domain.Films.ValueObjects;
 
 namespace Films.Application.Abstractions.Queries.Films.DTOs;
 
@@ -7,8 +6,8 @@ public class FilmDto
 {
     public required Guid Id { get; init; }
     public required string Description { get; init; }
-    public required FilmType Type { get; init; }
-    public required string Name { get; init; }
+    public required bool IsSerial { get; init; }
+    public required string Title { get; init; }
     public required Uri PosterUrl { get; init; }
     public required int Year { get; init; }
     public double? RatingKp { get; init; }

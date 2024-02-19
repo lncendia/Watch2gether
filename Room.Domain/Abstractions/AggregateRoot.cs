@@ -1,8 +1,8 @@
 namespace Room.Domain.Abstractions;
 
-public abstract class AggregateRoot(Guid id)
+public abstract class AggregateRoot
 {
-    public Guid Id { get; } = id;
+    public required Guid Id { get; init; }
     private readonly List<IDomainEvent> _domainEvents = [];
 
     public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;

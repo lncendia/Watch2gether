@@ -19,6 +19,6 @@ public class ChangeVideoCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cach
         var room = await cache.TryGetYoutubeRoomFromCache(request.RoomId, unitOfWork);
 
         // Изменяем текущее видео
-        room.ChangeVideo(request.UserId, request.VideoId);
+        room.ChangeVideo(request.ViewerId, request.VideoId);
     }
 }

@@ -1,8 +1,6 @@
-using Room.Application.Abstractions.Common.Exceptions;
-using Room.Application.Abstractions.DTOs.FilmRoom;
-using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.Films.Enums;
-using Room.Domain.Rooms.FilmRoom.Entities;
+using Room.Application.Abstractions.Queries.DTOs.FilmRoom;
+using Room.Domain.FilmRooms;
+using Room.Domain.FilmRooms.Entities;
 
 namespace Room.Application.Services.Mappers;
 
@@ -15,40 +13,19 @@ public static class FilmRoomMapper
     /// Преобразует комнату в DTO
     /// </summary>
     /// <param name="room">Комната</param>
-    /// <param name="unitOfWork">Единица работы</param>
     /// <returns>DTO</returns>
-    /// <exception cref="FilmNotFoundException">Фильм не найден</exception>
-    /// <exception cref="UserNotFoundException">Пользователь не найден</exception>
-    public static async Task<FilmRoomDto> MapAsync(FilmRoom room, IUnitOfWork unitOfWork)
+    public static FilmRoomDto Map(FilmRoom room)
     {
-        // Получаем фильм
-        var film = await unitOfWork.FilmRepository.Value.GetAsync(room.FilmId);
-
-        // Если фильм не найден - вызываем исключение
-        if (film == null) throw new FilmNotFoundException();
-
-        // Создаем коллекцию для DTO зрителей
-        List<FilmViewerDto> viewers = [];
-
-        // Перебираем всех зрителей в комнате
-        foreach (var roomViewer in room.Viewers)
-        {
-            // Преобразовываем зрителя в DTO и добавляем в коллекцию 
-            viewers.Add(await MapAsync(roomViewer, unitOfWork));
-        }
-        
         // Создаем DTO и возвращаем
         return new FilmRoomDto
         {
-            FilmId = film.Id,
-            FilmTitle = film.Title,
-            FilmDescription = film.Description,
-            FilmUrl = film.CdnList.First(cdn => cdn.Name == room.CdnName).Url,
-            FilmType = FilmType.Film,
-            OwnerId = room.Owner.UserId,
-            Code = room.Code,
+            Id = room.Id,
+            Title = room.Title,
+            CdnUrl = room.CdnUrl,
+            IsSerial = room.IsSerial,
+            OwnerId = room.Owner.Id,
             Messages = room.Messages,
-            Viewers = viewers
+            Viewers = room.Viewers.Select(Map).ToArray()
         };
     }
 
@@ -56,27 +33,19 @@ public static class FilmRoomMapper
     /// Преобразует зрителя в DTO
     /// </summary>
     /// <param name="viewer">Зритель</param>
-    /// <param name="unitOfWork">Единица работы</param>
     /// <returns>DTO</returns>
-    /// <exception cref="UserNotFoundException">Пользователь не найден</exception>
-    private static async Task<FilmViewerDto> MapAsync(FilmViewer viewer, IUnitOfWork unitOfWork)
+    private static FilmViewerDto Map(FilmViewer viewer)
     {
-        // Получаем пользователя
-        var user = await unitOfWork.UserRepository.Value.GetAsync(viewer.UserId);
-
-        // Если пользователь не найден - вызываем исключение
-        if (user == null) throw new UserNotFoundException();
-
         // Создаем DTO для зрителя и возвращаем
         return new FilmViewerDto
         {
-            UserId = user.Id,
-            UserName = user.UserName,
-            PhotoUrl = user.PhotoUrl,
+            Id = viewer.Id,
+            Nickname = viewer.Nickname,
+            PhotoUrl = viewer.PhotoUrl,
             Pause = viewer.Pause,
             FullScreen = viewer.FullScreen,
             TimeLine = viewer.TimeLine,
-            Allows = user.Allows,
+            Allows = viewer.Allows,
             Online = viewer.Online,
             Season = viewer.Season,
             Series = viewer.Series

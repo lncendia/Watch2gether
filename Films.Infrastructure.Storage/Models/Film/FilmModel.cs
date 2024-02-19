@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Films.Domain.Films.Enums;
 using Films.Infrastructure.Storage.Models.Abstractions;
 using Films.Infrastructure.Storage.Models.Country;
 using Films.Infrastructure.Storage.Models.Genre;
@@ -13,7 +12,7 @@ public class FilmModel : IAggregateModel
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid Id { get; set; }
 
-    public FilmType Type { get; set; }
+    public bool IsSerial { get; set; }
     [MaxLength(200)] public string Title { get; set; } = null!;
     public Uri PosterUrl { get; set; } = null!;
     [MaxLength(1500)] public string Description { get; set; } = null!;

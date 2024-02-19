@@ -17,7 +17,7 @@ public class UserWatchlistQueryHandler(IUnitOfWork unitOfWork)
 
         if (user == null) throw new UserNotFoundException();
 
-        var specification = new FilmByIdsSpecification(user.Watchlist.Select(x => x.FilmId));
+        var specification = new FilmsByIdsSpecification(user.Watchlist.Select(x => x.FilmId));
         var films = await unitOfWork.FilmRepository.Value.FindAsync(specification);
 
         var watchlist = user.Watchlist.OrderByDescending(x => x.Date).Select(x => x.FilmId).ToList();

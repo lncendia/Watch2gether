@@ -1,11 +1,11 @@
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
-using Room.Application.Abstractions.Common.Exceptions;
-using Room.Application.Abstractions.DTOs.YoutubeRoom;
+using Room.Application.Abstractions.Queries.DTOs.YoutubeRoom;
 using Room.Application.Services.Common;
 using Room.Application.Services.Mappers;
 using Room.Domain.Abstractions.Interfaces;
+using Room.Domain.YoutubeRooms.Entities;
 
 namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 
@@ -21,23 +21,14 @@ public class ConnectCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) :
         // Получаем комнату
         var room = await cache.TryGetYoutubeRoomFromCache(request.RoomId, unitOfWork);
 
-        // Если зритель уже подключен к комнате
-        if (room.Viewers.Any(v => v.UserId == request.UserId))
+        // Подключаем пользователя
+        room.Connect(new YoutubeViewer
         {
-            // Устанавливаем, что пользователь онлайн
-            room.SetOnline(request.UserId, true);
-        }
-        else
-        {
-            // Получаем пользователя
-            var user = await unitOfWork.UserRepository.Value.GetAsync(request.UserId);
-
-            // Если пользователь не найден - вызываем исключение
-            if (user == null) throw new UserNotFoundException();
-
-            // Подключаем пользователя
-            room.Connect(user, request.Code);
-        }
+            Id = request.Viewer.Id,
+            Allows = request.Viewer.Allows,
+            PhotoUrl = request.Viewer.PhotoUrl,
+            Nickname = request.Viewer.Nickname
+        });
               
         // Обновляем комнату в репозитории
         await unitOfWork.YoutubeRoomRepository.Value.UpdateAsync(room);
@@ -46,6 +37,6 @@ public class ConnectCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) :
         await unitOfWork.SaveChangesAsync();
 
         // Преобразовываем комнату в DTO и возвращаем
-        return await YoutubeRoomMapper.MapAsync(room, unitOfWork);
+        return YoutubeRoomMapper.Map(room);
     }
 }

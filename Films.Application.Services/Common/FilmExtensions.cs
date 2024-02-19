@@ -1,6 +1,6 @@
 using Films.Application.Abstractions.Common.Exceptions;
 using Films.Domain.Abstractions.Interfaces;
-using Films.Domain.Films.Entities;
+using Films.Domain.Films;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Films.Application.Services.Common;
@@ -14,7 +14,7 @@ public static class FilmExtensions
     /// <param name="id">Идентификатор фильма.</param>
     /// <param name="unitOfWork">Единица работы</param>
     /// <returns>Объект фильма.</returns>
-    public static async Task<Film> TryGetFilmFromCache(this IMemoryCache memoryCache, Guid id, IUnitOfWork unitOfWork)
+    public static async Task<Film> TryGetFilmFromCacheAsync(this IMemoryCache memoryCache, Guid id, IUnitOfWork unitOfWork)
     {
         // Проверяем, есть ли фильм в кэше 
         if (memoryCache.TryGetValue(id, out Film? film)) return film!;

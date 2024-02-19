@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Films.Domain.Films.Enums;
 
 namespace Films.Infrastructure.Web.FilmsManagement.InputModels;
 
@@ -16,7 +15,7 @@ public class AddFilmInputModel
 
     [Required(ErrorMessage = "Поле не должно быть пустым")]
     [Display(Name = "Тип")]
-    public FilmType? Type { get; init; }
+    public bool? IsSerial { get; init; }
 
     [Display(Name = "Ссылка на постер")]
     [DataType(DataType.ImageUrl)]

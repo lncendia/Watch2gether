@@ -51,7 +51,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusContracts", "BusContracts\BusContracts.csproj", "{A3A40E9C-C7D0-4429-9B5A-7F99460F1068}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.IntegrationEvents", "Overoom.IntegrationEvents\Overoom.IntegrationEvents.csproj", "{A3A40E9C-C7D0-4429-9B5A-7F99460F1068}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Room.Infrastructure.Bus", "Room.Infrastructure.Bus\Room.Infrastructure.Bus.csproj", "{41819F56-4CA1-4C3E-8708-211FCA276AA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +125,10 @@ Global
 		{A3A40E9C-C7D0-4429-9B5A-7F99460F1068}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3A40E9C-C7D0-4429-9B5A-7F99460F1068}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3A40E9C-C7D0-4429-9B5A-7F99460F1068}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41819F56-4CA1-4C3E-8708-211FCA276AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41819F56-4CA1-4C3E-8708-211FCA276AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41819F56-4CA1-4C3E-8708-211FCA276AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41819F56-4CA1-4C3E-8708-211FCA276AA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ADFB62FA-43A5-4FCA-9586-42D8E054D82B} = {F19D4E6A-23C2-45A6-A6EB-5A65B308C482}
@@ -146,5 +152,6 @@ Global
 		{AD9DCBD5-9B46-41B6-A139-1991B4D576DF} = {359093A2-1DCF-40F9-9F4A-FCE28146660B}
 		{5658BFE4-74EF-4B44-A651-B01F7E1AD77B} = {AD9DCBD5-9B46-41B6-A139-1991B4D576DF}
 		{3837CC4A-4A4B-43FF-B7CB-304E86ECEA87} = {AD9DCBD5-9B46-41B6-A139-1991B4D576DF}
+		{41819F56-4CA1-4C3E-8708-211FCA276AA8} = {AD9DCBD5-9B46-41B6-A139-1991B4D576DF}
 	EndGlobalSection
 EndGlobal

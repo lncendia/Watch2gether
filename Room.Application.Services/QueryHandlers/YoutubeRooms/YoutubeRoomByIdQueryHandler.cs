@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
-using Room.Application.Abstractions.DTOs.YoutubeRoom;
+using Room.Application.Abstractions.Queries.DTOs.YoutubeRoom;
 using Room.Application.Abstractions.Queries.YoutubeRooms;
 using Room.Application.Services.Common;
 using Room.Application.Services.Mappers;
@@ -21,6 +21,6 @@ public class YoutubeRoomByIdQueryHandler(IUnitOfWork unitOfWork, IMemoryCache ca
         var room = await cache.TryGetYoutubeRoomFromCache(request.Id, unitOfWork);
 
         // Преобразовываем комнату в DTO и возвращаем
-        return await YoutubeRoomMapper.MapAsync(room, unitOfWork);
+        return YoutubeRoomMapper.Map(room);
     }
 }

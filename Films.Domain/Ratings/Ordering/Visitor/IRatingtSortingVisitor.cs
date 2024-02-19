@@ -1,5 +1,4 @@
 using Films.Domain.Ordering.Abstractions;
-using Films.Domain.Ratings.Entities;
 
 namespace Films.Domain.Ratings.Ordering.Visitor;
 

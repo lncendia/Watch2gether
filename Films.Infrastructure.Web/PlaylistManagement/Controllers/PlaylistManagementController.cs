@@ -37,7 +37,7 @@ public class PlaylistManagementController(IMediator mediator) : ControllerBase
         });
     }
 
-    [HttpDelete]
+    [HttpDelete("{playlistId:guid}")]
     public async Task Delete(Guid playlistId)
     {
         await mediator.Send(new DeletePlaylistCommand

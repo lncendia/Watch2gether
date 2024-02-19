@@ -3,12 +3,12 @@ using Films.Application.Abstractions.Queries.Films;
 using Films.Application.Abstractions.Queries.Films.DTOs;
 using Films.Application.Services.Common;
 using Films.Domain.Abstractions.Interfaces;
-using Films.Domain.Films.Entities;
-using Films.Domain.Ratings.Entities;
+using Films.Domain.Films;
+using Films.Domain.Ratings;
 using Films.Domain.Ratings.Specifications;
 using Films.Domain.Ratings.Specifications.Visitor;
 using Films.Domain.Specifications;
-using Films.Domain.Users.Entities;
+using Films.Domain.Users;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -20,7 +20,7 @@ public class FilmByIdQueryHandler(IUnitOfWork unitOfWork, IMemoryCache memoryCac
     public async Task<FilmDto> Handle(FilmByIdQuery request, CancellationToken cancellationToken)
     {
         // Получаем фильм по его идентификатору 
-        var film = await memoryCache.TryGetFilmFromCache(request.Id, unitOfWork);
+        var film = await memoryCache.TryGetFilmFromCacheAsync(request.Id, unitOfWork);
 
         Rating? rating = null;
         User? user = null;
@@ -51,8 +51,8 @@ public class FilmByIdQueryHandler(IUnitOfWork unitOfWork, IMemoryCache memoryCac
     {
         Id = film.Id,
         Description = film.Description,
-        Type = film.Type,
-        Name = film.Title,
+        IsSerial = film.IsSerial,
+        Title = film.Title,
         PosterUrl = film.PosterUrl,
         Year = film.Year,
         RatingKp = film.RatingKp,

@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
-using Room.Application.Abstractions.DTOs.FilmRoom;
+using Room.Application.Abstractions.Queries.DTOs.FilmRoom;
 using Room.Application.Abstractions.Queries.FilmRooms;
 using Room.Application.Services.Common;
 using Room.Application.Services.Mappers;
@@ -21,6 +21,6 @@ public class FilmRoomByIdQueryHandler(IUnitOfWork unitOfWork, IMemoryCache cache
         var room = await cache.TryGetFilmRoomFromCache(request.Id, unitOfWork);
 
         // Преобразовываем комнату в DTO и возвращаем
-        return await FilmRoomMapper.MapAsync(room, unitOfWork);
+        return FilmRoomMapper.Map(room);
     }
 }

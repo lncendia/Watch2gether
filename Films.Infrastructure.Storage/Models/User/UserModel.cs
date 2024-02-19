@@ -9,7 +9,7 @@ public class UserModel : IAggregateModel
 {
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public Guid Id { get; set; }
-    [MaxLength(20)] public string UserName { get; set; } = null!;
+    [MaxLength(40)] public string UserName { get; set; } = null!;
     public Uri PhotoUrl { get; set; } = null!;
     public List<WatchlistModel> Watchlist { get; set; } = [];
     public List<HistoryModel> History { get; set; } = [];

@@ -1,5 +1,4 @@
 using Films.Domain.Specifications.Abstractions;
-using Films.Domain.Users.Entities;
 
 namespace Films.Domain.Users.Specifications.Visitor;
 

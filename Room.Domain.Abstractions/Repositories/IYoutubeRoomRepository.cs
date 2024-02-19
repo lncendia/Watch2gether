@@ -1,6 +1,5 @@
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.Rooms.FilmRoom.Entities;
-using Room.Domain.Rooms.YoutubeRoom.Entities;
+using Room.Domain.YoutubeRooms;
 
 namespace Room.Domain.Abstractions.Repositories;
 

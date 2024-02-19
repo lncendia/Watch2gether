@@ -1,29 +1,23 @@
 using MediatR;
-using Room.Application.Abstractions.DTOs.FilmRoom;
-using Room.Application.Abstractions.DTOs.YoutubeRoom;
+using Room.Application.Abstractions.Commands.BaseRooms;
 
 namespace Room.Application.Abstractions.Commands.YoutubeRooms;
 
 /// <summary>
 /// Команда на создание комнаты
 /// </summary>
-public class CreateRoomCommand : IRequest<YoutubeRoomDto>
+public class CreateRoomCommand : IRequest
 {
     /// <summary>
-    /// Идентификатор пользователя
+    /// Идентификатор комнаты
     /// </summary>
-    public required Guid UserId { get; init; }
-    
+    public required Guid Id { get; init; }
+
     /// <summary>
-    /// Флаг, открыта ли комната
+    /// Зритель
     /// </summary>
-    public required bool IsOpen { get; init; }
-    
-    /// <summary>
-    /// Ссылка на видео
-    /// </summary>
-    public required Uri VideoUrl { get; init; }
-    
+    public required ViewerData Viewer { get; init; }
+
     /// <summary>
     /// Флаг, есть ли у пользователей доступ к изменение видео
     /// </summary>

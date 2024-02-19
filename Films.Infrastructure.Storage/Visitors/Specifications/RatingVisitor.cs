@@ -1,6 +1,5 @@
 using System.Linq.Expressions;
 using Films.Domain.Ratings;
-using Films.Domain.Ratings.Entities;
 using Films.Domain.Ratings.Specifications;
 using Films.Domain.Ratings.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
