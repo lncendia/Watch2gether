@@ -1,0 +1,77 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailAlreadyTaken" xml:space="preserve">
+        <value>Posten är redan i bruk</value>
+    </data>
+    <data name="EmailChanged" xml:space="preserve">
+        <value>Posten har ändrats</value>
+    </data>
+    <data name="EmailChangeRequested" xml:space="preserve">
+        <value>Förfrågan har skickats till din gamla e-postadress</value>
+    </data>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>E-postformatet är inte korrekt</value>
+    </data>
+    <data name="EmailNotConfirmed" xml:space="preserve">
+        <value>För att utföra denna åtgärd, bekräfta din e-post</value>
+    </data>
+    <data name="OldPasswordMatchNew" xml:space="preserve">
+        <value>Det nya lösenordet kan inte matcha det gamla</value>
+    </data>
+    <data name="OldPasswordNeeded" xml:space="preserve">
+        <value>Du måste ange det gamla lösenordet för att ändra det</value>
+    </data>
+    <data name="PasswordChanged" xml:space="preserve">
+        <value>Lösenordet har ändrats</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>Felaktigt lösenord längd</value>
+    </data>
+    <data name="PasswordMismatch" xml:space="preserve">
+        <value>Det gamla lösenordet är felaktigt</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>Lösenordet måste innehålla siffror</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>Lösenordet måste innehålla små bokstäver</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Lösenordet måste innehålla specialtecken</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>Lösenordet måste innehålla stora bokstäver</value>
+    </data>
+    <data name="ProviderLinked" xml:space="preserve">
+        <value>Leverantören är länkad</value>
+    </data>
+    <data name="ProviderUnlinked" xml:space="preserve">
+        <value>Leverantören är frånkopplad</value>
+    </data>
+    <data name="SessionsClosed" xml:space="preserve">
+        <value>Andra sessioner har slutförts framgångsrikt</value>
+    </data>
+    <data name="WrongFileSize" xml:space="preserve">
+        <value>Filstorleken får inte överstiga 15 MB</value>
+    </data>
+    <data name="UserNameLengthInvalid" xml:space="preserve">
+        <value>Ogiltig användarnamn längd</value>
+    </data>
+    <data name="UserNameChanged" xml:space="preserve">
+        <value>Användarens namn har ändrats</value>
+    </data>
+    <data name="AvatarChanged" xml:space="preserve">
+        <value>Profilbilden har ändrats</value>
+    </data>
+</root>

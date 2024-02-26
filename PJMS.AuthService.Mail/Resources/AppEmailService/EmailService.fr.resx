@@ -1,0 +1,74 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ConfirmMailChangeEmailButtonName" xml:space="preserve">
+        <value>Modifier le courrier</value>
+    </data>
+    <data name="ConfirmMailChangeEmailExplanation" xml:space="preserve">
+        <value>Vous avez reçu cet e-mail parce que vous avez demandé un changement d'adresse e-mail.</value>
+    </data>
+    <data name="ConfirmMailChangeEmailSubject" xml:space="preserve">
+        <value>Changement de courrier</value>
+    </data>
+    <data name="ConfirmMailChangeEmailText" xml:space="preserve">
+        <value>Confirmez le changement de votre adresse e-mail à la nouvelle en cliquant sur le bouton ci-dessous.</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailButtonName" xml:space="preserve">
+        <value>Récupérer le mot de passe</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailExplanation" xml:space="preserve">
+        <value>Vous avez reçu cet e-mail parce que vous avez demandé la récupération de votre mot de passe.</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailSubject" xml:space="preserve">
+        <value>Récupération de mot de passe</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailText" xml:space="preserve">
+        <value>Confirmez la réinitialisation de l'ancien mot de passe en cliquant sur le bouton ci-dessous. Cette étape supprimera votre ancien mot de passe et vous permettra d'en définir un nouveau.</value>
+    </data>
+    <data name="ConfirmRegistrationEmailButtonName" xml:space="preserve">
+        <value>Confirmer l'enregistrement</value>
+    </data>
+    <data name="ConfirmRegistrationEmailExplanation" xml:space="preserve">
+        <value>Vous avez reçu cet e-mail parce que vous avez récemment enregistré un compte.</value>
+    </data>
+    <data name="ConfirmRegistrationEmailSubject" xml:space="preserve">
+        <value>Activation du compte</value>
+    </data>
+    <data name="ConfirmRegistrationEmailText" xml:space="preserve">
+        <value>Confirmez votre adresse e-mail en cliquant sur le bouton ci-dessous. Cette étape améliore la sécurité de votre entreprise en confirmant que vous êtes le propriétaire de cette adresse postale.</value>
+    </data>
+    <data name="LinkExpires" xml:space="preserve">
+        <value>Le lien expire 24 heures après la réception de l'e-mail.</value>
+    </data>
+    <data name="PrivacyPolicy" xml:space="preserve">
+        <value>Politique de confidentialité</value>
+    </data>
+    <data name="Thanks" xml:space="preserve">
+        <value>Remerciant</value>
+    </data>
+    <data name="Welcome" xml:space="preserve">
+        <value>Saluons</value>
+    </data>
+    <data name="CodeExpires" xml:space="preserve">
+        <value>Le code expire 1 minute après la génération.</value>
+    </data>
+    <data name="TwoFactorCodeEmailExplanation" xml:space="preserve">
+        <value>Vous avez reçu cet e-mail parce que vous avez demandé un code d'authentification à deux facteurs.</value>
+    </data>
+    <data name="TwoFactorCodeEmailSubject" xml:space="preserve">
+        <value>Demande de code d'authentification à deux facteurs</value>
+    </data>
+    <data name="TwoFactorCodeEmailText" xml:space="preserve">
+        <value>Entrez le code ci-dessous dans l'application pour passer l'authentification à deux facteurs.</value>
+    </data>
+</root>

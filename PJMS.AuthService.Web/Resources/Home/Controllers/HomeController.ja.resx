@@ -1,0 +1,59 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DefaultException" xml:space="preserve">
+        <value>要求の処理中にエラーが発生しました。</value>
+    </data>
+    <data name="EmailAlreadyTakenException" xml:space="preserve">
+        <value>メールはすでに使用されています</value>
+    </data>
+    <data name="EmailFormatException" xml:space="preserve">
+        <value>メール形式が正しくありません</value>
+    </data>
+    <data name="EmailSendException" xml:space="preserve">
+        <value>メッセージをメールに送信できませんでした。</value>
+    </data>
+    <data name="IdentityContextException" xml:space="preserve">
+        <value>アクションはコンテキスト外では使用できません。 メインアプリに戻って、もう一度やり直してください。</value>
+    </data>
+    <data name="InvalidCodeException" xml:space="preserve">
+        <value>リンクの有効期限が切れています</value>
+    </data>
+    <data name="LoginAlreadyAssociatedException" xml:space="preserve">
+        <value>ユーザー名はすでに別のユーザーにリンクされています</value>
+    </data>
+    <data name="LoginNotFoundException" xml:space="preserve">
+        <value>ログインが見つかりません</value>
+    </data>
+    <data name="OldPasswordNeededException" xml:space="preserve">
+        <value>古いパスワードは指定されていません</value>
+    </data>
+    <data name="QueryParameterMissingException" xml:space="preserve">
+        <value>クエリ文字列パラメーターがありません</value>
+    </data>
+    <data name="UserLockoutException" xml:space="preserve">
+        <value>ログイン試行に失敗した多数のためにブロックされました。 後でログインしてみてください</value>
+    </data>
+    <data name="UserNotFoundException" xml:space="preserve">
+        <value>ユーザーが見つかりませんでした</value>
+    </data>
+    <data name="TwoFactorAlreadyEnabledException" xml:space="preserve">
+        <value>二要素認証はすでに有効になっています</value>
+    </data>
+    <data name="UserNameLengthException" xml:space="preserve">
+        <value>無効なユーザー名の長さ</value>
+    </data>
+    <data name="ThumbnailSaveException" xml:space="preserve">
+        <value>プロフィール写真の保存中にエラーが発生しました</value>
+    </data>
+</root>

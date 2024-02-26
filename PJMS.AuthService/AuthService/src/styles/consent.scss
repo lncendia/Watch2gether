@@ -1,0 +1,21 @@
+.consent{
+  .card-header{
+    --bs-card-cap-bg: #e8e6ff;
+  }
+  
+  .consent-description{
+    font-size: var(--side-size);
+    color: #717194;
+  }
+  
+  .required{
+    font-size: var(--side-size);
+    color: #717194;
+  }
+}
+
+.client-logo{
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+}

@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PJMS.AuthService.Web.Grants.ViewModels.GrantsViewModel
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["GrantsTitle"];
+}
+
+
+<h5 class="card-title">@Localizer["GrantsTitle"]</h5>
+<span class="card-logo">
+    <i class="zmdi zmdi-font"></i>
+</span>
+
+<div class="grants mt-lg-5 mt-md-3 mt-1">
+    @if (Model.Grants.Any() == false)
+    {
+        <div class="alert alert-info">
+            @Localizer["GrantsEmpty"]
+        </div>
+    }
+    else
+    {
+        foreach (var grant in Model.Grants)
+        {
+            <div class="card">
+                <div class="card-header">
+                    @if (grant.ClientLogoUrl != null)
+                    {
+                        <img src="@grant.ClientLogoUrl" alt="">
+                    }
+                    <div class="card-title">@grant.ClientName</div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    @if (grant.Description != null)
+                    {
+                        <li class="list-group-item">
+                            <label>@Localizer["Description"]:</label> @grant.Description
+                        </li>
+                    }
+                    <li class="list-group-item">
+                        <label>@Localizer["Created"]:</label> @grant.Created.ToString("d")
+                    </li>
+                    @if (grant.Expires.HasValue)
+                    {
+                        <li class="list-group-item">
+                            <label>@Localizer["Expires"]:</label> @grant.Expires.Value.ToString("d")
+                        </li>
+                    }
+                    @if (grant.IdentityGrantNames.Any())
+                    {
+                        <li class="list-group-item">
+                            <label>@Localizer["IdentityGrants"]:</label>
+                            <ul>
+                                @foreach (var name in grant.IdentityGrantNames)
+                                {
+                                    <li>@name</li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    @if (grant.ApiGrantNames.Any())
+                    {
+                        <li class="list-group-item">
+                            <label>@Localizer["ApiGrants"]:</label>
+                            <ul>
+                                @foreach (var name in grant.ApiGrantNames)
+                                {
+                                    <li>@name</li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    <li class="list-group-item">
+                        <form asp-action="Revoke">
+                            <input name="clientId" type="hidden" value="@grant.ClientId">
+                            <button class="btn btn-danger m-auto">@Localizer["RemoveAccess"]</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        }
+    }
+</div>

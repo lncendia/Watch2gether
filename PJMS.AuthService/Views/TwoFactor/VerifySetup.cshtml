@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model PJMS.AuthService.Web.TwoFactor.ViewModels.RecoveryCodesViewModel
+@inject IViewLocalizer Localizer
+@{
+    // Устанавливаем значение в ViewData с ключом "Title" равным переводу строки "SetupTwoFactorTitle"
+    ViewData["Title"] = Localizer["VerifyCodes"];
+}
+<h5 class="card-title">@Localizer["VerifyCodes"]</h5>
+<span class="card-logo">
+    <i class="zmdi zmdi-font"></i>
+</span>
+
+<div>
+    <div class="mt-3">
+       @Localizer["Info"]
+    </div>
+    @foreach (var recoveryCode in Model.RecoveryCodes)
+    {
+        <div class="text-center fw-bold mt-3 codes">
+            @recoveryCode
+        </div>
+    }
+
+    <div class="container-btn my-4">
+        <div class="wrap-btn on-hover">
+            <div class="bg-btn"></div>
+            <button class="m-btn copy-codes">
+                 @Localizer["CopyCodes"]
+            </button>
+        </div>
+    </div>
+    <div class="container-btn my-4">
+        <div class="wrap-btn on-load">
+            <div class="bg-btn"></div>
+            <a class="m-btn" href="@Model.ReturnUrl">
+                @Localizer["Continue"]
+            </a>
+        </div>
+    </div>
+</div>

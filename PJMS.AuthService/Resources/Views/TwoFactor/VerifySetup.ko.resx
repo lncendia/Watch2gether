@@ -1,0 +1,26 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Continue" xml:space="preserve">
+        <value>계속</value>
+    </data>
+    <data name="CopyCodes" xml:space="preserve">
+        <value>목록 복사</value>
+    </data>
+    <data name="Info" xml:space="preserve">
+        <value>임시 코드 생성 응용 프로그램이나 메일에 액세스할 수 없는 경우 확인을 통과할 수 있는 고유한 일회성 코드입니다.저장하거나 그들을 잃지 않도록 안전한 장소에이 코드를 적어 둡니다.</value>
+    </data>
+    <data name="VerifyCodes" xml:space="preserve">
+        <value>백업 코드</value>
+    </data>
+</root>

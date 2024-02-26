@@ -1,0 +1,18 @@
+{
+  "EmailSettings": {
+    "SmtpSettings": {
+      "Host": "smtp.gmail.com",
+      "Port": 465,
+      "Email": "sergeizahargood@gmail.com",
+      "Password": "rskymojcwpqqzzzv",
+      "DisplayedName": "PJMS"
+    },
+    "TemplateSettings": {
+      "CompanyName": "PJMS",
+      "LogoLink": "https://sun9-49.userapi.com/impf/c630221/v630221221/253a3/mE-EOIXt8tY.jpg?size=300x225&quality=96&sign=0dcd7afa955084be43a84af9cde10939&c_uniq_tag=DtIPO_QA_dLcN1UOdTy5Ezlc8wG0FNa6RAaiU9VIt48&type=album",
+      "PrivatePolicyLink": "https://localhost:10001/Home/Policy",
+      "HomePageLink": "https://localhost:10001/",
+      "SideLogoLink": "https://fecnimc.stripocdn.email/content/guids/CABINET_055ba03e85e991c70304fecd78a2dceaf6b3f0bc1b0eb49336463d3599679494/images/vector.png"
+    }
+  }
+}

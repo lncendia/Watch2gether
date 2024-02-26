@@ -1,0 +1,143 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using PJMS.AuthService.Web.Settings.InputModels
+@using PJMS.AuthService.Web.Settings.ViewModels
+@model PJMS.AuthService.Web.Settings.ViewModels.SettingsViewModel
+@inject IViewLocalizer Localizer
+@{
+    // Устанавливаем значение в ViewData с ключом "Title" равным переводу строки "SettingsTitle"
+    ViewData["Title"] = Localizer["SettingsTitle"];
+
+    var elements = new (string collapsed, string expanded, string show)[5];
+
+    Array.Fill(elements, ("collapsed", "false", ""), 0, 5);
+
+    // Проверяем, что значение Model.ExpandElement не превышает длину массива elements
+    if (Model.ExpandElement <= elements.Length)
+    {
+        // Вычисляем индекс элемента, который нужно раскрыть
+        var element = Model.ExpandElement - 1;
+
+        // Устанавливаем значения свойств элемента, чтобы раскрыть его
+        elements[element].collapsed = "";
+        elements[element].expanded = "true";
+        elements[element].show = "show";
+    }
+}
+
+<h5 class="card-title">@Localizer["SettingsTitle"]</h5>
+<span class="card-logo">
+    <i class="zmdi zmdi-font"></i>
+</span>
+@if (Model.Message != null)
+{
+    <div class="alert alert-primary alert-dismissible fade show mt-2" role="alert">
+        @Model.Message
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="settings">
+    <div class="accordion my-5" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @elements[0].collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="@elements[0].expanded" aria-controls="collapseOne">
+                    @Localizer["ExternalProviders"]
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse @elements[0].show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_ExternalProviders" model="@(Model.ExternalProviders, Model.ReturnUrl)"/>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @elements[1].collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="@elements[1].expanded" aria-controls="collapseTwo">
+                    @Localizer["PasswordChange"]
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse @elements[1].show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_ChangePassword" model="@(new ChangePasswordViewModel { ReturnUrl = Model.ReturnUrl, ShowOldPassword = Model.ShowOldPassword })"/>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @elements[2].collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="@elements[2].expanded" aria-controls="collapseThree">
+                    @Localizer["EmailChange"]
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse @elements[2].show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_ChangeEmail" model="@(new RequestChangeEmailInputModel { ReturnUrl = Model.ReturnUrl, Email = Model.Email })"/>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @elements[3].collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="@elements[3].expanded" aria-controls="collapseFour">
+                    @Localizer["NicknameChange"]
+                </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse @elements[3].show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_ChangeName" model="@(new ChangeNameInputModel { ReturnUrl = Model.ReturnUrl, Username = Model.UserName })"/>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @elements[4].collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="@elements[4].expanded" aria-controls="collapseFive">
+                    @Localizer["AvatarChange"]
+                </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse @elements[4].show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <partial name="_ChangeAvatar" model="@(new ChangeAvatarViewModel { ReturnUrl = Model.ReturnUrl, Thumbnail = Model.Thumbnail })"/>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="False" aria-controls="collapseSix">
+                    @Localizer["TwoFactor"]
+                </button>
+            </h2>
+            <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="container-btn">
+                        <div class="wrap-btn on-load mb-2">
+                            <div class="bg-btn"></div>
+                            @if (Model.TwoFactorEnabled)
+                            {
+                                <a class="m-btn" asp-controller="TwoFactor" asp-action="Reset">@Localizer["Disconnect"]</a>
+                            }
+                            else
+                            {
+                                <a class="m-btn" asp-controller="TwoFactor" asp-action="Setup">@Localizer["Connect"]</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-btn mb-4">
+        <div class="wrap-btn on-hover">
+            <div class="bg-btn"></div>
+            <a class="m-btn" href="@Model.ReturnUrl">
+                @Localizer["Return"]
+            </a>
+        </div>
+    </div>
+    <div style="font-size: 12px">
+        <span>
+            *@Localizer["WarningInfo"]
+            <a asp-controller="Settings" asp-route-expandElem="@Model.ExpandElement" asp-route-returnUrl="@Model.ReturnUrl" asp-action="CloseOtherSessions">
+                @Localizer["TerminateSessions"]
+            </a>
+        </span>
+    </div>
+</div>

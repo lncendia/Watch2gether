@@ -1,3 +1,4 @@
+using Films.Infrastructure.Storage.DatabaseInitialization;
 using Films.Start.Extensions;
 using Films.Start.Middlewares;
 
@@ -39,7 +40,14 @@ builder.Services.AddCorsServices();
 
 
 // Создание приложения на основе настроек builder
-using var app = builder.Build();
+await using var app = builder.Build();
+
+// Создаем область для инициализации баз данных
+using (var scope = app.Services.CreateScope())
+{
+    // Инициализация начальных данных в базу данных
+    await DatabaseInitializer.InitAsync(scope.ServiceProvider);
+}
 
 // Добавляем мидлварь обработки ошибок
 app.UseMiddleware<ExceptionMiddleware>();
@@ -63,4 +71,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Запуск приложения
-app.Run();
+await app.RunAsync();

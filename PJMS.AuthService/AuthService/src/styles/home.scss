@@ -1,0 +1,81 @@
+.home {
+  --welcome-size: 40px;
+  --username-size: 25px;
+  --line-with: 370px;
+  --logo-size: 80px;
+  --line-border: 2px;
+
+  .nav-item {
+    --bs-nav-link-font-size: 18px;
+    --bs-navbar-nav-link-padding-y: 20px;
+    --bs-navbar-nav-link-padding-x: 20px;
+  }
+
+  @media (max-width: 1100px) {
+    --welcome-size: 30px;
+    --username-size: 25px;
+    --line-with: 300px;
+    --logo-size: 65px;
+
+    .nav-item {
+      --bs-nav-link-font-size: 15px;
+      --bs-navbar-nav-link-padding-y: 10px;
+      --bs-navbar-nav-link-padding-x: 10px;
+    }
+  }
+  
+  @media (max-width: 900px) {
+    --welcome-size: 25px;
+    --username-size: 20px;
+    --line-with: 225px;
+    --logo-size: 55px;
+    --line-border: 1px;
+  }
+
+  @media (max-width: 670px) {
+    --welcome-size: 22px;
+    --username-size: 16px;
+    --line-with: 190px;
+  }
+
+  @media (max-width: 330px) {
+    --welcome-size: 15px;
+    --username-size: 13px;
+    --line-with: 140px;
+    --logo-size: 30px;
+
+    .nav-item {
+      --bs-nav-link-font-size: 12px;
+      --bs-navbar-nav-link-padding-y: 3px;
+      --bs-navbar-nav-link-padding-x: 3px;
+    }
+  }
+
+  .logo {
+    margin-top: 50px;
+    margin-bottom: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media (max-width: 670px) {
+      margin-left: 5px;
+    }
+
+    h1 {
+      font-size: var(--welcome-size);
+    }
+
+    h3 {
+      font-size: var(--username-size);
+    }
+
+    .line {
+      width: var(--line-with);
+      border: var(--line-border) solid black;
+    }
+
+    .card-logo {
+      margin-right: 20px;
+    }
+  }
+}

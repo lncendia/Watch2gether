@@ -1,0 +1,41 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using PJMS.AuthService.TagHelpers
+@model PJMS.AuthService.Web.TwoFactor.InputModels.TwoFactorAuthenticateInputModel
+@inject IViewLocalizer Localizer
+
+<input asp-for="ReturnUrl" type="hidden"/>
+<input asp-for="CodeType" type="hidden"/>
+
+<div class="wrap-input">
+    <input asp-for="Code"/>
+    <span class="focus-input" asp-placeholder-for="Code">
+    </span>
+</div>
+
+<div class="two-factor-mail-info">
+    <div id="request-email-error" hidden="hidden">@Localizer["RequestFail"]</div>
+    <div id="request-email-success" hidden="hidden">
+        @Localizer["ResendInfo"]
+        <span>01:00</span>
+    </div>
+</div>
+
+<div class="wrap-error mb-4">
+    <span asp-validation-for="Code"></span>
+</div>
+
+<div class="container-btn">
+    <div class="wrap-btn on-load">
+        <div class="bg-btn"></div>
+        <a class="m-btn" asp-action="RequestCodeEmail" id="request-email-link">@Localizer["RequestEmail"]</a>
+        <div class="d-none" id="resending-msg">@Localizer["Resending"]</div>
+    </div>
+</div>
+
+<div class="container-btn mt-2">
+    <div class="wrap-btn on-load">
+        <div class="bg-btn"></div>
+        <input id="two-step-request-code" class="m-btn" type="submit" value="@Localizer["Enter"]">
+    </div>
+</div>

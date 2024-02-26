@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="And" xml:space="preserve">
+        <value>och</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Återvända</value>
+    </data>
+    <data name="DownloadGoogle" xml:space="preserve">
+        <value>eller Google Authenticator för</value>
+    </data>
+    <data name="DownloadMicrosoft" xml:space="preserve">
+        <value>1. Ladda ner en tvåfaktorsautentiseringsprogram som Microsoft Authenticator för</value>
+    </data>
+    <data name="QrCodeInvalid" xml:space="preserve">
+        <value>Om QR-koden inte fungerar, försök att öka skärmens ljusstyrka.</value>
+    </data>
+    <data name="ScanQrOrEnterKey" xml:space="preserve">
+        <value>2. Skanna QR-koden eller ange följande nyckel i din tvåfaktorsautentiseringsapplikation. Fall och utrymmen spelar ingen roll.</value>
+    </data>
+    <data name="SetUp" xml:space="preserve">
+        <value>Aktivera</value>
+    </data>
+    <data name="SetupTwoFactorTitle" xml:space="preserve">
+        <value>Tvåfaktorsautentisering</value>
+    </data>
+    <data name="UniqueCode" xml:space="preserve">
+        <value>3. När du har skannat QR-koden eller angett ovanstående nyckel kommer din tvåfaktorsautentiseringsapplikation att ge dig en unik kod. Ange den här koden i bekräftelsefältet nedan.</value>
+    </data>
+</root>

@@ -1,0 +1,59 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DefaultException" xml:space="preserve">
+        <value>Hiba történt a kérés feldolgozása során.</value>
+    </data>
+    <data name="EmailAlreadyTakenException" xml:space="preserve">
+        <value>A levél már használatban van</value>
+    </data>
+    <data name="EmailFormatException" xml:space="preserve">
+        <value>A levél formátuma nem megfelelő</value>
+    </data>
+    <data name="EmailSendException" xml:space="preserve">
+        <value>Az üzenetet nem sikerült elküldeni az e-mail címre.</value>
+    </data>
+    <data name="IdentityContextException" xml:space="preserve">
+        <value>A művelet nem érhető el a kontextusból. Menjen vissza a fő alkalmazásba, és próbálja újra.</value>
+    </data>
+    <data name="InvalidCodeException" xml:space="preserve">
+        <value>A link lejárt</value>
+    </data>
+    <data name="LoginAlreadyAssociatedException" xml:space="preserve">
+        <value>A felhasználónév már kapcsolódik egy másik felhasználóhoz</value>
+    </data>
+    <data name="LoginNotFoundException" xml:space="preserve">
+        <value>Bejelentkezés nem található</value>
+    </data>
+    <data name="OldPasswordNeededException" xml:space="preserve">
+        <value>A régi jelszó nincs megadva</value>
+    </data>
+    <data name="QueryParameterMissingException" xml:space="preserve">
+        <value>Hiányzik a lekérdezési karakterlánc paraméter</value>
+    </data>
+    <data name="UserLockoutException" xml:space="preserve">
+        <value>Számos sikertelen bejelentkezési kísérlet miatt blokkolták. Próbáljon később bejelentkezni</value>
+    </data>
+    <data name="UserNotFoundException" xml:space="preserve">
+        <value>A felhasználó nem található</value>
+    </data>
+    <data name="TwoFactorAlreadyEnabledException" xml:space="preserve">
+        <value>A kétfaktoros hitelesítés már engedélyezve van</value>
+    </data>
+    <data name="UserNameLengthException" xml:space="preserve">
+        <value>Érvénytelen Felhasználónév hossza</value>
+    </data>
+    <data name="ThumbnailSaveException" xml:space="preserve">
+        <value>Hiba történt a profilfotó mentésekor</value>
+    </data>
+</root>

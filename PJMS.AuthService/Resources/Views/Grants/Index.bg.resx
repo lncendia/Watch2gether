@@ -1,0 +1,38 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ApiGrants" xml:space="preserve">
+        <value>Разрешение API</value>
+    </data>
+    <data name="Created" xml:space="preserve">
+        <value>Създам</value>
+    </data>
+    <data name="Description" xml:space="preserve">
+        <value>Описание</value>
+    </data>
+    <data name="Expires" xml:space="preserve">
+        <value>Изтичам</value>
+    </data>
+    <data name="GrantsEmpty" xml:space="preserve">
+        <value>Не сте дали достъп до нито едно приложение</value>
+    </data>
+    <data name="GrantsTitle" xml:space="preserve">
+        <value>Вашите разрешения</value>
+    </data>
+    <data name="IdentityGrants" xml:space="preserve">
+        <value>Идентификационни разрешения</value>
+    </data>
+    <data name="RemoveAccess" xml:space="preserve">
+        <value>Отмяна на разрешението</value>
+    </data>
+</root>

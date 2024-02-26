@@ -1,0 +1,44 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>Le format du courrier n'est pas correct</value>
+    </data>
+    <data name="InvalidCredentials" xml:space="preserve">
+        <value>Informations d'identification incorrectes</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>Longueur de mot de passe incorrecte</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>Le mot de passe doit contenir des chiffres</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>Le mot de passe doit contenir des lettres minuscules</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Le mot de passe doit contenir des caractères spéciaux</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>Le mot de passe doit contenir des lettres majuscules</value>
+    </data>
+    <data name="UserLockout" xml:space="preserve">
+        <value>Vous avez été bloqué en raison d'un grand nombre de tentatives de connexion infructueuses. Essayez de vous connecter plus tard</value>
+    </data>
+    <data name="UserNotFound" xml:space="preserve">
+        <value>Utilisateur introuvable</value>
+    </data>
+    <data name="EmailNotConfirmed" xml:space="preserve">
+        <value>Pour effectuer cette action, confirmez votre courrier</value>
+    </data>
+</root>

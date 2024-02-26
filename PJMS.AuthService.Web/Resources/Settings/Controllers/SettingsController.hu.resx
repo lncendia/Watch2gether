@@ -1,0 +1,77 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailAlreadyTaken" xml:space="preserve">
+        <value>A levél már használatban van</value>
+    </data>
+    <data name="EmailChanged" xml:space="preserve">
+        <value>A levél megváltozott</value>
+    </data>
+    <data name="EmailChangeRequested" xml:space="preserve">
+        <value>A kérelmet elküldtük a régi e-mail címére</value>
+    </data>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>A levél formátuma nem megfelelő</value>
+    </data>
+    <data name="EmailNotConfirmed" xml:space="preserve">
+        <value>A művelet végrehajtásához erősítse meg az e-mail címét</value>
+    </data>
+    <data name="OldPasswordMatchNew" xml:space="preserve">
+        <value>Az új jelszó nem egyezik a régivel</value>
+    </data>
+    <data name="OldPasswordNeeded" xml:space="preserve">
+        <value>Meg kell adnia a régi jelszót annak megváltoztatásához</value>
+    </data>
+    <data name="PasswordChanged" xml:space="preserve">
+        <value>A Jelszó sikeresen megváltozott</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>Helytelen jelszó hossza</value>
+    </data>
+    <data name="PasswordMismatch" xml:space="preserve">
+        <value>A régi jelszó helytelen</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>A jelszónak számokat kell tartalmaznia</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>A jelszónak kisbetűket kell tartalmaznia</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>A jelszónak speciális karaktereket kell tartalmaznia</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>A jelszónak nagybetűket kell tartalmaznia</value>
+    </data>
+    <data name="ProviderLinked" xml:space="preserve">
+        <value>A Szolgáltató kapcsolódik</value>
+    </data>
+    <data name="ProviderUnlinked" xml:space="preserve">
+        <value>A Szolgáltató megszakad</value>
+    </data>
+    <data name="SessionsClosed" xml:space="preserve">
+        <value>A többi ülés sikeresen befejeződött</value>
+    </data>
+    <data name="AvatarChanged" xml:space="preserve">
+        <value>A profilfotó megváltozott</value>
+    </data>
+    <data name="UserNameChanged" xml:space="preserve">
+        <value>A felhasználó neve megváltozott</value>
+    </data>
+    <data name="UserNameLengthInvalid" xml:space="preserve">
+        <value>Érvénytelen Felhasználónév hossza</value>
+    </data>
+    <data name="WrongFileSize" xml:space="preserve">
+        <value>A fájl mérete nem haladhatja meg a 15 MB-ot</value>
+    </data>
+</root>

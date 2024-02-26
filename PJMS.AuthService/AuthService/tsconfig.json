@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "../wwwroot/bundles",
+    "noImplicitAny": true,
+    "module": "ES6",
+    "target": "ES5",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node",
+    "sourceMap": true
+  },
+  "include": ["src"]
+}

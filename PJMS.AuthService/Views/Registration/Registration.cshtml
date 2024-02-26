@@ -1,0 +1,108 @@
+﻿@model PJMS.AuthService.Web.Registration.ViewModels.RegistrationViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["RegistrationTitle"];
+}
+
+<h5 class="card-title">@Localizer["RegistrationTitle"]</h5>
+<span class="card-logo">
+    <i class="zmdi zmdi-font"></i>
+</span>
+@if (Model.EnableLocalLogin)
+{
+    <form asp-action="Registration" id="register" method="post" class="account mt-lg-5 mt-md-3 mt-1">
+
+        <input asp-for="ReturnUrl" type="hidden"/>
+
+        <div class="wrap-input">
+            <input asp-for="Email" autofocus>
+            <span class="focus-input"
+                  asp-placeholder-for="Email">
+            </span>
+        </div>
+        <div class="wrap-error mb-4">
+            <span asp-validation-for="Email"></span>
+        </div>
+
+        <div class="wrap-input">
+            <span class="btn-show-pass" id="show-pass">
+                <i class="zmdi zmdi-eye"></i>
+            </span>
+            <input asp-for="Password"/>
+            <span class="focus-input" asp-placeholder-for="Password">
+            </span>
+        </div>
+
+        <div class="strength-valid" id="strength-valid" hidden="hidden">
+            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            </div>
+            <span class="pass-valid-errors"></span>
+            <div class="d-none" id="invalid-pass">@Localizer["PassWarning"]</div>
+            <div class="d-none" id="week-pass">@Localizer["WeakPass"]</div>
+            <div class="d-none" id="medium-pass">@Localizer["MediumPass"]</div>
+            <div class="d-none" id="strong-pass">@Localizer["StrongPass"]</div>
+        </div>
+
+        <div class="wrap-error mb-4">
+            <span asp-validation-for="Password" id="password-valid-errors"></span>
+        </div>
+
+        <div class="wrap-input">
+            <span class="btn-show-pass" id="show-pass-confirm">
+                <i class="zmdi zmdi-eye"></i>
+            </span>
+            <input asp-for="PasswordConfirm"/>
+            <span class="focus-input" asp-placeholder-for="PasswordConfirm">
+            </span>
+        </div>
+        <div class="wrap-error mb-2">
+            <span asp-validation-for="PasswordConfirm"></span>
+        </div>
+
+        <div class="form-check mb-2 mb-md-5">
+            <input asp-for="RememberLogin" class="form-check-input">
+            <label asp-for="RememberLogin" class="form-check-label">
+            </label>
+        </div>
+        @if (Model.ExternalProviders.Any())
+        {
+            <partial name="_Oauth" model="@(Model.ExternalProviders, Model.ReturnUrl)"/>
+        }
+        <div class="container-btn mb-4">
+            <div class="wrap-btn on-load">
+                <div class="bg-btn"></div>
+                <input class="m-btn" type="submit" value="@Localizer["RegistrationButton"]">
+            </div>
+        </div>
+    </form>
+    <div class="container-btn mb-4">
+        <div class="wrap-btn on-hover">
+            <div class="bg-btn"></div>
+            <a class="m-btn" asp-controller="Account" asp-action="Cancel" asp-route-returnUrl="@Model.ReturnUrl">
+                @Localizer["Cancel"]
+            </a>
+        </div>
+    </div>
+    <div class="text-center card-subtitle">
+        <span>
+            @Localizer["HaveAccount"]
+        </span>
+
+        <a class="card-link" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
+            @Localizer["Login"]
+        </a>
+    </div>
+}
+else if (Model.ExternalProviders.Any())
+{
+    <partial name="_Oauth" model="@(Model.ExternalProviders, Model.ReturnUrl)"/>
+}
+else if (!Model.EnableLocalLogin)
+{
+    <div class="alert alert-warning">
+        <strong>@Localizer["InvalidRequest"]</strong>
+        @Localizer["SchemesNotConfigured"]
+    </div>
+}

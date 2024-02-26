@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="And" xml:space="preserve">
+        <value>и</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Повратак</value>
+    </data>
+    <data name="DownloadGoogle" xml:space="preserve">
+        <value>или Гоогле Аутхентицатор за</value>
+    </data>
+    <data name="DownloadMicrosoft" xml:space="preserve">
+        <value>1. Преузмите апликацију за двофакторску аутентификацију као што је Мицрософт Аутхентицатор за</value>
+    </data>
+    <data name="QrCodeInvalid" xml:space="preserve">
+        <value>Ако КР код не ради, покушајте да повећате осветљеност екрана.</value>
+    </data>
+    <data name="ScanQrOrEnterKey" xml:space="preserve">
+        <value>2. Скенирајте КР код или унесите следећи кључ у своју двофакторску апликацију за потврду идентитета. Регистар и размаци нису битни.</value>
+    </data>
+    <data name="SetUp" xml:space="preserve">
+        <value>Омогући</value>
+    </data>
+    <data name="SetupTwoFactorTitle" xml:space="preserve">
+        <value>Двофакторска Аутентификација</value>
+    </data>
+    <data name="UniqueCode" xml:space="preserve">
+        <value>3. Након што скенирате КР код или унесете горњи кључ, апликација за двофакторску аутентификацију ће вам дати јединствени код. Унесите овај код у поље за потврду испод.</value>
+    </data>
+</root>

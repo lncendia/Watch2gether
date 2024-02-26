@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AccessToService" xml:space="preserve">
+        <value>Πρόσβαση στην υπηρεσία</value>
+    </data>
+    <data name="email" xml:space="preserve">
+        <value>Το ταχυδρομείο σας</value>
+    </data>
+    <data name="offline" xml:space="preserve">
+        <value>Απεριόριστη πρόσβαση</value>
+    </data>
+    <data name="offlineDescription" xml:space="preserve">
+        <value>Η υπηρεσία θα έχει πρόσβαση στα δεδομένα σας ανά πάσα στιγμή</value>
+    </data>
+    <data name="openid" xml:space="preserve">
+        <value>Η ταυτότητά σας</value>
+    </data>
+    <data name="profile" xml:space="preserve">
+        <value>Δεδομένα Προφίλ</value>
+    </data>
+    <data name="profileDescription" xml:space="preserve">
+        <value>Πληροφορίες σχετικά με το προφίλ χρήστη σας (όνομα, επώνυμο κ. λπ.)</value>
+    </data>
+    <data name="roles" xml:space="preserve">
+        <value>Οι ρόλοι σας</value>
+    </data>
+    <data name="rolesDescription" xml:space="preserve">
+        <value>Πρόσβαση στα δικαιώματα που σας παρέχονται</value>
+    </data>
+</root>

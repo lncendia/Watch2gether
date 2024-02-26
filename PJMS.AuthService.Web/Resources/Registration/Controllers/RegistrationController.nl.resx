@@ -1,0 +1,35 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>Het e-mailformaat is niet correct</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>De wachtwoordlengte is onjuist</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>Het wachtwoord moet nummers bevatten</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>Het wachtwoord moet kleine letters bevatten</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Het wachtwoord moet speciale tekens bevatten</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>Het wachtwoord moet hoofdletters bevatten</value>
+    </data>
+    <data name="UserAlreadyExist" xml:space="preserve">
+        <value>De gebruiker is al geregistreerd</value>
+    </data>
+</root>

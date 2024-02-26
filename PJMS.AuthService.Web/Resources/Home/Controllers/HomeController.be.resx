@@ -1,0 +1,59 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DefaultException" xml:space="preserve">
+        <value>Узнікла памылка пры апрацоўцы запыту.</value>
+    </data>
+    <data name="EmailAlreadyTakenException" xml:space="preserve">
+        <value>Пошта ўжо выкарыстоўваецца</value>
+    </data>
+    <data name="EmailFormatException" xml:space="preserve">
+        <value>Фармат пошты не карэктны</value>
+    </data>
+    <data name="EmailSendException" xml:space="preserve">
+        <value>Не атрымалася адправіць паведамленне вам на пошту.</value>
+    </data>
+    <data name="IdentityContextException" xml:space="preserve">
+        <value>Дзеянне недаступна па-за кантэкстам. Вярніцеся ў Галоўнае прыкладанне і паспрабуйце зноў.</value>
+    </data>
+    <data name="InvalidCodeException" xml:space="preserve">
+        <value>Тэрмін дзеяння спасылкі скончыўся</value>
+    </data>
+    <data name="LoginAlreadyAssociatedException" xml:space="preserve">
+        <value>Лагін ўжо звязаны з іншым карыстальнікам</value>
+    </data>
+    <data name="LoginNotFoundException" xml:space="preserve">
+        <value>Лагін не знойдзены</value>
+    </data>
+    <data name="OldPasswordNeededException" xml:space="preserve">
+        <value>Не пазначаны стары пароль</value>
+    </data>
+    <data name="QueryParameterMissingException" xml:space="preserve">
+        <value>Адсутнічае параметр радка запыту</value>
+    </data>
+    <data name="TwoFactorAlreadyEnabledException" xml:space="preserve">
+        <value>Двухфакторную аўтэнтыфікацыя ўжо падключана</value>
+    </data>
+    <data name="UserLockoutException" xml:space="preserve">
+        <value>Вы былі заблакаваныя з-за вялікай колькасці няўдалых спробаў ўваходу. Паспрабуйце ўвайсці пазней</value>
+    </data>
+    <data name="UserNotFoundException" xml:space="preserve">
+        <value>Карыстальнік не знойдзены</value>
+    </data>
+    <data name="UserNameLengthException" xml:space="preserve">
+        <value>Няправільная даўжыня імя карыстальніка</value>
+    </data>
+    <data name="ThumbnailSaveException" xml:space="preserve">
+        <value>Памылка захавання фота профіля</value>
+    </data>
+</root>

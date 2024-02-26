@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="And" xml:space="preserve">
+        <value>και</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Επιστρέψετε</value>
+    </data>
+    <data name="DownloadGoogle" xml:space="preserve">
+        <value>ή Google Authenticator για</value>
+    </data>
+    <data name="DownloadMicrosoft" xml:space="preserve">
+        <value>1. Κατεβάστε μια εφαρμογή ελέγχου ταυτότητας δύο παραγόντων, όπως το Microsoft Authenticator για</value>
+    </data>
+    <data name="QrCodeInvalid" xml:space="preserve">
+        <value>Εάν ο κωδικός QR δεν λειτουργεί, προσπαθήστε να αυξήσετε τη φωτεινότητα της οθόνης.</value>
+    </data>
+    <data name="ScanQrOrEnterKey" xml:space="preserve">
+        <value>2. Σαρώστε τον κωδικό QR ή εισαγάγετε το ακόλουθο κλειδί στην εφαρμογή ελέγχου ταυτότητας δύο παραγόντων. Η θήκη και οι χώροι δεν έχουν σημασία.</value>
+    </data>
+    <data name="SetUp" xml:space="preserve">
+        <value>Ενεργοποιήσετε</value>
+    </data>
+    <data name="SetupTwoFactorTitle" xml:space="preserve">
+        <value>Έλεγχος ταυτότητας δύο παραγόντων</value>
+    </data>
+    <data name="UniqueCode" xml:space="preserve">
+        <value>3. Αφού σαρώσετε τον κωδικό QR ή εισαγάγετε το παραπάνω κλειδί, η εφαρμογή ελέγχου ταυτότητας δύο παραγόντων θα σας παρέχει έναν μοναδικό κωδικό. Εισαγάγετε αυτόν τον κωδικό στο παρακάτω πεδίο επιβεβαίωσης.</value>
+    </data>
+</root>

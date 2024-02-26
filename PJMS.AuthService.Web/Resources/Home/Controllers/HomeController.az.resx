@@ -1,0 +1,59 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DefaultException" xml:space="preserve">
+        <value>Sorğunu emal edərkən bir səhv meydana gəldi.</value>
+    </data>
+    <data name="EmailAlreadyTakenException" xml:space="preserve">
+        <value>Poçt artıq istifadə olunur</value>
+    </data>
+    <data name="EmailFormatException" xml:space="preserve">
+        <value>Poçt formatı düzgün deyil</value>
+    </data>
+    <data name="EmailSendException" xml:space="preserve">
+        <value>Poçtunuza bir mesaj göndərə bilmədim.</value>
+    </data>
+    <data name="IdentityContextException" xml:space="preserve">
+        <value>Fəaliyyət kontekstdən kənarda mövcud deyil. Əsas tətbiqə qayıdın və yenidən cəhd edin.</value>
+    </data>
+    <data name="InvalidCodeException" xml:space="preserve">
+        <value>Link müddəti bitdi</value>
+    </data>
+    <data name="LoginAlreadyAssociatedException" xml:space="preserve">
+        <value>Giriş artıq başqa bir istifadəçi ilə bağlıdır</value>
+    </data>
+    <data name="LoginNotFoundException" xml:space="preserve">
+        <value>Giriş tapılmadı</value>
+    </data>
+    <data name="OldPasswordNeededException" xml:space="preserve">
+        <value>Köhnə parol göstərilməyib</value>
+    </data>
+    <data name="QueryParameterMissingException" xml:space="preserve">
+        <value>Sorğu xətti parametri yoxdur</value>
+    </data>
+    <data name="UserLockoutException" xml:space="preserve">
+        <value>Çox sayda uğursuz giriş cəhdinə görə bloklandınız. Daha sonra daxil olmağa çalışın</value>
+    </data>
+    <data name="UserNotFoundException" xml:space="preserve">
+        <value>İstifadəçi tapılmadı</value>
+    </data>
+    <data name="TwoFactorAlreadyEnabledException" xml:space="preserve">
+        <value>İki faktorlu identifikasiya artıq bağlıdır</value>
+    </data>
+    <data name="UserNameLengthException" xml:space="preserve">
+        <value>Yanlış istifadəçi adı uzunluğu</value>
+    </data>
+    <data name="ThumbnailSaveException" xml:space="preserve">
+        <value>Profil şəklini yadda saxlama xətası</value>
+    </data>
+</root>

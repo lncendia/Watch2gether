@@ -1,0 +1,15 @@
+{
+  "LoggingDir": "Logging",
+  "TelegramNotifications": {
+    "Info": {
+      "Token": "1341769299:AAE4q84mx-NRrSJndKsCVNVLr-SzjYeN7wk",
+      "Ids": [
+      ]
+    },
+    "Error": {
+      "Token": "1341769299:AAE4q84mx-NRrSJndKsCVNVLr-SzjYeN7wk",
+      "Ids": [
+      ]
+    }
+  }
+}

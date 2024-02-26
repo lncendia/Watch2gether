@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PJMS.AuthService.Web.Settings.InputModels.ChangeNameInputModel
+@inject IViewLocalizer Localizer
+
+<form asp-action="ChangeName" method="post" class="mt-2">
+
+    <input asp-for="ReturnUrl" type="hidden"/>
+
+    <div class="wrap-input">
+        <input asp-for="Username"/>
+        <span class="focus-input" asp-placeholder-for="Username"></span>
+    </div>
+    <div class="wrap-error mb-4">
+        <span asp-validation-for="Username"></span>
+    </div>
+
+    <div class="container-btn">
+        <div class="wrap-btn on-load">
+            <div class="bg-btn"></div>
+            <input class="m-btn" type="submit" value="@Localizer["Change"]">
+        </div>
+    </div>
+</form>

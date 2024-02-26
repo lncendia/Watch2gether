@@ -1,0 +1,77 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailAlreadyTaken" xml:space="preserve">
+        <value>Posti on jo käytössä</value>
+    </data>
+    <data name="EmailChanged" xml:space="preserve">
+        <value>Posti on vaihtunut</value>
+    </data>
+    <data name="EmailChangeRequested" xml:space="preserve">
+        <value>Pyyntö on lähetetty vanhaan sähköpostiosoitteeseesi</value>
+    </data>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>Sähköpostin muoto ei ole oikea</value>
+    </data>
+    <data name="EmailNotConfirmed" xml:space="preserve">
+        <value>Voit suorittaa tämän toiminnon vahvistamalla sähköpostiosoitteesi</value>
+    </data>
+    <data name="OldPasswordMatchNew" xml:space="preserve">
+        <value>Uusi salasana ei vastaa vanhaa</value>
+    </data>
+    <data name="OldPasswordNeeded" xml:space="preserve">
+        <value>Sinun on määritettävä vanha salasana vaihtaaksesi sen</value>
+    </data>
+    <data name="PasswordChanged" xml:space="preserve">
+        <value>Salasana on vaihdettu onnistuneesti</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>Väärä salasanan pituus</value>
+    </data>
+    <data name="PasswordMismatch" xml:space="preserve">
+        <value>Vanha salasana on väärä</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>Salasanan on sisällettävä numeroita</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>Salasanan tulee sisältää pieniä kirjaimia</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Salasanan tulee sisältää erikoismerkkejä</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>Salasanan tulee sisältää isoja kirjaimia</value>
+    </data>
+    <data name="ProviderLinked" xml:space="preserve">
+        <value>Palveluntarjoaja on linkitetty</value>
+    </data>
+    <data name="ProviderUnlinked" xml:space="preserve">
+        <value>Palveluntarjoaja on katkaistu</value>
+    </data>
+    <data name="SessionsClosed" xml:space="preserve">
+        <value>Muut istunnot on suoritettu onnistuneesti</value>
+    </data>
+    <data name="AvatarChanged" xml:space="preserve">
+        <value>Profiilikuva on muutettu</value>
+    </data>
+    <data name="UserNameChanged" xml:space="preserve">
+        <value>Käyttäjän nimi on muutettu</value>
+    </data>
+    <data name="UserNameLengthInvalid" xml:space="preserve">
+        <value>Virheellinen käyttäjänimen pituus</value>
+    </data>
+    <data name="WrongFileSize" xml:space="preserve">
+        <value>Tiedoston koko ei saa ylittää 15 Mt</value>
+    </data>
+</root>

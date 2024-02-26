@@ -1,11 +1,7 @@
-﻿obj/
+﻿.idea/
 bin/
-AuthService.Start/wwwroot/img/Avatars/
-AuthService.Start/wwwroot/img/Posters/
-*/wwwroot/css/app.min.css
-*/wwwroot/js/app.min.js
-*/ScriptsAndCss/Combined/
-*/ScriptsAndCss/JsScripts/
-*/ScriptsAndCss/CssFiles/*.css
-*/ScriptsAndCss/CssFiles/*.css.map
+obj/
 node_modules/
+PJMS.AuthService/wwwroot/bundles/
+PJMS.AuthService/wwwroot/img/avatars/
+/Overoom.sln.DotSettings.user

@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Cancel" xml:space="preserve">
+        <value>Avbryta</value>
+    </data>
+    <data name="ForgotPassword" xml:space="preserve">
+        <value>Glömt ditt lösenord?</value>
+    </data>
+    <data name="InvalidRequest" xml:space="preserve">
+        <value>Ogiltig inloggningsbegäran</value>
+    </data>
+    <data name="LogIn" xml:space="preserve">
+        <value>Ange</value>
+    </data>
+    <data name="LoginTitle" xml:space="preserve">
+        <value>Ingång</value>
+    </data>
+    <data name="NoAccount" xml:space="preserve">
+        <value>Inget konto?</value>
+    </data>
+    <data name="Registration" xml:space="preserve">
+        <value>Registrering</value>
+    </data>
+    <data name="SchemesNotConfigured" xml:space="preserve">
+        <value>Inga inloggningsscheman är konfigurerade för denna begäran.</value>
+    </data>
+    <data name="UserLockout" xml:space="preserve">
+        <value>Ditt konto har tillfälligt blockerats på grund av att antalet misslyckade inloggningsförsök har överskridits.</value>
+    </data>
+</root>

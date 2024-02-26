@@ -1,0 +1,84 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using PJMS.AuthService.Abstractions.Enums
+@using PJMS.AuthService.Web.TwoFactor.InputModels
+@model PJMS.AuthService.Web.TwoFactor.ViewModels.ResetTwoFactorViewModel
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["ResetTwoFactorTitle"];
+    
+    var elements = new (string collapsed, string expanded, string show)[3];
+
+    Array.Fill(elements, ("collapsed", "false", ""), 0, 3);
+
+    var element = (int)Model.CodeType;
+
+    // Проверяем, что значение Model.ExpandElement не превышает длину массива elements
+    if (element <= elements.Length)
+    {
+        // Устанавливаем значения свойств элемента, чтобы раскрыть его
+        elements[element].collapsed = "";
+        elements[element].expanded = "true";
+        elements[element].show = "show";
+    }
+}
+<h5 class="card-title">@Localizer["ResetTwoFactorTitle"]</h5>
+<span class="card-logo">
+    <i class="zmdi zmdi-font"></i>
+</span>
+
+<div class="two-factor">
+    <div class="accordion my-5" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @elements[0].collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="@elements[0].expanded" aria-controls="collapseOne">
+                    @Localizer["Authenticator"]
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse @elements[0].show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form asp-action="Reset" method="post" class="mt-2">
+                        <partial name="_Authenticator" model="@(new TwoFactorAuthenticateInputModel { CodeType = CodeType.Authenticator, ReturnUrl = Model.ReturnUrl })"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @elements[1].collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="@elements[1].expanded" aria-controls="collapseTwo">
+                    @Localizer["Email"]
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse @elements[1].show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form asp-action="Reset" method="post" class="mt-2">
+                        <partial name="_Email" model="@(new TwoFactorAuthenticateInputModel { CodeType = CodeType.Email, ReturnUrl = Model.ReturnUrl })"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button @elements[2].collapsed shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="@elements[2].expanded" aria-controls="collapseThree">
+                    @Localizer["RecoveryCode"]
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse @elements[2].show" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <form asp-action="Reset" method="post" class="mt-2">
+                        <partial name="_RecoveryCode" model="@(new TwoFactorAuthenticateInputModel { CodeType = CodeType.RecoveryCode, ReturnUrl = Model.ReturnUrl })"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-btn mb-4">
+        <div class="wrap-btn on-hover">
+            <div class="bg-btn"></div>
+            <a class="m-btn" asp-controller="Account" asp-action="Cancel" asp-route-returnUrl="@Model.ReturnUrl">
+                @Localizer["Cancel"]
+            </a>
+        </div>
+    </div>
+</div>

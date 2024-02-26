@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DownloadMicrosoft" xml:space="preserve">
+        <value>1. Загрузите приложение для двухфакторной аутентификации, такое как Microsoft Authenticator для</value>
+    </data>
+    <data name="DownloadGoogle" xml:space="preserve">
+        <value>или Google Authenticator для</value>
+    </data>
+    <data name="And" xml:space="preserve">
+        <value>и</value>
+    </data>
+    <data name="ScanQrOrEnterKey" xml:space="preserve">
+        <value>2. Отсканируйте QR-код или введите следующий ключ в ваше приложение для двухфакторной аутентификации. Регистр и пробелы не имеют значения.</value>
+    </data>
+    <data name="UniqueCode" xml:space="preserve">
+        <value>3. После того как вы отсканировали QR-код или ввели вышеуказанный ключ, ваше приложение для двухфакторной аутентификации предоставит вам уникальный код. Введите этот код в поле подтверждения ниже.</value>
+    </data>
+    <data name="QrCodeInvalid" xml:space="preserve">
+        <value>Если QR-код не работает, попробуйте увеличить яркость экрана.</value>
+    </data>
+    <data name="SetupTwoFactorTitle" xml:space="preserve">
+        <value>Двухфакторная аутентификация</value>
+    </data>
+    <data name="SetUp" xml:space="preserve">
+        <value>Включить</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Вернуться</value>
+    </data>
+</root>

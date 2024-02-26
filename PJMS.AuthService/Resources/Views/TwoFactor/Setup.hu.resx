@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="And" xml:space="preserve">
+        <value>és</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Vissza</value>
+    </data>
+    <data name="DownloadGoogle" xml:space="preserve">
+        <value>vagy a Google Authenticator for</value>
+    </data>
+    <data name="DownloadMicrosoft" xml:space="preserve">
+        <value>1. Töltsön le egy kétfaktoros hitelesítési alkalmazást, például a Microsoft Authenticator alkalmazást</value>
+    </data>
+    <data name="QrCodeInvalid" xml:space="preserve">
+        <value>Ha a QR-kód nem működik, próbálja meg növelni a képernyő fényerejét.</value>
+    </data>
+    <data name="ScanQrOrEnterKey" xml:space="preserve">
+        <value>2. Olvassa be a QR-kódot, vagy írja be a következő kulcsot a kétfaktoros hitelesítési alkalmazásba. Az ügy és a terek nem számítanak.</value>
+    </data>
+    <data name="SetUp" xml:space="preserve">
+        <value>Kapcsolja be</value>
+    </data>
+    <data name="SetupTwoFactorTitle" xml:space="preserve">
+        <value>Kétfaktoros hitelesítés</value>
+    </data>
+    <data name="UniqueCode" xml:space="preserve">
+        <value>3. Miután beolvasta a QR-kódot, vagy beírta a fenti kulcsot, a kétfaktoros hitelesítési alkalmazás egyedi kódot biztosít Önnek. Írja be ezt a kódot az alábbi megerősítő mezőbe.</value>
+    </data>
+</root>

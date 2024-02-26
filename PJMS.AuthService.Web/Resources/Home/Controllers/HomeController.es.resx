@@ -1,0 +1,59 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DefaultException" xml:space="preserve">
+        <value>Se produjo un error al procesar la solicitud.</value>
+    </data>
+    <data name="EmailAlreadyTakenException" xml:space="preserve">
+        <value>El correo ya está en uso</value>
+    </data>
+    <data name="EmailFormatException" xml:space="preserve">
+        <value>El formato de correo no es correcto</value>
+    </data>
+    <data name="EmailSendException" xml:space="preserve">
+        <value>No se pudo enviar el mensaje a su correo.</value>
+    </data>
+    <data name="IdentityContextException" xml:space="preserve">
+        <value>La acción no está disponible fuera de contexto. Vuelve a la aplicación principal y vuelve a intentarlo.</value>
+    </data>
+    <data name="InvalidCodeException" xml:space="preserve">
+        <value>El enlace ha caducado</value>
+    </data>
+    <data name="LoginAlreadyAssociatedException" xml:space="preserve">
+        <value>El Inicio de sesión ya está asociado con otro usuario</value>
+    </data>
+    <data name="LoginNotFoundException" xml:space="preserve">
+        <value>Inicio de sesión no encontrado</value>
+    </data>
+    <data name="OldPasswordNeededException" xml:space="preserve">
+        <value>No se ha especificado la contraseña anterior</value>
+    </data>
+    <data name="QueryParameterMissingException" xml:space="preserve">
+        <value>Falta el parámetro de cadena de consulta</value>
+    </data>
+    <data name="UserLockoutException" xml:space="preserve">
+        <value>Ha sido bloqueado debido a una gran cantidad de intentos de Inicio de sesión fallidos. Intenta iniciar sesión más tarde</value>
+    </data>
+    <data name="UserNotFoundException" xml:space="preserve">
+        <value>Usuario no encontrado</value>
+    </data>
+    <data name="TwoFactorAlreadyEnabledException" xml:space="preserve">
+        <value>La autenticación de dos factores ya está conectada</value>
+    </data>
+    <data name="UserNameLengthException" xml:space="preserve">
+        <value>Longitud incorrecta del nombre de usuario</value>
+    </data>
+    <data name="ThumbnailSaveException" xml:space="preserve">
+        <value>Error al guardar la foto de perfil</value>
+    </data>
+</root>

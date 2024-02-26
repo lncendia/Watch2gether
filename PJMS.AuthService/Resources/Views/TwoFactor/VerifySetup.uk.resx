@@ -1,0 +1,26 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Continue" xml:space="preserve">
+        <value>Продовжити</value>
+    </data>
+    <data name="CopyCodes" xml:space="preserve">
+        <value>Скопіювати список</value>
+    </data>
+    <data name="Info" xml:space="preserve">
+        <value>Унікальні одноразові коди, які дозволять вам пройти перевірку в тому випадку, якщо у вас не буде доступу до додатка генерації тимчасових кодів або до Пошти.Збережіть або запишіть ці коди в безпечне місце, щоб не втратити.</value>
+    </data>
+    <data name="VerifyCodes" xml:space="preserve">
+        <value>Резервні коди</value>
+    </data>
+</root>

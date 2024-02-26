@@ -1,0 +1,59 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DefaultException" xml:space="preserve">
+        <value>Възникна грешка при обработката на заявката.</value>
+    </data>
+    <data name="EmailAlreadyTakenException" xml:space="preserve">
+        <value>Пощата вече се използва</value>
+    </data>
+    <data name="EmailFormatException" xml:space="preserve">
+        <value>Форматът на пощата не е правилен</value>
+    </data>
+    <data name="EmailSendException" xml:space="preserve">
+        <value>Неуспешно изпращане на съобщение до вашата поща.</value>
+    </data>
+    <data name="IdentityContextException" xml:space="preserve">
+        <value>Действието не е достъпно извън контекста. Върнете се към основното приложение и опитайте отново.</value>
+    </data>
+    <data name="InvalidCodeException" xml:space="preserve">
+        <value>Връзката изтече</value>
+    </data>
+    <data name="LoginAlreadyAssociatedException" xml:space="preserve">
+        <value>Входът вече е свързан с друг потребител</value>
+    </data>
+    <data name="LoginNotFoundException" xml:space="preserve">
+        <value>Вход не е намерен</value>
+    </data>
+    <data name="OldPasswordNeededException" xml:space="preserve">
+        <value>Не е посочена стара парола</value>
+    </data>
+    <data name="QueryParameterMissingException" xml:space="preserve">
+        <value>Липсва параметър на низа на заявката</value>
+    </data>
+    <data name="UserLockoutException" xml:space="preserve">
+        <value>Бяхте блокирани поради голям брой неуспешни опити за влизане. Опитайте да влезете по-късно</value>
+    </data>
+    <data name="UserNotFoundException" xml:space="preserve">
+        <value>Потребителят не е намерен</value>
+    </data>
+    <data name="TwoFactorAlreadyEnabledException" xml:space="preserve">
+        <value>Двуфакторното удостоверяване вече е свързано</value>
+    </data>
+    <data name="UserNameLengthException" xml:space="preserve">
+        <value>Неправилна дължина на потребителското име</value>
+    </data>
+    <data name="ThumbnailSaveException" xml:space="preserve">
+        <value>Грешка при запазване на профилната снимка</value>
+    </data>
+</root>

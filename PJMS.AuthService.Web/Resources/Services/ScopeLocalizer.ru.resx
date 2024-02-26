@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AccessToService" xml:space="preserve">
+        <value>Доступ к сервису</value>
+    </data>
+    <data name="email" xml:space="preserve">
+        <value>Ваша почта</value>
+    </data>
+    <data name="openid" xml:space="preserve">
+        <value>Ваш идентификатор</value>
+    </data>
+    <data name="offline" xml:space="preserve">
+        <value>Неограниченный доступ</value>
+    </data>
+    <data name="offlineDescription" xml:space="preserve">
+        <value>Сервис получит доступ к вашим данным в любое время</value>
+    </data>
+    <data name="profile" xml:space="preserve">
+        <value>Данные профиля</value>
+    </data>
+    <data name="profileDescription" xml:space="preserve">
+        <value>Информация о вашем профиле пользователя (имя, фамилия и т.д.)</value>
+    </data>
+    <data name="rolesDescription" xml:space="preserve">
+        <value>Доступ к выданным вам правам</value>
+    </data>
+    <data name="roles" xml:space="preserve">
+        <value>Ваши роли</value>
+    </data>
+</root>

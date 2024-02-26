@@ -1,3 +1,4 @@
+using Room.Infrastructure.Storage.DatabaseInitialization;
 using Room.Start.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +19,14 @@ builder.Services.AddCorsServices();
 
 
 // Создание приложения на основе настроек builder
-using var app = builder.Build();
+await using var app = builder.Build();
+
+// Создаем область для инициализации баз данных
+using (var scope = app.Services.CreateScope())
+{
+    // Инициализация начальных данных в базу данных
+    await DatabaseInitializer.InitAsync(scope.ServiceProvider);
+}
 
 // Использование политик Cors
 app.UseCors("DefaultPolicy");
@@ -28,4 +36,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Запуск приложения
-app.Run();
+await app.RunAsync();

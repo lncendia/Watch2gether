@@ -1,0 +1,26 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Continue" xml:space="preserve">
+        <value>続きを読む</value>
+    </data>
+    <data name="CopyCodes" xml:space="preserve">
+        <value>リストをコピーする</value>
+    </data>
+    <data name="Info" xml:space="preserve">
+        <value>一時的なコード生成アプリケーションまたはメールにアクセスできない場合に検証に合格できる一意のワンタイムコード。これらのコードを紛失しないように、安全な場所に保存または書き留めてください。</value>
+    </data>
+    <data name="VerifyCodes" xml:space="preserve">
+        <value>バックアップコード</value>
+    </data>
+</root>

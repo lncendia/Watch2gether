@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AccessToService" xml:space="preserve">
+        <value>Xidmətə giriş</value>
+    </data>
+    <data name="email" xml:space="preserve">
+        <value>Poçtunuz</value>
+    </data>
+    <data name="offline" xml:space="preserve">
+        <value>Limitsiz giriş</value>
+    </data>
+    <data name="offlineDescription" xml:space="preserve">
+        <value>Xidmət istənilən vaxt məlumatlarınıza daxil olacaq</value>
+    </data>
+    <data name="openid" xml:space="preserve">
+        <value>Şəxsiyyət vəsiqəniz</value>
+    </data>
+    <data name="profile" xml:space="preserve">
+        <value>Profil məlumatları</value>
+    </data>
+    <data name="profileDescription" xml:space="preserve">
+        <value>İstifadəçi profiliniz haqqında məlumat (Ad, Soyad və s.)</value>
+    </data>
+    <data name="roles" xml:space="preserve">
+        <value>Rollarınız</value>
+    </data>
+    <data name="rolesDescription" xml:space="preserve">
+        <value>Sizə verilən hüquqlara giriş</value>
+    </data>
+</root>

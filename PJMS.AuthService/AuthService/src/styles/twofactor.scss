@@ -1,0 +1,28 @@
+.two-factor {
+  .accordion-button {
+    font-size: var(--main-size) !important;
+    --bs-accordion-btn-padding-y: 15px;
+    --bs-accordion-btn-padding-x: 15px;
+  }
+
+  @media (max-width: 670px) {
+    .accordion-button {
+      --bs-accordion-btn-padding-y: 10px;
+      --bs-accordion-btn-padding-x: 10px;
+    }
+  }
+
+  .two-factor-mail-info {
+    font-family: Montserrat-Regular, serif;
+    font-size: var(--side-size);
+    padding: 5px;
+
+    #request-email-error {
+      color: #c40a0a;
+    }
+  }
+
+  .disabled {
+    pointer-events: none;
+  }
+}

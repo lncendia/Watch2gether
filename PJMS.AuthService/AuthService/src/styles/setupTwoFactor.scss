@@ -1,0 +1,30 @@
+﻿.setupTwoFactor {
+  text-align: justify;
+  @media (max-width: 670px) {
+    font-size: 14px !important;
+  }
+
+  .auth-key {
+    cursor: pointer;
+    transition: color 0.3s;
+    @media (max-width: 670px) {
+      margin-top: 14px;
+    }
+  }
+
+  .auth-key:hover {
+    color: cornflowerblue;
+  }
+
+  .qrcode-invalid {
+    text-align: center;
+    font-size: 12px;
+    @media (max-width: 670px) {
+      font-size: 10px;
+    }
+  }
+
+  .qrcode {
+      margin: 0 auto;
+  }
+}

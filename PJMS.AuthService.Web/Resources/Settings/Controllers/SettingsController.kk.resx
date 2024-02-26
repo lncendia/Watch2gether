@@ -1,0 +1,77 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailAlreadyTaken" xml:space="preserve">
+        <value>Пошта қазірдің өзінде қолданыста</value>
+    </data>
+    <data name="EmailChanged" xml:space="preserve">
+        <value>Пошта өзгертілді</value>
+    </data>
+    <data name="EmailChangeRequested" xml:space="preserve">
+        <value>Сұрау сізге ескі поштаға жіберілді</value>
+    </data>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>Пошта пішімі дұрыс емес</value>
+    </data>
+    <data name="EmailNotConfirmed" xml:space="preserve">
+        <value>Бұл әрекетті орындау үшін поштаңызды растаңыз</value>
+    </data>
+    <data name="OldPasswordMatchNew" xml:space="preserve">
+        <value>Жаңа құпия сөз ескіге сәйкес келе алмайды</value>
+    </data>
+    <data name="OldPasswordNeeded" xml:space="preserve">
+        <value>Оны өзгерту үшін ескі парольді көрсету керек</value>
+    </data>
+    <data name="PasswordChanged" xml:space="preserve">
+        <value>Құпия сөз сәтті өзгертілді</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>Құпия сөздің ұзындығы дұрыс емес</value>
+    </data>
+    <data name="PasswordMismatch" xml:space="preserve">
+        <value>Ескі құпия сөз дұрыс көрсетілмеген</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>Парольде сандар болуы керек</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>Құпия сөзде кіші әріптер болуы керек</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Құпия сөзде арнайы таңбалар болуы керек</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>Құпия сөзде бас әріптер болуы керек</value>
+    </data>
+    <data name="ProviderLinked" xml:space="preserve">
+        <value>Провайдер байланған</value>
+    </data>
+    <data name="ProviderUnlinked" xml:space="preserve">
+        <value>Провайдер ажыратылған</value>
+    </data>
+    <data name="SessionsClosed" xml:space="preserve">
+        <value>Басқа сессиялар сәтті аяқталды</value>
+    </data>
+    <data name="AvatarChanged" xml:space="preserve">
+        <value>Профиль фотосуреті өзгертілді</value>
+    </data>
+    <data name="UserNameChanged" xml:space="preserve">
+        <value>Пайдаланушы аты өзгертілді</value>
+    </data>
+    <data name="UserNameLengthInvalid" xml:space="preserve">
+        <value>Пайдаланушы аты дұрыс емес</value>
+    </data>
+    <data name="WrongFileSize" xml:space="preserve">
+        <value>Файл өлшемі 15 Мб тан аспауы керек</value>
+    </data>
+</root>

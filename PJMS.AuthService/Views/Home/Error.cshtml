@@ -1,0 +1,21 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@model PJMS.AuthService.Web.Home.ViewModels.ErrorViewModel
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["RequestError"];
+}
+
+<div class="card-body">
+    <h5 class="card-title">@Localizer["RequestError"]</h5>
+    <span class="card-logo">
+        <i class="zmdi zmdi-font"></i>
+    </span>
+    <div class="alert alert-danger mt-4">
+        <strong>@Model.Message</strong>
+    </div>
+    @if (Model.ShowRequestId)
+    {
+        <div class="request-id">@Localizer["RequestId"]<br>@Model.RequestId</div>
+    }
+</div>

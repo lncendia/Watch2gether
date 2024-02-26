@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AccessToService" xml:space="preserve">
+        <value>Acesso ao serviço</value>
+    </data>
+    <data name="email" xml:space="preserve">
+        <value>Your e-mail</value>
+    </data>
+    <data name="offline" xml:space="preserve">
+        <value>Acesso ilimitado</value>
+    </data>
+    <data name="offlineDescription" xml:space="preserve">
+        <value>O serviço terá acesso aos seus dados a qualquer momento</value>
+    </data>
+    <data name="openid" xml:space="preserve">
+        <value>Seu ID</value>
+    </data>
+    <data name="profile" xml:space="preserve">
+        <value>Dados do perfil</value>
+    </data>
+    <data name="profileDescription" xml:space="preserve">
+        <value>Informações sobre o seu perfil de usuário (nome, sobrenome, etc.)</value>
+    </data>
+    <data name="roles" xml:space="preserve">
+        <value>Suas funções</value>
+    </data>
+    <data name="rolesDescription" xml:space="preserve">
+        <value>Acesso aos direitos que lhe foram concedidos</value>
+    </data>
+</root>

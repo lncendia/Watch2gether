@@ -1,0 +1,50 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailChange" xml:space="preserve">
+        <value>Schimbarea e-mailului</value>
+    </data>
+    <data name="ExternalProviders" xml:space="preserve">
+        <value>Conturi Conectate</value>
+    </data>
+    <data name="PasswordChange" xml:space="preserve">
+        <value>Schimbarea parolei</value>
+    </data>
+    <data name="Return" xml:space="preserve">
+        <value>Pentru a reveni</value>
+    </data>
+    <data name="SettingsTitle" xml:space="preserve">
+        <value>Setări</value>
+    </data>
+    <data name="TerminateSessions" xml:space="preserve">
+        <value>Sesiuni de încheiere</value>
+    </data>
+    <data name="WarningInfo" xml:space="preserve">
+        <value>Schimbarea datelor va încheia sesiunile rămase!</value>
+    </data>
+    <data name="Connect" xml:space="preserve">
+        <value>Ștecher</value>
+    </data>
+    <data name="Disconnect" xml:space="preserve">
+        <value>Deconectați</value>
+    </data>
+    <data name="TwoFactor" xml:space="preserve">
+        <value>Autentificare cu doi factori</value>
+    </data>
+    <data name="AvatarChange" xml:space="preserve">
+        <value>Schimbare fotografie</value>
+    </data>
+    <data name="NicknameChange" xml:space="preserve">
+        <value>Schimbarea numelui</value>
+    </data>
+</root>

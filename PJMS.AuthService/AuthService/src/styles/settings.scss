@@ -1,0 +1,146 @@
+.settings {
+  
+  .avatar {
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: all 0.1s
+  }
+
+  .avatar:hover {
+    width: 55px;
+    height: 55px;
+    box-shadow: 1px 2px 5px 1px #3f0681;
+  }
+  
+  .accordion-button {
+    font-size: var(--main-size) !important;
+    --bs-accordion-btn-padding-y: 15px;
+    --bs-accordion-btn-padding-x: 15px;
+  }
+
+  @media (max-width: 670px) {
+    .accordion-button {
+      --bs-accordion-btn-padding-y: 10px;
+      --bs-accordion-btn-padding-x: 10px;
+    }
+
+  }
+  .oauth-block {
+    position: relative;
+
+    .modal-btn {
+      position: absolute;
+      top: 2px;
+      right: 3%;
+      color: #8c0000;
+    }
+    
+    .modal-btn:hover {
+      color: red;
+      cursor: pointer;
+    }
+
+    .provider.disabled {
+      cursor: not-allowed;
+      box-shadow: 0 0 3px 1px rgba(37, 37, 37, 0.5);
+      opacity: 0.5;
+    }
+
+    .provider.active {
+      box-shadow: 0 2px 4px 1px rgba(37, 37, 37, 0.5);
+    }
+
+    .provider {
+      display: block;
+      width: 75%;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin: auto auto 15px;
+      color: black;
+      border-radius: 15px;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: Montserrat-Medium, serif;
+      position: relative;
+
+      img {
+        width: 21px;
+        height: 21px;
+        position: absolute;
+        margin-left: 5px;
+        border-radius: 50%;
+      }
+
+      .name {
+        text-align: center;
+        font-size: 14px;
+      }
+
+      svg {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        color: green;
+      }
+    }
+
+    .provider.active:hover {
+      width: 76%;
+      color: white;
+      border-color: transparent;
+
+      svg {
+        color: white;
+      }
+    }
+
+    .active.yandex:hover {
+      background: rgb(252, 63, 29);
+      box-shadow: 0 3px 4px 1px rgba(252, 63, 29, 0.5);
+    }
+
+    .vkid {
+      img {
+        width: 42px;
+        border-radius: 20%;
+      }
+    }
+
+    .active.vkid:hover {
+      background: rgb(0, 119, 255);
+      box-shadow: 0 3px 4px 1px rgba(0, 119, 255, 0.5);
+    }
+
+    .active.github:hover {
+      background: rgb(0, 0, 0);
+      box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.5);
+
+      img {
+        background: white;
+      }
+    }
+
+    .active.google:hover {
+      background: rgb(12, 57, 239);
+      box-shadow: 0 3px 4px 1px rgba(12, 57, 239, 0.5);
+    }
+
+    .active.microsoft:hover {
+      background: rgb(43, 211, 51);
+      box-shadow: 0 3px 4px 1px rgba(43, 211, 51, 0.5);
+    }
+
+    .microsoft {
+      img {
+        border-radius: 0;
+      }
+    }
+
+    .active.x:hover {
+      background: rgb(0, 0, 0);
+      box-shadow: 0 3px 4px 1px rgba(0, 0, 0, 0.5);
+    }
+  }
+}

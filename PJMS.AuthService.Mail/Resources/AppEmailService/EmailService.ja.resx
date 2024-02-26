@@ -1,0 +1,74 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ConfirmMailChangeEmailButtonName" xml:space="preserve">
+        <value>メールを変更する</value>
+    </data>
+    <data name="ConfirmMailChangeEmailExplanation" xml:space="preserve">
+        <value>メールアドレスの変更を要求したため、このメールを受信しました。</value>
+    </data>
+    <data name="ConfirmMailChangeEmailSubject" xml:space="preserve">
+        <value>メールの変更</value>
+    </data>
+    <data name="ConfirmMailChangeEmailText" xml:space="preserve">
+        <value>下のボタンをクリックして、新しいメールアドレスへの変更を確認してください。</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailButtonName" xml:space="preserve">
+        <value>パスワードの回復</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailExplanation" xml:space="preserve">
+        <value>パスワードの復元を要求したため、このメールが届きました。</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailSubject" xml:space="preserve">
+        <value>パスワードの回復</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailText" xml:space="preserve">
+        <value>下のボタンをクリックして、古いパスワードのリセットを確認してください。 この手順で古いパスワードが削除され、新しいパスワードを設定できます。</value>
+    </data>
+    <data name="ConfirmRegistrationEmailButtonName" xml:space="preserve">
+        <value>登録の確認</value>
+    </data>
+    <data name="ConfirmRegistrationEmailExplanation" xml:space="preserve">
+        <value>最近アカウントを登録したため、このメールが届きました。</value>
+    </data>
+    <data name="ConfirmRegistrationEmailSubject" xml:space="preserve">
+        <value>アカウントの有効化</value>
+    </data>
+    <data name="ConfirmRegistrationEmailText" xml:space="preserve">
+        <value>下のボタンをクリックしてメールアドレスを確認してください。 この手順は、あなたがこのメールアドレスの所有者であることを確認することにより、ビジネスのセキュリティを向上させます。</value>
+    </data>
+    <data name="LinkExpires" xml:space="preserve">
+        <value>リンクは、メールを受信してから24時間後に有効期限が切れます。</value>
+    </data>
+    <data name="PrivacyPolicy" xml:space="preserve">
+        <value>プライバシーポリシー</value>
+    </data>
+    <data name="Thanks" xml:space="preserve">
+        <value>お疲れさまでした。</value>
+    </data>
+    <data name="Welcome" xml:space="preserve">
+        <value>ようこそ！</value>
+    </data>
+    <data name="CodeExpires" xml:space="preserve">
+        <value>コードは生成後1分で有効期限が切れます。</value>
+    </data>
+    <data name="TwoFactorCodeEmailExplanation" xml:space="preserve">
+        <value>二要素認証コードを要求したため、この電子メールを受信しました。</value>
+    </data>
+    <data name="TwoFactorCodeEmailSubject" xml:space="preserve">
+        <value>二要素認証コードの要求</value>
+    </data>
+    <data name="TwoFactorCodeEmailText" xml:space="preserve">
+        <value>以下のコードをアプリケーションに入力して、2要素認証を完了します。</value>
+    </data>
+</root>
