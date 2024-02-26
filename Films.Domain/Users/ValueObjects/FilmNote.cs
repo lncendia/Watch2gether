@@ -1,5 +1,3 @@
-using System;
-
 namespace Films.Domain.Users.ValueObjects;
 
 /// <summary>

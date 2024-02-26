@@ -1,5 +1,4 @@
-﻿using System;
-using Films.Domain.Abstractions;
+﻿using Films.Domain.Abstractions;
 using Films.Domain.Films;
 using Films.Domain.Ratings.Events;
 using Films.Domain.Ratings.Exceptions;

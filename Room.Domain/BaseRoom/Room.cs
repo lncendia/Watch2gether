@@ -128,7 +128,7 @@ public abstract class Room<T> : AggregateRoot where T : Viewer
         _viewersList.Add(viewer);
     }
     
-    public virtual void Disconnect(Guid targetId)
+    public void Disconnect(Guid targetId)
     {
         UpdateActivity();
         var viewer = GetViewer(targetId);

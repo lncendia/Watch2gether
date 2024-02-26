@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMemoryCache();
 
-builder.Services.AddCorsServices();
+builder.Services.AddMassTransitServices(builder.Configuration);
 
 // Добавление служб Mediator
 builder.Services.AddMediatorServices();

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Films.Domain.Extensions;
+﻿using Films.Domain.Extensions;
 using Films.Domain.Films;
 using Films.Domain.Rooms.BaseRoom;
 using Films.Domain.Rooms.FilmRooms.Events;
@@ -16,7 +13,7 @@ namespace Films.Domain.Rooms.FilmRooms;
 /// </summary> 
 public class FilmRoom : Room
 {
-    public FilmRoom(User user, Film film, IEnumerable<Server> servers, bool isOpen, string cdnName) : base(user,
+    public FilmRoom(User user, Film film, IReadOnlyCollection<Server> servers, bool isOpen, string cdnName) : base(user,
         servers, isOpen)
     {
         if (film.CdnList.All(c => c.Name != cdnName.GetUpper())) throw new CdnNotFoundException();
@@ -26,8 +23,15 @@ public class FilmRoom : Room
         {
             Film = film,
             Owner = user,
-            Room = this
+            Room = this,
+            Server = servers.First(s => s.Id == ServerId)
         });
+    }
+
+    public override void Disconnect(Guid userId)
+    {
+        base.Disconnect(userId);
+        AddDomainEvent(new FilmRoomUserLeavedDomainEvent(this, userId));
     }
 
     /// <summary> 

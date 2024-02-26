@@ -21,10 +21,10 @@ public class CreateRoomCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
             Id = request.Id,
             Owner = new YoutubeViewer
             {
-                Id = request.Viewer.Id,
-                Allows = request.Viewer.Allows,
-                PhotoUrl = request.Viewer.PhotoUrl,
-                Nickname = request.Viewer.Nickname
+                Id = request.Owner.Id,
+                Allows = request.Owner.Allows,
+                PhotoUrl = request.Owner.PhotoUrl,
+                Nickname = request.Owner.Nickname
             }
         };
 

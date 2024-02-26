@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overoom.IntegrationEvents",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Room.Infrastructure.Bus", "Room.Infrastructure.Bus\Room.Infrastructure.Bus.csproj", "{41819F56-4CA1-4C3E-8708-211FCA276AA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Films.Infrastructure.Bus", "Films.Infrastructure.Bus\Films.Infrastructure.Bus.csproj", "{AF94977C-EE0B-4494-AF56-5F176FE9B52C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{41819F56-4CA1-4C3E-8708-211FCA276AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41819F56-4CA1-4C3E-8708-211FCA276AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41819F56-4CA1-4C3E-8708-211FCA276AA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF94977C-EE0B-4494-AF56-5F176FE9B52C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF94977C-EE0B-4494-AF56-5F176FE9B52C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF94977C-EE0B-4494-AF56-5F176FE9B52C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF94977C-EE0B-4494-AF56-5F176FE9B52C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ADFB62FA-43A5-4FCA-9586-42D8E054D82B} = {F19D4E6A-23C2-45A6-A6EB-5A65B308C482}
@@ -153,5 +159,6 @@ Global
 		{5658BFE4-74EF-4B44-A651-B01F7E1AD77B} = {AD9DCBD5-9B46-41B6-A139-1991B4D576DF}
 		{3837CC4A-4A4B-43FF-B7CB-304E86ECEA87} = {AD9DCBD5-9B46-41B6-A139-1991B4D576DF}
 		{41819F56-4CA1-4C3E-8708-211FCA276AA8} = {AD9DCBD5-9B46-41B6-A139-1991B4D576DF}
+		{AF94977C-EE0B-4494-AF56-5F176FE9B52C} = {B9DE988A-E294-4E3A-8F3B-88BDA584E98F}
 	EndGlobalSection
 EndGlobal

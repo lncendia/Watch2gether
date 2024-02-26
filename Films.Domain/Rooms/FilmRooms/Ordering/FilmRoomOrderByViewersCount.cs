@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Films.Domain.Ordering.Abstractions;
+﻿using Films.Domain.Ordering.Abstractions;
 using Films.Domain.Rooms.FilmRooms.Ordering.Visitor;
 
 namespace Films.Domain.Rooms.FilmRooms.Ordering;

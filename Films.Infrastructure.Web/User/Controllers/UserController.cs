@@ -1,5 +1,5 @@
-﻿using Films.Application.Abstractions.Commands.UserFilms;
-using Films.Application.Abstractions.Commands.UserSettings;
+﻿using Films.Application.Abstractions.Commands.Ratings;
+using Films.Application.Abstractions.Commands.Users;
 using Films.Application.Abstractions.Queries.Users;
 using Films.Application.Abstractions.Queries.Users.DTOs;
 using Films.Infrastructure.Web.Authentication;

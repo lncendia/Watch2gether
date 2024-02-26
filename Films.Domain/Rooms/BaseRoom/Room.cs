@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using Films.Domain.Abstractions;
 using Films.Domain.Rooms.BaseRoom.Exceptions;
 using Films.Domain.Servers;
@@ -87,7 +84,7 @@ public abstract class Room : AggregateRoot
         _viewers.Add(user.Id);
     }
 
-    public void Disconnect(Guid userId)
+    public virtual void Disconnect(Guid userId)
     {
         var viewer = GetViewer(userId);
         _bannedUsers.Add(viewer);

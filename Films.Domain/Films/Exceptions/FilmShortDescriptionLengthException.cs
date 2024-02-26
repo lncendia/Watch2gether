@@ -1,5 +1,3 @@
-using System;
-
 namespace Films.Domain.Films.Exceptions;
 
 public class FilmShortDescriptionLengthException()

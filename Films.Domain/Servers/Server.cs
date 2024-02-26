@@ -1,5 +1,4 @@
-﻿using System;
-using Films.Domain.Abstractions;
+﻿using Films.Domain.Abstractions;
 
 namespace Films.Domain.Servers;
 

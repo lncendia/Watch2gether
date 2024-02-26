@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Films.Domain.Abstractions;
 
 public abstract class AggregateRoot

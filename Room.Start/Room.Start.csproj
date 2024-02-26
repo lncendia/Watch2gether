@@ -16,6 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Room.Application.Services\Room.Application.Services.csproj" />
+      <ProjectReference Include="..\Room.Infrastructure.Bus\Room.Infrastructure.Bus.csproj" />
       <ProjectReference Include="..\Room.Infrastructure.Storage\Room.Infrastructure.Storage.csproj" />
       <ProjectReference Include="..\Room.Infrastructure.Web\Room.Infrastructure.Web.csproj" />
     </ItemGroup>

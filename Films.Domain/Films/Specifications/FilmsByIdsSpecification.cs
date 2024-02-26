@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Films.Domain.Films.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
 

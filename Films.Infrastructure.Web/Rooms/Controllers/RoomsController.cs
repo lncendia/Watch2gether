@@ -7,6 +7,8 @@ using Films.Infrastructure.Web.Rooms.InputModels;
 using Films.Infrastructure.Web.Rooms.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ConnectRoomCommand = Films.Application.Abstractions.Commands.Rooms.YoutubeRooms.ConnectRoomCommand;
+using CreateRoomCommand = Films.Application.Abstractions.Commands.Rooms.YoutubeRooms.CreateRoomCommand;
 
 namespace Films.Infrastructure.Web.Rooms.Controllers;
 
@@ -17,7 +19,7 @@ public class RoomsController(IMediator mediator) : ControllerBase
     [HttpPost]
     public async Task<RoomServerViewModel> CreateFilmRoom(CreateFilmRoomInputModel model)
     {
-        var serverRoom = await mediator.Send(new CreateFilmRoomCommand
+        var serverRoom = await mediator.Send(new Application.Abstractions.Commands.Rooms.FilmRooms.CreateRoomCommand
         {
             UserId = User.GetId(),
             IsOpen = model.Open,
@@ -35,7 +37,7 @@ public class RoomsController(IMediator mediator) : ControllerBase
     [HttpPost]
     public async Task<RoomServerViewModel> CreateYoutubeRoom(CreateYoutubeRoomInputModel model)
     {
-        var serverRoom = await mediator.Send(new CreateYoutubeRoomCommand
+        var serverRoom = await mediator.Send(new CreateRoomCommand
         {
             UserId = User.GetId(),
             IsOpen = model.Open,
@@ -52,7 +54,7 @@ public class RoomsController(IMediator mediator) : ControllerBase
     [HttpPost]
     public async Task<RoomServerViewModel> ConnectFilmRoom(ConnectRoomInputModel model)
     {
-        var serverRoom = await mediator.Send(new ConnectFilmRoomCommand
+        var serverRoom = await mediator.Send(new Application.Abstractions.Commands.Rooms.FilmRooms.ConnectRoomCommand
         {
             UserId = User.GetId(),
             RoomId = model.Id,
@@ -69,7 +71,7 @@ public class RoomsController(IMediator mediator) : ControllerBase
     [HttpPost]
     public async Task<RoomServerViewModel> ConnectYoutubeRoom(ConnectRoomInputModel model)
     {
-        var serverRoom = await mediator.Send(new ConnectYoutubeRoomCommand
+        var serverRoom = await mediator.Send(new ConnectRoomCommand
         {
             UserId = User.GetId(),
             RoomId = model.Id,

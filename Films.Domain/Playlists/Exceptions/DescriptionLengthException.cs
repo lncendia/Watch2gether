@@ -1,5 +1,3 @@
-using System;
-
 namespace Films.Domain.Playlists.Exceptions;
 
 public class DescriptionLengthException()

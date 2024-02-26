@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Films.Domain.Abstractions;
+﻿using Films.Domain.Abstractions;
 using Films.Domain.Extensions;
 using Films.Domain.Playlists.Events;
 using Films.Domain.Playlists.Exceptions;

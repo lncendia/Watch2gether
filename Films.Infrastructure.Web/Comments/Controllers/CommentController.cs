@@ -1,4 +1,4 @@
-﻿using Films.Application.Abstractions.Commands.UserComments;
+﻿using Films.Application.Abstractions.Commands.Comments;
 using Films.Application.Abstractions.Queries.Comments;
 using Films.Application.Abstractions.Queries.Comments.DTOs;
 using Films.Infrastructure.Web.Authentication;

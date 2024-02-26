@@ -16,7 +16,7 @@ public class CreateRoomCommand : IRequest
     /// <summary>
     /// Зритель
     /// </summary>
-    public required ViewerData Viewer { get; init; }
+    public required ViewerData Owner { get; init; }
 
     /// <summary>
     /// Флаг, есть ли у пользователей доступ к изменение видео

@@ -8,7 +8,6 @@ namespace Room.Domain.FilmRooms;
 
 public class FilmRoom : Room<FilmViewer>
 {
-
     /// <summary> 
     /// Заголовок фильма. 
     /// </summary> 
@@ -37,13 +36,7 @@ public class FilmRoom : Room<FilmViewer>
         viewer.Series = Owner.Series;
         base.Connect(viewer);
     }
-
-    public override void Disconnect(Guid targetId)
-    {
-        base.Disconnect(targetId);
-        AddDomainEvent(new FilmRoomViewerLeavedDomainEvent(this, targetId));
-    }
-
+    
     public override void Kick(Guid initiatorId, Guid targetId)
     {
         base.Kick(initiatorId, targetId);
