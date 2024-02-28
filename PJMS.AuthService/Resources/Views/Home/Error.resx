@@ -24,4 +24,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>Request ID:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Return</value>
+    </data>
 </root>

@@ -17,7 +17,7 @@ namespace Films.Infrastructure.Storage.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -218,6 +218,9 @@ namespace Films.Infrastructure.Storage.Migrations
                         .HasMaxLength(1500)
                         .HasColumnType("character varying(1500)");
 
+                    b.Property<bool>("IsSerial")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("PosterUrl")
                         .IsRequired()
                         .HasColumnType("text");
@@ -236,9 +239,6 @@ namespace Films.Infrastructure.Storage.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
 
                     b.Property<double>("UserRating")
                         .HasColumnType("double precision");

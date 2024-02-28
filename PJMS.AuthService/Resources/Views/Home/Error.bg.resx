@@ -17,4 +17,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>Идентификатор на заявката:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Върна</value>
+    </data>
 </root>

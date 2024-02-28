@@ -42,4 +42,7 @@
     <data name="GrantsEmpty" xml:space="preserve">
         <value>You have not given access to any application</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Return</value>
+    </data>
 </root>

@@ -17,4 +17,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>请求ID:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>返回</value>
+    </data>
 </root>

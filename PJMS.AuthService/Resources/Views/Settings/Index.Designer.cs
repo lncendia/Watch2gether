@@ -123,7 +123,7 @@ namespace PJMS.AuthService.Resources.Views.Settings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To return.
+        ///   Looks up a localized string similar to Return.
         /// </summary>
         internal static string Return {
             get {

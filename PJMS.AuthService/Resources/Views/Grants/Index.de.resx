@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>Auflösung aufheben</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Zurückkehren</value>
+    </data>
 </root>

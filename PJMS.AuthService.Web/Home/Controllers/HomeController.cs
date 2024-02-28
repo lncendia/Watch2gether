@@ -122,7 +122,10 @@ public class HomeController : Controller
                 Message = _stringLocalizer[resource],
 
                 // Идентификатор запроса
-                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                
+                // Url возврата
+                ReturnUrl = "/"
             });
         }
 
@@ -136,10 +139,13 @@ public class HomeController : Controller
             return View(new ErrorViewModel
             {
                 // Сообщение с ошибкой
-                Message = message.Error,
+                Message = message.ErrorDescription,
 
                 // Идентификатор запроса
-                RequestId = message.RequestId
+                RequestId = message.RequestId,
+                
+                // Url возврата
+                ReturnUrl = message.RedirectUri ?? "/"
             });
         }
 

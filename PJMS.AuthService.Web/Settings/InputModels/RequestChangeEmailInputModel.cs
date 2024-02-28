@@ -17,9 +17,4 @@ public class RequestChangeEmailInputModel
     [Display(Name = "Email",
         ResourceType = typeof(Resources.Settings.InputModels.RequestChangeEmailInputModel))]
     public string? Email { get; init; }
-
-    /// <summary>
-    /// Url адрес для возврата после прохождения аутентификации
-    /// </summary>
-    public string ReturnUrl { get; init; } = "/";
 }

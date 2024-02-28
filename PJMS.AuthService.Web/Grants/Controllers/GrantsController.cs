@@ -39,7 +39,7 @@ public class GrantsController : Controller
     }
 
     /// <summary>
-    /// Show list of grants
+    /// Получить список разрешений
     /// </summary>
     [HttpGet]
     public async Task<IActionResult> Index()

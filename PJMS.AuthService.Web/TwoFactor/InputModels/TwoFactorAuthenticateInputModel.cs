@@ -21,9 +21,4 @@ public class TwoFactorAuthenticateInputModel
     /// </summary>
     [Required]
     public CodeType CodeType { get; init; } = CodeType.Authenticator;
-
-    /// <summary>
-    /// Url адрес возврата после прохождения 2FA
-    /// </summary>
-    public string ReturnUrl { get; init; } = "/";
 }

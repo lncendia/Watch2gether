@@ -1,6 +1,6 @@
 using Films.Application.Abstractions.Commands.Rooms.YoutubeRooms;
 using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 using Overoom.IntegrationEvents.Rooms.YoutubeRooms;
 
 namespace Films.Infrastructure.Bus.YoutubeRooms;

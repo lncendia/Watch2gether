@@ -17,4 +17,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>Cerere ID:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Pentru a reveni</value>
+    </data>
 </root>

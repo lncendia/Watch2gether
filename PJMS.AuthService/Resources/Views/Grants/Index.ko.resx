@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>권한 취소</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>반환</value>
+    </data>
 </root>

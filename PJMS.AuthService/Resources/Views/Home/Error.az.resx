@@ -17,4 +17,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>Sorğu identifikatoru:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Geri qayıt</value>
+    </data>
 </root>

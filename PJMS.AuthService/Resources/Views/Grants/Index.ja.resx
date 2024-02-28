@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>許可を取り消す</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>戻るには</value>
+    </data>
 </root>

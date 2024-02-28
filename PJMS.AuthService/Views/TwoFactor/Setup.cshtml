@@ -51,8 +51,7 @@
 
     <div class="setup-form mt-4">
         <form asp-action="VerifySetup" method="post">
-
-            <input asp-for="ReturnUrl" type="hidden"/>
+            
             <input asp-for="AuthenticatorKey" type="hidden"/>
 
             <div class="wrap-input">
@@ -73,9 +72,7 @@
         <div class="container-btn mb-4">
             <div class="wrap-btn on-hover">
                 <div class="bg-btn"></div>
-                <a class="m-btn" href="@Model.ReturnUrl">
-                    @Localizer["Cancel"]
-                </a>
+                <a class="m-btn" asp-controller="Settings" asp-action="Index">@Localizer["Cancel"]</a>
             </div>
         </div>
     </div>

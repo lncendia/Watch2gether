@@ -16,9 +16,4 @@ public class ResetTwoFactorViewModel
     /// Откуда код
     /// </summary>
     public CodeType CodeType { get; init; }
-
-    /// <summary>
-    /// Url адрес возврата после отключения 2FA
-    /// </summary>
-    public string ReturnUrl { get; init; } = "/";
 }

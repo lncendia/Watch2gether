@@ -40,18 +40,18 @@
 
 .main-card {
   --bs-card-border-radius: 0.6rem;
-  width: 35vw;
+  width: 40vw;
 
   @media (max-width: 1500px) {
-    width: 50vw;
+    width: 55vw;
   }
 
   @media (max-width: 1200px) {
-    width: 60vw;
+    width: 65vw;
   }
 
   @media (max-width: 900px) {
-    width: 70vw;
+    width: 75vw;
   }
 
   @media (max-width: 670px) {

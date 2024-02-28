@@ -17,4 +17,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>아이디 요청:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>반환</value>
+    </data>
 </root>

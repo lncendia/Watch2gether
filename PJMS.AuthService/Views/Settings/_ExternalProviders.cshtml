@@ -1,12 +1,12 @@
 @using Microsoft.AspNetCore.Mvc.Localization
-@model (IEnumerable<PJMS.AuthService.Web.Settings.ViewModels.ExternalProvider> providers, string returnUrl)
+@model IEnumerable<PJMS.AuthService.Web.Settings.ViewModels.ExternalProvider>
 @inject IViewLocalizer Localizer
 
-@foreach (var provider in Model.providers)
+@foreach (var provider in Model)
 {
     var lover = provider.AuthenticationScheme.ToLower();
     <div class="oauth-block">
-        <a asp-action="Challenge" asp-route-provider="@provider.AuthenticationScheme" asp-route-returnUrl="@Model.returnUrl" class="provider @lover @(provider.IsAssociated ? "disabled" : "active")">
+        <a asp-action="Challenge" asp-route-provider="@provider.AuthenticationScheme" class="provider @lover @(provider.IsAssociated ? "disabled" : "active")">
             <img src="~/img/@(lover).svg" alt="">
             <div class="name">@provider.DisplayName</div>
             @if (provider.IsAssociated)
@@ -28,7 +28,6 @@
 }
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <input type="hidden" value="@Model.returnUrl">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

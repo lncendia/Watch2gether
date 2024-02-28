@@ -47,11 +47,8 @@ export class Settings {
             // Получаем ссылку с классом "modal-footer a" внутри модального окна
             const linkElement = exampleModal.querySelector('.modal-footer a') as HTMLLinkElement;
 
-            // Получаем значение "returnUrl" из элемента input внутри модального окна
-            const returnUrl = (document.querySelector(".modal input") as HTMLInputElement).value;
-
             // Устанавливаем значение href для ссылки
-            linkElement.href = `/Settings/RemoveLogin?provider=${provider}&returnUrl=${returnUrl}`;
+            linkElement.href = `/Settings/RemoveLogin?provider=${provider}`;
         });
 
         // получаем все поля ввода с классом .wrap-input input

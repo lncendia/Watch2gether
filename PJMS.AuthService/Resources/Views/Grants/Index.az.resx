@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>İcazəni ləğv edin</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Geri qayıt</value>
+    </data>
 </root>

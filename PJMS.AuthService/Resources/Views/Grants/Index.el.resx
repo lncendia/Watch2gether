@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>Ανάκληση άδειας</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Επιστρέψετε</value>
+    </data>
 </root>

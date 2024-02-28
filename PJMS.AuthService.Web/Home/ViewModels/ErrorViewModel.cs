@@ -19,4 +19,9 @@ public class ErrorViewModel
     /// Возвращает true - если есть идентификатор запроса.
     /// </summary>
     public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    
+    /// <summary>
+    /// URL возврата
+    /// </summary>
+    public required string ReturnUrl { get; init; }
 }

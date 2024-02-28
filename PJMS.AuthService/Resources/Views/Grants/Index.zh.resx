@@ -35,4 +35,7 @@
     <data name="GrantsTitle" xml:space="preserve">
         <value>您的权限</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>返回</value>
+    </data>
 </root>

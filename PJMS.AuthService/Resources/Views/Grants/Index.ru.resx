@@ -35,4 +35,7 @@
     <data name="GrantsEmpty" xml:space="preserve">
         <value>Вы не дали доступ ни одному приложению</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Вернуться</value>
+    </data>
 </root>

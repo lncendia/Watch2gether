@@ -20,11 +20,8 @@ public class CultureController(IMediator mediator) : Controller
     [HttpPost]
     public async Task<IActionResult> SetCulture(string culture, string returnUrl = "/")
     {
-        //todo: validate culture
-        // Устанавливаем куку с информацией о языке
-        Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
-            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+        // Получаем локализацию, если не найдена, то будет выдана локализация по умолчанию - en
+        var localization = culture.GetLocalization();
 
         // Если пользователь аутентифицирован, выполняем следующий блок кода.
         if (User.IsAuthenticated())
@@ -36,9 +33,14 @@ public class CultureController(IMediator mediator) : Controller
                 UserId = User.Id(),
                 
                 // Локализация
-                Localization = culture.GetLocalization()
+                Localization = localization
             });
         }
+        
+        // Устанавливаем куку с информацией о языке
+        Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(localization.GetLocalizationString())),
+            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
 
         // Перенаправляем на локальный URL
         return LocalRedirect(returnUrl);

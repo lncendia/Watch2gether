@@ -74,7 +74,7 @@ public class SettingsController : Controller
         var user = await _mediator.Send(new UserByIdQuery { Id = User.Id() });
 
         // Создаем модель представления
-        var settingsModel = await BuildViewModelAsync(user, model.ReturnUrl, model.ExpandElem, model.Message);
+        var settingsModel = await BuildViewModelAsync(user, model.ExpandElem, model.Message);
 
         // Возвращаем представление с моделью настроек
         return View(settingsModel);
@@ -84,16 +84,15 @@ public class SettingsController : Controller
     /// Метод, который вызывается при перенаправлении на внешний провайдер аутентификации для вызова вызова аутентификации.
     /// </summary>
     /// <param name="provider">Имя внешнего провайдера аутентификации</param>
-    /// <param name="returnUrl">URL, на который будет перенаправлен пользователь после завершения аутентификации</param>
     /// <returns>Результат вызова аутентификации</returns>
     [HttpGet]
-    public IActionResult Challenge(string? provider, string returnUrl = "/")
+    public IActionResult Challenge(string? provider)
     {
         // Проверяем, что имя провайдера не пустое или null
         if (string.IsNullOrEmpty(provider)) throw new QueryParameterMissingException(nameof(provider));
 
         // Создаем URL для обратного вызова после аутентификации
-        var redirectUrl = Url.Action("ExternalLoginCallback", "Settings", new { returnUrl });
+        var redirectUrl = Url.Action("ExternalLoginCallback", "Settings");
 
         // Конфигурируем свойства аутентификации для внешнего провайдера
         var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
@@ -105,11 +104,10 @@ public class SettingsController : Controller
     /// <summary>
     /// Обрабатывает обратный вызов внешней аутентификации.
     /// </summary>
-    /// <param name="returnUrl">URL, на который будет перенаправлен пользователь после завершения аутентификации</param>
     /// <returns>Результат действия IActionResult.</returns>
     [HttpGet]
     [Authorize(AuthenticationSchemes = "Identity.External")]
-    public async Task<IActionResult> ExternalLoginCallback(string returnUrl = "/")
+    public async Task<IActionResult> ExternalLoginCallback()
     {
         // Получаем информацию о внешней аутентификации.
         var info = await _signInManager.GetExternalLoginInfoAsync();
@@ -127,7 +125,7 @@ public class SettingsController : Controller
         // Перенаправляем пользователя на указанный URL
         return RedirectToAction("Index", new SettingsInputModel
         {
-            ReturnUrl = returnUrl, ExpandElem = 1,
+            ExpandElem = 1,
             Message = InsertWordAfterFirstWord(_localizer["ProviderLinked"], info.LoginProvider)
         });
     }
@@ -136,9 +134,8 @@ public class SettingsController : Controller
     /// Метод, который удаляет вход внешнего провайдера аутентификации у пользователя.
     /// </summary>
     /// <param name="provider">Имя внешнего провайдера аутентификации</param>
-    /// <param name="returnUrl">URL, на который будет перенаправлен пользователь после удаления входа</param>
     /// <returns>Результат удаления входа</returns>
-    public async Task<IActionResult> RemoveLogin(string? provider, string returnUrl = "/")
+    public async Task<IActionResult> RemoveLogin(string? provider)
     {
         // Проверяем, что имя провайдера не пустое или null
         if (string.IsNullOrEmpty(provider)) throw new QueryParameterMissingException(nameof(provider));
@@ -153,8 +150,8 @@ public class SettingsController : Controller
 
         // Перенаправляем пользователя на указанный URL
         return RedirectToAction("Index", new SettingsInputModel
-        {
-            ReturnUrl = returnUrl, ExpandElem = 1,
+        { 
+            ExpandElem = 1,
             Message = InsertWordAfterFirstWord(_localizer["ProviderUnlinked"], provider)
         });
     }
@@ -163,7 +160,7 @@ public class SettingsController : Controller
     /// Метод, который заканчивает другие сессии у пользователя
     /// </summary>
     /// <returns>Результат закрытия сессий</returns>
-    public async Task<IActionResult> CloseOtherSessions(int expandElem = 1, string returnUrl = "/")
+    public async Task<IActionResult> CloseOtherSessions(int expandElem = 1)
     {
         // Отправляем команду на закрытие всех других сессий, возвращаем данного пользователя
         var user = await _mediator.Send(new UpdateSecurityStampCommand { UserId = User.Id() });
@@ -175,9 +172,8 @@ public class SettingsController : Controller
         // Перенаправляем на действие "Index" с указанными параметрами returnUrl, expandElem и message
         return RedirectToAction("Index", new SettingsInputModel
         {
-            ExpandElem = expandElem,
-            Message = _localizer["SessionsClosed"],
-            ReturnUrl = returnUrl
+            ExpandElem = expandElem, 
+            Message = _localizer["SessionsClosed"]
         });
     }
 
@@ -254,10 +250,7 @@ public class SettingsController : Controller
         }
 
         // Перенаправляем на действие "Index" с указанными параметрами returnUrl, expandElem и message
-        return RedirectToAction("Index", new SettingsInputModel
-        {
-            ReturnUrl = model.ReturnUrl, ExpandElem = 2, Message = message
-        });
+        return RedirectToAction("Index", new SettingsInputModel {ExpandElem = 2, Message = message });
     }
 
     /// <summary>
@@ -277,8 +270,7 @@ public class SettingsController : Controller
         else
         {
             // Формирование URL-адреса обратного вызова для изменения адреса электронной почты
-            var resetUrl = Url.Action("ChangeEmail", "Settings", new { returnUrl = model.ReturnUrl },
-                protocol: HttpContext.Request.Scheme)!;
+            var resetUrl = Url.Action("ChangeEmail", "Settings", HttpContext.Request.Scheme)!;
 
             try
             {
@@ -305,10 +297,7 @@ public class SettingsController : Controller
         }
 
         // Перенаправление на действие "Index" с указанными параметрами returnUrl, expandElem и message
-        return RedirectToAction("Index", new SettingsInputModel
-        {
-            ReturnUrl = model.ReturnUrl, ExpandElem = 3, Message = message
-        });
+        return RedirectToAction("Index", new SettingsInputModel {ExpandElem = 3, Message = message });
     }
 
     /// <summary>
@@ -316,9 +305,8 @@ public class SettingsController : Controller
     /// </summary>
     /// <param name="email">Новый адрес электронной почты.</param>
     /// <param name="code">Код подтверждения изменения адреса электронной почты.</param>
-    /// <param name="returnUrl">URL-адрес, на который будет перенаправлен пользователь после изменения адреса электронной почты (по умолчанию "/").</param>
     /// <returns>Объект IActionResult, представляющий результат операции.</returns>
-    public async Task<IActionResult> ChangeEmail(string? email, string? code, string returnUrl = "/")
+    public async Task<IActionResult> ChangeEmail(string? email, string? code)
     {
         // Выбрасывание исключения QueryParameterMissingException, если параметр email отсутствует
         if (string.IsNullOrEmpty(email)) throw new QueryParameterMissingException(nameof(email));
@@ -371,10 +359,7 @@ public class SettingsController : Controller
         }
 
         // Перенаправление на действие "Index" с указанными параметрами returnUrl, expandElem и message
-        return RedirectToAction("Index", new SettingsInputModel
-        {
-            ReturnUrl = returnUrl, ExpandElem = 3, Message = message
-        });
+        return RedirectToAction("Index", new SettingsInputModel { ExpandElem = 3, Message = message });
     }
 
     /// <summary>
@@ -420,10 +405,7 @@ public class SettingsController : Controller
         }
 
         // Перенаправление на действие "Index" с указанными параметрами returnUrl, expandElem и message
-        return RedirectToAction("Index", new SettingsInputModel
-        {
-            ReturnUrl = model.ReturnUrl, ExpandElem = 4, Message = message
-        });
+        return RedirectToAction("Index", new SettingsInputModel { ExpandElem = 4, Message = message });
     }
 
     [HttpPost]
@@ -460,22 +442,17 @@ public class SettingsController : Controller
         }
 
         // Перенаправление на действие "Index" с указанными параметрами returnUrl, expandElem и message
-        return RedirectToAction("Index", new SettingsInputModel
-        {
-            ReturnUrl = model.ReturnUrl, ExpandElem = 5, Message = message
-        });
+        return RedirectToAction("Index", new SettingsInputModel { ExpandElem = 5, Message = message });
     }
 
     /// <summary>
     /// Метод, отвечающий за построение модели представления для страницы настроек.
     /// </summary>
     /// <param name="user">Объект пользователя</param>
-    /// <param name="returnUrl">URL возврата</param>
     /// <param name="expandElem">Индекс элемента, который нужно раскрыть</param>
     /// <param name="message">Сообщение для пользователя</param>
     /// <returns>Модель представления настроек</returns>
-    private async Task<SettingsViewModel> BuildViewModelAsync(AppUser user, string returnUrl, int expandElem,
-        string? message)
+    private async Task<SettingsViewModel> BuildViewModelAsync(AppUser user, int expandElem, string? message)
     {
         // Получаем список входов пользователя
         var logins = await _mediator.Send(new UserLoginsQuery { Id = user.Id });
@@ -515,9 +492,6 @@ public class SettingsController : Controller
 
             // Задает значение электронной почты пользователя. Знак восклицания указывает на то, что поле не может быть null.
             Email = user.Email!,
-
-            // Задает URL, на который будет перенаправлен пользователь после выполнения определенной операции.
-            ReturnUrl = returnUrl,
 
             // Задает сообщение для отображения пользователю.
             Message = message,

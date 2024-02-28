@@ -17,9 +17,4 @@ public class ChangeNameInputModel
     [MaxLength(40, ErrorMessageResourceName = "MaxLength",
         ErrorMessageResourceType = typeof(Resources.Settings.InputModels.ChangeNameInputModel))]
     public string? Username { get; init; }
-
-    /// <summary>
-    /// Получает или задает URL возврата.
-    /// </summary>
-    public string ReturnUrl { get; init; } = "/";
 }

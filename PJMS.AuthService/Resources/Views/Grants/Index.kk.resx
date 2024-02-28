@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>Рұқсаттан бас тарту</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Қайту</value>
+    </data>
 </root>

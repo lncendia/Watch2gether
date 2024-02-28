@@ -4,9 +4,7 @@
 @inject IViewLocalizer Localizer
 
 <form asp-action="ChangeAvatar" enctype="multipart/form-data" method="post" class="mt-2">
-
-    <input asp-for="ReturnUrl" type="hidden"/>
-
+    
     @if (Model.Thumbnail != null)
     {
         <div class="row justify-content-between">
@@ -15,7 +13,7 @@
             </div>
             <div class="col-10">
                 <div class="wrap-input">
-                    <input asp-for="File"/>
+                    <input asp-for="File" accept=".jpg,.jpeg,.gif,.bmp,.png"/>
                     <span class="focus-input"></span>
                 </div>
                 <div class="wrap-error mb-4">

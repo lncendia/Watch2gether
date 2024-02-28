@@ -17,4 +17,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>Αίτηση ταυτότητας:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Επιστρέψετε</value>
+    </data>
 </root>

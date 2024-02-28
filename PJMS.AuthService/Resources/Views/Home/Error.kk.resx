@@ -17,4 +17,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>Сұрау идентификаторы:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Қайту</value>
+    </data>
 </root>

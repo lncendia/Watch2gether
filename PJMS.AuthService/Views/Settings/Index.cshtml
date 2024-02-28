@@ -47,7 +47,7 @@
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse @elements[0].show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <partial name="_ExternalProviders" model="@(Model.ExternalProviders, Model.ReturnUrl)"/>
+                    <partial name="_ExternalProviders" model="@(Model.ExternalProviders)"/>
                 </div>
             </div>
         </div>
@@ -59,7 +59,7 @@
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse @elements[1].show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <partial name="_ChangePassword" model="@(new ChangePasswordViewModel { ReturnUrl = Model.ReturnUrl, ShowOldPassword = Model.ShowOldPassword })"/>
+                    <partial name="_ChangePassword" model="@(new ChangePasswordViewModel {ShowOldPassword = Model.ShowOldPassword })"/>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse @elements[2].show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <partial name="_ChangeEmail" model="@(new RequestChangeEmailInputModel { ReturnUrl = Model.ReturnUrl, Email = Model.Email })"/>
+                    <partial name="_ChangeEmail" model="@(new RequestChangeEmailInputModel { Email = Model.Email })"/>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
             </h2>
             <div id="collapseFour" class="accordion-collapse collapse @elements[3].show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <partial name="_ChangeName" model="@(new ChangeNameInputModel { ReturnUrl = Model.ReturnUrl, Username = Model.UserName })"/>
+                    <partial name="_ChangeName" model="@(new ChangeNameInputModel {Username = Model.UserName })"/>
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@
             </h2>
             <div id="collapseFive" class="accordion-collapse collapse @elements[4].show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    <partial name="_ChangeAvatar" model="@(new ChangeAvatarViewModel { ReturnUrl = Model.ReturnUrl, Thumbnail = Model.Thumbnail })"/>
+                    <partial name="_ChangeAvatar" model="@(new ChangeAvatarViewModel {Thumbnail = Model.Thumbnail })"/>
                 </div>
             </div>
         </div>
@@ -112,11 +112,11 @@
                             <div class="bg-btn"></div>
                             @if (Model.TwoFactorEnabled)
                             {
-                                <a class="m-btn" asp-controller="TwoFactor" asp-action="Reset">@Localizer["Disconnect"]</a>
+                                <a class="m-btn" asp-controller="TwoFactor" asp-route-returnUrl="@Context.Request.Path" asp-action="Reset">@Localizer["Disconnect"]</a>
                             }
                             else
                             {
-                                <a class="m-btn" asp-controller="TwoFactor" asp-action="Setup">@Localizer["Connect"]</a>
+                                <a class="m-btn" asp-controller="TwoFactor" asp-route-returnUrl="@Context.Request.Path" asp-action="Setup">@Localizer["Connect"]</a>
                             }
                         </div>
                     </div>
@@ -127,7 +127,7 @@
     <div class="container-btn mb-4">
         <div class="wrap-btn on-hover">
             <div class="bg-btn"></div>
-            <a class="m-btn" href="@Model.ReturnUrl">
+            <a class="m-btn" asp-controller="Home" asp-action="Index">
                 @Localizer["Return"]
             </a>
         </div>
@@ -135,7 +135,7 @@
     <div style="font-size: 12px">
         <span>
             *@Localizer["WarningInfo"]
-            <a asp-controller="Settings" asp-route-expandElem="@Model.ExpandElement" asp-route-returnUrl="@Model.ReturnUrl" asp-action="CloseOtherSessions">
+            <a asp-controller="Settings" asp-route-expandElem="@Model.ExpandElement" asp-action="CloseOtherSessions">
                 @Localizer["TerminateSessions"]
             </a>
         </span>

@@ -17,4 +17,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>リクエストID:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>戻るには</value>
+    </data>
 </root>

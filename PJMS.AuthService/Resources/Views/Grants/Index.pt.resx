@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>Cancelar permissão</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Voltar</value>
+    </data>
 </root>

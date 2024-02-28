@@ -1,6 +1,6 @@
 using Films.Application.Abstractions.Commands.Rooms.FilmRooms;
 using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 using Overoom.IntegrationEvents.Rooms.FilmRooms;
 
 namespace Films.Infrastructure.Bus.FilmRooms;

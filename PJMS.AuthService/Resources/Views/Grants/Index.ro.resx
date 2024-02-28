@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>Revocați permisiunea</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Pentru a reveni</value>
+    </data>
 </root>

@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>Engedély visszavonása</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Vissza</value>
+    </data>
 </root>

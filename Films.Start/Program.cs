@@ -20,6 +20,8 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddCorsServices();
 
+builder.Services.AddMassTransitServices(builder.Configuration);
+
 builder.Services.AddJwtAuthorization(builder.Configuration);
 
 // Регистрация Swagger генератора

@@ -17,4 +17,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>Id de solicitud:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Regresar</value>
+    </data>
 </root>

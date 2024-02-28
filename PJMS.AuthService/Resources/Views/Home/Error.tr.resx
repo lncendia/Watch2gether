@@ -17,4 +17,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>İstek kimliği:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Geri dön</value>
+    </data>
 </root>

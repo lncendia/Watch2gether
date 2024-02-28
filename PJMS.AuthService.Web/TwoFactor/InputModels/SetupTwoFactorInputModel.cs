@@ -19,9 +19,4 @@ public class SetupTwoFactorInputModel
     [Required(ErrorMessageResourceName = "Required",
         ErrorMessageResourceType = typeof(Resources.TwoFactor.InputModels.SetupTwoFactorInputModel))]
     public string? Code { get; set; }
-
-    /// <summary>
-    /// Url адрес возврата
-    /// </summary>
-    public string ReturnUrl { get; init; } = "/";
 }

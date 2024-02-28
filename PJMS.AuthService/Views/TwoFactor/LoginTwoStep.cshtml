@@ -48,8 +48,9 @@
             <div id="collapseOne" class="accordion-collapse collapse @elements[0].show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <form asp-action="LoginTwoStep" method="post" class="mt-2">
-                        <partial name="_Authenticator" model="@(new TwoFactorAuthenticateInputModel { CodeType = CodeType.Authenticator, ReturnUrl = Model.ReturnUrl })"/>
+                        <partial name="_Authenticator" model="@(new TwoFactorAuthenticateInputModel { CodeType = CodeType.Authenticator})"/>
                         <input asp-for="RememberMe" type="hidden"/>
+                        <input asp-for="ReturnUrl" type="hidden"/>
                     </form>
                 </div>
             </div>
@@ -63,8 +64,9 @@
             <div id="collapseTwo" class="accordion-collapse collapse @elements[1].show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <form asp-action="LoginTwoStep" method="post" class="mt-2">
-                        <partial name="_Email" model="@(new TwoFactorAuthenticateInputModel { CodeType = CodeType.Email, ReturnUrl = Model.ReturnUrl })"/>
+                        <partial name="_Email" model="@(new TwoFactorAuthenticateInputModel { CodeType = CodeType.Email })"/>
                         <input asp-for="RememberMe" type="hidden"/>
+                        <input asp-for="ReturnUrl" type="hidden"/>
                     </form>
                 </div>
             </div>
@@ -78,8 +80,9 @@
             <div id="collapseThree" class="accordion-collapse collapse @elements[2].show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
                     <form asp-action="LoginTwoStep" method="post" class="mt-2">
-                        <partial name="_RecoveryCode" model="@(new TwoFactorAuthenticateInputModel { CodeType = CodeType.RecoveryCode, ReturnUrl = Model.ReturnUrl })"/>
+                        <partial name="_RecoveryCode" model="@(new TwoFactorAuthenticateInputModel { CodeType = CodeType.RecoveryCode })"/>
                         <input asp-for="RememberMe" type="hidden"/>
+                        <input asp-for="ReturnUrl" type="hidden"/>
                     </form>
                 </div>
             </div>

@@ -17,4 +17,7 @@
     <data name="RequestId" xml:space="preserve">
         <value>Begär ID:</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Återvända</value>
+    </data>
 </root>

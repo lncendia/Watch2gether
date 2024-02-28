@@ -1,7 +1,7 @@
 using Films.Application.Abstractions.Commands.Users;
 using Films.Application.Abstractions.Common.Exceptions;
 using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 using Overoom.IntegrationEvents.Users;
 
 namespace Films.Infrastructure.Bus.Users;

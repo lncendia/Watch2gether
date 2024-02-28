@@ -25,7 +25,7 @@
         <value>Linked Accounts</value>
     </data>
     <data name="Return" xml:space="preserve">
-        <value>To return</value>
+        <value>Return</value>
     </data>
     <data name="PasswordChange" xml:space="preserve">
         <value>Changing the password</value>

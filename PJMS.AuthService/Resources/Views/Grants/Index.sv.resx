@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>Återkalla tillstånd</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Återvända</value>
+    </data>
 </root>

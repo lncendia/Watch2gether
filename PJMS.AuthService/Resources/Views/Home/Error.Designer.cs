@@ -76,5 +76,14 @@ namespace PJMS.AuthService.Resources.Views.Home {
                 return ResourceManager.GetString("RequestId", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Return.
+        /// </summary>
+        internal static string Return {
+            get {
+                return ResourceManager.GetString("Return", resourceCulture);
+            }
+        }
     }
 }

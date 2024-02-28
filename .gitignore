@@ -5,3 +5,4 @@ node_modules/
 PJMS.AuthService/wwwroot/bundles/
 PJMS.AuthService/wwwroot/img/avatars/
 /Overoom.sln.DotSettings.user
+*jwk

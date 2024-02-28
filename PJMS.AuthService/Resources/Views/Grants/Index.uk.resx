@@ -35,4 +35,7 @@
     <data name="Description" xml:space="preserve">
         <value>Опис</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Повернутися</value>
+    </data>
 </root>

@@ -9,9 +9,4 @@ public class RecoveryCodesViewModel
     /// Список кодов восстановления.
     /// </summary>
     public required IEnumerable<string> RecoveryCodes { get; init; }
-    
-    /// <summary>
-    /// Url адрес возврата
-    /// </summary>
-    public string ReturnUrl { get; init; } = "/";
 }

@@ -13,9 +13,4 @@ public class ChangeAvatarInputModel
     [Required(ErrorMessageResourceName = "Required",
         ErrorMessageResourceType = typeof(Resources.Settings.InputModels.ChangeAvatarInputModel))]
     public IFormFile? File { get; init; }
-
-    /// <summary>
-    /// Получает или задает URL возврата.
-    /// </summary>
-    public string ReturnUrl { get; init; } = "/";
 }

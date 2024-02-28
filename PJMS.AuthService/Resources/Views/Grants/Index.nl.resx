@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>Toestemming intrekken</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Terug</value>
+    </data>
 </root>

@@ -35,4 +35,7 @@
     <data name="RemoveAccess" xml:space="preserve">
         <value>Zrušit povolení</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Vrátit se</value>
+    </data>
 </root>

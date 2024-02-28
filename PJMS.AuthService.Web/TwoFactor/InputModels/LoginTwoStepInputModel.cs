@@ -9,4 +9,9 @@ public class LoginTwoStepInputModel : TwoFactorAuthenticateInputModel
     /// Флаг необходимости запомнить пользователя
     /// </summary>
     public bool RememberMe { get; init; }
+    
+    /// <summary>
+    /// Url адрес возврата после прохождения 2FA
+    /// </summary>
+    public string ReturnUrl { get; init; } = "/";
 }

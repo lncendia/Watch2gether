@@ -32,16 +32,10 @@
     --line-border: 1px;
   }
 
-  @media (max-width: 670px) {
-    --welcome-size: 22px;
-    --username-size: 16px;
-    --line-with: 190px;
-  }
-
   @media (max-width: 330px) {
-    --welcome-size: 15px;
-    --username-size: 13px;
-    --line-with: 140px;
+    --welcome-size: 18px;
+    --username-size: 15px;
+    --line-with: 120px;
     --logo-size: 30px;
 
     .nav-item {

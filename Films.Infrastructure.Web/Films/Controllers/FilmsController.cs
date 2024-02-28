@@ -11,7 +11,7 @@ namespace Films.Infrastructure.Web.Films.Controllers;
 
 [ApiController]
 [Route("filmApi/[controller]/[action]")]
-public class FilmController(IMediator mediator) : ControllerBase
+public class FilmsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
     public async Task<IEnumerable<FilmShortViewModel>> Popular([FromQuery] PopularFilmsInputModel model)

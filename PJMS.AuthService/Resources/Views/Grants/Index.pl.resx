@@ -35,4 +35,7 @@
     <data name="Expires" xml:space="preserve">
         <value>Wygasać</value>
     </data>
+    <data name="Return" xml:space="preserve">
+        <value>Wrócić</value>
+    </data>
 </root>

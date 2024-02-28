@@ -130,5 +130,14 @@ namespace PJMS.AuthService.Resources.Views.Grants {
                 return ResourceManager.GetString("RemoveAccess", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Return.
+        /// </summary>
+        internal static string Return {
+            get {
+                return ResourceManager.GetString("Return", resourceCulture);
+            }
+        }
     }
 }

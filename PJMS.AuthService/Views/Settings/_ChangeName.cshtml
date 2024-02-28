@@ -4,9 +4,7 @@
 @inject IViewLocalizer Localizer
 
 <form asp-action="ChangeName" method="post" class="mt-2">
-
-    <input asp-for="ReturnUrl" type="hidden"/>
-
+    
     <div class="wrap-input">
         <input asp-for="Username"/>
         <span class="focus-input" asp-placeholder-for="Username"></span>

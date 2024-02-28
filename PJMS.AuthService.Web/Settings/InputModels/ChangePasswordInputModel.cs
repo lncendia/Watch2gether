@@ -36,9 +36,4 @@ public class ChangePasswordInputModel
     [Compare("NewPassword", ErrorMessageResourceName = "NewPasswordConfirmError",
         ErrorMessageResourceType = typeof(Resources.Settings.InputModels.ChangePasswordInputModel))]
     public string? NewPasswordConfirm { get; init; }
-
-    /// <summary>
-    /// Url адрес для возврата после прохождения аутентификации
-    /// </summary>
-    public string ReturnUrl { get; init; } = "/";
 }

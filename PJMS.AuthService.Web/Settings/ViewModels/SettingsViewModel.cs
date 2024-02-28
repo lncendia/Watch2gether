@@ -41,11 +41,6 @@ public class SettingsViewModel
     public required Uri Thumbnail { get; init; }
     
     /// <summary>
-    /// URL возврата
-    /// </summary>
-    public required string ReturnUrl { get; init; }
-    
-    /// <summary>
     /// Сообщение для пользователя
     /// </summary>
     public required string? Message { get; init; }
