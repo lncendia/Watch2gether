@@ -4,4 +4,24 @@ body {
     --shadow-purple: #8201b6;
     --color-dark: rgba(17, 17, 30, 0.7);
     --color-black: rgba(17, 17, 30, 0.9);
+    --bs-body-font-family: "RobotoFlex", "Arial", sans-serif !important;
+
+}
+
+@font-face {
+    font-family: "Morice-Bejar";
+    src: url("./fonts/Morice-Bejar.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "RobotoFlex";
+    src: url("./fonts/RobotoFlex.ttf") format("truetype");
+}
+
+[data-bs-theme="blue"] {
+    --bs-body-color: var(--bs-white);
+    --bs-body-color-rgb: #{to-rgb($white)};
+    --bs-body-bg: var(--bs-blue);
+    --bs-body-bg-rgb: #{to-rgb($blue)};
+    --bs-tertiary-bg: #{$blue-600};
 }

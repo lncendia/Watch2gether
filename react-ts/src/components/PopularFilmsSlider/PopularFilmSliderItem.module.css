@@ -1,0 +1,44 @@
+.itc-slider__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.film_inside{
+    width: 94%;
+    height: 94%;
+    background: var(--color-dark);
+    box-shadow: 0 0 10px var(--shadow-dark);
+    text-align: center;
+    font-size: 15px;
+    border-radius: 15px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    padding-top: 5px;
+}
+
+.film_inside:hover{
+    transition: all, 0.1s;
+    width: 97%;
+    height: 97%;
+    box-shadow: 0 0 10px var(--shadow-red);
+}
+
+.film {
+    text-align: center;
+    height: 100%;
+}
+
+.img {
+    width: 100%;
+    display: block;
+    height: 150px;
+    max-width: 100px;
+    margin: 0 auto;
+    box-shadow: 0 3px 15px var(--shadow-purple);
+    border-radius: 10px;
+}
+
+.title{
+    margin-top: 15px;
+}
