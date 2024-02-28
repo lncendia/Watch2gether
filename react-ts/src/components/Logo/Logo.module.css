@@ -1,0 +1,91 @@
+.logo {
+    width: 70%;
+    margin: 30px auto 0;
+    text-align: center;
+}
+
+.line {
+    width: 250px;
+    margin: 0 auto 10px;
+    border-top: 4px solid white;
+}
+
+.glasses {
+    width: 50px;
+    height: 50px;
+    bottom: 10px;
+}
+
+@media (min-width: 1080px) {
+    .logo {
+        width: 35%;
+        margin-left: 15%;
+        margin-top: 50px;
+    }
+
+    .line {
+        width: 300px;
+    }
+
+    .glasses {
+        width: 70px;
+        height: 70px;
+        bottom: 20px;
+    }
+}
+
+
+@media (min-width: 1700px) {
+    .logo {
+        width: 35%;
+        margin-left: 10%;
+    }
+
+    .line {
+        width: 400px;
+    }
+
+    .glasses {
+        width: 70px;
+        height: 70px;
+        bottom: 20px;
+    }
+}
+
+.main_text {
+    font-size: 60px;
+    font-weight: 600;
+}
+
+@media (min-width: 1080px) {
+    .main_text {
+        font-size: 70px;
+        font-weight: 700;
+    }
+}
+
+
+@media (min-width: 1700px) {
+    .main_text {
+        font-size: 80px;
+    }
+}
+
+.side_text {
+    font-size: 25px;
+    font-weight: 400;
+}
+
+@media (min-width: 1080px) {
+    .side_text {
+        font-size: 30px;
+        font-weight: 500;
+    }
+}
+
+
+@media (min-width: 1700px) {
+    .side_text {
+        font-size: 40px;
+    }
+}

@@ -1,0 +1,45 @@
+.genre{
+    text-align: center;
+}
+
+.genre_inside {
+    width: 94%;
+    height: 94%;
+    text-align: center;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background: var(--color-dark);
+    border-radius: 15px;
+    box-shadow: 0 0 10px var(--shadow-dark);
+    color: white;
+    font-family: "Morice-Bejar", "Arial", sans-serif;
+    font-size: 30px;
+    margin: 5px auto;
+    transition: all, 0.2s;
+}
+
+@media (min-width: 1080px) {
+    .genre_inside {
+        font-size: 40px;
+    }
+}
+
+@media (min-width: 1500px) {
+    .genre_inside {
+        font-size: 50px;
+    }
+}
+
+.selected {
+    width: 97%;
+    height: 97%;
+    box-shadow: 0 0 10px var(--shadow-purple) !important;
+}
+
+.genre_inside:hover {
+    transition: all, 0.2s;
+    width: 97%;
+    height: 97%;
+    box-shadow: 0 0 10px var(--shadow-red);
+    cursor: pointer;
+}

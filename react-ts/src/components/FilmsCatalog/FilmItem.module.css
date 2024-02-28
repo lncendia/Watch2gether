@@ -1,0 +1,36 @@
+.film {
+    height: 100% !important;
+    box-shadow: 0 0 15px var(--shadow-dark);
+    cursor: pointer;
+    --bs-card-bg: var(--color-dark) !important;
+    --bs-card-cap-bg: var(--color-black) !important;
+    --bs-card-color: #8a8a8a !important;
+    --bs-card-cap-color: #b6b6b6 !important;
+    --bs-card-title-color: #d9d9d9 !important;
+    --bs-card-border-color: var(--color-dark) !important;
+}
+
+.film:hover {
+    transition: all, 0.3s;
+    box-shadow: 0 0 20px var(--shadow-red);
+}
+
+.genre {
+    color: #b2b2b2;
+}
+
+.genre_active {
+    color: #ffffff;
+}
+
+.description {
+    color: #919191;
+}
+
+.poster {
+    display: block;
+    height: 270px;
+    max-width: 190px;
+    margin: 0 auto;
+    box-shadow: 0 3px 8px var(--shadow-red);
+}
