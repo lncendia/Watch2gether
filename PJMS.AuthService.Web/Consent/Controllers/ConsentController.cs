@@ -6,6 +6,8 @@ using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Localization;
 using PJMS.AuthService.Web.Attributes;
 using PJMS.AuthService.Web.Consent.InputModels;
 using PJMS.AuthService.Web.Consent.ViewModels;
@@ -37,17 +39,24 @@ public class ConsentController : Controller
     private readonly IScopeLocalizer _localizer;
 
     /// <summary>
+    /// Локализатор
+    /// </summary>
+    private readonly IStringLocalizer<ConsentController> _stringLocalizer;
+
+    /// <summary>
     /// Конструктор класса ConsentController.
     /// </summary>
     /// <param name="interaction">Сервис взаимодействия с Identity Server.</param>
     /// <param name="events">Сервис событий.</param>
-    /// <param name="localizer">Локализатор</param>
+    /// <param name="localizer">Локализатор областей</param>
+    /// <param name="stringLocalizer">Локализатор</param>
     public ConsentController(IIdentityServerInteractionService interaction, IEventService events,
-        IScopeLocalizer localizer)
+        IScopeLocalizer localizer, IStringLocalizer<ConsentController> stringLocalizer)
     {
         _interaction = interaction;
         _events = events;
         _localizer = localizer;
+        _stringLocalizer = stringLocalizer;
     }
 
     /// <summary>
@@ -86,6 +95,8 @@ public class ConsentController : Controller
         // Если пользователь не согласовал ни одну область
         if (model.ScopesConsented.Count == 0)
         {
+            ModelState.AddModelError("", _stringLocalizer["NoOneConsented"]);
+            
             // Строим модель
             var vm = BuildViewModel(model, context);
 

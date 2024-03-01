@@ -1,7 +1,7 @@
 ﻿using System.Net;
-using Films.Application.Abstractions.Services.MovieApi.DTOs;
-using Films.Application.Abstractions.Services.MovieApi.Exceptions;
-using Films.Application.Abstractions.Services.MovieApi.Interfaces;
+using Films.Application.Abstractions.MovieApi.DTOs;
+using Films.Application.Abstractions.MovieApi.Exceptions;
+using Films.Application.Abstractions.MovieApi.Interfaces;
 using Films.Infrastructure.Movie.Abstractions;
 using RestSharp;
 
@@ -12,12 +12,10 @@ public class KpApi : IKpApiService, IDisposable
     private readonly RestClient _kpClient;
     private readonly IKpResponseParser _parser;
 
-    public KpApi(string kpToken, IKpResponseParser parser, HttpClient? client = null)
+    public KpApi(string kpToken, IKpResponseParser parser)
     {
         _parser = parser;
-        _kpClient = client != null
-            ? new RestClient(client, true, options => options.MaxTimeout = 15000)
-            : new RestClient(options => options.MaxTimeout = 15000);
+        _kpClient = new RestClient(options => options.MaxTimeout = 15000);
         _kpClient.AddDefaultHeader("X-API-KEY", kpToken);
     }
 

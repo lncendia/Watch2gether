@@ -1,5 +1,5 @@
 using Films.Application.Abstractions.Common.Exceptions;
-using Films.Application.Abstractions.Common.Interfaces;
+using Films.Application.Abstractions.Posters;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films;
 using Films.Domain.Films.Events;
@@ -10,7 +10,7 @@ using MediatR;
 
 namespace Films.Application.Services.EventHandlers.Films;
 
-public class NewFilmEventHandler(IUnitOfWork unitOfWork, IPosterService posterService)
+public class NewFilmEventHandler(IUnitOfWork unitOfWork, IPosterStore posterStore)
     : INotificationHandler<NewFilmDomainEvent>
 {
     public async Task Handle(NewFilmDomainEvent notification, CancellationToken cancellationToken)
@@ -22,7 +22,7 @@ public class NewFilmEventHandler(IUnitOfWork unitOfWork, IPosterService posterSe
         var count = await unitOfWork.FilmRepository.Value.FindAsync(filmSpec);
         if (count.Count > 0)
         {
-            await posterService.DeleteAsync(notification.Film.PosterUrl);
+            await posterStore.DeleteAsync(notification.Film.PosterUrl);
             throw new FilmAlreadyExistsException();
         }
     }

@@ -1,5 +1,5 @@
-using Films.Application.Abstractions.Services.MovieApi.DTOs;
-using Films.Application.Abstractions.Services.MovieApi.Exceptions;
+using Films.Application.Abstractions.MovieApi.DTOs;
+using Films.Application.Abstractions.MovieApi.Exceptions;
 using Newtonsoft.Json;
 using Films.Infrastructure.Movie.Abstractions;
 using Films.Infrastructure.Movie.Converters;

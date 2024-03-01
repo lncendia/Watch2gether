@@ -73,6 +73,9 @@ public class SettingsController : Controller
         // Получаем аутентифицированного пользователя
         var user = await _mediator.Send(new UserByIdQuery { Id = User.Id() });
 
+        // Добавляем сообщение об ошибке, если оно есть
+        if (!string.IsNullOrEmpty(model.ErrorMessage)) ModelState.AddModelError("", model.ErrorMessage);
+
         // Создаем модель представления
         var settingsModel = await BuildViewModelAsync(user, model.ExpandElem, model.Message);
 
@@ -150,7 +153,7 @@ public class SettingsController : Controller
 
         // Перенаправляем пользователя на указанный URL
         return RedirectToAction("Index", new SettingsInputModel
-        { 
+        {
             ExpandElem = 1,
             Message = InsertWordAfterFirstWord(_localizer["ProviderUnlinked"], provider)
         });
@@ -172,7 +175,7 @@ public class SettingsController : Controller
         // Перенаправляем на действие "Index" с указанными параметрами returnUrl, expandElem и message
         return RedirectToAction("Index", new SettingsInputModel
         {
-            ExpandElem = expandElem, 
+            ExpandElem = expandElem,
             Message = _localizer["SessionsClosed"]
         });
     }
@@ -184,11 +187,11 @@ public class SettingsController : Controller
     /// <returns>Результат смены пароля</returns>
     public async Task<IActionResult> ChangePassword(ChangePasswordInputModel model)
     {
-        // Объявление переменной message типа string
-        string message;
+        // Объявление переменной message и errorMessage типа string
+        string? message = null, errorMessage = null;
 
         // Присвоение описания первой ошибки валидации переменной message, если модель не валидна
-        if (!ModelState.IsValid) message = GetFirstError();
+        if (!ModelState.IsValid) errorMessage = GetFirstError();
 
         // Иначе если данные валидны
         else
@@ -215,7 +218,7 @@ public class SettingsController : Controller
                 {
                     // В случае если исключение ex является OldPasswordNeededException устанавливаем соответствующее сообщение
                     case OldPasswordNeededException:
-                        message = _localizer["OldPasswordNeeded"];
+                        errorMessage = _localizer["OldPasswordNeeded"];
                         break;
 
                     // В случае если исключение ex является PasswordValidationException устанавливаем соответствующее сообщение
@@ -226,21 +229,21 @@ public class SettingsController : Controller
                             .Select(code => _localizer[code.Key]);
 
                         // Формируем строку из перечисления ошибок через запятую
-                        message = string.Join(", ", errorsEnumerable);
+                        errorMessage = string.Join(", ", errorsEnumerable);
                         break;
 
                     // В случае если исключение ex является ArgumentException устанавливаем соответствующее сообщение
                     case ArgumentException:
 
                         // Если старый пароль совпадает с новым, то устанавливаем соответствующее сообщение
-                        message = _localizer["OldPasswordMatchNew"];
+                        errorMessage = _localizer["OldPasswordMatchNew"];
                         break;
 
                     // В случае если исключение ex является EmailNotConfirmedException устанавливаем соответствующее сообщение
                     case EmailNotConfirmedException:
 
                         // Если почта не подтверждена, то устанавливаем соответствующее сообщение
-                        message = _localizer["EmailNotConfirmed"];
+                        errorMessage = _localizer["EmailNotConfirmed"];
                         break;
 
                     //Если исключение ex не является ни одним их типов, то вызываем исключение дальше
@@ -250,7 +253,12 @@ public class SettingsController : Controller
         }
 
         // Перенаправляем на действие "Index" с указанными параметрами returnUrl, expandElem и message
-        return RedirectToAction("Index", new SettingsInputModel {ExpandElem = 2, Message = message });
+        return RedirectToAction("Index", new SettingsInputModel
+        {
+            ExpandElem = 2,
+            Message = message,
+            ErrorMessage = errorMessage
+        });
     }
 
     /// <summary>
@@ -260,17 +268,17 @@ public class SettingsController : Controller
     /// <returns>Объект IActionResult, представляющий результат операции.</returns>
     public async Task<IActionResult> RequestChangeEmail(RequestChangeEmailInputModel model)
     {
-        // Объявление переменной message типа string
-        string message;
+        // Объявление переменной message и errorMessage типа string
+        string? message = null, errorMessage = null;
 
         // Присвоение описания первой ошибки валидации переменной message, если модель не валидна
-        if (!ModelState.IsValid) message = GetFirstError();
-        
+        if (!ModelState.IsValid) errorMessage = GetFirstError();
+
         // Иначе
         else
         {
             // Формирование URL-адреса обратного вызова для изменения адреса электронной почты
-            var resetUrl = Url.Action("ChangeEmail", "Settings", HttpContext.Request.Scheme)!;
+            var resetUrl = Url.Action("ChangeEmail", "Settings", null, HttpContext.Request.Scheme)!;
 
             try
             {
@@ -292,12 +300,17 @@ public class SettingsController : Controller
             catch (EmailNotConfirmedException)
             {
                 // Если почта не подтверждена, то устанавливаем соответствующее сообщение
-                message = _localizer["EmailNotConfirmed"];
+                errorMessage = _localizer["EmailNotConfirmed"];
             }
         }
 
-        // Перенаправление на действие "Index" с указанными параметрами returnUrl, expandElem и message
-        return RedirectToAction("Index", new SettingsInputModel {ExpandElem = 3, Message = message });
+        // Перенаправление на действие "Index" с указанными данных
+        return RedirectToAction("Index", new SettingsInputModel
+        {
+            ExpandElem = 3,
+            Message = message,
+            ErrorMessage = errorMessage
+        });
     }
 
     /// <summary>
@@ -314,8 +327,8 @@ public class SettingsController : Controller
         // Выбрасывание исключения QueryParameterMissingException, если параметр code отсутствует
         if (string.IsNullOrEmpty(code)) throw new QueryParameterMissingException(nameof(code));
 
-        // Объявление переменной message типа string
-        string message;
+        // Объявление переменной message и errorMessage типа string
+        string? message = null, errorMessage = null;
 
         try
         {
@@ -345,12 +358,12 @@ public class SettingsController : Controller
             {
                 //В случае если исключение ex является EmailAlreadyTakenException устанавливаем соответствующее сообщение
                 case EmailAlreadyTakenException:
-                    message = _localizer["EmailAlreadyTaken"];
+                    errorMessage = _localizer["EmailAlreadyTaken"];
                     break;
 
                 //В случае если исключение ex является EmailFormatException устанавливаем соответствующее сообщение
                 case EmailFormatException:
-                    message = _localizer["EmailFormatInvalid"];
+                    errorMessage = _localizer["EmailFormatInvalid"];
                     break;
 
                 //Если исключение ex не является ни одним их типов, то вызываем исключение дальше
@@ -358,8 +371,13 @@ public class SettingsController : Controller
             }
         }
 
-        // Перенаправление на действие "Index" с указанными параметрами returnUrl, expandElem и message
-        return RedirectToAction("Index", new SettingsInputModel { ExpandElem = 3, Message = message });
+        // Перенаправление на действие "Index" с указанными данных
+        return RedirectToAction("Index", new SettingsInputModel
+        {
+            ExpandElem = 3,
+            Message = message,
+            ErrorMessage = errorMessage
+        });
     }
 
     /// <summary>
@@ -371,11 +389,11 @@ public class SettingsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChangeName(ChangeNameInputModel model)
     {
-        // Объявление переменной message типа string
-        string message;
+        // Объявление переменной message и errorMessage типа string
+        string? message = null, errorMessage = null;
 
         // Присвоение описания первой ошибки валидации переменной message, если модель не валидна
-        if (!ModelState.IsValid) message = GetFirstError();
+        if (!ModelState.IsValid) errorMessage = GetFirstError();
 
         // Иначе
         else
@@ -400,26 +418,31 @@ public class SettingsController : Controller
             }
             catch (UserNameLengthException)
             {
-                message = _localizer["UserNameLengthInvalid"];
+                errorMessage = _localizer["UserNameLengthInvalid"];
             }
         }
 
-        // Перенаправление на действие "Index" с указанными параметрами returnUrl, expandElem и message
-        return RedirectToAction("Index", new SettingsInputModel { ExpandElem = 4, Message = message });
+        // Перенаправление на действие "Index" с указанными данных
+        return RedirectToAction("Index", new SettingsInputModel
+        {
+            ExpandElem = 4,
+            Message = message,
+            ErrorMessage = errorMessage
+        });
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<ActionResult> ChangeAvatar(ChangeAvatarInputModel model)
     {
-        // Объявление переменной message типа string
-        string message;
+        // Объявление переменной message и errorMessage типа string
+        string? message = null, errorMessage = null;
 
         // Присвоение описания первой ошибки валидации переменной message, если модель не валидна
-        if (!ModelState.IsValid) message = GetFirstError();
+        if (!ModelState.IsValid) errorMessage = GetFirstError();
 
         // Иначе если размер аватара превышает 15 Мб
-        else if (model.File!.Length > 15728640) message = _localizer["WrongFileSize"];
+        else if (model.File!.Length > 15728640) errorMessage = _localizer["WrongFileSize"];
 
         // Иначе
         else
@@ -441,8 +464,13 @@ public class SettingsController : Controller
             message = _localizer["AvatarChanged"];
         }
 
-        // Перенаправление на действие "Index" с указанными параметрами returnUrl, expandElem и message
-        return RedirectToAction("Index", new SettingsInputModel { ExpandElem = 5, Message = message });
+        // Перенаправление на действие "Index" с указанными данных
+        return RedirectToAction("Index", new SettingsInputModel
+        {
+            ExpandElem = 5,
+            Message = message,
+            ErrorMessage = errorMessage
+        });
     }
 
     /// <summary>

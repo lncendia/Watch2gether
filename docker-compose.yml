@@ -2,7 +2,6 @@
   rabbitmq:
     image: rabbitmq:3.12.10-management
     hostname: rabbitmq
-    restart: always
     environment:
       - RABBITMQ_DEFAULT_USER=rmuser
       - RABBITMQ_DEFAULT_PASS=rmpassword
@@ -12,7 +11,6 @@
 
   auth.postgres:
     image: postgres:latest
-    restart: always
     environment:
       - POSTGRES_USER=pguser
       - POSTGRES_PASSWORD=pgpassword
@@ -21,7 +19,6 @@
 
   films.postgres:
     image: postgres:latest
-    restart: always
     environment:
       - POSTGRES_USER=pguser
       - POSTGRES_PASSWORD=pgpassword
@@ -30,7 +27,6 @@
 
   rooms-1.postgres:
     image: postgres:latest
-    restart: always
     environment:
       - POSTGRES_USER=pguser
       - POSTGRES_PASSWORD=pgpassword

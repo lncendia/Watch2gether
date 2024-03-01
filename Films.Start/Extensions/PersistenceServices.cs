@@ -1,7 +1,8 @@
-using Films.Application.Abstractions.Common.Interfaces;
+using Films.Application.Abstractions.Posters;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Infrastructure.Storage;
 using Films.Infrastructure.Storage.Context;
+using Films.Infrastructure.Storage.Posters;
 using Microsoft.EntityFrameworkCore;
 
 namespace Films.Start.Extensions;
@@ -22,6 +23,6 @@ public static class PersistenceServices
         });
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        services.AddScoped<IPosterService, PosterService>(_ => new PosterService(rootPath, contentPath));
+        services.AddScoped<IPosterStore, PosterStore>(_ => new PosterStore(rootPath, contentPath));
     }
 }

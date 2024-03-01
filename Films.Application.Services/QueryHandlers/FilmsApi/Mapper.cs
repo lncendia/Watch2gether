@@ -1,5 +1,5 @@
+using Films.Application.Abstractions.MovieApi.DTOs;
 using Films.Application.Abstractions.Queries.FilmsApi.DTOs;
-using Films.Application.Abstractions.Services.MovieApi.DTOs;
 using Films.Domain.Films.ValueObjects;
 
 namespace Films.Application.Services.QueryHandlers.FilmsApi;

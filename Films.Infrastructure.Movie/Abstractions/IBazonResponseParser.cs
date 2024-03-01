@@ -1,4 +1,4 @@
-using Films.Application.Abstractions.Services.MovieApi.DTOs;
+using Films.Application.Abstractions.MovieApi.DTOs;
 
 namespace Films.Infrastructure.Movie.Abstractions;
 

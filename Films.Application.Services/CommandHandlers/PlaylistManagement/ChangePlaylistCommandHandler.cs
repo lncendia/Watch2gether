@@ -1,12 +1,12 @@
 using Films.Application.Abstractions.Commands.PlaylistManagement;
 using Films.Application.Abstractions.Common.Exceptions;
-using Films.Application.Abstractions.Common.Interfaces;
+using Films.Application.Abstractions.Posters;
 using Films.Domain.Abstractions.Interfaces;
 using MediatR;
 
 namespace Films.Application.Services.CommandHandlers.PlaylistManagement;
 
-public class ChangePlaylistCommandHandler(IUnitOfWork unitOfWork, IPosterService posterService)
+public class ChangePlaylistCommandHandler(IUnitOfWork unitOfWork, IPosterStore posterStore)
     : IRequestHandler<ChangePlaylistCommand>
 {
     public async Task Handle(ChangePlaylistCommand request, CancellationToken cancellationToken)
@@ -16,13 +16,13 @@ public class ChangePlaylistCommandHandler(IUnitOfWork unitOfWork, IPosterService
         if (!string.IsNullOrEmpty(request.Name)) playlist.Name = request.Name;
         if (!string.IsNullOrEmpty(request.Description)) playlist.Description = request.Description;
         Uri? poster = null;
-        if (request.PosterUrl != null) poster = await posterService.SaveAsync(request.PosterUrl);
+        if (request.PosterUrl != null) poster = await posterStore.SaveAsync(request.PosterUrl);
         else if (request.PosterBase64 != null)
-            poster = await posterService.SaveAsync(request.PosterBase64);
+            poster = await posterStore.SaveAsync(request.PosterBase64);
 
         if (poster != null)
         {
-            await posterService.DeleteAsync(playlist.PosterUrl);
+            await posterStore.DeleteAsync(playlist.PosterUrl);
             playlist.PosterUrl = poster;
         }
 

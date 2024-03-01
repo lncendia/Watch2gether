@@ -11,6 +11,11 @@ public class SettingsInputModel
     public string? Message { get; init; }
     
     /// <summary>
+    /// Сообщение об ошибке.
+    /// </summary>
+    public string? ErrorMessage { get; init; }
+    
+    /// <summary>
     /// Номер вкладки, которая должна быть раскрыта.
     /// </summary>
     public int ExpandElem { get; init; } = 1;

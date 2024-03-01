@@ -1,5 +1,5 @@
 using Films.Application.Abstractions.Commands.FilmsManagement;
-using Films.Application.Abstractions.Common.Interfaces;
+using Films.Application.Abstractions.Posters;
 using Films.Application.Services.Common;
 using Films.Domain.Abstractions.Interfaces;
 using MediatR;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Films.Application.Services.CommandHandlers.FilmsManagement;
 
-public class ChangeFilmCommandHandler(IUnitOfWork unitOfWork, IPosterService posterService, IMemoryCache memoryCache)
+public class ChangeFilmCommandHandler(IUnitOfWork unitOfWork, IPosterStore posterStore, IMemoryCache memoryCache)
     : IRequestHandler<ChangeFilmCommand>
 {
     public async Task Handle(ChangeFilmCommand request, CancellationToken cancellationToken)
@@ -22,12 +22,12 @@ public class ChangeFilmCommandHandler(IUnitOfWork unitOfWork, IPosterService pos
             film.UpdateSeriesInfo(request.CountSeasons.Value, request.CountEpisodes.Value);
 
         Uri? poster = null;
-        if (request.PosterUrl != null) poster = await posterService.SaveAsync(request.PosterUrl);
-        else if (request.PosterBase64 != null) poster = await posterService.SaveAsync(request.PosterBase64);
+        if (request.PosterUrl != null) poster = await posterStore.SaveAsync(request.PosterUrl);
+        else if (request.PosterBase64 != null) poster = await posterStore.SaveAsync(request.PosterBase64);
 
         if (poster != null)
         {
-            await posterService.DeleteAsync(film.PosterUrl);
+            await posterStore.DeleteAsync(film.PosterUrl);
             film.PosterUrl = poster;
         }
 

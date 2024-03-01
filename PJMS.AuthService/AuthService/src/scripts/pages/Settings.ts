@@ -54,8 +54,15 @@ export class Settings {
         // получаем все поля ввода с классом .wrap-input input
         new InputWrapper('.wrap-input input');
 
-        // получаем тег span иконки переключателя видимости старого пароля и добавляем ей обработчик клика
-        new PasswordHide('#show-old-pass');
+        // получаем переключатель видимости старого пароля
+        const showOldPass = document.querySelector("#show-old-pass")
+        
+        // если переключатель есть
+        if(showOldPass) {
+            
+            // получаем тег span иконки переключателя видимости старого пароля и добавляем ей обработчик клика
+            new PasswordHide('#show-old-pass');
+        }
         
         // получаем тег span иконки переключателя видимости нрвого пароля и добавляем ей обработчик клика
         new PasswordHide('#show-new-pass');

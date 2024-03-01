@@ -1,7 +1,7 @@
 using System.Net;
-using Films.Application.Abstractions.Services.MovieApi.DTOs;
-using Films.Application.Abstractions.Services.MovieApi.Exceptions;
-using Films.Application.Abstractions.Services.MovieApi.Interfaces;
+using Films.Application.Abstractions.MovieApi.DTOs;
+using Films.Application.Abstractions.MovieApi.Exceptions;
+using Films.Application.Abstractions.MovieApi.Interfaces;
 using Films.Infrastructure.Movie.Abstractions;
 using RestSharp;
 
@@ -12,12 +12,10 @@ public class VideoCdnApi : IVideoCdnApiService, IDisposable
     private readonly RestClient _cdnClient;
     private readonly IVideoCdnResponseParser _parser;
 
-    public VideoCdnApi(string cdnToken, IVideoCdnResponseParser parser, HttpClient? client = null)
+    public VideoCdnApi(string cdnToken, IVideoCdnResponseParser parser)
     {
         _parser = parser;
-        _cdnClient = client != null
-            ? new RestClient(client, true, options => options.MaxTimeout = 15000)
-            : new RestClient(options => options.MaxTimeout = 15000);
+        _cdnClient = new RestClient(options => options.MaxTimeout = 15000);
         _cdnClient.AddDefaultQueryParameter("api_token", cdnToken);
     }
 

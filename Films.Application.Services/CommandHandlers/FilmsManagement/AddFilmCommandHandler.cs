@@ -1,20 +1,20 @@
 using Films.Application.Abstractions.Commands.FilmsManagement;
 using Films.Application.Abstractions.Common.Exceptions;
-using Films.Application.Abstractions.Common.Interfaces;
+using Films.Application.Abstractions.Posters;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films;
 using MediatR;
 
 namespace Films.Application.Services.CommandHandlers.FilmsManagement;
 
-public class AddFilmCommandHandler(IUnitOfWork unitOfWork, IPosterService posterService)
+public class AddFilmCommandHandler(IUnitOfWork unitOfWork, IPosterStore posterStore)
     : IRequestHandler<AddFilmCommand, Guid>
 {
     public async Task<Guid> Handle(AddFilmCommand request, CancellationToken cancellationToken)
     {
         Uri? poster;
-        if (request.PosterUrl != null) poster = await posterService.SaveAsync(request.PosterUrl);
-        else if (request.PosterBase64 != null) poster = await posterService.SaveAsync(request.PosterBase64);
+        if (request.PosterUrl != null) poster = await posterStore.SaveAsync(request.PosterUrl);
+        else if (request.PosterBase64 != null) poster = await posterStore.SaveAsync(request.PosterBase64);
         else throw new PosterMissingException();
         var film = new Film(request.IsSerial, request.CountSeasons, request.CountEpisodes)
         {

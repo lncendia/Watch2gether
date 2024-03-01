@@ -238,6 +238,11 @@ input:-webkit-autofill:focus {
     padding-right: 5px;
     cursor: pointer;
     transition: all 0.4s;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   .btn-show-pass:hover {

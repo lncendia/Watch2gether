@@ -1,4 +1,4 @@
-using Films.Application.Abstractions.Services.MovieApi.Interfaces;
+using Films.Application.Abstractions.MovieApi.Interfaces;
 using Films.Infrastructure.Movie.Abstractions;
 using Films.Infrastructure.Movie.Services;
 

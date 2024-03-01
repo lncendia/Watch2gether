@@ -1,6 +1,6 @@
+using Films.Application.Abstractions.MovieApi.Interfaces;
 using Films.Application.Abstractions.Queries.FilmsApi;
 using Films.Application.Abstractions.Queries.FilmsApi.DTOs;
-using Films.Application.Abstractions.Services.MovieApi.Interfaces;
 using MediatR;
 
 namespace Films.Application.Services.QueryHandlers.FilmsApi;

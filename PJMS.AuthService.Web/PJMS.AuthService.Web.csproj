@@ -101,6 +101,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ChangeAvatarInputModel.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Consent\Controllers\ConsentController.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConsentController.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -236,6 +240,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ChangeAvatarInputModel.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Consent\Controllers\ConsentController.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ConsentController.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
