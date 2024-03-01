@@ -1,4 +1,4 @@
-import RandomVideoWrapper from "../../modules/RandomVideoWrapper/components/RandomVideoWrapper";
+import RandomVideoWrapper from "../../modules/RandomVideoWrapper/RandomVideoWrapper.tsx";
 import MyNavbar from "../../modules/Navbar/NavbarModule";
 import Logo from "../../components/Logo/Logo";
 import Container from "../../UI/Container/Container";
@@ -7,15 +7,15 @@ import Footer from "../../modules/Footer/Components/Footer";
 
 const HomePage = () => {
     return (
-        <div style={{background: 'black', minHeight:'100%'}}>
+        <div style={{background: 'black', minHeight: '100%'}}>
             <RandomVideoWrapper>
-                <MyNavbar color="transparent" linkColor="#d2d2d2" linkActiveColor="#8a8a8a"/>
+                <MyNavbar/>
                 <Logo/>
             </RandomVideoWrapper>
             <Container>
                 <FilmComments/>
             </Container>
-            <Footer color="dark"/>
+            <Footer/>
         </div>
     );
 };

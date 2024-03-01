@@ -32,10 +32,10 @@ const FilmItem = ({film, selectedGenre}: FilmItemProps) => {
                 <Col md={8}>
                     <Card.Body>
                         <Card.Title>{film.title}</Card.Title>
-                        <Card.Text className={"mb-3"}>{film.description}</Card.Text>
+                        <Card.Text className={`mb-3 ${styles.subtitle}`}>{film.description}</Card.Text>
                         <Card.Text>{genres}</Card.Text>
                         <Card.Text className="position-absolute bottom-0 pb-2">
-                            <small>{film.isSerial ? "Сериал" : "Фильм"}</small>
+                            <small className={styles.type}>{film.isSerial ? "Сериал" : "Фильм"}</small>
                         </Card.Text>
                     </Card.Body>
                 </Col>

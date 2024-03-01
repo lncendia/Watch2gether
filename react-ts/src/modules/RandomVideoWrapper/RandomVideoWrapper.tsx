@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import VideoWrapper from "../../../UI/VideoWrapper/VideoWrapper";
+import VideoWrapper from "../../UI/VideoWrapper/VideoWrapper.tsx";
 
 const RandomVideoWrapper = ({children}: { children: React.ReactNode }) => {
 

@@ -1,0 +1,32 @@
+@import "layout.scss";
+@import "settings.scss";
+@import "culture.scss";
+@import "theme.scss";
+@import "account.scss";
+@import "consent.scss";
+@import "setupTwoFactor.scss";
+@import "grants.scss";
+@import "twofactor.scss";
+@import "home.scss";
+@import "bootstrap/scss/bootstrap";
+@import "../fonts/montserrat/montserrat.css";
+
+
+
+[data-bs-theme="dark"] {
+  --body-bg: linear-gradient(#1f052c, transparent),
+  linear-gradient(90deg, #052126, transparent),
+  linear-gradient(-90deg, #261106, transparent);
+  --bs-body-font-family: Montserrat-Regular, serif;
+  --button-bg: linear-gradient(to right, #008083, #98009a, #008d8f, #950096);
+}
+
+
+[data-bs-theme="light"] {
+  --body-bg: linear-gradient(#b721ff, transparent),
+  linear-gradient(90deg, #21d4fd, transparent),
+  linear-gradient(-90deg, coral, transparent);
+  --bs-body-font-family: Montserrat-Regular, serif;
+  --button-bg: linear-gradient(to right, #00dbde, #fc00ff, #00dbde, #fc00ff);
+  --bs-border-color: #bebebe;
+}

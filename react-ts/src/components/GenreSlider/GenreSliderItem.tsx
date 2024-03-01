@@ -8,10 +8,8 @@ interface GenreProps {
 
 const GenreSlider = (props: GenreProps) => {
     return (
-        <div className={styles.genre}>
-            <div className={`${styles.genre_inside} ${props.selected ? styles.selected : ''}`} onClick={props.onSelect}>
-                {props.genre}
-            </div>
+        <div className={`${props.selected ? styles.selected : ''} ${styles.genre}`} onClick={props.onSelect}>
+            {props.genre}
         </div>
     );
 };

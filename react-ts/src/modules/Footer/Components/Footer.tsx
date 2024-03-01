@@ -1,18 +1,17 @@
-import React from 'react';
-import {NavLink} from "react-bootstrap";
+import {Nav, Navbar} from "react-bootstrap";
 import styles from './Footer.module.css'
 import Container from "../../../UI/Container/Container";
 
-const Footer = ({color}: { color: string }) => {
+const Footer = () => {
     return (
-        <footer className={`${'bg-' + color} ${styles.footer}`}>
+        <Navbar className={styles.footer}>
             <Container>
-                <div className="d-flex justify-content-between">
-                    <span className={styles.navLinkf}>&copy; {new Date().getFullYear()} - Overoom</span>
-                    <NavLink className={styles.nav_link} href="#">Правообладателям</NavLink>
-                </div>
+                <span>&copy; {new Date().getFullYear()} - Overoom</span>
+                <Nav>
+                    <Nav.Link href="#">Правообладателям</Nav.Link>
+                </Nav>
             </Container>
-        </footer>
+        </Navbar>
     );
 };
 

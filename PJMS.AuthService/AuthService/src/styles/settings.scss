@@ -44,12 +44,12 @@
 
     .provider.disabled {
       cursor: not-allowed;
-      box-shadow: 0 0 3px 1px rgba(37, 37, 37, 0.5);
+      box-shadow: 0 0 3px 1px rgba(var(--bs-body-color-rgb), 0.5);
       opacity: 0.5;
     }
 
     .provider.active {
-      box-shadow: 0 2px 4px 1px rgba(37, 37, 37, 0.5);
+      box-shadow: 0 2px 4px 1px rgba(var(--bs-body-color-rgb), 0.5);
     }
 
     .provider {
@@ -58,7 +58,7 @@
       padding-top: 5px;
       padding-bottom: 5px;
       margin: auto auto 15px;
-      color: black;
+      color: var(--bs-body-color);
       border-radius: 15px;
       text-decoration: none;
       transition: all 0.2s;

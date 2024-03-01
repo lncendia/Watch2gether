@@ -89,7 +89,7 @@ export class PasswordStrengthValidator {
             this.errorsBlock.innerHTML = this.indicatorField.querySelector('#invalid-pass').innerHTML;
             
             // выделяем его красным цветом
-            this.errorsBlock.setAttribute('style', 'color: #f00');
+            this.errorsBlock.style.color = "var(--bs-red)";
         }
     }
 
@@ -108,7 +108,7 @@ export class PasswordStrengthValidator {
             this.indicatorField.removeAttribute('hidden');
 
             // устанавливаем цвет сообщения о пароле по умолчанию 
-            this.errorsBlock.setAttribute('style', 'color: #666');
+            this.errorsBlock.style.color = "";
 
             // сообщение для пользователя о степени надежности
             let messageBlock: string;

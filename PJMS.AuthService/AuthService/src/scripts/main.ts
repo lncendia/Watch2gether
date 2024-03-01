@@ -1,4 +1,4 @@
-﻿import '../styles/site.scss';
+﻿import '../styles/index.scss';
 import 'bootstrap'
 import 'jquery-validation-unobtrusive'
 
@@ -13,6 +13,7 @@ import {Registration} from "./pages/Registration";
 import {Settings} from "./pages/Settings";
 import {SetupTwoFactor} from "./pages/SetupTwoFactor";
 import {CultureForm} from "./helpers/CultureForm";
+import {ThemeToggler} from "./helpers/ThemeToggler";
 
 
 //по загрузке страницы
@@ -32,6 +33,12 @@ window.addEventListener("load", () => {
 
     // Запускаем функционал формы языка текущей страницы
     cultureForm.startCultureForm();
+
+    // Создаем класс переключателя темы
+    const themeToggler = new ThemeToggler()
+
+    // Запускаем функционал переключателя темы
+    themeToggler.startThemeToggler()
 
     // Смотрим имя контроллера
     switch (partsPath[1]) {

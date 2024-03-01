@@ -18,16 +18,6 @@
         .ToList();
 }
 
-<form asp-action="SetCulture"
-      asp-controller="Culture"
-      asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)"
-      class="form-culture" 
-      id="culture-form"
-      method="post">
-    <select asp-for="@requestCulture!.RequestCulture.UICulture.Name"
-            asp-items="cultureItems"
-            class="form-select"
-            id="culture-form-select"
-            name="culture">
-    </select>
+<form asp-action="SetCulture" asp-controller="Culture" asp-route-returnUrl="@(Context.Request.Path + Context.Request.QueryString)" class="form-culture" method="post">
+    <select asp-for="@requestCulture!.RequestCulture.UICulture.Name" asp-items="cultureItems" class="form-select" name="culture"></select>
 </form>

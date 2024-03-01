@@ -1,27 +1,21 @@
-.itc-slider__item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-.film_inside{
-    width: 94%;
-    height: 94%;
-    background: var(--color-dark);
+.film{
+    margin-left: 10px;
+    margin-right: 10px;
+    background: rgba(var(--bs-body-bg-rgb), 0.7);
     box-shadow: 0 0 10px var(--shadow-dark);
     text-align: center;
     font-size: 15px;
     border-radius: 15px;
-    margin: 0 auto;
-    padding-bottom: 20px;
     padding-top: 5px;
 }
 
-.film_inside:hover{
+.film:hover{
+    margin-left: 5px;
+    margin-right: 5px;
     transition: all, 0.1s;
-    width: 97%;
-    height: 97%;
-    box-shadow: 0 0 10px var(--shadow-red);
+    box-shadow: 0 0 10px var(--bs-red);
+    cursor: pointer;
 }
 
 .film {
@@ -35,7 +29,7 @@
     height: 150px;
     max-width: 100px;
     margin: 0 auto;
-    box-shadow: 0 3px 15px var(--shadow-purple);
+    box-shadow: 0 3px 15px var(--bs-purple);
     border-radius: 10px;
 }
 

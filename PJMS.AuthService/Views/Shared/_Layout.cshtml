@@ -13,14 +13,14 @@
 <body>
 
 <partial name="_Culture"/>
-<div class="body-container">
-    <partial name="_ValidationSummary"/>
-    <div class="card main-card px-md-5 p-3 my-5">
-        <div class="card-body">
-            @RenderBody()
-        </div>
+<partial name="_Theme"/>
+<partial name="_ValidationSummary"/>
+<div class="card main-card px-md-5 p-3 my-5">
+    <div class="card-body">
+        @RenderBody()
     </div>
 </div>
+
 
 <script src="~/bundles/app.bundle.js"></script>
 </body>

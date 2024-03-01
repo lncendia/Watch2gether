@@ -9,10 +9,10 @@ export class CultureForm {
     startCultureForm() {
 
         // Получаем элемент формы
-        const form: HTMLFormElement = document.querySelector('#culture-form') as HTMLFormElement;
+        const form: HTMLFormElement = document.querySelector('.form-culture') as HTMLFormElement;
         
         // добавляем обработчик изменения списка
-        document.querySelector('#culture-form-select').addEventListener('change', () => {
+        form.querySelector('select').addEventListener('change', () => {
             
             // Отправляем форму
             form.submit();

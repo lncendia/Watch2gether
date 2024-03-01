@@ -1,85 +1,18 @@
-
-/*#region inputs*/
-
-input:-webkit-autofill,
-input:-webkit-autofill:focus {
-    transition: background-color 600000s 0s, color 600000s 0s;
-}
-
-.zmdi-eye:before{
-    font-size: 25px;
-}
-
-.zmdi-eye-off:before{
-    font-size: 25px;
-}
-
-
-@media (max-width: 670px) {
-    .zmdi-eye:before{
-        font-size: 15px;
-    }
-
-    .zmdi-eye-off:before{
-        font-size: 15px;
-    }
-
-}
-
-/*#endregion inputs*/
-
-/*#region selectLanguage*/
-
-select > option {
-    color: #4e555b;
-}
-
-option[selected] {
-    font-weight: bold;
-    text-decoration: underline;
-    color: #21d4fd;
-}
-
 select {
-    text-indent: 5px;
-}
-
-.form-control {
-    color: white;
-    font-family: Poppins-Regular, sans-serif;
-    font-size: 14px;
-    cursor: pointer;
+  text-indent: 5px;
 }
 
 @media (max-width: 840px) {
-    .form-control {
-        font-size: 18px;
-    }
-}
-.custom-select:focus, .form-control-file:focus, .form-control:focus {
-    border-color: #21d4fd;
-    box-shadow: inset 0 -2px 0 -1px #21d4fd;
-    outline: 0;
+  .form-control {
+    font-size: 18px;
+  }
 }
 
-select.form-control:hover{
-    border-color: #21d4fd;
-    box-shadow: inset 0 -2px 0 -1px #21d4fd;
+.form-culture {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  width: 150px;
 }
 
-.form-culture{
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 150px;
-}
-
-
-@media (max-width: 670px) {
-    .form-culture {
-        left: 5px;
-    }
-}
-
-/*#endregion selectLanguage*/
 

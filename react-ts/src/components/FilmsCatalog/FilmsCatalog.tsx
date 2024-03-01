@@ -10,7 +10,7 @@ export interface FilmListProps{
 
 const FilmsCatalog = ({films, genre, className = ''}: FilmListProps) => {
     return (
-        <Row className={`gy-5 justify-content-start ${className}`.trim()}>
+        <Row className={`gy-5 m-0 justify-content-start ${className}`.trim()}>
             {films.map(film =>
                 <Col sm={6} xl={4} key={film.id}>
                     <FilmItem selectedGenre={genre} film={film}/>

@@ -6,16 +6,16 @@
 }
 
 <h5 class="card-title">@Model.ClientName</h5>
-<span class="card-logo">
+<div class="card-logo">
     @if (Model.ClientLogoUrl != null)
     {
         <img class="client-logo" src="@Model.ClientLogoUrl" alt="">
     }
     else
     {
-        <i class="zmdi zmdi-font"></i>
+        <span>Overoom</span>
     }
-</span>
+</div>
 
 
 <form asp-action="Index" method="post" class="consent mt-lg-5 mt-md-3 mt-1">
