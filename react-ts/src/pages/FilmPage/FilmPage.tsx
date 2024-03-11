@@ -1,18 +1,16 @@
-import {useState} from 'react';
-import GenreSelectModule from "../../modules/GenreSelectModule/GenreSelectModule.tsx";
-import FilmsModule from "../../modules/FilmsModule/FilmsModule.tsx";
-import PopularFilmsModule from "../../modules/PopularFilmsModule/PopularFilmsModule.tsx";
+import FilmModule from "../../modules/Film/FilmModule/FilmModule.tsx";
+import {useLocation} from "react-router-dom";
+import FilmCommentsModule from "../../modules/Film/FilmCommentsModule/FilmCommentsModule.tsx";
 
 const FilmPage = () => {
 
-    const [genre, genreSelect] = useState<string | undefined>()
+    const {state} = useLocation();
 
     return (
-        <>
-            <GenreSelectModule genre={genre} className="mt-5" genreSelected={g => genreSelect(g)}/>
-            <PopularFilmsModule className="mt-5"/>
-            <FilmsModule className="mt-5" genre={genre}/>
-        </>
+        <div>
+            <FilmModule className="mt-3" id={state.id}/>
+            <FilmCommentsModule className="mt-5" id={state.id}/>
+        </div>
     );
 };
 

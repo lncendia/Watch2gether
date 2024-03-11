@@ -1,4 +1,4 @@
-import SignOutModule from "../../modules/SignOutModule/SignOutModule.tsx";
+import SignOutModule from "../../modules/Authorization/SignOutModule.tsx";
 
 // Страница выхода пользователя
 const SignOutPage = () => {

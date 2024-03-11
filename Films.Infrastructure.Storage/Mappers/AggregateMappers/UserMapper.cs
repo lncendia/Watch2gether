@@ -2,7 +2,6 @@
 using Films.Domain.Users;
 using Films.Domain.Users.ValueObjects;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Mappers.StaticMethods;
 using Films.Infrastructure.Storage.Models.User;
 
 namespace Films.Infrastructure.Storage.Mappers.AggregateMappers;
@@ -27,9 +26,9 @@ internal class UserMapper : IAggregateMapperUnit<User, UserModel>
 
     public User Map(UserModel model)
     {
-        var user = new User
+        var user = new User(model.Id)
         {
-            UserName = model.UserName,
+            Username = model.UserName,
             PhotoUrl = model.PhotoUrl,
             Allows = new Allows
             {
@@ -38,8 +37,6 @@ internal class UserMapper : IAggregateMapperUnit<User, UserModel>
                 Change = model.Change
             }
         };
-
-        IdFields.AggregateId.SetValue(user, model.Id);
 
         var watchlist = model.Watchlist
             .Select(x =>
@@ -65,7 +62,7 @@ internal class UserMapper : IAggregateMapperUnit<User, UserModel>
             })
             .ToList();
 
-        var genres = model.Genres.Select(x => x.Name).ToArray();
+        var genres = model.Genres.Select(x => x.Name).ToList();
 
         WatchList.SetValue(user, watchlist);
         History.SetValue(user, history);

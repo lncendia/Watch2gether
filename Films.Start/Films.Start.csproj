@@ -11,7 +11,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Films.Application.Services\Films.Application.Services.csproj" />
       <ProjectReference Include="..\Films.Infrastructure.Bus\Films.Infrastructure.Bus.csproj" />
-      <ProjectReference Include="..\Films.Infrastructure.Movie\Films.Infrastructure.Movie.csproj" />
+      <ProjectReference Include="..\Films.Infrastructure.Load\Films.Infrastructure.Load.csproj" />
       <ProjectReference Include="..\Films.Infrastructure.Storage\Films.Infrastructure.Storage.csproj" />
       <ProjectReference Include="..\Films.Infrastructure.Web\Films.Infrastructure.Web.csproj" />
     </ItemGroup>
@@ -73,6 +73,9 @@
       <_ContentIncludedByDefault Remove="Views\User\Index.cshtml" />
       <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
       <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\Account\account.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\Account\account.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\Account\account.scss" />
     </ItemGroup>
 
     <ItemGroup>

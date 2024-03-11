@@ -1,7 +1,9 @@
 using System.Security.Claims;
 using IdentityModel;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Overoom.IntegrationEvents.Users;
 using PJMS.AuthService.Abstractions.Accessories;
 using PJMS.AuthService.Abstractions.AppThumbnailStore;
 using PJMS.AuthService.Abstractions.Commands.Create;
@@ -15,7 +17,7 @@ namespace PJMS.AuthService.Services.Commands.Create;
 /// Обработчик команды создания пользователя с внешней учетной записью.
 /// </summary>
 /// <param name="userManager">Менеджер пользователей, предоставленный ASP.NET Core Identity.</param>
-public class CreateUserExternalCommandHandler(UserManager<AppUser> userManager, IThumbnailStore thumbnailStore)
+public class CreateUserExternalCommandHandler(UserManager<AppUser> userManager, IThumbnailStore thumbnailStore, IPublishEndpoint publishEndpoint)
     : IRequestHandler<CreateUserExternalCommand, AppUser>
 {
     private const string ThumbnailClaimType = "photo:link";
@@ -117,6 +119,16 @@ public class CreateUserExternalCommandHandler(UserManager<AppUser> userManager, 
 
         // Связываем пользователя с внешним провайдером
         await userManager.AddLoginAsync(user, request.LoginInfo);
+        
+        // Публикуем событие
+        await publishEndpoint.Publish(new UserCreatedIntegrationEvent
+        {
+            Id = user.Id,
+            PhotoUrl = user.Thumbnail,
+            Name = user.UserName,
+            Email = user.Email!,
+            Locale = user.Locale.ToString()
+        }, cancellationToken);
 
         // Возвращаем пользователя
         return user;

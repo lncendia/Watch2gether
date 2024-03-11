@@ -1,5 +1,5 @@
 using Films.Application.Abstractions.Commands.Rooms.YoutubeRooms;
-using Films.Application.Abstractions.Common.Exceptions;
+using Films.Application.Abstractions.Exceptions;
 using Films.Domain.Abstractions.Interfaces;
 using MediatR;
 

@@ -15,7 +15,7 @@ internal class UserModelMapper(ApplicationDbContext context) : IModelMapperUnit<
             .LoadDependencies()
             .FirstOrDefaultAsync(x => x.Id == aggregate.Id) ?? new UserModel { Id = aggregate.Id };
 
-        model.UserName = aggregate.UserName;
+        model.UserName = aggregate.Username;
         model.PhotoUrl = aggregate.PhotoUrl;
         model.Beep = aggregate.Allows.Beep;
         model.Scream = aggregate.Allows.Scream;
@@ -33,7 +33,7 @@ internal class UserModelMapper(ApplicationDbContext context) : IModelMapperUnit<
 
     private static void ProcessHistory(User aggregate, UserModel model)
     {
-        model.History.RemoveAll(uh => aggregate.History.All(eh => eh.FilmId != uh.FilmId && eh.Date != uh.Date));
+        model.History.RemoveAll(uh => aggregate.History.All(eh => eh.FilmId != uh.FilmId || eh.Date != uh.Date));
 
         // Нужно добавить в UserHistory новые записи, которых там еще нет
         var historyToAdd = aggregate.History
@@ -45,7 +45,7 @@ internal class UserModelMapper(ApplicationDbContext context) : IModelMapperUnit<
 
     private static void ProcessWatchlist(User aggregate, UserModel model)
     {
-        model.Watchlist.RemoveAll(uw => aggregate.Watchlist.All(eh => eh.FilmId != uw.FilmId && eh.Date != uw.Date));
+        model.Watchlist.RemoveAll(uw => aggregate.Watchlist.All(eh => eh.FilmId != uw.FilmId || eh.Date != uw.Date));
 
         // Нужно добавить в UserWatchlist новые записи, которых там еще нет
         var watchlistToAdd = aggregate.Watchlist

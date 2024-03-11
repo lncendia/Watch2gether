@@ -1,6 +1,6 @@
 .content {
     padding: 15px;
-    background: var(--color-dark);
+    background-color: rgba(var(--bs-body-bg-rgb), 0.6);
     border-radius: 15px;
-    box-shadow: 0 0 10px var(--shadow-dark);
+    box-shadow: 0 0 10px var(--bs-box-shadow);
 }

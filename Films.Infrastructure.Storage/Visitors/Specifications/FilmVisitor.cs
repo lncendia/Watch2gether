@@ -43,4 +43,7 @@ public class FilmVisitor : BaseVisitor<FilmModel, IFilmSpecificationVisitor, Fil
 
     public void Visit(FilmsByIdsSpecification specification) =>
         Expr = model => specification.Ids.Any(x => x == model.Id);
+
+    public void Visit(FilmsByPlaylistSpecification specification) =>
+        Expr = model => model.Playlists.Any(p => p.PlaylistId == specification.Playlist.Id);
 }

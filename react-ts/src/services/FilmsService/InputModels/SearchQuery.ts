@@ -5,6 +5,8 @@ export interface SearchQuery {
     country?: string;
     serial?: boolean;
     playlistId?: string;
-    page: number;
-    countPerPage: number;
+    minYear?: number,
+    maxYear?: number,
+    page?: number;
+    countPerPage?: number;
 }

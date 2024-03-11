@@ -1,7 +1,8 @@
-using Films.Application.Abstractions.Common.Exceptions;
+using Films.Application.Abstractions.DTOs.Rooms;
+using Films.Application.Abstractions.Exceptions;
 using Films.Application.Abstractions.Queries.Rooms;
-using Films.Application.Abstractions.Queries.Rooms.DTOs;
 using Films.Application.Services.Common;
+using Films.Application.Services.Mappers.Rooms;
 using Films.Domain.Abstractions.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;

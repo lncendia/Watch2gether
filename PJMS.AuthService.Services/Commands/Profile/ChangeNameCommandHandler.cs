@@ -1,5 +1,7 @@
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Overoom.IntegrationEvents.Users;
 using PJMS.AuthService.Abstractions.Commands.Profile;
 using PJMS.AuthService.Abstractions.Entities;
 using PJMS.AuthService.Abstractions.Exceptions;
@@ -10,7 +12,8 @@ namespace PJMS.AuthService.Services.Commands.Profile;
 /// Обработчик для смены имени у пользователя
 /// </summary>
 /// <param name="userManager">Менеджер пользователей, предоставленный ASP.NET Core Identity.</param>
-public class ChangeNameCommandHandler(UserManager<AppUser> userManager) : IRequestHandler<ChangeNameCommand, AppUser>
+/// <param name="publishEndpoint">Сервис публикации событий</param>
+public class ChangeNameCommandHandler(UserManager<AppUser> userManager, IPublishEndpoint publishEndpoint) : IRequestHandler<ChangeNameCommand, AppUser>
 {
     /// <summary>
     /// Метод обработки команды изменения имени пользователя.
@@ -38,6 +41,16 @@ public class ChangeNameCommandHandler(UserManager<AppUser> userManager) : IReque
             if (result.Errors.Any(error => error.Code == "InvalidUserNameLength")) throw new UserNameLengthException();
         }
 
+        // Публикуем событие
+        await publishEndpoint.Publish(new UserDataChangedIntegrationEvent
+        {
+            Id = user.Id,
+            PhotoUrl = user.Thumbnail,
+            Name = user.UserName!,
+            Email = user.Email!,
+            Locale = user.Locale.ToString()
+        }, cancellationToken);
+        
         // Возвращаем пользователя 
         return user;
     }

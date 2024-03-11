@@ -1,7 +1,9 @@
 using System.Security.Claims;
 using IdentityModel;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Overoom.IntegrationEvents.Users;
 using PJMS.AuthService.Abstractions.AppThumbnailStore;
 using PJMS.AuthService.Abstractions.Commands.Profile;
 using PJMS.AuthService.Abstractions.Entities;
@@ -14,7 +16,8 @@ namespace PJMS.AuthService.Services.Commands.Profile;
 /// </summary>
 /// <param name="userManager">Менеджер пользователей, предоставленный ASP.NET Core Identity.</param>
 /// <param name="thumbnailStore">Хранилище фотографий.</param>
-public class ChangeAvatarCommandHandler(UserManager<AppUser> userManager, IThumbnailStore thumbnailStore)
+/// <param name="publishEndpoint">Сервис публикации событий</param>
+public class ChangeAvatarCommandHandler(UserManager<AppUser> userManager, IThumbnailStore thumbnailStore, IPublishEndpoint publishEndpoint)
     : IRequestHandler<ChangeAvatarCommand, AppUser>
 {
     /// <summary>
@@ -59,6 +62,16 @@ public class ChangeAvatarCommandHandler(UserManager<AppUser> userManager, IThumb
             // Добавляем утверждение об аватаре
             await userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.Picture, user.Thumbnail.ToString()));
         }
+        
+        // Публикуем событие
+        await publishEndpoint.Publish(new UserDataChangedIntegrationEvent
+        {
+            Id = user.Id,
+            PhotoUrl = user.Thumbnail,
+            Name = user.UserName!,
+            Email = user.Email!,
+            Locale = user.Locale.ToString()
+        }, cancellationToken);
 
         // Возвращаем пользователя 
         return user;

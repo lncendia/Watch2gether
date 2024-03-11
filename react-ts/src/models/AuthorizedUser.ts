@@ -24,6 +24,10 @@ export class AuthorizedUser {
         return this._id;
     }
 
+    isInRole(role: string) {
+        return this._roles.includes(role)
+    }
+
     constructor(id: string, name: string, avatarUrl: string, roles: string[], email: string, locale: string) {
         this._id = id;
         this._name = name;

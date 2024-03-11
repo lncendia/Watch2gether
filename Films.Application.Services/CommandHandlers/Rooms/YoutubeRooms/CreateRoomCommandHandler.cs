@@ -1,6 +1,6 @@
 using Films.Application.Abstractions.Commands.Rooms.DTOs;
 using Films.Application.Abstractions.Commands.Rooms.YoutubeRooms;
-using Films.Application.Abstractions.Common.Exceptions;
+using Films.Application.Abstractions.Exceptions;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Rooms.YoutubeRooms;
 using Films.Domain.Servers.Specifications;

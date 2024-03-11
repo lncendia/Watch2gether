@@ -1,4 +1,4 @@
-using Films.Application.Abstractions.Queries.Comments.DTOs;
+using Films.Application.Abstractions.DTOs.Comments;
 using MediatR;
 
 namespace Films.Application.Abstractions.Queries.Comments;

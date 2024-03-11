@@ -1,6 +1,7 @@
-using Films.Application.Abstractions.Common.Exceptions;
+using Films.Application.Abstractions.DTOs.Films;
+using Films.Application.Abstractions.Exceptions;
 using Films.Application.Abstractions.Queries.Films;
-using Films.Application.Abstractions.Queries.Films.DTOs;
+using Films.Application.Services.Mappers.Films;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films.Specifications;
 using MediatR;

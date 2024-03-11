@@ -1,21 +1,35 @@
-.consent{
-  .card-header{
-    --bs-card-cap-bg: #e8e6ff;
+.consent {
+  
+  .form-check-label{
+    font-size: var(--main-size) !important;
   }
   
-  .consent-description{
-    font-size: var(--side-size);
-    color: #717194;
+  .emphasize{
+    background-color: rgba(var(--bs-body-color-rgb), 0.1);
+    border-radius: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
   }
   
-  .required{
+  .consent-description {
     font-size: var(--side-size);
-    color: #717194;
+    color: rgba(var(--bs-body-color-rgb), 0.8);
+  }
+
+  .required {
+    font-size: var(--side-size);
+    color: rgba(var(--bs-body-color-rgb), 0.5);
+  }
+  
+  .description{
+    border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
   }
 }
 
-.client-logo{
-  width: 60px;
-  height: 60px;
-  border-radius: 10px;
+.card-logo {
+    display: block;
+    margin: auto;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
 }

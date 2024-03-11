@@ -1,8 +1,5 @@
-using System.Text;
-using Films.Start.Exceptions;
-using IdentityModel;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Films.Start.Extensions;
@@ -19,22 +16,11 @@ public static class JwtAuthorization
     /// <param name="configuration">Конфигурация приложения.</param>
     public static void AddJwtAuthorization(this IServiceCollection services, IConfiguration configuration)
     {
-        // Получение значения "Client:Audience" из конфигурации. Если значение отсутствует, генерируется исключение ConfigurationException
-        var audience = configuration["Client:Audience"] ?? throw new ConfigurationException("Client:Audience");
+        // Получение значения "Client:Authority" из конфигурации.
+        var authority = configuration.GetRequiredValue<string>("Authorization:Authority");
 
-        // Получение значения "Client:Secret" из конфигурации. Если значение отсутствует, генерируется исключение ConfigurationException
-        var secret = configuration["Client:Secret"] ?? throw new ConfigurationException("Client:Secret");
-
-        // Получение значения "Client:Issuer" из конфигурации. Если значение отсутствует, генерируется исключение ConfigurationException
-        var issuer = configuration["Client:Issuer"] ?? throw new ConfigurationException("Client:Issuer");
-
-
-        services.Configure<IdentityOptions>(options =>
-        {
-            options.ClaimsIdentity.UserIdClaimType = JwtClaimTypes.Subject;
-            options.ClaimsIdentity.UserNameClaimType = JwtClaimTypes.Name;
-            options.ClaimsIdentity.RoleClaimType = JwtClaimTypes.Role;
-        });
+        // Получение значения "Client:Audience" из конфигурации.
+        var audience = configuration.GetRequiredValue<string>("Authorization:Audience");
 
         // Регистрация аутентификации с настройками по умолчанию
         services.AddAuthentication(options =>
@@ -49,38 +35,26 @@ public static class JwtAuthorization
             // Конфигурация параметров JwtBearer
             .AddJwtBearer(options =>
             {
+                // Адрес IdentityServer
+                options.Authority = authority;
+
+                // Идентификатор ресурса API, который вы задали в IdentityServer
+                options.Audience = audience;
+
+                // Валидация токена
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    // Укзывает, будет ли валидироваться издатель при валидации токена
+                    ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
-
-                    // Установка издателя токена
-                    ValidIssuer = issuer,
-
-                    // Будет ли валидироваться потребитель токена
                     ValidateAudience = true,
-
-                    // Установка потребителя токена
-                    ValidAudience = audience,
-
-                    // Будет ли валидироваться время существования
-                    ValidateLifetime = true,
-
-                    // Установка ключа безопасности
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret)),
-
-                    // Валидация ключа безопасности
-                    ValidateIssuerSigningKey = true
+                    ValidateLifetime = true
                 };
-
-                // Указывает, что проверка HTTPS-метаданных не требуется
-                options.RequireHttpsMetadata = false;
             });
-
+        
         // Добавляет службы политики авторизации в указанную коллекцию IServiceCollection.
         services.AddAuthorizationBuilder()
 
             // Добавляет службы политики авторизации в указанную коллекцию IServiceCollection.
-            .AddPolicy("admin", policy => { policy.RequireClaim(JwtClaimTypes.Role, "admin"); });
+            .AddPolicy("admin", policy => { policy.RequireClaim(ClaimTypes.Role, "admin"); });
     }
 }

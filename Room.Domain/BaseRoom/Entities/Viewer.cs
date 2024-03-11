@@ -13,7 +13,7 @@ public abstract class Viewer
 
     public required Allows Allows { get; init; }
 
-    public required Uri PhotoUrl { get; init; }
+    public Uri? PhotoUrl { get; init; }
 
     private string _name = null!;
 

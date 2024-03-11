@@ -1,6 +1,7 @@
+using Films.Application.Abstractions.DTOs.Playlists;
 using Films.Application.Abstractions.Queries.Playlists;
-using Films.Application.Abstractions.Queries.Playlists.DTOs;
 using Films.Application.Services.Common;
+using Films.Application.Services.Mappers.Playlists;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Ordering;
 using Films.Domain.Playlists;
@@ -22,29 +23,25 @@ public class FindPlaylistsQueryHandler(IUnitOfWork unitOfWork)
         ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification = null;
 
         // Добавляем спецификации в соответствии с заданными параметрами поиска 
-        if (!string.IsNullOrEmpty(request.Query)) specification = specification.AddToSpecification(new PlaylistByNameSpecification(request.Query));
+        if (!string.IsNullOrEmpty(request.Query))
+            specification = specification.AddToSpecification(new PlaylistByNameSpecification(request.Query));
 
-        if (!string.IsNullOrEmpty(request.Genre)) specification = specification.AddToSpecification(new PlaylistByGenreSpecification(request.Genre));
+        if (!string.IsNullOrEmpty(request.Genre))
+            specification = specification.AddToSpecification(new PlaylistByGenreSpecification(request.Genre));
+
+        if (request.FilmId.HasValue)
+            specification = specification.AddToSpecification(new PlaylistByFilmSpecification(request.FilmId.Value));
 
         var orderBy = new DescendingOrder<Playlist, IPlaylistSortingVisitor>(new PlaylistOrderByUpdateDate());
 
-        var playlists = await unitOfWork.PlaylistRepository.Value.FindAsync(specification, orderBy, request.Skip, request.Take);
-        
+        var playlists =
+            await unitOfWork.PlaylistRepository.Value.FindAsync(specification, orderBy, request.Skip, request.Take);
+
         if (playlists.Count == 0) return ([], 0);
 
         var count = await unitOfWork.PlaylistRepository.Value.CountAsync(specification);
 
         // Преобразуем фильмы в список DTO фильмов 
-        return (playlists.Select(Map).ToArray(), count);
+        return (playlists.Select(Mapper.Map).ToArray(), count);
     }
-
-    private static PlaylistDto Map(Playlist playlist) => new()
-    {
-        Id = playlist.Id,
-        Name = playlist.Name,
-        Genres = playlist.Genres,
-        Description = playlist.Description,
-        PosterUrl = playlist.PosterUrl,
-        Updated = playlist.Updated
-    };
 }

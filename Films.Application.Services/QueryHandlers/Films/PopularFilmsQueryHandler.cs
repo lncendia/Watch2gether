@@ -1,5 +1,6 @@
+using Films.Application.Abstractions.DTOs.Films;
 using Films.Application.Abstractions.Queries.Films;
-using Films.Application.Abstractions.Queries.Films.DTOs;
+using Films.Application.Services.Mappers.Films;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films;
 using Films.Domain.Films.Ordering;

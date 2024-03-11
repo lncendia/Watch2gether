@@ -18,7 +18,7 @@ public abstract class ViewerModel<TR> where TR : RoomModel
     public TimeSpan TimeLine { get; set; }
     [MaxLength(40)] public string Nickname { get; set; } = null!;
 
-    public Uri PhotoUrl { get; set; } = null!;
+    public Uri? PhotoUrl { get; set; }
 
     /// <summary>
     /// Разрешение на совершение звукового сигнала.

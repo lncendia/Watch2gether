@@ -4,6 +4,7 @@ using Films.Infrastructure.Storage.Models.Abstractions;
 using Films.Infrastructure.Storage.Models.Country;
 using Films.Infrastructure.Storage.Models.Genre;
 using Films.Infrastructure.Storage.Models.Person;
+using Films.Infrastructure.Storage.Models.Playlist;
 
 namespace Films.Infrastructure.Storage.Models.Film;
 
@@ -33,4 +34,6 @@ public class FilmModel : IAggregateModel
     public List<FilmActorModel> Actors { get; set; } = [];
     public List<PersonModel> Directors { get; set; } = [];
     public List<PersonModel> Screenwriters { get; set; } = [];
+    
+    public List<PlaylistFilmModel> Playlists { get; set; } = [];
 }

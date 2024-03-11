@@ -1,5 +1,4 @@
-﻿using Films.Domain.Films.Exceptions;
-using Room.Domain.BaseRoom;
+﻿using Room.Domain.BaseRoom;
 using Room.Domain.FilmRooms.Entities;
 using Room.Domain.FilmRooms.Events;
 using Room.Domain.FilmRooms.Exceptions;

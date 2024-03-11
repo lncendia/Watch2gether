@@ -16,8 +16,7 @@ public static class QueryableExtensions
             .Include(f => f.Directors)
             .Include(f => f.Genres)
             .Include(f => f.Screenwriters)
-            .Include(f => f.CdnList)
-            .ThenInclude(c => c.Voices);
+            .Include(f => f.CdnList);
     }
 
     public static IQueryable<PlaylistModel> LoadDependencies(this IQueryable<PlaylistModel> queryable)

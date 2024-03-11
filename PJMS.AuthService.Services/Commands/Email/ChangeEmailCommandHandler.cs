@@ -1,5 +1,7 @@
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Overoom.IntegrationEvents.Users;
 using PJMS.AuthService.Abstractions.Commands.Email;
 using PJMS.AuthService.Abstractions.Entities;
 using PJMS.AuthService.Abstractions.Exceptions;
@@ -10,7 +12,9 @@ namespace PJMS.AuthService.Services.Commands.Email;
 /// Обработчик для смены почта у пользователя
 /// </summary>
 /// <param name="userManager">Менеджер пользователей, предоставленный ASP.NET Core Identity.</param>
-public class ChangeEmailCommandHandler(UserManager<AppUser> userManager) : IRequestHandler<ChangeEmailCommand, AppUser>
+/// <param name="publishEndpoint">Сервис публикации событий</param>
+public class ChangeEmailCommandHandler(UserManager<AppUser> userManager, IPublishEndpoint publishEndpoint)
+    : IRequestHandler<ChangeEmailCommand, AppUser>
 {
     /// <summary>
     /// Метод обработки команды изменения электронной почты пользователя.
@@ -43,8 +47,15 @@ public class ChangeEmailCommandHandler(UserManager<AppUser> userManager) : IRequ
             if (result.Errors.Any(e => e.Code == "InvalidEmail")) throw new EmailFormatException();
         }
 
-        // Устанавливаем имя
-        await userManager.SetUserNameAsync(user, request.NewEmail);
+        // Публикуем событие
+        await publishEndpoint.Publish(new UserDataChangedIntegrationEvent
+        {
+            Id = user.Id,
+            PhotoUrl = user.Thumbnail,
+            Name = user.UserName!,
+            Email = user.Email!,
+            Locale = user.Locale.ToString()
+        }, cancellationToken);
 
         // Возвращаем пользователя 
         return user;

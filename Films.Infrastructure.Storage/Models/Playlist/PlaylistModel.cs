@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Films.Infrastructure.Storage.Models.Abstractions;
 using Films.Infrastructure.Storage.Models.Genre;
-using Films.Infrastructure.Storage.Models.Film;
 
 namespace Films.Infrastructure.Storage.Models.Playlist;
 

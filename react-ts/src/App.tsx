@@ -3,10 +3,15 @@ import SignInPage from "./pages/SignInPage/SignInPage"
 import LayoutPage from "./pages/LayoutPage/LayoutPage"
 import SignOutPage from "./pages/SignOutPage/SignOutPage"
 import SignInSilentPage from "./pages/SignInSilentPage/SignInSilentPage.tsx";
-import FilmPage from "./pages/FilmPage/FilmPage.tsx"
+import CatalogPage from "./pages/CatalogPage/CatalogPage.tsx"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from "./pages/HomePage/HomePage.tsx";
 import './index.css'
+import FilmPage from "./pages/FilmPage/FilmPage.tsx";
+import ProfilePage from "./pages/ProfilePage/ProfilePage.tsx";
+import SearchPage from "./pages/SearchPage/SearchPage.tsx";
+import PlaylistsPage from "./pages/PlaylistsPage/PlaylistsPage.tsx";
+import PlaylistPage from "./pages/PlaylistPage/PlaylistPage.tsx";
 
 // Основной класс приложения
 const App = () => {
@@ -15,7 +20,19 @@ const App = () => {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <HomePage/>,
+            element: <HomePage/>
+        },
+        {
+            path: '/signin-oidc',
+            element: <SignInPage/>
+        },
+        {
+            path: '/signin-silent-oidc',
+            element: <SignInSilentPage/>
+        },
+        {
+            path: '/signout-oidc',
+            element: <SignOutPage/>
         },
         {
             // Основой элемент - шаблонный 
@@ -24,20 +41,28 @@ const App = () => {
             // Массив дочерних элементов
             children: [
                 {
-                    path: '/signin-oidc',
-                    element: <SignInPage/>
+                    path: '/catalog',
+                    element: <CatalogPage/>
                 },
                 {
-                    path: '/signin-silent-oidc',
-                    element: <SignInSilentPage/>
+                    path: '/playlists',
+                    element: <PlaylistsPage/>
                 },
                 {
-                    path: '/signout-oidc',
-                    element: <SignOutPage/>
+                    path: '/playlist',
+                    element: <PlaylistPage/>
                 },
                 {
-                    path: '/films',
+                    path: '/search',
+                    element: <SearchPage/>
+                },
+                {
+                    path: '/film',
                     element: <FilmPage/>
+                },
+                {
+                    path: '/profile',
+                    element: <ProfilePage/>
                 },
             ]
         }

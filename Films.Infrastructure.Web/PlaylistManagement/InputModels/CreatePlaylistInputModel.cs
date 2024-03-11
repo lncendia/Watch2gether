@@ -20,8 +20,4 @@ public class CreatePlaylistInputModel
 
     [Display(Name = "Постер")]
     public string? PosterBase64 { get; init; }
-
-    [Required(ErrorMessage = "Поле не должно быть пустым")]
-    [Display(Name = "Фильмы")]
-    public PlaylistFilmInputModel[]? Films { get; init; }
 }

@@ -1,4 +1,4 @@
-using Films.Application.Abstractions.Queries.Rooms.DTOs;
+using Films.Application.Abstractions.DTOs.Rooms;
 using MediatR;
 
 namespace Films.Application.Abstractions.Queries.Rooms;

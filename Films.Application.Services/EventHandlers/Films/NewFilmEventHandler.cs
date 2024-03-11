@@ -1,4 +1,4 @@
-using Films.Application.Abstractions.Common.Exceptions;
+using Films.Application.Abstractions.Exceptions;
 using Films.Application.Abstractions.Posters;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films;

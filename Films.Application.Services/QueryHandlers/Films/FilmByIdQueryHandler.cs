@@ -1,6 +1,6 @@
-using Films.Application.Abstractions.Common.Exceptions;
+using Films.Application.Abstractions.DTOs.Films;
+using Films.Application.Abstractions.Exceptions;
 using Films.Application.Abstractions.Queries.Films;
-using Films.Application.Abstractions.Queries.Films.DTOs;
 using Films.Application.Services.Common;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films;
@@ -66,6 +66,8 @@ public class FilmByIdQueryHandler(IUnitOfWork unitOfWork, IMemoryCache memoryCac
         ScreenWriters = film.Screenwriters,
         Actors = film.Actors,
         UserScore = rating?.Score,
+        CountSeasons = film.CountSeasons,
+        CountEpisodes = film.CountEpisodes,
         InWatchlist = user?.Watchlist.Any(f => f.FilmId == film.Id)
     };
 }

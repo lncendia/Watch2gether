@@ -57,8 +57,13 @@ app.UseMiddleware<ExceptionMiddleware>();
 // Использование Swagger для обслуживания документации по API
 app.UseSwagger();
 
-// Использование Swagger UI для предоставления интерактивной документации по API
-app.UseSwaggerUI();
+// Использование SwaggerServices UI для предоставления интерактивной документации по API
+app.UseSwaggerUI(c=>
+{
+    // Настройте Swagger UI для использования OAuth2
+    c.OAuthClientId("swagger");
+    c.OAuthUsePkce(); // Используйте PKCE (Proof Key for Code Exchange) с авторизационным кодом
+});
 
 // Использование политик Cors
 app.UseCors("DefaultPolicy");

@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using System.Net;
-using Films.Application.Abstractions.Common.Exceptions;
+using Films.Application.Abstractions.Exceptions;
 
 namespace Films.Start.Middlewares;
 

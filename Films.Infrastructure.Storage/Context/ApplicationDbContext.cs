@@ -10,7 +10,6 @@ using Films.Infrastructure.Storage.Models.Rooms.FilmRoom;
 using Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom;
 using Films.Infrastructure.Storage.Models.Server;
 using Films.Infrastructure.Storage.Models.User;
-using Films.Infrastructure.Storage.Models.Voice;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,7 +31,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<PersonModel> Persons { get; set; } = null!;
     public DbSet<CountryModel> Countries { get; set; } = null!;
     public DbSet<GenreModel> Genres { get; set; } = null!;
-    public DbSet<VoiceModel> Voices { get; set; } = null!;
 
 
     public DbSet<PlaylistModel> Playlists { get; set; } = null!;

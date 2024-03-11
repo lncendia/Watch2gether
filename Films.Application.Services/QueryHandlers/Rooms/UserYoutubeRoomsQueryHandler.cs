@@ -1,5 +1,6 @@
+using Films.Application.Abstractions.DTOs.Rooms;
 using Films.Application.Abstractions.Queries.Rooms;
-using Films.Application.Abstractions.Queries.Rooms.DTOs;
+using Films.Application.Services.Mappers.Rooms;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Rooms.YoutubeRooms.Specifications;
 using Films.Domain.Servers.Specifications;

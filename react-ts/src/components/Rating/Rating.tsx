@@ -1,38 +1,91 @@
-// import {useState} from 'react';
-// import styles from "./Rating.module.css"
-//
-// const Rating = ({disabled = false, score, scoreChanged}: {
-//     disabled?: boolean,
-//     score?: number,
-//     scoreChanged: (score: number) => void
-// }) => {
-//
-//     const [score, changeScore] = useState(0)
-//
-//     return (
-//         <div className={styles.rating_area}>
-//             <input type="radio" id="star-10" value="10"/>
-//             <label htmlFor="star-10" title="Оценка «10»"/>
-//             <input type="radio" id="star-9" value="9"/>
-//             <label htmlFor="star-9" title="Оценка «9»"/>
-//             <input type="radio" id="star-8" value="8"/>
-//             <label htmlFor="star-8" title="Оценка «8»"/>
-//             <input type="radio" id="star-7" value="7"/>
-//             <label htmlFor="star-7" title="Оценка «7»"/>
-//             <input type="radio" id="star-6" value="6"/>
-//             <label htmlFor="star-6" title="Оценка «5»"/>
-//             <input type="radio" id="star-5" value="5"/>
-//             <label htmlFor="star-5" title="Оценка «5»"/>
-//             <input type="radio" id="star-4" value="4"/>
-//             <label htmlFor="star-4" title="Оценка «4»"/>
-//             <input type="radio" id="star-3" value="3"/>
-//             <label htmlFor="star-3" title="Оценка «3»"/>
-//             <input type="radio" id="star-2" value="2"/>
-//             <label htmlFor="star-2" title="Оценка «2»"/>
-//             <input type="radio" id="star-1" value="1"/>
-//             <label htmlFor="star-1" title="Оценка «1»"/>
-//         </form>
-//     );
-// };
-//
-// export default Rating;
+import styles from "./Rating.module.css"
+import {useState} from "react";
+import {RatingData} from "./RatingData.ts";
+
+
+interface RatingProps {
+    rating: RatingData
+    scoreChanged: (score: number) => void,
+    className?: string
+}
+
+const getReviewLabel = (rating: number) => {
+    switch (rating) {
+        case 1:
+            return 'Ужасно 🤮';
+        case 2:
+            return 'Плохо 🥺';
+        case 3:
+            return 'Удовлетворительно ☹️';
+        case 4:
+            return 'Хорошо 😌';
+        case 5:
+            return 'Очень хорошо 😃';
+        case 6:
+            return 'Отлично 😇';
+        case 7:
+            return 'Замечательно 👏';
+        case 8:
+            return 'Супер 😱';
+        case 9:
+            return 'Великолепно 🤩';
+        case 10:
+            return 'Превосходно 🤯';
+        default:
+            return '';
+    }
+};
+
+const getScoresCountString = (count: number) => {
+    count = count % 10
+    if (count === 1) return 'оценка'
+    if (count > 1 && count < 5) return 'оценки'
+    return 'оценок'
+}
+
+const Rating = ({className, rating, scoreChanged}: RatingProps) => {
+
+    const [hoverRating, setHoverRating] = useState<number>()
+
+
+    return (
+        <div className={className ?? ''}>
+            <div className="d-flex align-items-center">
+                {[...Array(10)].map((_, index) => {
+                    index += 1;
+                    let viewedScore: number
+                    let onStyle: string
+                    if (hoverRating) {
+                        viewedScore = hoverRating;
+                        onStyle = styles.user_on;
+                    } else if (rating.userScore) {
+                        viewedScore = rating.userScore
+                        onStyle = styles.user_on;
+                    } else {
+                        viewedScore = rating.userRating
+                        onStyle = styles.on;
+                    }
+                    return (
+                        <button
+                            type="button"
+                            key={index}
+                            className={`${styles.score} ${(index <= viewedScore ? onStyle : styles.off)}`}
+                            onClick={() => scoreChanged(index)}
+                            onMouseEnter={() => setHoverRating(index)}
+                            onMouseLeave={() => setHoverRating(undefined)}
+                        >
+                            <span className={styles.star}>&#9733;</span>
+                        </button>
+                    );
+                })}
+                <div className={styles.label}>
+                    {getReviewLabel(hoverRating ?? 0)}
+                </div>
+            </div>
+            <div
+                className={styles.info}>{rating.userRating}&#9733;, {rating.userRatingsCount} {getScoresCountString(rating.userRatingsCount)}</div>
+        </div>
+    );
+};
+
+export default Rating;

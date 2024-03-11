@@ -32,7 +32,7 @@ internal class RatingMapper : IAggregateMapperUnit<Rating, RatingModel>
         UserId.SetValue(rating, model.UserId);
         Date.SetValue(rating, model.Date);
         FilmId.SetValue(rating, model.FilmId);
-        Score.SetValue(rating, Score);
+        Score.SetValue(rating, model.Score);
         IdFields.DomainEvents.SetValue(rating, new List<IDomainEvent>());
         return rating;
     }

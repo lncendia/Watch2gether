@@ -30,7 +30,6 @@ public class FilmsManagementController(IMediator mediator) : ControllerBase
                 Name = c.Name!,
                 Quality = c.Quality!,
                 Url = new Uri(c.Url!),
-                Voices = c.Voices!.Select(v => v.Name!).ToArray()
             }).ToArray(),
             Countries = model.Countries!.Select(c => c.Name!).ToArray(),
             Actors = model.Actors!.Select(a => new Actor(a.Name!, a.Description)).ToArray(),
@@ -59,7 +58,6 @@ public class FilmsManagementController(IMediator mediator) : ControllerBase
                 Name = c.Name!,
                 Url = new Uri(c.Url!),
                 Quality = c.Quality!,
-                Voices = c.Voices!.Select(v => v.Name!).ToArray()
             }).ToArray()
         });
     }

@@ -10,6 +10,9 @@ public class FilmsSearchInputModel
     public string? Country { get; init; }
     public bool? Serial { get; init; }
     public Guid? PlaylistId { get; init; }
+
+    public int? MinYear { get; init; }
+    public int? MaxYear { get; init; }
     [Range(1, int.MaxValue)] public int Page { get; init; } = 1;
     [Range(1, 15)] public int CountPerPage { get; init; } = 15;
 }

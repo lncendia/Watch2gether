@@ -1,5 +1,5 @@
 using Films.Application.Abstractions.Commands.Ratings;
-using Films.Application.Abstractions.Common.Exceptions;
+using Films.Application.Abstractions.Exceptions;
 using Films.Application.Services.Common;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Ratings;

@@ -13,11 +13,11 @@ public static class IdentityServerConfiguration
     /// URL клиента
     /// </summary>
     private const string ClientReactUrl = "https://localhost:5173";
-    
-    /// <summary>
-    /// URL клиента
-    /// </summary>
-    private const string ClientAngularUrl = "https://localhost:10003";
+
+    private static readonly string[] SwaggerUrls =
+    [
+        "https://localhost:7131"
+    ];
 
     /// <summary>
     /// Добавляет список клиентов (настройка подключенных клиентов)
@@ -31,10 +31,10 @@ public static class IdentityServerConfiguration
             new()
             {
                 // Уникальный идентификатор клиента
-                ClientId = "client_react",
+                ClientId = "overoom_react",
 
                 // Отображаемое имя клиента (используется для ведения журнала и экрана согласия)
-                ClientName = "PJMS React",
+                ClientName = "Overoom React",
 
                 // URL клиента
                 ClientUri = ClientReactUrl,
@@ -42,19 +42,6 @@ public static class IdentityServerConfiguration
                 // Логотип клиента
                 LogoUri =
                     "https://avatars.dzeninfra.ru/get-zen-logos/1597769/pubsuite_6fd98e99-a42c-4e71-8572-22dbce8ba98a_62b04a0102b70f428a0fdab4/xxh",
-
-                // Указывает, является ли токен доступа ссылочным токеном или
-                // автономным токеном JWT (по умолчанию Jwt).
-                AccessTokenType = AccessTokenType.Jwt,
-
-                // Указывает, требуется ли экран согласия (по умолчанию false)
-                RequireConsent = false,
-
-                // Время жизни токена доступа в секундах (по умолчанию 3600 секунд/1 час)
-                AccessTokenLifetime = 180,
-
-                // Время жизни токена идентификации в секундах (по умолчанию 300 секунд/5 минут)
-                IdentityTokenLifetime = 180,
 
                 // Если установлено значение false, секрет клиента не требуется
                 // для запроса токенов в конечной точке токена (по умолчанию — true).
@@ -64,23 +51,10 @@ public static class IdentityServerConfiguration
                 // AuthorizationCode, Implicit, Hybrid, ResourceOwner, ClientCredentials).
                 AllowedGrantTypes = GrantTypes.Code,
 
-                // Указывает, требуется ли ключ проверки для запросов токена
-                // на основе кода авторизации (по умолчанию — true).
-                RequirePkce = true,
-
                 // Определяет, передаются ли маркеры доступа через браузер для
                 // этого клиента (по умолчанию false). Это может предотвратить
                 // случайную утечку маркеров доступа, когда разрешено несколько типов ответов.
                 AllowAccessTokensViaBrowser = true,
-
-                // Получает или задает значение, указывающее, разрешен
-                // ли [разрешить автономный доступ]. По умолчанию ложно.
-                AllowOfflineAccess = true,
-
-                // Получает или задает значение, указывающее, должны ли клиентские
-                // утверждения всегда включаться в маркеры доступа или только для
-                // потока учетных данных клиента. По умолчанию ложно
-                AlwaysSendClientClaims = true,
 
                 // При запросе маркера идентификатора и маркера доступа утверждения
                 // пользователя всегда должны добавляться к маркеру идентификатора
@@ -91,7 +65,7 @@ public static class IdentityServerConfiguration
                 // Получает или задает разрешенные источники CORS для клиентов JavaScript.
                 AllowedCorsOrigins =
                 {
-                    $"{ClientReactUrl}"
+                    ClientReactUrl
                 },
 
                 // Указывает разрешенные URI для возврата токенов или кодов авторизации
@@ -110,36 +84,22 @@ public static class IdentityServerConfiguration
                 // Если пусто, клиент не может получить доступ ни к какой области.
                 AllowedScopes =
                 {
-                    "Business",
+                    "Films",
+                    "Rooms",
                     StandardScopes.OpenId,
                     StandardScopes.Profile,
-                    StandardScopes.Email,
                     "roles"
                 }
             },
-            
-             // Фронтэнд клиент
+            // Swagger клиент
             new()
             {
                 // Уникальный идентификатор клиента
-                ClientId = "client_angular",
+                ClientId = "swagger",
 
                 // Отображаемое имя клиента (используется для ведения журнала и экрана согласия)
-                ClientName = "PJMS Angular",
-
-                // Указывает, является ли токен доступа ссылочным токеном или
-                // автономным токеном JWT (по умолчанию Jwt).
-                AccessTokenType = AccessTokenType.Jwt,
-
-                // Указывает, требуется ли экран согласия (по умолчанию false)
-                RequireConsent = true,
-
-                // Время жизни токена доступа в секундах (по умолчанию 3600 секунд/1 час)
-                AccessTokenLifetime = 180,
-
-                // Время жизни токена идентификации в секундах (по умолчанию 300 секунд/5 минут)
-                IdentityTokenLifetime = 180,
-
+                ClientName = "Swagger",
+                
                 // Если установлено значение false, секрет клиента не требуется
                 // для запроса токенов в конечной точке токена (по умолчанию — true).
                 RequireClientSecret = false,
@@ -148,19 +108,13 @@ public static class IdentityServerConfiguration
                 // AuthorizationCode, Implicit, Hybrid, ResourceOwner, ClientCredentials).
                 AllowedGrantTypes = GrantTypes.Code,
 
-                // Указывает, требуется ли ключ проверки для запросов токена
-                // на основе кода авторизации (по умолчанию — true).
-                RequirePkce = true,
-
+                // Указывает, что пользователю нужно дать согласие.
+                RequireConsent = true,
+                
                 // Определяет, передаются ли маркеры доступа через браузер для
                 // этого клиента (по умолчанию false). Это может предотвратить
                 // случайную утечку маркеров доступа, когда разрешено несколько типов ответов.
                 AllowAccessTokensViaBrowser = true,
-
-                // Получает или задает значение, указывающее, должны ли клиентские
-                // утверждения всегда включаться в маркеры доступа или только для
-                // потока учетных данных клиента. По умолчанию ложно
-                AlwaysSendClientClaims = true,
 
                 // При запросе маркера идентификатора и маркера доступа утверждения
                 // пользователя всегда должны добавляться к маркеру идентификатора
@@ -169,71 +123,17 @@ public static class IdentityServerConfiguration
                 AlwaysIncludeUserClaimsInIdToken = true,
 
                 // Получает или задает разрешенные источники CORS для клиентов JavaScript.
-                AllowedCorsOrigins =
-                {
-                    $"{ClientAngularUrl}"
-                },
+                AllowedCorsOrigins = SwaggerUrls,
 
                 // Указывает разрешенные URI для возврата токенов или кодов авторизации
-                RedirectUris =
-                {
-                    $"{ClientAngularUrl}/",
-                    $"{ClientAngularUrl}/adminPage",
-                    $"{ClientAngularUrl}/silent-refresh.html"
-                },
-
-                // Указывает разрешенные URI для перенаправления после выхода из системы.
-                PostLogoutRedirectUris =
-                {
-                    $"{ClientAngularUrl}/",
-                    $"{ClientAngularUrl}/unauthorized",
-                    $"{ClientAngularUrl}/adminPage",
-                    $"{ClientAngularUrl}"
-                },
+                RedirectUris = SwaggerUrls.Select(url=>$"{url}/swagger/oauth2-redirect.html").ToArray(),
 
                 // Указывает области API, которые разрешено запрашивать клиенту.
                 // Если пусто, клиент не может получить доступ ни к какой области.
                 AllowedScopes =
                 {
-                    "Business",
-                    StandardScopes.OpenId,
-                    StandardScopes.Profile,
-                    StandardScopes.Email,
-                    "roles"
+                    "Films"
                 }
-            },
-
-            // Клиент с бизнес логикой
-            new()
-            {
-                // Уникальный идентификатор клиента
-                ClientId = "client_business",
-
-                // Секреты клиента — актуальны только для потоков, которым требуется секрет
-                ClientSecrets = { new Secret("client_business".ToSha256()) },
-
-                // Указывает разрешенные типы предоставления (допустимые комбинации
-                // AuthorizationCode, Implicit, Hybrid, ResourceOwner, ClientCredentials).
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                // Получает или задает разрешенные источники CORS для клиентов JavaScript.
-                AllowedCorsOrigins = { "https://localhost:7001" },
-
-                // Указывает области API, которые разрешено запрашивать клиенту.
-                // Если пусто, клиент не может получить доступ ни к какой области.
-                AllowedScopes =
-                {
-                    "WeatherForecast"
-                },
-
-                // Получает или задает значение, указывающее, разрешен
-                // ли [разрешить автономный доступ]. По умолчанию ложно.
-                AllowOfflineAccess = true,
-
-                // Получает или задает значение, указывающее, следует ли обновлять
-                // маркер доступа (и его утверждения) при запросе
-                // маркера обновления. По умолчанию ложно.
-                UpdateAccessTokenClaimsOnRefresh = true
             }
         };
 
@@ -247,13 +147,13 @@ public static class IdentityServerConfiguration
     {
         var list = new List<ApiResource>
         {
-            new("BusinessAPI", "Business API Application", new[] { JwtClaimTypes.Role })
+            new("Films", "Access to films library", new[] { JwtClaimTypes.Role })
             {
-                Scopes = { "Business" },
+                Scopes = { "Films" }
             },
-            new("WeatherForecastAPI", "Weather forecast API Application")
+            new("Rooms_1", "Access to rooms server 1")
             {
-                Scopes = { "WeatherForecast" }
+                Scopes = { "Rooms" }
             }
         };
         return list;
@@ -291,8 +191,8 @@ public static class IdentityServerConfiguration
     {
         return new List<ApiScope>
         {
-            new("WeatherForecast", "Weather forecast"),
-            new("Business", "Business"),
+            new("Films", "Films library"),
+            new("Rooms", "Rooms service")
         };
     }
 }

@@ -1,7 +1,9 @@
 using System.Security.Claims;
 using IdentityModel;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Overoom.IntegrationEvents.Users;
 using PJMS.AuthService.Abstractions.Accessories;
 using PJMS.AuthService.Abstractions.AppEmailService;
 using PJMS.AuthService.Abstractions.AppEmailService.Structs;
@@ -17,7 +19,7 @@ namespace PJMS.AuthService.Services.Commands.Create;
 /// </summary>
 /// <param name="userManager">Менеджер пользователей, предоставленный ASP.NET Core Identity.</param>
 /// <param name="emailService">Сервис электронной почты для отправки уведомлений.</param>
-public class CreateUserCommandHandler(UserManager<AppUser> userManager, IEmailService emailService)
+public class CreateUserCommandHandler(UserManager<AppUser> userManager, IEmailService emailService, IPublishEndpoint publishEndpoint)
     : IRequestHandler<CreateUserCommand, AppUser>
 {
     /// <summary>
@@ -85,6 +87,16 @@ public class CreateUserCommandHandler(UserManager<AppUser> userManager, IEmailSe
         // Отправка электронного письма с ссылкой для подтверждения регистрации.
         await emailService.SendAsync(new ConfirmRegistrationEmail { Recipient = request.Email, ConfirmLink = url });
 
+        // Публикуем событие
+        await publishEndpoint.Publish(new UserCreatedIntegrationEvent
+        {
+            Id = user.Id,
+            PhotoUrl = user.Thumbnail,
+            Name = user.UserName,
+            Email = user.Email!,
+            Locale = user.Locale.ToString()
+        }, cancellationToken);
+        
         // Возвращение созданного пользователя.
         return user;
     }

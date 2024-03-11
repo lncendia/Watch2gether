@@ -1,10 +1,12 @@
 ﻿// Импорты не изменились
 
 using System.Security.Claims;
+using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using Overoom.IntegrationEvents.Users;
 using PJMS.AuthService.Abstractions.AppThumbnailStore;
 using PJMS.AuthService.Abstractions.Commands.Create;
 using PJMS.AuthService.Abstractions.Entities;
@@ -55,8 +57,14 @@ public class CreateUserExternalCommandHandlerTest
             new Mock<IServiceProvider>().Object,
             new Mock<ILogger<UserManager<AppUser>>>().Object);
         
+        var publishEndpointMock = new Mock<IPublishEndpoint>();
+
+        publishEndpointMock
+            .Setup(p => p.Publish(It.IsAny<UserCreatedIntegrationEvent>(), It.IsAny<CancellationToken>()))
+            .Returns(() => Task.CompletedTask);
+        
         // Инициализация обработчика.
-        _handler = new CreateUserExternalCommandHandler(_userManagerMock.Object, _thumbnailStore.Object);
+        _handler = new CreateUserExternalCommandHandler(_userManagerMock.Object, _thumbnailStore.Object, publishEndpointMock.Object);
 
         // Создание ClaimsPrincipal для представления пользователя с указанным email в виде утверждения (claim).
         _claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new[]

@@ -14,23 +14,19 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="IdentityModel" Version="6.2.0"/>
+      <Compile Remove="Room\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Room\**"/>
+      <EmbeddedResource Remove="Room\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Remove="Room\**"/>
+      <Content Remove="Room\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Remove="Room\**"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="Room\**"/>
+      <None Remove="Room\**" />
     </ItemGroup>
 
 </Project>

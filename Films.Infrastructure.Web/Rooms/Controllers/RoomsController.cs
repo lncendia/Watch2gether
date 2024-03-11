@@ -1,7 +1,7 @@
 ﻿using Films.Application.Abstractions.Commands.Rooms.FilmRooms;
 using Films.Application.Abstractions.Commands.Rooms.YoutubeRooms;
+using Films.Application.Abstractions.DTOs.Rooms;
 using Films.Application.Abstractions.Queries.Rooms;
-using Films.Application.Abstractions.Queries.Rooms.DTOs;
 using Films.Infrastructure.Web.Authentication;
 using Films.Infrastructure.Web.Rooms.InputModels;
 using Films.Infrastructure.Web.Rooms.ViewModels;

@@ -306,6 +306,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\img\avatars\b8c969e0-d506-49c1-b326-460da36f1961.jpg" />
       <_ContentIncludedByDefault Remove="wwwroot\img\avatars\b92a934d-a4cc-4421-9a34-481aae3612fd.jpg" />
       <_ContentIncludedByDefault Remove="wwwroot\img\avatars\c8ff4a33-7cea-4410-b8fc-4aef1817eb0c.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\avatars\3020a6c0-b340-4f2c-a049-cac06d045c68.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\img\avatars\b6b40ad9-fa37-402c-a6f7-19cb67ba8ec3.jpg" />
     </ItemGroup>
     
 </Project>

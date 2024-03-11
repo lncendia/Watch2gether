@@ -8,7 +8,7 @@ namespace Films.Domain.Playlists;
 /// <summary>
 /// Плейлист фильмов.
 /// </summary>
-public class Playlist() : AggregateRoot
+public class Playlist : AggregateRoot
 {
     private string _name = null!;
 

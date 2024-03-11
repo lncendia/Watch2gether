@@ -17,8 +17,4 @@ public class CdnInputModel
     [StringLength(100, ErrorMessage = "Не больше 100 символов")]
     [Display(Name = "Качество")]
     public string? Quality { get; init; }
-
-    [Required(ErrorMessage = "Поле не должно быть пустым")]
-    [Display(Name = "Озвучки")]
-    public VoiceInputModel[]? Voices { get; init; }
 }

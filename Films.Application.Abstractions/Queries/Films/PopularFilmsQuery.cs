@@ -1,5 +1,5 @@
+using Films.Application.Abstractions.DTOs.Films;
 using MediatR;
-using Films.Application.Abstractions.Queries.Films.DTOs;
 
 namespace Films.Application.Abstractions.Queries.Films;
 

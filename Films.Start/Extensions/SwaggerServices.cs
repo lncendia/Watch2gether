@@ -1,38 +1,50 @@
-using Films.Infrastructure.Web.User.Controllers;
+using Films.Infrastructure.Web.Films.Controllers;
 using Microsoft.OpenApi.Models;
 
 namespace Films.Start.Extensions;
 
 /// <summary>
-/// Статический класс, предоставляющий метод расширения для добавления swagger в коллекцию сервисов.
+/// Класс для настройки Swagger в приложении.
 /// </summary>
 public static class SwaggerServices
 {
     /// <summary>
-    /// Добавляет swagger коллекцию сервисов.
+    /// Добавляет настройки Swagger в коллекцию сервисов.
     /// </summary>
     /// <param name="services">Коллекция сервисов.</param>
     public static void AddSwaggerServices(this IServiceCollection services)
     {
-        // Конфигурация Swagger для API.
-        services.AddSwaggerGen(c =>
+        services.AddSwaggerGen(options =>
         {
-            // Устанавливаем информацию о версии и названии API
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "ServerSideApi", Version = "v1" });
+            var xmlFile = $"{typeof(FilmsController).Assembly.GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
-            // Добавляем определение безопасности для Bearer токена
-            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            // Включение human-friendly описаний для операций, параметров и схем на
+            // основе файлов комментариев XML
+            options.IncludeXmlComments(xmlPath);
+
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+            // Определите схему OAuth2 для Swagger
+            options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
             {
-                In = ParameterLocation.Header,
-                Description = "Please insert token",
-                Name = "Authorization",
-                Type = SecuritySchemeType.Http,
-                BearerFormat = "JWT",
-                Scheme = "Bearer"
+                Type = SecuritySchemeType.OAuth2,
+                Flows = new OpenApiOAuthFlows
+                {
+                    AuthorizationCode = new OpenApiOAuthFlow
+                    {
+                        AuthorizationUrl = new Uri("https://localhost:10001/connect/authorize"),
+                        TokenUrl = new Uri("https://localhost:10001/connect/token"),
+                        Scopes = new Dictionary<string, string>
+                        {
+                            { "Films", "Доступ к библиотеке фильмов" }
+                        }
+                    }
+                }
             });
 
-            // Добавляем требование безопасности для Bearer токена
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            // Используйте схему OAuth2 для всех операций в Swagger
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
                     new OpenApiSecurityScheme
@@ -40,21 +52,15 @@ public static class SwaggerServices
                         Reference = new OpenApiReference
                         {
                             Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
+                            Id = "oauth2"
                         },
                         Scheme = "oauth2",
-                        Name = "Bearer",
-                        In = ParameterLocation.Header,
+                        Name = "oauth2",
+                        In = ParameterLocation.Header
                     },
-                    new List<string>()
+                    new[] { "Films" }
                 }
             });
-            
-            // Получаем путь к xml файлу с документацией
-            var xmlFilename = $"{typeof(UserController).Assembly.GetName().Name}.xml";
-            
-            // Добавляет XML комментарии для документации Swagger
-            c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
     }
 }

@@ -1,6 +1,7 @@
+using Films.Application.Abstractions.DTOs.Films;
 using Films.Application.Abstractions.Queries.Films;
-using Films.Application.Abstractions.Queries.Films.DTOs;
 using Films.Application.Services.Common;
+using Films.Application.Services.Mappers.Films;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films;
 using Films.Domain.Films.Ordering;
@@ -27,7 +28,7 @@ public class FindFilmsQueryHandler(IUnitOfWork unitOfWork)
         if (!string.IsNullOrEmpty(request.Query))
             specification = specification.AddToSpecification(new FilmsByTitleSpecification(request.Query));
 
-        if (!string.IsNullOrEmpty(request.Genre)) 
+        if (!string.IsNullOrEmpty(request.Genre))
             specification = specification.AddToSpecification(new FilmsByGenreSpecification(request.Genre));
 
         if (!string.IsNullOrEmpty(request.Person))
@@ -36,13 +37,20 @@ public class FindFilmsQueryHandler(IUnitOfWork unitOfWork)
         if (!string.IsNullOrEmpty(request.Country))
             specification = specification.AddToSpecification(new FilmsByCountrySpecification(request.Country));
 
-        if (request.Serial != null) 
+        if (request.Serial.HasValue)
             specification = specification.AddToSpecification(new FilmsByTypeSpecification(request.Serial.Value));
+
+        if (request.MinYear.HasValue || request.MaxYear.HasValue)
+            specification =
+                specification.AddToSpecification(new FilmsByYearsSpecification(request.MinYear ?? 0,
+                    request.MaxYear ?? int.MaxValue));
+
 
         if (request.PlaylistId != null)
         {
             var playlist = await unitOfWork.PlaylistRepository.Value.GetAsync(request.PlaylistId.Value);
-            if (playlist != null) specification = specification.AddToSpecification(new FilmsByIdsSpecification(playlist.Films));
+            if (playlist != null)
+                specification = specification.AddToSpecification(new FilmsByPlaylistSpecification(playlist));
         }
 
         // Определяем порядок сортировки по дате 

@@ -1,7 +1,6 @@
 {
-  "Client": {
-    "Issuer": "Overoom.AuthService",
-    "Audience": "Films",
-    "Secret": "overoom_secret_key_overoom_secret_key"
+  "Authorization": {
+    "Authority": "https://localhost:10001",
+    "Audience": "Films"
   }
 }

@@ -2,7 +2,7 @@
 @model PJMS.AuthService.Web.Consent.ViewModels.ScopeViewModel
 @inject IViewLocalizer Localizer
 
-<div class="form-check mx-2">
+<div class="form-check my-2 mx-2">
     <input name="ScopesConsented"
            disabled="@Model.Required"
            type="checkbox"
@@ -10,19 +10,11 @@
            value="@Model.Value"
            id="scopes_@Model.Value"
            class="form-check-input"/>
-    <label class="form-check-label" for="scopes_@Model.Value">@Model.DisplayName</label>
+    <label class="form-check-label @(Model.Emphasize ? "emphasize" : "")" for="scopes_@Model.Value">@Model.DisplayName</label>
 
     @if (Model.Required)
     {
         <input name="ScopesConsented" type="hidden" value="@Model.Value"/>
-    }
-
-    @if (Model.Emphasize)
-    {
-        <span class="glyphicon glyphicon-exclamation-sign"></span>
-    }
-    @if (Model.Required)
-    {
         <span class="required">
             <em>(@Localizer["Required"])</em>
         </span>

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
+using Overoom.IntegrationEvents.Users;
 using PJMS.AuthService.Abstractions.AppEmailService;
 using PJMS.AuthService.Abstractions.Commands.Create;
 using PJMS.AuthService.Abstractions.Entities;
@@ -48,8 +50,14 @@ public class CreateUserCommandHandlerTests
             new Mock<IServiceProvider>().Object,
             new Mock<ILogger<UserManager<AppUser>>>().Object);
 
+        var publishEndpointMock = new Mock<IPublishEndpoint>();
+
+        publishEndpointMock
+            .Setup(p => p.Publish(It.IsAny<UserCreatedIntegrationEvent>(), It.IsAny<CancellationToken>()))
+            .Returns(() => Task.CompletedTask);
+        
         // Инициализация обработчика.
-        _handler = new CreateUserCommandHandler(_userManagerMock.Object, _emailServiceMock.Object);
+        _handler = new CreateUserCommandHandler(_userManagerMock.Object, _emailServiceMock.Object, publishEndpointMock.Object);
     }
     
     /// <summary>

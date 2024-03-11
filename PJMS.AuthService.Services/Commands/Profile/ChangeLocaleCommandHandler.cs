@@ -1,7 +1,9 @@
 using System.Security.Claims;
 using IdentityModel;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Overoom.IntegrationEvents.Users;
 using PJMS.AuthService.Abstractions.Accessories;
 using PJMS.AuthService.Abstractions.Commands.Profile;
 using PJMS.AuthService.Abstractions.Entities;
@@ -13,7 +15,8 @@ namespace PJMS.AuthService.Services.Commands.Profile;
 /// Обработчик для смены локали у пользователя
 /// </summary>
 /// <param name="userManager">Менеджер пользователей, предоставленный ASP.NET Core Identity.</param>
-public class ChangeLocaleCommandHandler(UserManager<AppUser> userManager) : IRequestHandler<ChangeLocaleCommand>
+/// <param name="publishEndpoint">Сервис публикации событий</param>
+public class ChangeLocaleCommandHandler(UserManager<AppUser> userManager, IPublishEndpoint publishEndpoint) : IRequestHandler<ChangeLocaleCommand>
 {
     /// <summary>
     /// Метод обработки команды изменения локали пользователя.
@@ -43,5 +46,15 @@ public class ChangeLocaleCommandHandler(UserManager<AppUser> userManager) : IReq
         // Заменяем локаль в утверждениях пользователя
         await userManager.ReplaceClaimAsync(user, new Claim(JwtClaimTypes.Locale, oldLocale.GetLocalizationString()),
             new Claim(JwtClaimTypes.Locale, user.Locale.GetLocalizationString()));
+        
+        // Публикуем событие
+        await publishEndpoint.Publish(new UserDataChangedIntegrationEvent
+        {
+            Id = user.Id,
+            PhotoUrl = user.Thumbnail,
+            Name = user.UserName!,
+            Email = user.Email!,
+            Locale = user.Locale.ToString()
+        }, cancellationToken);
     }
 }

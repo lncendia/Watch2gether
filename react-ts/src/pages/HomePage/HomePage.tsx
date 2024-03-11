@@ -1,19 +1,19 @@
-import RandomVideoWrapper from "../../modules/RandomVideoWrapper/RandomVideoWrapper.tsx";
-import MyNavbar from "../../modules/Navbar/NavbarModule";
+import RandomVideoWrapper from "../../modules/Home/RandomVideoWrapper.tsx";
+import NavbarModule from "../../modules/Home/NavbarModule.tsx";
 import Logo from "../../components/Logo/Logo";
 import Container from "../../UI/Container/Container";
-import FilmComments from "../../modules/FilmComments/components/FilmComments";
-import Footer from "../../modules/Footer/Components/Footer";
+import FilmCommentsModule from "../../modules/Film/FilmCommentsModule/FilmCommentsModule.tsx";
+import Footer from "../../modules/Home/Footer.tsx";
 
 const HomePage = () => {
     return (
         <div style={{background: 'black', minHeight: '100%'}}>
             <RandomVideoWrapper>
-                <MyNavbar/>
+                <NavbarModule/>
                 <Logo/>
             </RandomVideoWrapper>
             <Container>
-                <FilmComments/>
+                <FilmCommentsModule/>
             </Container>
             <Footer/>
         </div>

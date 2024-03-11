@@ -1,12 +1,11 @@
 ﻿.setupTwoFactor {
   text-align: justify;
-  @media (max-width: 670px) {
-    font-size: 14px !important;
-  }
+  font-size: var(--main-size);
 
   .auth-key {
     cursor: pointer;
     transition: color 0.3s;
+    
     @media (max-width: 670px) {
       margin-top: 14px;
     }
@@ -18,10 +17,7 @@
 
   .qrcode-invalid {
     text-align: center;
-    font-size: 12px;
-    @media (max-width: 670px) {
-      font-size: 10px;
-    }
+    font-size: var(--side-size);
   }
 
   .qrcode {

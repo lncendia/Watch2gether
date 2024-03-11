@@ -1,5 +1,5 @@
-﻿using Films.Application.Abstractions.Queries.Films;
-using Films.Application.Abstractions.Queries.Films.DTOs;
+﻿using Films.Application.Abstractions.DTOs.Films;
+using Films.Application.Abstractions.Queries.Films;
 using Films.Infrastructure.Web.Authentication;
 using Films.Infrastructure.Web.Films.InputModels;
 using Films.Infrastructure.Web.Films.ViewModels;
@@ -35,6 +35,8 @@ public class FilmsController(IMediator mediator) : ControllerBase
             Person = model.Person,
             Serial = model.Serial,
             PlaylistId = model.PlaylistId,
+            MinYear = model.MinYear,
+            MaxYear = model.MaxYear,
             Skip = (model.Page - 1) * model.CountPerPage,
             Take = model.CountPerPage
         });
@@ -94,6 +96,7 @@ public class FilmsController(IMediator mediator) : ControllerBase
         Id = film.Id,
         Description = film.Description,
         IsSerial = film.IsSerial,
+        Year = film.Year,
         Title = film.Title,
         PosterUrl = $"{Request.Scheme}://{Request.Host}/{film.PosterUrl.ToString().Replace('\\', '/')}",
         RatingKp = film.RatingKp,
@@ -106,7 +109,7 @@ public class FilmsController(IMediator mediator) : ControllerBase
         {
             Cdn = cdn.Name,
             Quality = cdn.Quality,
-            Voices = cdn.Voices
+            Url = cdn.Url.ToString()
         }),
         CountSeasons = film.CountSeasons,
         CountEpisodes = film.CountEpisodes,
@@ -132,6 +135,7 @@ public class FilmsController(IMediator mediator) : ControllerBase
         Description = film.Description,
         IsSerial = film.IsSerial,
         Genres = film.Genres,
+        Year = film.Year,
         CountSeasons = film.CountSeasons,
         CountEpisodes = film.CountEpisodes
     };

@@ -63,11 +63,9 @@ body::-webkit-scrollbar-thumb {
   }
 
   .card-link, .form-check-label {
-    font-size: 14px;
+    font-size: var(--side-size);
     color: rgba(var(--bs-body-color-rgb), 0.8);
     margin: 0;
-    transition: all 0.4s;
-    -webkit-transition: all 0.4s;
     text-decoration: none;
   }
 
@@ -77,7 +75,7 @@ body::-webkit-scrollbar-thumb {
 
   .card-link:hover {
     text-decoration: none;
-    color: #a64bf4;
+    color: var(--bs-purple)
   }
 
   .card-subtitle {
@@ -90,8 +88,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 input:checked {
-  background-color: #a64bf4 !important;
-  border-color: #a64bf4 !important;
+  background-color: var(--bs-purple) !important;
+  border-color: var(--bs-purple) !important;
 }
 
 input:-webkit-autofill,
@@ -99,24 +97,8 @@ input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 50px var(--bs-body-bg) inset;
 }
 
-.zmdi-eye:before {
-  font-size: 25px;
-}
-
-.zmdi-eye-off:before {
-  font-size: 25px;
-}
-
-
-@media (max-width: 670px) {
-  .zmdi-eye:before {
-    font-size: 15px;
-  }
-
-  .zmdi-eye-off:before {
-    font-size: 15px;
-  }
-
+input::-webkit-input-placeholder {
+  font-size: var(--main-size) !important;
 }
 
 .wrap-error {

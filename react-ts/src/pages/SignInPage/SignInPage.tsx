@@ -1,4 +1,4 @@
-import SignInModule from "../../modules/SignInModule/SignInModule.tsx";
+import SignInModule from "../../modules/Authorization/SignInModule.tsx";
 
 // Страница входа пользователя
 const SignInPage = () => {

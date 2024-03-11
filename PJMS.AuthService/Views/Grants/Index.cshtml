@@ -11,10 +11,10 @@
 <h5 class="card-title">@Localizer["GrantsTitle"]</h5>
 
 
-<div class="grants mt-lg-5 mt-md-3 mt-1">
+<div class="grants mt-5">
     @if (Model.Grants.Any() == false)
     {
-        <div class="alert alert-info">
+        <div class="alert alert-info mb-4">
             @Localizer["GrantsEmpty"]
         </div>
     }
@@ -22,7 +22,7 @@
     {
         foreach (var grant in Model.Grants)
         {
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-header">
                     @if (grant.ClientLogoUrl != null)
                     {

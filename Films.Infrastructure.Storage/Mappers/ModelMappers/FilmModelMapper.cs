@@ -9,7 +9,6 @@ using Films.Infrastructure.Storage.Models.Country;
 using Films.Infrastructure.Storage.Models.Film;
 using Films.Infrastructure.Storage.Models.Genre;
 using Films.Infrastructure.Storage.Models.Person;
-using Films.Infrastructure.Storage.Models.Voice;
 
 namespace Films.Infrastructure.Storage.Mappers.ModelMappers;
 
@@ -39,13 +38,13 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
 
         var persons = await GetPersonsAsync(aggregate);
 
+        ProcessCdns(aggregate, model);
         ProcessActors(aggregate, model, persons);
         ProcessDirectors(aggregate, model, persons);
         ProcessScreenwriters(aggregate, model, persons);
 
         await ProcessGenresAsync(aggregate, model);
         await ProcessCountriesAsync(aggregate, model);
-        await ProcessCdnsAsync(aggregate, model);
 
         return model;
     }
@@ -71,7 +70,7 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
         return databasePersons.Concat(notDatabasePersons).ToArray();
     }
 
-    private async Task ProcessCdnsAsync(Film aggregate, FilmModel model)
+    private void ProcessCdns(Film aggregate, FilmModel model)
     {
         // Удаляем эти записи из коллекции в модели EF
         model.CdnList.RemoveAll(x => aggregate.CdnList.All(m => x.Name != m.Name));
@@ -82,58 +81,23 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
             .Select(c => new CdnModel { Name = c.Name })
             .ToArray();
 
-        var voices = await GetVoicesAsync(aggregate);
-
         foreach (var cdnModel in model.CdnList)
         {
-            ProcessCdn(aggregate.CdnList.First(c => c.Name == cdnModel.Name), cdnModel, voices);
+            ProcessCdn(aggregate.CdnList.First(c => c.Name == cdnModel.Name), cdnModel);
         }
 
         foreach (var cdnModel in newCdns)
         {
-            ProcessCdn(aggregate.CdnList.First(c => c.Name == cdnModel.Name), cdnModel, voices);
+            ProcessCdn(aggregate.CdnList.First(c => c.Name == cdnModel.Name), cdnModel);
         }
 
         model.CdnList.AddRange(newCdns);
     }
 
-    private async Task<IReadOnlyCollection<VoiceModel>> GetVoicesAsync(Film aggregate)
-    {
-        var voices = aggregate.CdnList.SelectMany(c => c.Voices).Distinct().ToArray();
-
-        var databaseVoices = await context.Voices
-            .Where(v => voices.Any(voice => voice == v.Name))
-            .ToArrayAsync();
-
-        // Определяем, какие модели не были получены из EF, для этих новых записей создаем новые модели EF
-        var notDatabaseVoices = voices
-            .Where(c => databaseVoices.All(d => d.Name != c))
-            .Select(c => new VoiceModel { Name = c });
-
-        return databaseVoices.Concat(notDatabaseVoices).ToArray();
-    }
-
-    private static void ProcessCdn(Cdn valueObject, CdnModel model, IEnumerable<VoiceModel> voices)
+    private static void ProcessCdn(Cdn valueObject, CdnModel model)
     {
         model.Quality = valueObject.Quality;
         model.Url = valueObject.Url;
-
-        // Удаляем эти записи из коллекции в модели EF
-        model.Voices.RemoveAll(x => valueObject.Voices.All(m => m != x.Name));
-
-        // Получаем записи, которые есть в сущности, но еще нет в модели EF
-        var newVoices = valueObject.Voices
-            .Where(x => model.Voices.All(m => m.Name != x))
-            .ToArray();
-
-        // Если новых озвучек нет
-        if (newVoices.Length == 0) return;
-
-        // Запрашиваем все существующие модели EF для новых записей
-        var databaseVoices = voices.Where(x => newVoices.Any(g => g == x.Name));
-
-        // Добавляем полученные модели EF в коллекцию обрабатываемой модели EF
-        model.Voices.AddRange(databaseVoices);
     }
 
     private async Task ProcessCountriesAsync(Film aggregate, FilmModel model)

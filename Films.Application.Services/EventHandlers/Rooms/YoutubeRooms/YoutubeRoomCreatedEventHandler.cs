@@ -1,4 +1,4 @@
-using Films.Application.Abstractions.Common.Exceptions;
+using Films.Application.Abstractions.Exceptions;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Rooms.YoutubeRooms.Events;
 using Films.Domain.Rooms.YoutubeRooms.Specifications;
@@ -30,7 +30,7 @@ public class YoutubeRoomCreatedEventHandler(IUnitOfWork unitOfWork, IPublishEndp
             {
                 Id = notification.Owner.Id,
                 PhotoUrl = notification.Owner.PhotoUrl,
-                Name = notification.Owner.UserName,
+                Name = notification.Owner.Username,
                 Beep = notification.Owner.Allows.Beep,
                 Scream = notification.Owner.Allows.Scream,
                 Change = notification.Owner.Allows.Change

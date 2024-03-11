@@ -1,5 +1,5 @@
 import { DotLoader } from "react-spinners";
-import "./Loader.module.scss";
+import styles from "./Loader.module.css"
 
 type Props = {
     isLoading?: boolean;
@@ -8,7 +8,7 @@ type Props = {
 const Loader = ({ isLoading = true }: Props) => {
     return (
         <>
-            <div id='loading-spinner'>
+            <div className={styles.spinner}>
                 <DotLoader
                     color='#1976d2'
                     loading={isLoading}

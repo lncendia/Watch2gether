@@ -1,3 +1,4 @@
+using System.Web;
 using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
@@ -6,7 +7,6 @@ using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Localization;
 using PJMS.AuthService.Web.Attributes;
 using PJMS.AuthService.Web.Consent.InputModels;
@@ -91,10 +91,14 @@ public class ConsentController : Controller
 
         // Если у нас нет действительного контекста - вызываем исключение
         if (context == null) throw new IdentityContextException();
+        
+        // Устанавливаем в строку запроса закодированную returnUrl, чтоб при изменении локали открылась корректная ссылка (смотреть _Culture.cshtml)
+        HttpContext.Request.QueryString = new QueryString("?ReturnUrl=" + HttpUtility.UrlEncode(model.ReturnUrl));
 
         // Если пользователь не согласовал ни одну область
         if (model.ScopesConsented.Count == 0)
         {
+            // Добавляем ошибку в состояние модели
             ModelState.AddModelError("", _stringLocalizer["NoOneConsented"]);
             
             // Строим модель

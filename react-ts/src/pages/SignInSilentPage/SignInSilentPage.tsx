@@ -1,4 +1,4 @@
-import SignInSilentModule from "../../modules/SignInSilentModule/SignInSilentModule.tsx";
+import SignInSilentModule from "../../modules/Authorization/SignInSilentModule.tsx";
 
 // Страница silent входа пользователя
 const SignInSilentPage = () => {

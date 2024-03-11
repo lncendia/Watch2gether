@@ -1,4 +1,4 @@
-﻿namespace Overoom.Infrastructure.Web.Hubs.Models;
+﻿namespace Room.Infrastructure.Web.Hubs.Models;
 
 public class ViewerModel(int id, string username, Uri avatar, int time, bool beep, bool scream, bool change)
 {

@@ -6,19 +6,13 @@
 }
 
 <h5 class="card-title">@Model.ClientName</h5>
-<div class="card-logo">
-    @if (Model.ClientLogoUrl != null)
-    {
-        <img class="client-logo" src="@Model.ClientLogoUrl" alt="">
-    }
-    else
-    {
-        <span>Overoom</span>
-    }
-</div>
+@if (Model.ClientLogoUrl != null)
+{
+    <img class="card-logo" src="@Model.ClientLogoUrl" alt="Client logo">
+}
 
 
-<form asp-action="Index" method="post" class="consent mt-lg-5 mt-md-3 mt-1">
+<form asp-action="Index" method="post" class="consent mt-5">
 
     <input asp-for="ReturnUrl" type="hidden"/>
     @if (Model.IdentityScopes.Any())
@@ -53,7 +47,7 @@
                 <label asp-for="Description"></label>
             </div>
             <div class="card-body">
-                <input class="form-control" asp-for="Description">
+                <input class="form-control description" asp-for="Description">
             </div>
         </div>
     </div>
@@ -61,11 +55,8 @@
     @if (Model.AllowRememberConsent)
     {
         <div class="form-check my-2 mb-md-5">
-            <input asp-for="RememberConsent"
-                   class="form-check-input">
-            <label asp-for="RememberConsent"
-                   class="form-check-label">
-            </label>
+            <input asp-for="RememberConsent" class="form-check-input">
+            <label asp-for="RememberConsent" class="form-check-label"></label>
         </div>
     }
 

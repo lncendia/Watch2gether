@@ -2,10 +2,16 @@ import {Container} from "inversify";
 import {UserManager} from 'oidc-client';
 import {UserManagerSettings, WebStorageStateStore} from 'oidc-client';
 import {AuthService} from "../services/AuthService/AuthService.ts";
-import {FilmService} from "../services/FilmsService/FilmService.ts";
-import axios from "axios";
+import {FilmsService} from "../services/FilmsService/FilmsService.ts";
+import axios, {AxiosInstance} from "axios";
 import {IAuthService} from "../services/AuthService/IAuthService.ts";
-import {IFilmService} from "../services/FilmsService/IFilmService.ts";
+import {IFilmsService} from "../services/FilmsService/IFilmsService.ts";
+import {CommentsService} from "../services/CommentsService/CommentsService.ts";
+import {ICommentsService} from "../services/CommentsService/ICommentsService.ts";
+import {IProfileService} from "../services/ProfileService/IProfileService.ts";
+import {ProfileService} from "../services/ProfileService/ProfileService.ts";
+import {IPlaylistsService} from "../services/PlaylistsService/IPlaylistsService.ts";
+import {PlaylistsService} from "../services/PlaylistsService/PlaylistsService.ts";
 
 
 const config: UserManagerSettings = {
@@ -14,7 +20,7 @@ const config: UserManagerSettings = {
     authority: "https://localhost:10001",
 
     // Идентификатор клиента
-    client_id: "client_react",
+    client_id: "overoom_react",
 
     // URI перенаправления после успешной аутентификации
     redirect_uri: "https://localhost:5173/signin-oidc",
@@ -23,7 +29,7 @@ const config: UserManagerSettings = {
     response_type: "code",
 
     // Запрашиваемые области доступа
-    scope: "openid profile email roles Business",
+    scope: "openid profile roles Films Rooms",
 
     // URI перенаправления после выхода из системы
     post_logout_redirect_uri: "https://localhost:5173/signout-oidc",
@@ -41,8 +47,8 @@ const config: UserManagerSettings = {
 // Создаем контейнер
 const container = new Container();
 
-const filmAxios = axios.create({
-    baseURL: 'https://localhost:7131/filmApi/films'
+const axiosInstance = axios.create({
+    baseURL: 'https://localhost:7131/filmApi/'
 });
 
 
@@ -54,21 +60,34 @@ container.bind<IAuthService>('AuthService')
     .to(AuthService)
     .inSingletonScope();
 
-container.bind<IFilmService>('FilmService')
-    .toDynamicValue(() => new FilmService(filmAxios))
+container.bind<IFilmsService>('FilmsService')
+    .toDynamicValue(() => new FilmsService(axiosInstance))
     .inSingletonScope();
 
+container.bind<IProfileService>('ProfileService')
+    .toDynamicValue(() => new ProfileService(axiosInstance))
+    .inSingletonScope();
+
+container.bind<ICommentsService>('CommentsService')
+    .toDynamicValue(() => new CommentsService(axiosInstance, config.authority!))
+    .inSingletonScope();
+
+container.bind<IPlaylistsService>('PlaylistsService')
+    .toDynamicValue(() => new PlaylistsService(axiosInstance))
+    .inSingletonScope();
+
+configureAxiosAuthorization(axiosInstance, container)
 
 export default container;
 
 
-// function configureAxiosAuthorization(axiosInstance: AxiosInstance, container: Container): void {
-//     axiosInstance.interceptors.request.use(async config => {
-//         const userManager = container.get<UserManager>('UserManager');
-//         const user = await userManager.getUser();
-//         if (user && user.access_token) {
-//             config.headers.Authorization = `Bearer ${user.access_token}`;
-//         }
-//         return config;
-//     });
-// }
+function configureAxiosAuthorization(axiosInstance: AxiosInstance, container: Container): void {
+    axiosInstance.interceptors.request.use(async config => {
+        const userManager = container.get<UserManager>('UserManager');
+        const user = await userManager.getUser();
+        if (user && user.access_token) {
+            config.headers.Authorization = `Bearer ${user.access_token}`;
+        }
+        return config;
+    });
+}

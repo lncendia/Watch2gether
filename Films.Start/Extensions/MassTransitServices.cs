@@ -33,7 +33,8 @@ public static class MassTransitServices
             busConfigurator.AddConsumer<YoutubeRoomDeletedConsumer>();
             busConfigurator.AddConsumer<YoutubeRoomViewerKickedConsumer>();
 
-            busConfigurator.AddConsumer<UserChangedConsumer>();
+            busConfigurator.AddConsumer<UserCreatedConsumer>();
+            busConfigurator.AddConsumer<UserDataChangedConsumer>();
 
             busConfigurator.UsingRabbitMq((context, cfg) =>
             {

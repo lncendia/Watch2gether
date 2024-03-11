@@ -1,4 +1,4 @@
-﻿using Films.Application.Abstractions.Common.Exceptions;
+﻿using Films.Application.Abstractions.Exceptions;
 using Films.Application.Abstractions.Posters;
 using RestSharp;
 using SixLabors.ImageSharp;

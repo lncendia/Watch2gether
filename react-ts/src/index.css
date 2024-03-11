@@ -13,7 +13,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-    background: var(--bs-orange);        /* цвет дорожки */
+    background: var(--bs-orange);
 }
 
 @font-face {
@@ -26,7 +26,12 @@ body::-webkit-scrollbar-thumb {
     src: url("./fonts/RobotoFlex.ttf") format("truetype");
 }
 
-[data-bs-theme="dark2"] {
+@font-face {
+    font-family: "Hero";
+    src: url("./fonts/Hero.ttf") format("truetype");
+}
+
+[data-bs-theme="dark"] {
     --bs-emphasis-color-rgb: 255, 255, 255;
     --bs-body-color: var(--bs-white);
     --bs-body-color-rgb: 255, 255, 255;
@@ -38,11 +43,11 @@ body::-webkit-scrollbar-thumb {
     --bs-body-font-family: "RobotoFlex", "Arial", sans-serif;
 }
 
-[data-bs-theme="light2"] {
-    --bs-body-bg: rgb(234, 234, 234);
-    --bs-body-bg-rgb: 234, 234, 234;
-    --body-bg: linear-gradient(#642a83, transparent),
-    linear-gradient(90deg, #1c5660, transparent),
-    linear-gradient(-90deg, #884e2e, transparent);
+[data-bs-theme="light"] {
+    --bs-body-bg: rgb(189, 189, 189);
+    --bs-body-bg-rgb: 189, 189, 189;
+    --body-bg: linear-gradient(#4b2064, transparent),
+    linear-gradient(90deg, #143d44, transparent),
+    linear-gradient(-90deg, #54301c, transparent);
     --bs-body-font-family: "RobotoFlex", "Arial", sans-serif;
 }

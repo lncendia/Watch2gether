@@ -35,8 +35,7 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
             {
                 Name = cdn.Name,
                 Url = cdn.Url,
-                Quality = cdn.Quality,
-                Voices = cdn.Voices.Select(voice => voice.Name).ToArray()
+                Quality = cdn.Quality
             }).ToArray()
         };
 

@@ -3,6 +3,7 @@
 public class FilmViewModel
 {
     public required Guid Id { get; init; }
+    public required int Year { get; init; }
     public required string Description { get; init; }
     public required bool IsSerial { get; init; }
     public required string Title { get; init; }

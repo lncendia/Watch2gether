@@ -1,4 +1,4 @@
-﻿namespace Overoom.Infrastructure.Web.Hubs.Models;
+﻿namespace Room.Infrastructure.Web.Hubs.Models;
 
 public class DataModel(int id, Guid roomId)
 {

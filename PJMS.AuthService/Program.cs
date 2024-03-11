@@ -15,27 +15,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Настраиваем конфигурацию приложения.
 builder.Configuration
-    
+
   // Установка базового пути для поиска конфигурационных файлов.
   .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "Configuration"))
-  
+
   // Добавление конфигурационного файла appsettings.json.
   .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
-  
+
   // Добавление конфигурационного файла email.json.
   .AddJsonFile("email.json", optional: false, reloadOnChange: false)
-  
+
   // Добавление конфигурационного файла oauth.json.
   .AddJsonFile("oauth.json", optional: false, reloadOnChange: false)
-  
+
   // Добавление конфигурационного файла loggers.json.
-  .AddJsonFile("loggers.json", optional: false, reloadOnChange: false)
-  
-  // Добавление переменных среды в конфигурацию.
-  .AddEnvironmentVariables()
-  
-  // Добавление аргументов командной строки в конфигурацию.
-  .AddCommandLine(args);
+  .AddJsonFile("loggers.json", optional: false, reloadOnChange: false);
 
 // Добавляет службы для контроллеров в указанную коллекцию IServiceCollection.
 builder.Services.AddControllersWithViews()
@@ -61,6 +55,9 @@ builder.Services.AddAspIdentity(builder.Configuration, builder.Environment.WebRo
 
 // Добавляет службы Identity Server.
 builder.Services.AddIdentityServerWithStores(builder.Configuration);
+
+// Добавляет службы MassTransit.
+builder.Services.AddMassTransitServices(builder.Configuration);
 
 // Добавляет службы Swagger для документации API.
 builder.Services.AddSwagger();

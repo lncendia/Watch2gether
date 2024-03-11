@@ -6,7 +6,7 @@ public abstract class ViewerDto
 {
     public required Guid Id { get; init; }
     public required string Nickname { get; init; }
-    public required Uri PhotoUrl { get; init; }
+    public Uri? PhotoUrl { get; init; }
     public required bool Pause { get; init; }
     public required bool FullScreen { get; init; }
 
