@@ -3,7 +3,7 @@ using Films.Domain.Servers;
 using Films.Domain.Servers.Specifications;
 using Films.Domain.Servers.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
-using Films.Infrastructure.Storage.Models.Server;
+using Films.Infrastructure.Storage.Models.Servers;
 
 namespace Films.Infrastructure.Storage.Visitors.Specifications;
 

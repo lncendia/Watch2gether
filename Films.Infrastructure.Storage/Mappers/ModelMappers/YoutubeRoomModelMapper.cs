@@ -1,8 +1,8 @@
 ﻿using Films.Domain.Rooms.YoutubeRooms;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Models.Rooms.BaseRoom;
-using Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom;
+using Films.Infrastructure.Storage.Models.Rooms;
+using Films.Infrastructure.Storage.Models.YoutubeRoom;
 using Microsoft.EntityFrameworkCore;
 
 namespace Films.Infrastructure.Storage.Mappers.ModelMappers;

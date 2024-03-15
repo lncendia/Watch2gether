@@ -4,7 +4,7 @@ using Films.Domain.Abstractions;
 using Films.Domain.Ratings;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Mappers.StaticMethods;
-using Films.Infrastructure.Storage.Models.Rating;
+using Films.Infrastructure.Storage.Models.Ratings;
 
 namespace Films.Infrastructure.Storage.Mappers.AggregateMappers;
 

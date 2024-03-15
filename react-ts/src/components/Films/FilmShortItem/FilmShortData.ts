@@ -4,5 +4,6 @@ export interface FilmShortData {
     posterUrl: string
     ratingKp?: number
     ratingImdb?: number
+    score?: number
     year: number
 }

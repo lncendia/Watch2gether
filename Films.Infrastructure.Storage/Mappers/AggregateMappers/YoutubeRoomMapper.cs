@@ -4,7 +4,7 @@ using Films.Domain.Abstractions;
 using Films.Domain.Rooms.YoutubeRooms;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Mappers.StaticMethods;
-using Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom;
+using Films.Infrastructure.Storage.Models.YoutubeRoom;
 
 namespace Films.Infrastructure.Storage.Mappers.AggregateMappers;
 

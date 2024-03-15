@@ -6,10 +6,13 @@ const FilmShortItem = ({film, className = '', onClick}: {
     film: FilmShortData,
     onClick: () => void
 }) => {
+
     return (
         <div className={`${styles.blacker_blur} ${className}`.trim()} onClick={onClick}>
             <img alt="Постер" src={film.posterUrl} className={styles.poster}/>
-            <div className={styles.black}></div>
+            <div className={`${styles.black} ${film.score ? styles.black_all : styles.black_bottom}`}></div>
+            {film.score &&
+                <small className={styles.score}>{film.score}★</small>}
             {film.ratingKp &&
                 <small className={styles.kp}>KP: {film.ratingKp}</small>}
             {film.ratingImdb &&

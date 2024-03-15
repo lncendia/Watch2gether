@@ -1,9 +1,9 @@
 using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 using Overoom.IntegrationEvents.Rooms.FilmRooms;
-using Room.Application.Abstractions.Commands.BaseRooms;
 using Room.Application.Abstractions.Commands.FilmRooms;
-using Room.Domain.BaseRoom.ValueObjects;
+using Room.Application.Abstractions.Commands.Rooms;
+using Room.Domain.Rooms.Rooms.ValueObjects;
 
 namespace Room.Infrastructure.Bus.FilmRooms;
 

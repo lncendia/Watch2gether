@@ -17,14 +17,17 @@ public static class CorsServices
             // Добавление политики CORS с именем "DefaultPolicy"
             options.AddPolicy("DefaultPolicy", builder =>
             {
-                // Разрешение доступа с любого источника
-                builder.AllowAnyOrigin();
-
                 // Разрешение доступа к любым заголовкам
                 builder.AllowAnyHeader();
 
                 // Разрешение доступа к любым HTTP-методам
                 builder.AllowAnyMethod();
+                
+                // Разрешение использования учетных данных
+                builder.AllowCredentials();
+
+                // Разрешение доступа со всех источников
+                builder.SetIsOriginAllowed(_ => true);
             });
         });
     }

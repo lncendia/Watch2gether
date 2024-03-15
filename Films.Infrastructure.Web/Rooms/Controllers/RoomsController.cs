@@ -1,14 +1,13 @@
-﻿using Films.Application.Abstractions.Commands.Rooms.FilmRooms;
-using Films.Application.Abstractions.Commands.Rooms.YoutubeRooms;
-using Films.Application.Abstractions.DTOs.Rooms;
-using Films.Application.Abstractions.Queries.Rooms;
+﻿using Films.Application.Abstractions.DTOs.Rooms;
+using Films.Application.Abstractions.Queries.FilmRooms;
+using Films.Application.Abstractions.Queries.YoutubeRooms;
 using Films.Infrastructure.Web.Authentication;
 using Films.Infrastructure.Web.Rooms.InputModels;
 using Films.Infrastructure.Web.Rooms.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ConnectRoomCommand = Films.Application.Abstractions.Commands.Rooms.YoutubeRooms.ConnectRoomCommand;
-using CreateRoomCommand = Films.Application.Abstractions.Commands.Rooms.YoutubeRooms.CreateRoomCommand;
+using ConnectRoomCommand = Films.Application.Abstractions.Commands.YoutubeRooms.ConnectRoomCommand;
+using CreateRoomCommand = Films.Application.Abstractions.Commands.YoutubeRooms.CreateRoomCommand;
 
 namespace Films.Infrastructure.Web.Rooms.Controllers;
 
@@ -16,10 +15,10 @@ namespace Films.Infrastructure.Web.Rooms.Controllers;
 [Route("filmApi/[controller]/[action]")]
 public class RoomsController(IMediator mediator) : ControllerBase
 {
-    [HttpPost]
+    [HttpPut]
     public async Task<RoomServerViewModel> CreateFilmRoom(CreateFilmRoomInputModel model)
     {
-        var serverRoom = await mediator.Send(new Application.Abstractions.Commands.Rooms.FilmRooms.CreateRoomCommand
+        var serverRoom = await mediator.Send(new Application.Abstractions.Commands.FilmRooms.CreateRoomCommand
         {
             UserId = User.GetId(),
             IsOpen = model.Open,
@@ -34,7 +33,7 @@ public class RoomsController(IMediator mediator) : ControllerBase
         };
     }
 
-    [HttpPost]
+    [HttpPut]
     public async Task<RoomServerViewModel> CreateYoutubeRoom(CreateYoutubeRoomInputModel model)
     {
         var serverRoom = await mediator.Send(new CreateRoomCommand
@@ -54,7 +53,7 @@ public class RoomsController(IMediator mediator) : ControllerBase
     [HttpPost]
     public async Task<RoomServerViewModel> ConnectFilmRoom(ConnectRoomInputModel model)
     {
-        var serverRoom = await mediator.Send(new Application.Abstractions.Commands.Rooms.FilmRooms.ConnectRoomCommand
+        var serverRoom = await mediator.Send(new Application.Abstractions.Commands.FilmRooms.ConnectRoomCommand
         {
             UserId = User.GetId(),
             RoomId = model.Id,
@@ -123,6 +122,8 @@ public class RoomsController(IMediator mediator) : ControllerBase
         UserRating = dto.UserRating,
         Description = dto.Description,
         IsSerial = dto.IsSerial,
+        RatingKp = dto.RatingKp,
+        RatingImdb = dto.RatingImdb,
         Id = dto.Id,
         ViewersCount = dto.ViewersCount,
         ServerUrl = dto.ServerUrl.ToString().Replace('\\', '/'),

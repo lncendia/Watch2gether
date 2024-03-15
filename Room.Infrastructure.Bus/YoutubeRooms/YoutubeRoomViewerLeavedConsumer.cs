@@ -1,5 +1,5 @@
 using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 using Overoom.IntegrationEvents.Rooms.YoutubeRooms;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
 
@@ -19,7 +19,7 @@ public class YoutubeRoomViewerLeavedConsumer(IMediator mediator) : IConsumer<You
     {
         // Получаем данные события
         var integrationEvent = context.Message;
-        
+
         // Отправляем команду на обработку события
         return mediator.Send(new LeaveCommand
         {

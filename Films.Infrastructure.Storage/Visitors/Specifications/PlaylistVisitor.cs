@@ -3,7 +3,7 @@ using Films.Domain.Playlists;
 using Films.Domain.Playlists.Specifications;
 using Films.Domain.Playlists.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
-using Films.Infrastructure.Storage.Models.Playlist;
+using Films.Infrastructure.Storage.Models.Playlists;
 
 namespace Films.Infrastructure.Storage.Visitors.Specifications;
 

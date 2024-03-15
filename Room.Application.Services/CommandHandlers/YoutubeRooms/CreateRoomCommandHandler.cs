@@ -1,8 +1,8 @@
 using MediatR;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.YoutubeRooms;
-using Room.Domain.YoutubeRooms.Entities;
+using Room.Domain.Rooms.YoutubeRooms;
+using Room.Domain.Rooms.YoutubeRooms.Entities;
 
 namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 
@@ -24,7 +24,7 @@ public class CreateRoomCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
                 Id = request.Owner.Id,
                 Allows = request.Owner.Allows,
                 PhotoUrl = request.Owner.PhotoUrl,
-                Nickname = request.Owner.Nickname
+                Username = request.Owner.Nickname
             }
         };
 

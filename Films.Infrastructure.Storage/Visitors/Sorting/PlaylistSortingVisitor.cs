@@ -2,7 +2,7 @@ using Films.Domain.Ordering.Abstractions;
 using Films.Domain.Playlists;
 using Films.Domain.Playlists.Ordering;
 using Films.Domain.Playlists.Ordering.Visitor;
-using Films.Infrastructure.Storage.Models.Playlist;
+using Films.Infrastructure.Storage.Models.Playlists;
 using Films.Infrastructure.Storage.Visitors.Sorting.Models;
 
 namespace Films.Infrastructure.Storage.Visitors.Sorting;

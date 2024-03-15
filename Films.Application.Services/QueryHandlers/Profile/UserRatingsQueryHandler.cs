@@ -43,6 +43,8 @@ public class UserRatingsQueryHandler(IUnitOfWork unitOfWork)
         Title = film.Title,
         Year = film.Year,
         PosterUrl = film.PosterUrl,
-        Score = rating.Score
+        Score = rating.Score,
+        RatingKp = film.RatingKp,
+        RatingImdb = film.RatingImdb
     };
 }

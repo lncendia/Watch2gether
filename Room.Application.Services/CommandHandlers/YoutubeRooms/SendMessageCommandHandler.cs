@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
 using Room.Application.Services.Common;
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.BaseRoom.ValueObjects;
+using Room.Domain.Messages.YoutubeMessages;
 
 namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 
@@ -19,11 +19,10 @@ public class SendMessageCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cach
         // Получаем комнату
         var room = await cache.TryGetYoutubeRoomFromCache(request.RoomId, unitOfWork);
 
-        // Отправляем сообщение
-        room.SendMessage(new Message(request.ViewerId, request.Message));
-              
+        var message = new YoutubeMessage(room, request.ViewerId, request.Message) { Id = Guid.NewGuid() };
+
         // Обновляем комнату в репозитории
-        await unitOfWork.YoutubeRoomRepository.Value.UpdateAsync(room);
+        await unitOfWork.YoutubeMessageRepository.Value.AddAsync(message);
         
         // Сохраняем изменения
         await unitOfWork.SaveChangesAsync();

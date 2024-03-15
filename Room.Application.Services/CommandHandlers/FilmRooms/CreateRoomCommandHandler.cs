@@ -1,8 +1,8 @@
 using MediatR;
 using Room.Application.Abstractions.Commands.FilmRooms;
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.FilmRooms;
-using Room.Domain.FilmRooms.Entities;
+using Room.Domain.Rooms.FilmRooms;
+using Room.Domain.Rooms.FilmRooms.Entities;
 
 namespace Room.Application.Services.CommandHandlers.FilmRooms;
 
@@ -18,7 +18,7 @@ public class CreateRoomCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
         var room = new FilmRoom
         {
             Title = request.Title,
-            CdnUrl = request.CdnUrl,
+            Cdn = request.Cdn,
             IsSerial = request.IsSerial,
             Id = request.Id,
             Owner = new FilmViewer
@@ -26,7 +26,7 @@ public class CreateRoomCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<
                 Id = request.Owner.Id,
                 Allows = request.Owner.Allows,
                 PhotoUrl = request.Owner.PhotoUrl,
-                Nickname = request.Owner.Nickname
+                Username = request.Owner.Nickname
             }
         };
 

@@ -1,7 +1,7 @@
 using MassTransit;
 using MediatR;
 using Overoom.IntegrationEvents.Rooms.FilmRooms;
-using Room.Domain.FilmRooms.Events;
+using Room.Domain.Rooms.FilmRooms.Events;
 
 namespace Room.Application.Services.EventHandlers.FilmRooms;
 

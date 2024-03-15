@@ -5,10 +5,10 @@ using Films.Domain.Films.ValueObjects;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Extensions;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Models.Country;
-using Films.Infrastructure.Storage.Models.Film;
-using Films.Infrastructure.Storage.Models.Genre;
-using Films.Infrastructure.Storage.Models.Person;
+using Films.Infrastructure.Storage.Models.Countries;
+using Films.Infrastructure.Storage.Models.Films;
+using Films.Infrastructure.Storage.Models.Genres;
+using Films.Infrastructure.Storage.Models.Persons;
 
 namespace Films.Infrastructure.Storage.Mappers.ModelMappers;
 

@@ -3,7 +3,7 @@ using Films.Domain.Comments;
 using Films.Domain.Comments.Specifications;
 using Films.Domain.Comments.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
-using Films.Infrastructure.Storage.Models.Comment;
+using Films.Infrastructure.Storage.Models.Comments;
 
 namespace Films.Infrastructure.Storage.Visitors.Specifications;
 

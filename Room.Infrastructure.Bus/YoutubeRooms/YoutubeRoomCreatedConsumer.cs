@@ -1,9 +1,9 @@
 using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 using Overoom.IntegrationEvents.Rooms.YoutubeRooms;
-using Room.Application.Abstractions.Commands.BaseRooms;
+using Room.Application.Abstractions.Commands.Rooms;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
-using Room.Domain.BaseRoom.ValueObjects;
+using Room.Domain.Rooms.Rooms.ValueObjects;
 
 namespace Room.Infrastructure.Bus.YoutubeRooms;
 
@@ -21,7 +21,7 @@ public class YoutubeRoomCreatedConsumer(IMediator mediator) : IConsumer<YoutubeR
     {
         // Получаем данные события
         var integrationEvent = context.Message;
-        
+
         // Отправляем команду на обработку события
         return mediator.Send(new CreateRoomCommand
         {

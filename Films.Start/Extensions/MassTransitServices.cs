@@ -27,10 +27,7 @@ public static class MassTransitServices
         //конфигурируем MassTransit
         services.AddMassTransit(busConfigurator =>
         {
-            busConfigurator.AddConsumer<FilmRoomDeletedConsumer>();
             busConfigurator.AddConsumer<FilmRoomViewerKickedConsumer>();
-
-            busConfigurator.AddConsumer<YoutubeRoomDeletedConsumer>();
             busConfigurator.AddConsumer<YoutubeRoomViewerKickedConsumer>();
 
             busConfigurator.AddConsumer<UserCreatedConsumer>();
@@ -54,6 +51,10 @@ public static class MassTransitServices
                 {
                     configurator.ExchangeType = ExchangeType.Direct;
                 });
+                cfg.Publish<FilmRoomDeletedIntegrationEvent>(configurator =>
+                {
+                    configurator.ExchangeType = ExchangeType.Direct;
+                });
 
                 // Конфигурируем обменники для событий комнат с ютубом
                 cfg.Publish<YoutubeRoomCreatedIntegrationEvent>(configurator =>
@@ -65,6 +66,10 @@ public static class MassTransitServices
                     configurator.ExchangeType = ExchangeType.Direct;
                 });
                 cfg.Publish<YoutubeRoomViewerLeavedIntegrationEvent>(configurator =>
+                {
+                    configurator.ExchangeType = ExchangeType.Direct;
+                });
+                cfg.Publish<YoutubeRoomDeletedIntegrationEvent>(configurator =>
                 {
                     configurator.ExchangeType = ExchangeType.Direct;
                 });

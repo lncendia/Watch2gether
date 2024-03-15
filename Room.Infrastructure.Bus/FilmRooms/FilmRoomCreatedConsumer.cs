@@ -1,9 +1,10 @@
 using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 using Overoom.IntegrationEvents.Rooms.FilmRooms;
-using Room.Application.Abstractions.Commands.BaseRooms;
 using Room.Application.Abstractions.Commands.FilmRooms;
-using Room.Domain.BaseRoom.ValueObjects;
+using Room.Application.Abstractions.Commands.Rooms;
+using Room.Domain.Rooms.FilmRooms.ValueObjects;
+using Room.Domain.Rooms.Rooms.ValueObjects;
 
 namespace Room.Infrastructure.Bus.FilmRooms;
 
@@ -39,7 +40,11 @@ public class FilmRoomCreatedConsumer(IMediator mediator) : IConsumer<FilmRoomCre
                 }
             },
             Title = integrationEvent.Title,
-            CdnUrl = integrationEvent.CdnUrl,
+            Cdn = new Cdn
+            {
+                Name = integrationEvent.CdnName,
+                Url = integrationEvent.CdnUrl
+            },
             IsSerial = integrationEvent.IsSerial
         }, context.CancellationToken);
     }

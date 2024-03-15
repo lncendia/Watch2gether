@@ -12,6 +12,10 @@ import {IProfileService} from "../services/ProfileService/IProfileService.ts";
 import {ProfileService} from "../services/ProfileService/ProfileService.ts";
 import {IPlaylistsService} from "../services/PlaylistsService/IPlaylistsService.ts";
 import {PlaylistsService} from "../services/PlaylistsService/PlaylistsService.ts";
+import {IRoomsService} from "../services/RoomsService/IRoomsService.ts";
+import {RoomsService} from "../services/RoomsService/RoomsService.ts";
+import {IFilmRoomService} from "../services/FilmRoomService/IFilmRoomService.ts";
+import {FilmRoomService} from "../services/FilmRoomService/FilmRoomService.ts";
 
 
 const config: UserManagerSettings = {
@@ -76,10 +80,26 @@ container.bind<IPlaylistsService>('PlaylistsService')
     .toDynamicValue(() => new PlaylistsService(axiosInstance))
     .inSingletonScope();
 
+container.bind<IRoomsService>('RoomsService')
+    .toDynamicValue(() => new RoomsService(axiosInstance))
+    .inSingletonScope();
+
+container.bind<IFilmRoomService>('FilmRoomService')
+    .toDynamicValue(() => new FilmRoomService(() => tokenFactory(container)))
+    .inSingletonScope();
+
 configureAxiosAuthorization(axiosInstance, container)
 
 export default container;
 
+async function tokenFactory(container: Container): Promise<string> {
+    const userManager = container.get<UserManager>('UserManager');
+    const user = await userManager.getUser();
+    if (user && user.access_token) {
+        return user.access_token
+    }
+    return ""
+}
 
 function configureAxiosAuthorization(axiosInstance: AxiosInstance, container: Container): void {
     axiosInstance.interceptors.request.use(async config => {

@@ -1,11 +1,11 @@
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
-using Room.Application.Abstractions.Queries.DTOs.YoutubeRoom;
+using Room.Application.Abstractions.DTOs.YoutubeRooms;
 using Room.Application.Services.Common;
 using Room.Application.Services.Mappers;
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.YoutubeRooms.Entities;
+using Room.Domain.Rooms.YoutubeRooms.Entities;
 
 namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 
@@ -27,7 +27,7 @@ public class ConnectCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) :
             Id = request.Viewer.Id,
             Allows = request.Viewer.Allows,
             PhotoUrl = request.Viewer.PhotoUrl,
-            Nickname = request.Viewer.Nickname
+            Username = request.Viewer.Nickname
         });
               
         // Обновляем комнату в репозитории

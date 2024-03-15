@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Models.Server;
+using Films.Infrastructure.Storage.Models.Servers;
 
 namespace Films.Infrastructure.Storage.Mappers.ModelMappers;
 

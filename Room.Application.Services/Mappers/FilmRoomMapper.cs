@@ -1,6 +1,6 @@
-using Room.Application.Abstractions.Queries.DTOs.FilmRoom;
-using Room.Domain.FilmRooms;
-using Room.Domain.FilmRooms.Entities;
+using Room.Application.Abstractions.DTOs.FilmRooms;
+using Room.Domain.Rooms.FilmRooms;
+using Room.Domain.Rooms.FilmRooms.Entities;
 
 namespace Room.Application.Services.Mappers;
 
@@ -21,10 +21,9 @@ public static class FilmRoomMapper
         {
             Id = room.Id,
             Title = room.Title,
-            CdnUrl = room.CdnUrl,
+            Cdn = room.Cdn,
             IsSerial = room.IsSerial,
             OwnerId = room.Owner.Id,
-            Messages = room.Messages,
             Viewers = room.Viewers.Select(Map).ToArray()
         };
     }
@@ -40,7 +39,7 @@ public static class FilmRoomMapper
         return new FilmViewerDto
         {
             Id = viewer.Id,
-            Nickname = viewer.Nickname,
+            Username = viewer.Username,
             PhotoUrl = viewer.PhotoUrl,
             Pause = viewer.Pause,
             FullScreen = viewer.FullScreen,

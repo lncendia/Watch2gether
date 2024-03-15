@@ -6,6 +6,8 @@ import {IProfileService} from "../../../services/ProfileService/IProfileService.
 import {useUser} from "../../../contexts/UserContext.tsx";
 import {FilmInfoData} from "../../../components/Film/FilmInfo/FilmInfoData.ts";
 import {useState} from "react";
+import CreateFilmRoomForm from "../CreateFilmRoomForm/CreateFilmRoomForm.tsx";
+import {IRoomsService} from "../../../services/RoomsService/IRoomsService.ts";
 
 const getSeasonsString = (count: number) => {
     count = count % 10
@@ -53,7 +55,10 @@ const map = (film: Film): FilmInfoData => {
 const FilmInfoModule = ({film, className}: { film: Film, className?: string }) => {
 
     const [watchList, setWatchlist] = useState(film.inWatchlist ?? false)
+    const [formOpen, setFormOpen] = useState(false)
+
     const profileService = useInjection<IProfileService>('ProfileService');
+    const roomsService = useInjection<IRoomsService>('RoomsService');
     const {authorizedUser} = useUser()
 
     // Навигационный хук
@@ -65,15 +70,30 @@ const FilmInfoModule = ({film, className}: { film: Film, className?: string }) =
         setWatchlist(!watchList)
     }
 
+    const createRoom = async (cdn: string, open: boolean) => {
+        if (authorizedUser === null) return
+        const response = await roomsService.createFilmRoom({
+            open: open,
+            filmId: film.id,
+            cdnName: cdn
+        })
+
+        navigate("/filmRoom", {state: response})
+    }
+
     return (
-        <FilmInfo className={className} film={map(film)}
-                  onCountrySelect={value => navigate('/search', {state: {country: value}})}
-                  onGenreSelect={value => navigate('/search', {state: {genre: value}})}
-                  onPersonSelect={value => navigate('/search', {state: {person: value}})}
-                  onYearSelect={value => navigate('/search', {state: {year: value}})}
-                  onTypeSelect={value => navigate('/search', {state: {serial: value === 'Сериал'}})}
-                  isWatchlistEnabled={authorizedUser !== null} inWatchlist={watchList}
-                  onWatchlistToggle={toggleWatchlist}/>
+        <>
+            <CreateFilmRoomForm open={formOpen} onClose={() => setFormOpen(false)} cdnList={film.cdnList}
+                                callback={createRoom}/>
+            <FilmInfo className={className} film={map(film)}
+                      onCountrySelect={value => navigate('/search', {state: {country: value}})}
+                      onGenreSelect={value => navigate('/search', {state: {genre: value}})}
+                      onPersonSelect={value => navigate('/search', {state: {person: value}})}
+                      onYearSelect={value => navigate('/search', {state: {year: value}})}
+                      onTypeSelect={value => navigate('/search', {state: {serial: value === 'Сериал'}})}
+                      isWatchlistEnabled={authorizedUser !== null} inWatchlist={watchList}
+                      onWatchlistToggle={toggleWatchlist} onRoomCreateClicked={() => setFormOpen(true)}/>
+        </>
     );
 };
 

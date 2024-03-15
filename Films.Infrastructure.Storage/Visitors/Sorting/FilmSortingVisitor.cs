@@ -2,7 +2,7 @@ using Films.Domain.Films;
 using Films.Domain.Films.Ordering;
 using Films.Domain.Films.Ordering.Visitor;
 using Films.Domain.Ordering.Abstractions;
-using Films.Infrastructure.Storage.Models.Film;
+using Films.Infrastructure.Storage.Models.Films;
 using Films.Infrastructure.Storage.Visitors.Sorting.Models;
 
 namespace Films.Infrastructure.Storage.Visitors.Sorting;

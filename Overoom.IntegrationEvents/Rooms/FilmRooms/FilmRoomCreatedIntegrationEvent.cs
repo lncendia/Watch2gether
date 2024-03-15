@@ -8,6 +8,7 @@ public class FilmRoomCreatedIntegrationEvent
 
     public required string Title { get; init; }
 
+    public required string CdnName { get; init; }
     public required Uri CdnUrl { get; init; }
 
     public required bool IsSerial { get; init; }

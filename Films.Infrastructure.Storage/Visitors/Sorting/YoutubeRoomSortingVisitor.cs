@@ -2,7 +2,7 @@ using Films.Domain.Ordering.Abstractions;
 using Films.Domain.Rooms.YoutubeRooms;
 using Films.Domain.Rooms.YoutubeRooms.Ordering;
 using Films.Domain.Rooms.YoutubeRooms.Ordering.Visitor;
-using Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom;
+using Films.Infrastructure.Storage.Models.YoutubeRoom;
 using Films.Infrastructure.Storage.Visitors.Sorting.Models;
 
 namespace Films.Infrastructure.Storage.Visitors.Sorting;

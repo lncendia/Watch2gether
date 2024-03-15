@@ -2,7 +2,8 @@
 bin/
 obj/
 node_modules/
-PJMS.AuthService/wwwroot/bundles/
-PJMS.AuthService/wwwroot/img/avatars/
+posters/
+avatars/
+bundles/
 /Overoom.sln.DotSettings.user
 *jwk

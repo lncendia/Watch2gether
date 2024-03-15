@@ -2,7 +2,7 @@
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Extensions;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Models.Playlist;
+using Films.Infrastructure.Storage.Models.Playlists;
 using Microsoft.EntityFrameworkCore;
 
 namespace Films.Infrastructure.Storage.Mappers.ModelMappers;

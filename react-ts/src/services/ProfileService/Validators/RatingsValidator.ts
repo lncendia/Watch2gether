@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 const ratingSchema = yup.object().shape({
     filmId: yup.string().uuid().required(),
-    name: yup.string().required(),
+    title: yup.string().required(),
     year: yup.number().positive().required(),
     ratingKp: yup.number().min(0).max(10).nullable(),
     ratingImdb: yup.number().min(0).max(10).nullable(),

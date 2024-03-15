@@ -3,7 +3,7 @@ using Films.Domain.Rooms.YoutubeRooms;
 using Films.Domain.Rooms.YoutubeRooms.Specifications;
 using Films.Domain.Rooms.YoutubeRooms.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
-using Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom;
+using Films.Infrastructure.Storage.Models.YoutubeRoom;
 
 namespace Films.Infrastructure.Storage.Visitors.Specifications;
 

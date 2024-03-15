@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.FilmRooms;
 using Room.Application.Services.Common;
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.BaseRoom.ValueObjects;
+using Room.Domain.Messages.FilmMessages;
 
 namespace Room.Application.Services.CommandHandlers.FilmRooms;
 
@@ -19,12 +19,11 @@ public class SendMessageCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cach
         // Получаем комнату
         var room = await cache.TryGetFilmRoomFromCache(request.RoomId, unitOfWork);
 
-        // Отправляем сообщение
-        room.SendMessage(new Message(request.ViewerId, request.Message));
-              
+        var message = new FilmMessage(room, request.ViewerId, request.Message) { Id = Guid.NewGuid() };
+
         // Обновляем комнату в репозитории
-        await unitOfWork.FilmRoomRepository.Value.UpdateAsync(room);
-        
+        await unitOfWork.FilmMessageRepository.Value.AddAsync(message);
+
         // Сохраняем изменения
         await unitOfWork.SaveChangesAsync();
     }

@@ -27,7 +27,7 @@ const FilmSearch = ({onFilmSearch, films, onClick}: {
 
     const onBlur = () => {
         setTimeout(() =>
-            setShowFilms(false), 100
+            setShowFilms(false), 400
         )
     }
 

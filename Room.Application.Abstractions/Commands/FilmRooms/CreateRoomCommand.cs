@@ -1,5 +1,6 @@
 using MediatR;
-using Room.Application.Abstractions.Commands.BaseRooms;
+using Room.Application.Abstractions.Commands.Rooms;
+using Room.Domain.Rooms.FilmRooms.ValueObjects;
 
 namespace Room.Application.Abstractions.Commands.FilmRooms;
 
@@ -24,9 +25,9 @@ public class CreateRoomCommand : IRequest
     public required string Title { get; init; }
 
     /// <summary> 
-    /// URL-адрес контентного поставщика для фильма
+    /// Поставщик фильма
     /// </summary> 
-    public required Uri CdnUrl { get; init; }
+    public required Cdn Cdn { get; init; }
 
     /// <summary> 
     /// Тип фильма

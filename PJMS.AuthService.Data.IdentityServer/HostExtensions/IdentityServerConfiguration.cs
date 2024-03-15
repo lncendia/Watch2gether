@@ -151,7 +151,7 @@ public static class IdentityServerConfiguration
             {
                 Scopes = { "Films" }
             },
-            new("Rooms_1", "Access to rooms server 1")
+            new("Rooms", "Access to rooms")
             {
                 Scopes = { "Rooms" }
             }

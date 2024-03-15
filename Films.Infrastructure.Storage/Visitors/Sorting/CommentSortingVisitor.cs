@@ -2,7 +2,7 @@ using Films.Domain.Comments;
 using Films.Domain.Comments.Ordering;
 using Films.Domain.Comments.Ordering.Visitor;
 using Films.Domain.Ordering.Abstractions;
-using Films.Infrastructure.Storage.Models.Comment;
+using Films.Infrastructure.Storage.Models.Comments;
 using Films.Infrastructure.Storage.Visitors.Sorting.Models;
 
 namespace Films.Infrastructure.Storage.Visitors.Sorting;

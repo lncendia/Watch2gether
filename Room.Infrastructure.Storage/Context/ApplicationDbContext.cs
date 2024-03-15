@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Room.Infrastructure.Storage.Models.BaseRoom;
-using Room.Infrastructure.Storage.Models.FilmRoom;
-using Room.Infrastructure.Storage.Models.YoutubeRoom;
+using Room.Infrastructure.Storage.Models.FilmRooms;
+using Room.Infrastructure.Storage.Models.Messages;
+using Room.Infrastructure.Storage.Models.YoutubeRooms;
 
 namespace Room.Infrastructure.Storage.Context;
 
@@ -15,16 +15,16 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<FilmViewerModel> FilmViewers { get; set; } = null!;
 
-    public DbSet<MessageModel<FilmRoomModel>> FilmViewersMessages { get; set; } = null!;
-    
+    public DbSet<MessageModel<FilmRoomModel>> FilmMessages { get; set; } = null!;
+
 
     public DbSet<YoutubeRoomModel> YoutubeRooms { get; set; } = null!;
 
     public DbSet<YoutubeViewerModel> YoutubeViewers { get; set; } = null!;
 
-    public DbSet<MessageModel<YoutubeRoomModel>> YoutubeViewersMessages { get; set; } = null!;
+    public DbSet<MessageModel<YoutubeRoomModel>> YoutubeMessages { get; set; } = null!;
 
-    public DbSet<VideoModel> YoutubeRoomsVideoIds { get; set; } = null!;
+    public DbSet<VideoModel> YoutubeVideoIds { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -33,13 +33,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithOne(x => x.Room)
             .HasForeignKey(x => x.RoomId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<FilmRoomModel>()
-            .HasMany(x => x.Messages)
-            .WithOne(x => x.Room)
-            .HasForeignKey(x => x.RoomId)
-            .OnDelete(DeleteBehavior.Cascade);
-
 
         modelBuilder.Entity<YoutubeRoomModel>()
             .HasMany(x => x.Viewers)
@@ -53,9 +46,15 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .HasForeignKey(x => x.RoomId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<YoutubeRoomModel>()
-            .HasMany(x => x.Messages)
-            .WithOne(x => x.Room)
+        modelBuilder.Entity<MessageModel<FilmRoomModel>>()
+            .HasOne(m => m.Room)
+            .WithMany()
+            .HasForeignKey(x => x.RoomId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<MessageModel<YoutubeRoomModel>>()
+            .HasOne(m => m.Room)
+            .WithMany()
             .HasForeignKey(x => x.RoomId)
             .OnDelete(DeleteBehavior.Cascade);
 

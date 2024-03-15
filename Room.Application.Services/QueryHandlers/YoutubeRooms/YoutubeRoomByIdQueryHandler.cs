@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
-using Room.Application.Abstractions.Queries.DTOs.YoutubeRoom;
+using Room.Application.Abstractions.DTOs.YoutubeRooms;
 using Room.Application.Abstractions.Queries.YoutubeRooms;
 using Room.Application.Services.Common;
 using Room.Application.Services.Mappers;

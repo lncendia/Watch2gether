@@ -1,4 +1,4 @@
-using Films.Application.Abstractions.Commands.Rooms.YoutubeRooms;
+using Films.Application.Abstractions.Commands.YoutubeRooms;
 using MassTransit;
 using MediatR;
 using Overoom.IntegrationEvents.Rooms.YoutubeRooms;

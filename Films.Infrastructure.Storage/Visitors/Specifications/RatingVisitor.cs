@@ -3,7 +3,7 @@ using Films.Domain.Ratings;
 using Films.Domain.Ratings.Specifications;
 using Films.Domain.Ratings.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
-using Films.Infrastructure.Storage.Models.Rating;
+using Films.Infrastructure.Storage.Models.Ratings;
 
 namespace Films.Infrastructure.Storage.Visitors.Specifications;
 

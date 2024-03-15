@@ -5,6 +5,7 @@ import {IProfileService} from "../../../services/ProfileService/IProfileService.
 import UserFilmsModule from "../UserFilmsModule/UserFilmsModule.tsx";
 import Loader from "../../../UI/Loader/Loader.tsx";
 import UserInfoModule from "../UserInfoModule/UserInfoModule.tsx";
+import BlockTitle from "../../../UI/BlockTitle/BlockTitle.tsx";
 
 const ProfileModule = () => {
 
@@ -25,8 +26,10 @@ const ProfileModule = () => {
     return (
         <>
             <UserInfoModule genres={profile.genres} className="mt-5"/>
-            <UserFilmsModule className="mt-5" films={profile.watchlist} title={"Смотреть позже"}/>
-            <UserFilmsModule className="mt-5" films={profile.history} title={"История"}/>
+            <BlockTitle className="mt-5" title="Смотреть позже"/>
+            <UserFilmsModule films={profile.watchlist}/>
+            <BlockTitle className="mt-5" title="История"/>
+            <UserFilmsModule films={profile.history}/>
         </>
     );
 };

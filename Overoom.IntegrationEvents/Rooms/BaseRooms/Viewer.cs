@@ -4,7 +4,7 @@ public class Viewer
 {
     public required Guid Id { get; init; }
     
-    public required Uri PhotoUrl { get; init; }
+    public Uri? PhotoUrl { get; init; }
     
     public required string Name { get; init; }
     

@@ -5,7 +5,7 @@ using Films.Domain.Abstractions;
 using Films.Domain.Comments;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Mappers.StaticMethods;
-using Films.Infrastructure.Storage.Models.Comment;
+using Films.Infrastructure.Storage.Models.Comments;
 
 namespace Films.Infrastructure.Storage.Mappers.AggregateMappers;
 

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
 using Room.Application.Services.Common;
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.YoutubeRooms.ValueObjects;
+using Room.Domain.Rooms.YoutubeRooms.ValueObjects;
 
 namespace Room.Application.Services.CommandHandlers.YoutubeRooms;
 

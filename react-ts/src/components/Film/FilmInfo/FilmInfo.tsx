@@ -1,4 +1,4 @@
-import {Col, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import KeyList from "../../Common/KeyList/KeyList.tsx";
 import ContentBlock from "../../../UI/ContentBlock/ContentBlock.tsx";
 import styles from "./FilmInfo.module.css"
@@ -13,7 +13,8 @@ export interface FilmInfoProps {
     onPersonSelect: (value: string) => void,
     onTypeSelect: (value: string) => void,
     onYearSelect: (value: string) => void,
-    inWatchlist: boolean
+    onRoomCreateClicked: () => void,
+    inWatchlist: boolean,
     onWatchlistToggle: () => void,
     className?: string
 }
@@ -59,6 +60,9 @@ const FilmInfo = (props: FilmInfoProps) => {
                     <KeyList className="mb-2" title="Актеры: "
                              values={props.film.actors}
                              onKeySelect={props.onPersonSelect}/>
+
+                    <Button onClick={props.onRoomCreateClicked} className="w-50 mt-4" variant="outline-danger">Создать
+                        комнату</Button>
                 </Col>
             </Row>
         </ContentBlock>

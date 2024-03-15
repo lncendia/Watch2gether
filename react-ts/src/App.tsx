@@ -12,6 +12,7 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage.tsx";
 import SearchPage from "./pages/SearchPage/SearchPage.tsx";
 import PlaylistsPage from "./pages/PlaylistsPage/PlaylistsPage.tsx";
 import PlaylistPage from "./pages/PlaylistPage/PlaylistPage.tsx";
+import FilmRoomPage from "./pages/FilmRoomPage/FilmRoomPage.tsx";
 
 // Основной класс приложения
 const App = () => {
@@ -63,6 +64,10 @@ const App = () => {
                 {
                     path: '/profile',
                     element: <ProfilePage/>
+                },
+                {
+                    path: '/filmRoom',
+                    element: <FilmRoomPage/>
                 },
             ]
         }

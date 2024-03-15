@@ -7,7 +7,7 @@ using Films.Domain.Rooms.FilmRooms.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Models.Rooms.FilmRoom;
+using Films.Infrastructure.Storage.Models.FilmRooms;
 using Films.Infrastructure.Storage.Visitors.Sorting;
 using Films.Infrastructure.Storage.Visitors.Specifications;
 

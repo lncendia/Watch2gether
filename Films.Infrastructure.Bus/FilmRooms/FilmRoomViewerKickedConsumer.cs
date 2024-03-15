@@ -1,4 +1,4 @@
-using Films.Application.Abstractions.Commands.Rooms.FilmRooms;
+using Films.Application.Abstractions.Commands.FilmRooms;
 using MassTransit;
 using MediatR;
 using Overoom.IntegrationEvents.Rooms.FilmRooms;

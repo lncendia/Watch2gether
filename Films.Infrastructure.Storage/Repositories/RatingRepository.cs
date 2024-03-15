@@ -7,7 +7,7 @@ using Films.Domain.Ratings.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Models.Rating;
+using Films.Infrastructure.Storage.Models.Ratings;
 using Films.Infrastructure.Storage.Visitors.Sorting;
 using Films.Infrastructure.Storage.Visitors.Specifications;
 

@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Room.Domain.BaseRoom.ValueObjects;
-using Room.Domain.FilmRooms;
-using Room.Domain.FilmRooms.Entities;
+using Room.Domain.Rooms.FilmRooms;
+using Room.Domain.Rooms.FilmRooms.Entities;
 using Room.Infrastructure.Storage.Context;
 using Room.Infrastructure.Storage.Extensions;
 using Room.Infrastructure.Storage.Mappers.Abstractions;
-using Room.Infrastructure.Storage.Models.BaseRoom;
-using Room.Infrastructure.Storage.Models.FilmRoom;
+using Room.Infrastructure.Storage.Models.FilmRooms;
 
 namespace Room.Infrastructure.Storage.Mappers.ModelMappers;
 
@@ -19,12 +17,11 @@ internal class FilmRoomModelMapper(ApplicationDbContext context) : IModelMapperU
             .FirstOrDefaultAsync(x => x.Id == aggregate.Id) ?? new FilmRoomModel { Id = aggregate.Id };
 
         model.Title = aggregate.Title;
-        model.CdnUrl = aggregate.CdnUrl;
+        model.CdnUrl = aggregate.Cdn.Url;
+        model.CdnName = aggregate.Cdn.Name;
         model.IsSerial = aggregate.IsSerial;
-        model.LastActivity = aggregate.LastActivity;
 
         ProcessViewers(aggregate, model);
-        ProcessMessages(aggregate, model);
 
         return model;
     }
@@ -61,36 +58,11 @@ internal class FilmRoomModelMapper(ApplicationDbContext context) : IModelMapperU
         model.Pause = viewerEntity.Pause;
         model.TimeLine = viewerEntity.TimeLine;
         model.FullScreen = viewerEntity.FullScreen;
-        model.Nickname = viewerEntity.Nickname;
+        model.Username = viewerEntity.Username;
         model.Beep = viewerEntity.Allows.Beep;
         model.Scream = viewerEntity.Allows.Scream;
         model.Change = viewerEntity.Allows.Change;
+        model.PhotoUrl = viewerEntity.PhotoUrl;
         model.Owner = viewerEntity.Id == ownerId;
-    }
-
-    private static void ProcessMessages(FilmRoom aggregate, FilmRoomModel model)
-    {
-        // Удаляем эти записи из коллекции в модели EF
-        model.Messages.RemoveAll(messageModel =>
-            aggregate.Messages.All(valueObject => Compare(valueObject, messageModel)));
-
-        // Получаем записи, которые есть в сущности, но еще нет в модели EF
-        var newMessages = aggregate.Messages
-            .Where(valueObject => model.Messages.All(messageModel => Compare(valueObject, messageModel)))
-            .Select(c => new MessageModel<FilmRoomModel>
-            {
-                CreatedAt = c.CreatedAt,
-                Text = c.Text,
-                ViewerId = c.ViewerId
-            })
-            .ToArray();
-
-        model.Messages.AddRange(newMessages);
-        return;
-
-        bool Compare(Message valueObject, MessageModel<FilmRoomModel> messageModel)
-        {
-            return messageModel.ViewerId != valueObject.ViewerId && messageModel.CreatedAt != valueObject.CreatedAt;
-        }
     }
 }

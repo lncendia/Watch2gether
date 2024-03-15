@@ -1,5 +1,5 @@
 using MediatR;
-using Room.Application.Abstractions.Commands.BaseRooms;
+using Room.Application.Abstractions.Commands.Rooms;
 
 namespace Room.Application.Abstractions.Commands.YoutubeRooms;
 

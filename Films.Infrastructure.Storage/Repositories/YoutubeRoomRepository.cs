@@ -6,7 +6,7 @@ using Films.Domain.Rooms.YoutubeRooms.Specifications.Visitor;
 using Films.Domain.Specifications.Abstractions;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Models.Rooms.YoutubeRoom;
+using Films.Infrastructure.Storage.Models.YoutubeRoom;
 using Films.Infrastructure.Storage.Visitors.Sorting;
 using Films.Infrastructure.Storage.Visitors.Specifications;
 using Microsoft.EntityFrameworkCore;

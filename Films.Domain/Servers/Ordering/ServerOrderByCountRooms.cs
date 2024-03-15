@@ -7,8 +7,8 @@ public class ServerOrderByCountRooms : IOrderBy<Server, IServerSortingVisitor>
 {
     public IEnumerable<Server> Order(IEnumerable<Server> items) => items.OrderBy(x => x.RoomsCount);
 
-    public IList<IEnumerable<Server>> Divide(IEnumerable<Server> items) =>
-        Order(items).GroupBy(x => x.RoomsCount).Select(x => x.AsEnumerable()).ToList();
+    public IReadOnlyCollection<IEnumerable<Server>> Divide(IEnumerable<Server> items) =>
+        Order(items).GroupBy(x => x.RoomsCount).Select(x => x.AsEnumerable()).ToArray();
 
     public void Accept(IServerSortingVisitor visitor) => visitor.Visit(this);
 }

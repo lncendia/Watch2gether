@@ -7,8 +7,8 @@ public class YoutubeRoomOrderByViewersCount : IOrderBy<YoutubeRoom, IYoutubeRoom
 {
     public IEnumerable<YoutubeRoom> Order(IEnumerable<YoutubeRoom> items) => items.OrderBy(x => x.Viewers.Count);
 
-    public IList<IEnumerable<YoutubeRoom>> Divide(IEnumerable<YoutubeRoom> items) =>
-        Order(items).GroupBy(x => x.Viewers.Count).Select(x => x.AsEnumerable()).ToList();
+    public IReadOnlyCollection<IEnumerable<YoutubeRoom>> Divide(IEnumerable<YoutubeRoom> items) =>
+        Order(items).GroupBy(x => x.Viewers.Count).Select(x => x.AsEnumerable()).ToArray();
 
     public void Accept(IYoutubeRoomSortingVisitor visitor) => visitor.Visit(this);
 }

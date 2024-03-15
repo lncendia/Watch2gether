@@ -8,10 +8,10 @@ public class DescendingOrder<T, TVisitor>(IOrderBy<T, TVisitor> orderData) : IOr
     public IOrderBy<T, TVisitor> OrderData { get; } = orderData;
 
     public IEnumerable<T> Order(IEnumerable<T> items) => OrderData.Order(items).Reverse();
-    public IList<IEnumerable<T>> Divide(IEnumerable<T> items)
+    public IReadOnlyCollection<IEnumerable<T>> Divide(IEnumerable<T> items)
     {
         var data = OrderData.Divide(items);
-        return data.Select(x => x.Reverse()).ToList();
+        return data.Select(x => x.Reverse()).ToArray();
     }
 
     public void Accept(TVisitor visitor) => visitor.Visit(this);

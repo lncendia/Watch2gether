@@ -2,7 +2,7 @@
 using Films.Domain.Users;
 using Films.Domain.Users.ValueObjects;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Models.User;
+using Films.Infrastructure.Storage.Models.Users;
 
 namespace Films.Infrastructure.Storage.Mappers.AggregateMappers;
 

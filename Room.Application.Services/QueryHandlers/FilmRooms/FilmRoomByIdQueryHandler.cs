@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
-using Room.Application.Abstractions.Queries.DTOs.FilmRoom;
+using Room.Application.Abstractions.DTOs.FilmRooms;
 using Room.Application.Abstractions.Queries.FilmRooms;
 using Room.Application.Services.Common;
 using Room.Application.Services.Mappers;

@@ -21,7 +21,7 @@ public abstract class Room : AggregateRoot
         if (server == null) throw new NoSuitableServerException();
         ServerId = server.Id;
 
-        if (isOpen) Code = GenerateRandomCode(5);
+        if (!isOpen) Code = GenerateRandomCode(5);
         _viewers.Add(user.Id);
     }
 

@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Models.Rooms.BaseRoom;
-using Films.Infrastructure.Storage.Models.Rooms.FilmRoom;
+using Films.Infrastructure.Storage.Models.FilmRooms;
+using Films.Infrastructure.Storage.Models.Rooms;
 
 namespace Films.Infrastructure.Storage.Mappers.ModelMappers;
 

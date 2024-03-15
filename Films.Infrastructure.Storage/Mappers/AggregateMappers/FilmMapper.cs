@@ -4,7 +4,7 @@ using Films.Domain.Films;
 using Films.Domain.Films.ValueObjects;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Mappers.StaticMethods;
-using Films.Infrastructure.Storage.Models.Film;
+using Films.Infrastructure.Storage.Models.Films;
 
 namespace Films.Infrastructure.Storage.Mappers.AggregateMappers;
 

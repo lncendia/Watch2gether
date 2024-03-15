@@ -1,11 +1,11 @@
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.FilmRooms;
-using Room.Application.Abstractions.Queries.DTOs.FilmRoom;
+using Room.Application.Abstractions.DTOs.FilmRooms;
 using Room.Application.Services.Common;
 using Room.Application.Services.Mappers;
 using Room.Domain.Abstractions.Interfaces;
-using Room.Domain.FilmRooms.Entities;
+using Room.Domain.Rooms.FilmRooms.Entities;
 
 namespace Room.Application.Services.CommandHandlers.FilmRooms;
 
@@ -28,7 +28,7 @@ public class ConnectCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache)
             Id = request.Viewer.Id,
             Allows = request.Viewer.Allows,
             PhotoUrl = request.Viewer.PhotoUrl,
-            Nickname = request.Viewer.Nickname
+            Username = request.Viewer.Nickname
         });
 
         // Обновляем комнату в репозитории

@@ -1,6 +1,6 @@
-using Films.Infrastructure.Storage.Models.Film;
-using Films.Infrastructure.Storage.Models.Playlist;
-using Films.Infrastructure.Storage.Models.User;
+using Films.Infrastructure.Storage.Models.Films;
+using Films.Infrastructure.Storage.Models.Playlists;
+using Films.Infrastructure.Storage.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Films.Infrastructure.Storage.Extensions;

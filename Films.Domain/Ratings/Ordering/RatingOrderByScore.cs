@@ -7,8 +7,8 @@ public class RatingOrderByScore : IOrderBy<Rating, IRatingSortingVisitor>
 {
     public IEnumerable<Rating> Order(IEnumerable<Rating> items) => items.OrderBy(x => x.Score);
 
-    public IList<IEnumerable<Rating>> Divide(IEnumerable<Rating> items) =>
-        Order(items).GroupBy(x => x.Score).Select(x => x.AsEnumerable()).ToList();
+    public IReadOnlyCollection<IEnumerable<Rating>> Divide(IEnumerable<Rating> items) =>
+        Order(items).GroupBy(x => x.Score).Select(x => x.AsEnumerable()).ToArray();
 
     public void Accept(IRatingSortingVisitor visitor) => visitor.Visit(this);
 }

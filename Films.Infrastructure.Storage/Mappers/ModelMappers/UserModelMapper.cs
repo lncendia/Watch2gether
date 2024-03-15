@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Extensions;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Models.User;
+using Films.Infrastructure.Storage.Models.Users;
 
 namespace Films.Infrastructure.Storage.Mappers.ModelMappers;
 

@@ -1,5 +1,5 @@
 using MediatR;
-using Room.Application.Abstractions.Queries.DTOs.FilmRoom;
+using Room.Application.Abstractions.DTOs.FilmRooms;
 
 namespace Room.Application.Abstractions.Queries.FilmRooms;
 

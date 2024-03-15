@@ -22,11 +22,17 @@ public class UnitOfWork : IUnitOfWork
             new FilmRoomRepository(_context, new FilmRoomMapper(), new FilmRoomModelMapper(_context)));
         YoutubeRoomRepository = new Lazy<IYoutubeRoomRepository>(() =>
             new YoutubeRoomRepository(_context, new YoutubeRoomMapper(), new YoutubeRoomModelMapper(_context)));
+        FilmMessageRepository = new Lazy<IFilmMessageRepository>(() =>
+            new FilmMessageRepository(_context, new FilmMessageMapper(), new FilmMessageModelMapper(_context)));
+        YoutubeMessageRepository = new Lazy<IYoutubeMessageRepository>(() =>
+            new YoutubeMessageRepository(_context, new YoutubeMessageMapper(), new YoutubeMessageModelMapper(_context)));
 
     }
 
     public Lazy<IFilmRoomRepository> FilmRoomRepository { get; }
     public Lazy<IYoutubeRoomRepository> YoutubeRoomRepository { get; }
+    public Lazy<IFilmMessageRepository> FilmMessageRepository { get; }
+    public Lazy<IYoutubeMessageRepository> YoutubeMessageRepository { get; }
 
     public async Task SaveChangesAsync()
     {

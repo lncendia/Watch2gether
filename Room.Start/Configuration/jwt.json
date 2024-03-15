@@ -1,0 +1,6 @@
+{
+  "Authorization": {
+    "Authority": "https://localhost:10001",
+    "Audience": "Rooms"
+  }
+}

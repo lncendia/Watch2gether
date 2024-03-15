@@ -1,9 +1,9 @@
 using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 using Overoom.IntegrationEvents.Rooms.YoutubeRooms;
-using Room.Application.Abstractions.Commands.BaseRooms;
+using Room.Application.Abstractions.Commands.Rooms;
 using Room.Application.Abstractions.Commands.YoutubeRooms;
-using Room.Domain.BaseRoom.ValueObjects;
+using Room.Domain.Rooms.Rooms.ValueObjects;
 
 namespace Room.Infrastructure.Bus.YoutubeRooms;
 
@@ -11,7 +11,8 @@ namespace Room.Infrastructure.Bus.YoutubeRooms;
 /// Обработчик интеграционного события YoutubeRoomViewerConnectedIntegrationEvent
 /// </summary>
 /// <param name="mediator">Медиатор</param>
-public class YoutubeRoomViewerConnectedConsumer(IMediator mediator) : IConsumer<YoutubeRoomViewerConnectedIntegrationEvent>
+public class YoutubeRoomViewerConnectedConsumer(IMediator mediator)
+    : IConsumer<YoutubeRoomViewerConnectedIntegrationEvent>
 {
     /// <summary>
     /// Метод обработчик 
@@ -21,7 +22,7 @@ public class YoutubeRoomViewerConnectedConsumer(IMediator mediator) : IConsumer<
     {
         // Получаем данные события
         var integrationEvent = context.Message;
-        
+
         // Отправляем команду на обработку события
         return mediator.Send(new ConnectCommand
         {

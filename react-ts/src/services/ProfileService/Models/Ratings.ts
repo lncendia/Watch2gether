@@ -5,7 +5,7 @@ export interface Ratings {
 
 export interface Rating {
     filmId: string;
-    name: string;
+    title: string;
     year: number;
     posterUrl: string;
     score: number;

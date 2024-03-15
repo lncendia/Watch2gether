@@ -1,5 +1,5 @@
 using MassTransit;
-using MassTransit.Mediator;
+using MediatR;
 using Overoom.IntegrationEvents.Rooms.FilmRooms;
 using Room.Application.Abstractions.Commands.FilmRooms;
 
@@ -19,7 +19,7 @@ public class FilmRoomViewerLeavedConsumer(IMediator mediator) : IConsumer<FilmRo
     {
         // Получаем данные события
         var integrationEvent = context.Message;
-        
+
         // Отправляем команду на обработку события
         return mediator.Send(new LeaveCommand
         {

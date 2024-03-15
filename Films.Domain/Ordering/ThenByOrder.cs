@@ -14,10 +14,10 @@ public class ThenByOrder<T, TVisitor>(IOrderBy<T, TVisitor> left, IOrderBy<T, TV
         return list.SelectMany(Right.Order);
     }
 
-    public IList<IEnumerable<T>> Divide(IEnumerable<T> items)
+    public IReadOnlyCollection<IEnumerable<T>> Divide(IEnumerable<T> items)
     {
         var list = Left.Divide(items);
-        return list.Select(Right.Order).ToList();
+        return list.Select(Right.Order).ToArray();
     }
 
     public void Accept(TVisitor visitor) => visitor.Visit(this);

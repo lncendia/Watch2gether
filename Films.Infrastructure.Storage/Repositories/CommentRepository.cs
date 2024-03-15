@@ -7,7 +7,7 @@ using Films.Domain.Ordering.Abstractions;
 using Films.Domain.Specifications.Abstractions;
 using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
-using Films.Infrastructure.Storage.Models.Comment;
+using Films.Infrastructure.Storage.Models.Comments;
 using Films.Infrastructure.Storage.Visitors.Sorting;
 using Films.Infrastructure.Storage.Visitors.Specifications;
 

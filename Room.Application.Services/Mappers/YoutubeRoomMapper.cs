@@ -1,6 +1,6 @@
-using Room.Application.Abstractions.Queries.DTOs.YoutubeRoom;
-using Room.Domain.YoutubeRooms;
-using Room.Domain.YoutubeRooms.Entities;
+using Room.Application.Abstractions.DTOs.YoutubeRooms;
+using Room.Domain.Rooms.YoutubeRooms;
+using Room.Domain.Rooms.YoutubeRooms.Entities;
 
 namespace Room.Application.Services.Mappers;
 
@@ -20,7 +20,6 @@ public static class YoutubeRoomMapper
         return new YoutubeRoomDto
         {
             OwnerId = room.Owner.Id,
-            Messages = room.Messages,
             Viewers = room.Viewers.Select(Map).ToArray(),
             Videos = room.Videos,
             VideoAccess = room.VideoAccess,
@@ -39,7 +38,7 @@ public static class YoutubeRoomMapper
         return new YoutubeViewerDto
         {
             Id = viewer.Id,
-            Nickname = viewer.Nickname,
+            Username = viewer.Username,
             PhotoUrl = viewer.PhotoUrl,
             Pause = viewer.Pause,
             FullScreen = viewer.FullScreen,

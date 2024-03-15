@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Room.Domain.BaseRoom.ValueObjects;
-using Room.Domain.YoutubeRooms;
-using Room.Domain.YoutubeRooms.Entities;
+using Room.Domain.Rooms.YoutubeRooms;
+using Room.Domain.Rooms.YoutubeRooms.Entities;
 using Room.Infrastructure.Storage.Context;
 using Room.Infrastructure.Storage.Extensions;
 using Room.Infrastructure.Storage.Mappers.Abstractions;
-using Room.Infrastructure.Storage.Models.BaseRoom;
-using Room.Infrastructure.Storage.Models.YoutubeRoom;
+using Room.Infrastructure.Storage.Models.YoutubeRooms;
 
 namespace Room.Infrastructure.Storage.Mappers.ModelMappers;
 
@@ -19,10 +17,8 @@ internal class YoutubeRoomModelMapper(ApplicationDbContext context) : IModelMapp
             .FirstOrDefaultAsync(x => x.Id == aggregate.Id) ?? new YoutubeRoomModel { Id = aggregate.Id };
 
         model.VideoAccess = aggregate.VideoAccess;
-        model.LastActivity = aggregate.LastActivity;
 
         ProcessViewers(aggregate, model);
-        ProcessMessages(aggregate, model);
         ProcessVideos(aggregate, model);
 
         return model;
@@ -59,38 +55,14 @@ internal class YoutubeRoomModelMapper(ApplicationDbContext context) : IModelMapp
         model.Pause = viewerEntity.Pause;
         model.TimeLine = viewerEntity.TimeLine;
         model.FullScreen = viewerEntity.FullScreen;
-        model.Nickname = viewerEntity.Nickname;
+        model.Username = viewerEntity.Username;
         model.Owner = viewerEntity.Id == ownerId;
         model.Beep = viewerEntity.Allows.Beep;
         model.Scream = viewerEntity.Allows.Scream;
         model.Change = viewerEntity.Allows.Change;
+        model.PhotoUrl = viewerEntity.PhotoUrl;
     }
-
-    private static void ProcessMessages(YoutubeRoom aggregate, YoutubeRoomModel model)
-    {
-        // Удаляем эти записи из коллекции в модели EF
-        model.Messages.RemoveAll(messageModel => aggregate.Messages.All(valueObject => Compare(valueObject, messageModel)));
-
-        // Получаем записи, которые есть в сущности, но еще нет в модели EF
-        var newMessages = aggregate.Messages
-            .Where(valueObject => model.Messages.All(messageModel => Compare(valueObject, messageModel)))
-            .Select(c => new MessageModel<YoutubeRoomModel>
-            {
-                CreatedAt = c.CreatedAt,
-                Text = c.Text,
-                ViewerId = c.ViewerId
-            })
-            .ToArray();
-
-        model.Messages.AddRange(newMessages);
-        return;
-
-        bool Compare(Message valueObject, MessageModel<YoutubeRoomModel> messageModel)
-        {
-            return messageModel.ViewerId != valueObject.ViewerId && messageModel.CreatedAt != valueObject.CreatedAt;
-        }
-    }
-
+    
     private static void ProcessVideos(YoutubeRoom aggregate, YoutubeRoomModel model)
     {
         // Удаляем эти записи из коллекции в модели EF

@@ -1,8 +1,8 @@
 import Form from "react-bootstrap/Form";
 import {Button} from "react-bootstrap";
 import {Formik} from "formik";
-import commentFormValidationSchema from "./CommentFormValidation.ts";
 import ContentBlock from "../../../UI/ContentBlock/ContentBlock.tsx";
+import addCommentFormSchema from "./AddCommentFormValidation.ts";
 
 const AddCommentForm = ({callback, className}: { className?: string, callback: (text: string) => void }) => {
     const handleSubmit = (values: { comment: string; }) => {
@@ -11,7 +11,7 @@ const AddCommentForm = ({callback, className}: { className?: string, callback: (
 
     return (
         <ContentBlock className={className}>
-            <Formik validationSchema={commentFormValidationSchema} onSubmit={handleSubmit}
+            <Formik validationSchema={addCommentFormSchema} onSubmit={handleSubmit}
                     initialValues={{comment: ''}}>
                 {({handleSubmit, handleChange, values, touched, errors}) => (
                     <Form onSubmit={handleSubmit}>

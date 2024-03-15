@@ -1,7 +1,7 @@
 using MassTransit;
 using MediatR;
 using Overoom.IntegrationEvents.Rooms.YoutubeRooms;
-using Room.Domain.YoutubeRooms.Events;
+using Room.Domain.Rooms.YoutubeRooms.Events;
 
 namespace Room.Application.Services.EventHandlers.YoutubeRooms;
 
