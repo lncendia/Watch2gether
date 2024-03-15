@@ -1,0 +1,30 @@
+.message {
+    border-radius: 15px;
+    padding: 5px 15px;
+    width: 100%;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 40%;
+}
+
+.me {
+    background: #6b789d;
+    margin-right: 15px;
+}
+
+.other {
+    background: #656565;
+    margin-left: 15px;
+}
+
+.username {
+    font-size: 12px;
+}
+
+.createdAt {
+    font-size: 10px;
+    float: right;
+}

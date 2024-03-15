@@ -85,7 +85,7 @@ container.bind<IRoomsService>('RoomsService')
     .inSingletonScope();
 
 container.bind<IFilmRoomService>('FilmRoomService')
-    .toDynamicValue(() => new FilmRoomService(() => tokenFactory(container)))
+    .toDynamicValue(() => new FilmRoomService(() => tokenFactory(container), config.authority!))
     .inSingletonScope();
 
 configureAxiosAuthorization(axiosInstance, container)

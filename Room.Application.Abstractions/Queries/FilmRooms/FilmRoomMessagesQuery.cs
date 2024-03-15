@@ -21,7 +21,7 @@ public class FilmRoomMessagesQuery : IRequest<(IReadOnlyCollection<MessageDto> m
     /// <summary>
     /// Идентификатор сообщения, с которого начинать выборку.
     /// </summary>
-    public required Guid? FromMessageId { get; init; }
+    public Guid? FromMessageId { get; init; }
 
     /// <summary>
     /// Количество сообщений для выборки.

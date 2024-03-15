@@ -9,7 +9,6 @@ using Room.Domain.Messages.Messages.Exceptions;
 using Room.Domain.Rooms.FilmRooms.Exceptions;
 using Room.Domain.Rooms.Rooms.Exceptions;
 using Room.Infrastructure.Web.Rooms.Mappers;
-using Room.Infrastructure.Web.Rooms.ViewModels;
 using Room.Infrastructure.Web.Rooms.ViewModels.Messages;
 
 namespace Room.Infrastructure.Web.Rooms.Hubs;
@@ -42,9 +41,10 @@ public class FilmRoomHub(IMediator mediator) : Hub
         }
     }
 
-    public async Task GetMessages(Guid? fromMessageId, int count = 50)
+    public async Task GetMessages(Guid? fromMessageId, int? count)
     {
-        if (count > 50) count = 50;
+        if (count is null or < 0) count = 20;
+        else if (count > 50) count = 50;
 
         try
         {
@@ -54,7 +54,7 @@ public class FilmRoomHub(IMediator mediator) : Hub
             {
                 RoomId = roomId,
                 FromMessageId = fromMessageId,
-                Count = count,
+                Count = count.Value,
                 ViewerId = userId
             });
 

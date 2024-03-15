@@ -3,6 +3,8 @@ import {HubConnection} from "@microsoft/signalr";
 import {IFilmRoomService} from "./IFilmRoomService.ts";
 import {SyncEvent} from "ts-events";
 import filmRoomSchema from "./Validators/RoomValidator.ts";
+import {Messages} from "./Models/Messages.ts";
+import messagesSchema from "./Validators/MessagesValidator.ts";
 
 
 export class FilmRoomService implements IFilmRoomService {
@@ -10,21 +12,38 @@ export class FilmRoomService implements IFilmRoomService {
     private connection?: HubConnection
     private tokenFactory: () => Promise<string>
 
+    private readonly authUrl: string
+
     roomLoad = new SyncEvent<FilmRoom>();
 
-    constructor(tokenFactory: () => Promise<string>) {
-        this.tokenFactory = tokenFactory;
+    messages = new SyncEvent<Messages>();
+
+    constructor(tokenFactory: () => Promise<string>, authUrl: string) {
+        this.authUrl = authUrl
+        this.tokenFactory = tokenFactory
     }
 
     async connect(roomId: string, url: string) {
+
         this.connection = new signalR.HubConnectionBuilder()
             .withUrl(url + "filmRoom", {accessTokenFactory: this.tokenFactory})
             .configureLogging(signalR.LogLevel.Information)
             .build();
 
-        this.connection.on("Room", async (room) => {
+        this.connection.on("Room", async (room: FilmRoom) => {
+            room.viewers.forEach(v => {
+                if (v.photoUrl) v.photoUrl = `${this.authUrl}/${v.photoUrl}`
+            })
             await filmRoomSchema.validate(room)
             this.roomLoad.post(room)
+        })
+
+        this.connection.on("Messages", async (messages: Messages) => {
+            messages.messages.forEach(m => {
+                m.createdAt = new Date(m.createdAt)
+            })
+            await messagesSchema.validate(messages)
+            this.messages.post(messages)
         })
         // this.connection.on('Error', (id, message) => room.ProcessReceiveEvent(new ErrorReceiveEvent(id, message)));
         // this.connection.on('NewMessage', (id, message) => room.ProcessReceiveEvent(new MessageReceiveEvent(id, message)));
@@ -45,7 +64,7 @@ export class FilmRoomService implements IFilmRoomService {
         await this.connection.send("Connect", roomId)
     }
 
-    async getMessages(fromId?: string, count?: number): Promise<void> {
+    async getMessages(fromId: string, count: number): Promise<void> {
         await this.connection?.send("GetMessages", fromId, count)
     }
 

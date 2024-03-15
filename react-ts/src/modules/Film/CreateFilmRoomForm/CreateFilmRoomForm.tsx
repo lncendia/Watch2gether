@@ -15,7 +15,6 @@ interface CreateFilmRoomFormProps {
 const CreateFilmRoomForm = ({open, cdnList, onClose, callback}: CreateFilmRoomFormProps) => {
 
     const handleSubmit = (values: { cdn: string; open: boolean }) => {
-        console.log(values.cdn)
         callback(values.cdn, values.open)
     };
 

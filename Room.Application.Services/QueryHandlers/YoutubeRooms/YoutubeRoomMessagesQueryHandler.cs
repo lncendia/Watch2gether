@@ -6,10 +6,14 @@ using Room.Application.Abstractions.Queries.YoutubeRooms;
 using Room.Application.Services.Common;
 using Room.Application.Services.Mappers;
 using Room.Domain.Abstractions.Interfaces;
+using Room.Domain.Messages.FilmMessages;
+using Room.Domain.Messages.FilmMessages.Ordering.Visitor;
 using Room.Domain.Messages.YoutubeMessages;
 using Room.Domain.Messages.YoutubeMessages.Ordering;
+using Room.Domain.Messages.YoutubeMessages.Ordering.Visitor;
 using Room.Domain.Messages.YoutubeMessages.Specifications;
 using Room.Domain.Messages.YoutubeMessages.Specifications.Visitor;
+using Room.Domain.Ordering;
 using Room.Domain.Specifications;
 using Room.Domain.Specifications.Abstractions;
 
@@ -40,7 +44,7 @@ public class YoutubeRoomMessagesQueryHandler(IUnitOfWork unitOfWork, IMemoryCach
             new RoomMessagesSpecification(room.Id);
 
         // Создание объекта для сортировки сообщений по дате
-        var order = new MessagesOrderByDate();
+        var order = new DescendingOrder<YoutubeMessage, IYoutubeMessageSortingVisitor>(new MessagesOrderByDate());
 
         // Проверка наличия идентификатора начального сообщения в запросе
         if (request.FromMessageId.HasValue)

@@ -3,7 +3,6 @@ import * as yup from 'yup';
 const messageSchema = yup.object().shape({
     id: yup.string().uuid().required(),
     userId: yup.string().uuid().required(),
-    roomId: yup.string().uuid().required(),
     createdAt: yup.date().required(),
     text: yup.string().required(),
 });

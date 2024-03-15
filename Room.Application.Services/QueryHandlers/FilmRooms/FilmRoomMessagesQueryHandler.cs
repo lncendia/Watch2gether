@@ -8,8 +8,10 @@ using Room.Application.Services.Mappers;
 using Room.Domain.Abstractions.Interfaces;
 using Room.Domain.Messages.FilmMessages;
 using Room.Domain.Messages.FilmMessages.Ordering;
+using Room.Domain.Messages.FilmMessages.Ordering.Visitor;
 using Room.Domain.Messages.FilmMessages.Specifications;
 using Room.Domain.Messages.FilmMessages.Specifications.Visitor;
+using Room.Domain.Ordering;
 using Room.Domain.Specifications;
 using Room.Domain.Specifications.Abstractions;
 
@@ -40,7 +42,7 @@ public class FilmRoomMessagesQueryHandler(IUnitOfWork unitOfWork, IMemoryCache c
             new RoomMessagesSpecification(room.Id);
 
         // Создание объекта для сортировки сообщений по дате
-        var order = new MessagesOrderByDate();
+        var order = new DescendingOrder<FilmMessage, IFilmMessageSortingVisitor>(new MessagesOrderByDate());
 
         // Проверка наличия идентификатора начального сообщения в запросе
         if (request.FromMessageId.HasValue)

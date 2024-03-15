@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./FilmRoomPlayer.module.css"
 
 interface FilmRoomPlayerProps {
     src: string,
@@ -6,9 +7,9 @@ interface FilmRoomPlayerProps {
     reference: React.LegacyRef<HTMLIFrameElement>
 }
 
-const FilmRoomPlayer = ({src, className, reference}: FilmRoomPlayerProps) => {
+const FilmRoomPlayer = ({src, className = '', reference}: FilmRoomPlayerProps) => {
     return (
-        <iframe allowFullScreen width={640} height={300} src={src} className={className ?? ""} ref={reference}></iframe>
+        <iframe allowFullScreen className={`${styles.player} ${className}`.trim()} src={src} ref={reference}></iframe>
     );
 };
 

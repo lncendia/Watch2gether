@@ -22,5 +22,5 @@ public class FilmMessageVisitor :
 
     public void Visit(MessagesFromDateSpecification spec) => Expr = model => model.CreatedAt < spec.MaxTime;
 
-    public void Visit(RoomMessagesSpecification spec) => Expr = model => model.RoomId < spec.RoomId;
+    public void Visit(RoomMessagesSpecification spec) => Expr = model => model.RoomId == spec.RoomId;
 }

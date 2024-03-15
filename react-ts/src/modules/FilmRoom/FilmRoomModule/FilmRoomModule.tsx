@@ -3,6 +3,8 @@ import {useInjection} from "inversify-react";
 import {IFilmRoomService} from "../../../services/FilmRoomService/IFilmRoomService.ts";
 import {useEffect, useState} from "react";
 import Loader from "../../../UI/Loader/Loader.tsx";
+import {Col, Row} from "react-bootstrap";
+import FilmRoomChatModule from "../FilmRoomChatModule/FilmRoomChatModule.tsx";
 
 const FilmRoomModule = ({id, url}: { id: string, url: string }) => {
 
@@ -15,10 +17,17 @@ const FilmRoomModule = ({id, url}: { id: string, url: string }) => {
         roomService.connect(id, url).then()
     }, []);
 
-    if(!room) return <Loader/>
+    if (!room) return <Loader/>
 
     return (
-        <FilmRoomPlayerModule room={room}/>
+        <Row>
+            <Col xs={8}>
+                <FilmRoomPlayerModule room={room}/>
+            </Col>
+            <Col xs={4}>
+                <FilmRoomChatModule viewers={room.viewers}/>
+            </Col>
+        </Row>
     );
 };
 
