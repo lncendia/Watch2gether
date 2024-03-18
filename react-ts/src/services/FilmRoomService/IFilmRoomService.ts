@@ -15,7 +15,7 @@ export interface IFilmRoomService {
 
     sendMessage(message: string): Promise<void>;
 
-    setTimeLine(seconds: number): Promise<void>;
+    setTimeLine(second: number): Promise<void>;
 
     setPause(pause: boolean, seconds: number): Promise<void>;
 

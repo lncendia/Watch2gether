@@ -4,7 +4,7 @@ import {useInjection} from "inversify-react";
 import {IFilmsService} from "../../services/FilmsService/IFilmsService.ts";
 import {useNavigate} from "react-router-dom";
 import {IAuthService} from "../../services/AuthService/IAuthService.ts";
-import {useUser} from "../../contexts/UserContext.tsx";
+import {useUser} from "../../contexts/UserContext/UserContext.tsx";
 import {FilmShort} from "../../services/FilmsService/Models/Films.ts";
 
 const NavbarModule = () => {

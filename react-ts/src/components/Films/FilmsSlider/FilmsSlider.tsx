@@ -1,6 +1,5 @@
 import Carousel from "react-multi-carousel";
 import FilmShortItem from "../FilmShortItem/FilmShortItem.tsx";
-import {FilmShort} from "../../../services/FilmsService/Models/Films.ts";
 import {FilmShortData} from "../FilmShortItem/FilmShortData.ts";
 
 const FilmsSlider = ({films, onFilmSelect, className}: {
@@ -16,12 +15,17 @@ const FilmsSlider = ({films, onFilmSelect, className}: {
             slidesToSlide: 1
         },
         monitor: {
-            breakpoint: {max: 3000, min: 1500},
+            breakpoint: {max: 3000, min: 1700},
             items: 9,
             slidesToSlide: 1
         },
         desktop: {
-            breakpoint: {max: 1500, min: 990},
+            breakpoint: {max: 1700, min: 1150},
+            items: 7,
+            slidesToSlide: 1
+        },
+        notepad: {
+            breakpoint: {max: 1150, min: 990},
             items: 5,
             slidesToSlide: 1
         },

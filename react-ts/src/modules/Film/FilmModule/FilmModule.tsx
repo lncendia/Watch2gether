@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useInjection} from "inversify-react";
 import {IFilmsService} from "../../../services/FilmsService/IFilmsService.ts";
 import {Film} from "../../../services/FilmsService/Models/Film.ts";
-import {useUser} from "../../../contexts/UserContext.tsx";
+import {useUser} from "../../../contexts/UserContext/UserContext.tsx";
 import Loader from "../../../UI/Loader/Loader.tsx";
 import {IProfileService} from "../../../services/ProfileService/IProfileService.ts";
 import FilmInfoModule from "../FilmInfoModule/FilmInfoModule.tsx";

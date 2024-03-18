@@ -30,7 +30,7 @@ const UserRatingsModule = ({className}: { className?: string }) => {
         };
 
         processRatings().then()
-    }, []);
+    }, [profileService]);
 
     const onBottom = () => {
         const processRatings = async () => {

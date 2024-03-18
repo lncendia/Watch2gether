@@ -1,4 +1,4 @@
-import {useUser} from "../../../contexts/UserContext.tsx";
+import {useUser} from "../../../contexts/UserContext/UserContext.tsx";
 import UserInfo from "../../../components/Profile/UserInfo/UserInfo.tsx";
 import {useNavigate} from "react-router-dom";
 import {Col} from "react-bootstrap";

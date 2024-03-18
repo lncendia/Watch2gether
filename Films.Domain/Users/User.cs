@@ -32,9 +32,9 @@ public class User(Guid id) : AggregateRoot
     /// </summary>
     public Allows Allows { get; set; } = new()
     {
-        Beep = false,
-        Scream = false,
-        Change = false
+        Beep = true,
+        Scream = true,
+        Change = true
     };
 
     /// <summary>

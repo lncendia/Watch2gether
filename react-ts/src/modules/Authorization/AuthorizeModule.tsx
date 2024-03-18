@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {ReactNode, useEffect, useState} from "react";
 import NotEnoughRights from "../../components/NotEnoughRights/NotEnoughRights.tsx";
-import {useUser} from "../../contexts/UserContext.tsx";
+import {useUser} from "../../contexts/UserContext/UserContext.tsx";
 
 // Модуль проверки авторизации пользователя
 const AuthorizeModule = ({role, children}: { role?: string, children: ReactNode }) => {

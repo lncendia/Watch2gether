@@ -2,7 +2,7 @@ import {useState} from 'react';
 import FilmRating from "../../../components/Film/FilmRating/FilmRating.tsx";
 import {Film} from "../../../services/FilmsService/Models/Film.ts";
 import {RatingData} from "../../../components/Rating/RatingData.ts";
-import {useUser} from "../../../contexts/UserContext.tsx";
+import {useUser} from "../../../contexts/UserContext/UserContext.tsx";
 import {useInjection} from "inversify-react";
 import {IProfileService} from "../../../services/ProfileService/IProfileService.ts";
 

@@ -3,7 +3,7 @@ import {Film} from "../../../services/FilmsService/Models/Film.ts";
 import {useNavigate} from "react-router-dom";
 import {useInjection} from "inversify-react";
 import {IProfileService} from "../../../services/ProfileService/IProfileService.ts";
-import {useUser} from "../../../contexts/UserContext.tsx";
+import {useUser} from "../../../contexts/UserContext/UserContext.tsx";
 import {FilmInfoData} from "../../../components/Film/FilmInfo/FilmInfoData.ts";
 import {useState} from "react";
 import CreateFilmRoomForm from "../CreateFilmRoomForm/CreateFilmRoomForm.tsx";

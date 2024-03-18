@@ -2,7 +2,7 @@ import Container from "../../../UI/Container/Container.tsx";
 import NavLogo from "../NavLogo/NavLogo.tsx";
 import {Nav, Navbar as NavbarBs, NavDropdown} from "react-bootstrap";
 import Svg from "../../../UI/Svg/Svg.tsx";
-import {AuthorizedUser} from "../../../models/AuthorizedUser.ts";
+import {AuthorizedUser} from "../../../contexts/UserContext/AuthorizedUser.ts";
 import FilmSearch from "../FilmSearch/FilmSearch.tsx";
 import styles from "./Navbar.module.css"
 import {FilmShort} from "../../../services/FilmsService/Models/Films.ts";

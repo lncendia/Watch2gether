@@ -51,5 +51,6 @@ public class FilmRoom : Room<FilmViewer>
         var viewer = GetViewer(target);
         viewer.Season = season;
         viewer.Series = series;
+        viewer.TimeLine = TimeSpan.Zero;
     }
 }

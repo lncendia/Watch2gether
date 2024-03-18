@@ -1,12 +1,27 @@
 import {useLocation} from "react-router-dom";
-import FilmRoomModule from "../../modules/FilmRoom/FilmRoomModule/FilmRoomModule.tsx";
+import {FilmRoomContextProvider} from "../../contexts/FilmRoomContext/FilmRoomContext.tsx";
+import FilmRoomPlayerModule from "../../modules/FilmRoom/FilmRoomPlayerModule/FilmRoomPlayerModule.tsx";
+import FilmRoomChatModule from "../../modules/FilmRoom/FilmRoomChatModule/FilmRoomChatModule.tsx";
+import FilmRoomInfoModule from "../../modules/FilmRoom/FilmRoomInfoModule/FilmRoomInfoModule.tsx";
+import {Col, Row} from "react-bootstrap";
 
 const FilmRoomPage = () => {
 
     const {state} = useLocation();
 
-    // return <FilmRoomModule id={state.id} url={state.url}/>
-    return <FilmRoomModule id={"d65ebdda-c050-454a-b456-3533965cd807"} url={"https://localhost:7291/"}/>
+    return (
+        <FilmRoomContextProvider id={"f466e080-de02-44be-9535-60888c10db92"} url={"https://localhost:7291/"}>
+            <Row>
+                <Col xs={8}>
+                    <FilmRoomPlayerModule/>
+                </Col>
+                <Col xs={4}>
+                    <FilmRoomInfoModule/>
+                    <FilmRoomChatModule/>
+                </Col>
+            </Row>
+        </FilmRoomContextProvider>
+    )
 };
 
 export default FilmRoomPage;

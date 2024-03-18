@@ -27,7 +27,7 @@ const FilmItem = ({film, selectedGenre, typeSelected, onClick}: FilmItemProps) =
             <Card.Header>
                 <div className="float-start">Рейтинг: {film.userRating}</div>
             </Card.Header>
-            <Row className="g-0">
+            <Row className="g-0 h-100">
                 <Col lg={4}>
                     <div className={styles.blacker_blur}>
                         <img alt="Постер" src={film.posterUrl} className={styles.poster}/>

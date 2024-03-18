@@ -1,37 +1,48 @@
-import {IFilmRoomService} from "../../../services/FilmRoomService/IFilmRoomService.ts";
+import {SyncEvent} from "ts-events";
 import {IPlayerHandler} from "./IPlayerHandler.ts";
 
 export class PlayerJsHandler implements IPlayerHandler {
-    constructor(service: IFilmRoomService) {
-        this.service = service;
+
+    private iframe: HTMLIFrameElement
+    pause = new SyncEvent<[boolean, number]>();
+    seek = new SyncEvent<number>();
+    fullscreen = new SyncEvent<boolean>();
+    changeSeries = new SyncEvent<[number, number]>();
+
+    constructor(iframe: HTMLIFrameElement) {
+        this.iframe = iframe;
+        window.addEventListener("message", this.handler.bind(this))
     }
 
-    private service: IFilmRoomService
-
-    async handler(event: MessageEvent<any>) {
-        console.log(event.data)
-        // let types = ['resumed', 'pause', 'paused', 'seek', 'play', 'buffered', 'buffering']
-        // for (let i = 0; i < types.length; i++) {
-        //     if (types[i] === event.data.event) console.log(event.data.event)
-        // }
+    private handler(event: MessageEvent<any>) {
         if ((event.data.event === 'play' || event.data.event === 'buffered') && event.data.time != null) {
-            let time = parseInt(event.data.time);
-            await this.service.setPause(false, time)
+            const time = parseInt(event.data.time);
+            this.pause.post([false, time])
         } else if ((event.data.event === 'pause' || event.data.event === 'buffering') && event.data.time != null) {
-            let time = parseInt(event.data.time);
-            await this.service.setPause(true, time)
+            const time = parseInt(event.data.time);
+            this.pause.post([true, time])
         } else if (event.data.event === 'seek' && event.data.time != null) {
-            let time = parseInt(event.data.time);
-            await this.service.setTimeLine(time)
-        } else if (event.data.event === 'new' && event.data.id != null) {
-            let data = event.data.id.split('_')
-            let season = parseInt(data[0]);
-            let series = parseInt(data[1]);
-            await this.service.changeSeries(season, series)
+            const time = parseInt(event.data.time);
+            this.seek.post(time)
+        } else if (event.data.event === 'new') {
+            const data = event.data.id.split('_') as Array<string>
+            if (data.length === 1) return
+            const season = parseInt(data[0]);
+            const series = parseInt(data[1]);
+            this.changeSeries.post([season, series])
         } else if (event.data.event === 'fullscreen') {
-            await this.service.setFullScreen(true)
+            this.fullscreen.post(true)
         } else if (event.data.event === 'exitfullscreen') {
-            await this.service.setFullScreen(false)
+            this.fullscreen.post(false)
         }
+    }
+
+    setSecond(second: number): void {
+        this.iframe.contentWindow!.postMessage({'api': 'seek', 'set': second}, '*');
+    }
+
+    setPause(pause: boolean): void {
+        const message = pause ? 'pause' : 'play';
+        this.iframe.contentWindow!.postMessage({'api': message}, '*');
     }
 }

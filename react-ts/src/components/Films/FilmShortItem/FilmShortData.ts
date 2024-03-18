@@ -1,5 +1,5 @@
 export interface FilmShortData {
-    filmId: string
+    id: string
     title: string
     posterUrl: string
     ratingKp?: number

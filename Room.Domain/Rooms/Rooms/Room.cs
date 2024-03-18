@@ -80,8 +80,7 @@ public abstract class Room<T> : AggregateRoot where T : Viewer
     {
         var initiator = GetViewer(initiatorId);
         var target = GetViewer(targetId);
-
-        if (initiatorId == targetId) throw new ActionNotAllowedException();
+        
         if (!initiator.Allows.Change) throw new ActionNotAllowedException();
         if (!target.Allows.Change) throw new ActionNotAllowedException();
         target.Username = name;

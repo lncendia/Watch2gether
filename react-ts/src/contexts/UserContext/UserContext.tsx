@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useState, useEffect, ReactNode} from 'react';
 import {User, UserManager} from 'oidc-client';
-import {AuthorizedUser} from "../models/AuthorizedUser.ts";
+import {AuthorizedUser} from "./AuthorizedUser.ts";
 import {useInjection} from "inversify-react";
 
 

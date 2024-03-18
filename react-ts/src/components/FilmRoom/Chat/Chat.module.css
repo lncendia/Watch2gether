@@ -19,6 +19,6 @@
 
 .send {
     padding: 15px 15px;
-    border-radius: 0 0 15px 15px ;
+    border-radius: 0 0 15px 15px;
     background: rgba(var(--bs-body-bg-rgb), 0.9);
 }

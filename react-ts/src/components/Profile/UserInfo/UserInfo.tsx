@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import {AuthorizedUser} from "../../../models/AuthorizedUser.ts";
+import {AuthorizedUser} from "../../../contexts/UserContext/AuthorizedUser.ts";
 import ContentBlock from "../../../UI/ContentBlock/ContentBlock.tsx";
 import styles from "./UserInfo.module.css"
 

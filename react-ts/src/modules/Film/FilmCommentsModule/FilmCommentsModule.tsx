@@ -8,7 +8,7 @@ import AddCommentForm from "../AddCommentForm/AddCommentForm.tsx";
 import {CommentData} from "../../../components/Comments/CommentItem/CommentData.ts";
 
 const FilmCommentsModule = ({id, className}: { id: string, className?: string }) => {
-
+//todo: check avatars
     const [comments, setComments] = useState<CommentData[]>([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(false);
@@ -23,7 +23,7 @@ const FilmCommentsModule = ({id, className}: { id: string, className?: string })
         };
 
         processComments().then()
-    }, [id]);
+    }, [commentsService, id]);
 
     const onBottom = () => {
         const processFilms = async () => {
