@@ -6,6 +6,8 @@ export interface IPlayerHandler {
     fullscreen: SyncEvent<boolean>
     changeSeries: SyncEvent<[number, number]>
 
+    unmount(): void
+
     setSecond(second: number): void
 
     setPause(pause: boolean): void

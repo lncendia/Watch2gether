@@ -18,7 +18,7 @@ const FilmSearch = ({onFilmSearch, films, onClick}: {
         setValue(e.target.value)
         setShowFilms(true)
         clearTimeout(timeoutId);
-        let thread = setTimeout(async () => {
+        const thread = setTimeout(async () => {
             onFilmSearch(e.target.value)
         }, 500);
 

@@ -6,29 +6,11 @@ import SendMessageForm from "../../Common/SendMessageForm/SendMessageForm.tsx";
 import {useFilmRoom} from "../../../../contexts/FilmRoomContext/FilmRoomContext.tsx";
 import Spinner from "../../../../components/Common/Spinner/Spinner.tsx";
 import ConnectLinkModule from "../../Common/ConnectLinkModule/ConnectLinkModule.tsx";
-import {BadgeData} from "../../../../components/FilmRoom/Badge/BadgeData.ts";
-import {ActionEvent} from "../../../../services/FilmRoomService/Models/RoomEvents.ts";
 
 export interface Message {
     userId: string;
     createdAt: Date;
     text: string;
-}
-
-const getAction = (code: number) => {
-    let action: string
-    switch (code) {
-        case 1:
-            action = "разбудил"
-            break;
-        case 2:
-            action = "напугал"
-            break;
-        case 3:
-            action = "сменил имя"
-            break;
-
-    }
 }
 
 const FilmRoomChatModule = () => {
@@ -37,7 +19,6 @@ const FilmRoomChatModule = () => {
     const [lastMessageId, setLastMessageId] = useState<string>()
     const [hasMore, setHasMore] = useState(false)
     const {viewers, service, room} = useFilmRoom()
-    const [badge, setBadge] = useState<[ActionEvent, number]>()
 
     const mapMessage = useCallback((m: Message): MessageData => {
 
@@ -52,22 +33,6 @@ const FilmRoomChatModule = () => {
         }
     }, [viewers])
 
-
-    const mapBadge = useCallback((a: ActionEvent, code: number): BadgeData => {
-
-        const initiator = viewers.filter(v => v.id === a.initiator)[0]
-        const target = viewers.filter(v => v.id === a.target)[0]
-
-        let str =;
-        switch (code) {
-            case 1:
-                str = ""
-                break;
-
-        }
-
-        return {color: undefined, text: ""}
-    }, [viewers])
 
     useEffect(() => {
         service.messagesEvent.attach((response) => {
@@ -105,7 +70,7 @@ const FilmRoomChatModule = () => {
     return (
         <>
             <InfiniteScroll style={{display: 'flex', flexDirection: 'column-reverse'}} {...scrollProps}>
-                <Chat badge={badge} userId={room.currentId} messages={messages.map(mapMessage)} ownerId={room.ownerId}>
+                <Chat userId={room.currentId} messages={messages.map(mapMessage)} ownerId={room.ownerId}>
                     <SendMessageForm callback={sendMessage}/>
                     <ConnectLinkModule code={room.code} id={room.id} endpoint="filmRoom"/>
                 </Chat>

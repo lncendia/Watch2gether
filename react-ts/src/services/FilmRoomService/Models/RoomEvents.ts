@@ -1,16 +1,12 @@
-export interface NewMessageEvent {
+export interface PauseEvent {
     userId: string,
-    text: string
-}
-
-export interface PauseMessageEvent {
-    userId: string,
-    onPause: boolean
+    onPause: boolean,
+    seconds: number
 }
 
 export interface SeekEvent {
     userId: string,
-    second: number,
+    seconds: number,
 }
 
 export interface FullScreenEvent {
@@ -24,24 +20,16 @@ export interface ChangeSeriesEvent {
     series: number
 }
 
-export interface LeaveEvent {
-    userId: string
-}
-
-export interface TypeEvent {
-    userId: string
-}
-
 export interface ActionEvent {
     initiator: string,
     target: string
 }
 
-export interface ChangeNameEvent extends ActionEvent{
+export interface ChangeNameEvent extends ActionEvent {
     name: string
 }
 
-export interface ConnectEvent{
+export interface ConnectEvent {
 
 }
 

@@ -4,7 +4,7 @@ import {IFilmRoomService} from "./IFilmRoomService.ts";
 import {SyncEvent} from "ts-events";
 import filmRoomSchema from "./Validators/RoomValidator.ts";
 import {actionSchema, messageSchema, messagesSchema} from "./Validators/EventsValidator.ts";
-import {ActionEvent, MessageEvent, MessagesEvent} from "./Models/RoomEvents.ts";
+import {ActionEvent, MessageEvent, MessagesEvent, PauseEvent, SeekEvent} from "./Models/RoomEvents.ts";
 
 
 export class FilmRoomService implements IFilmRoomService {
@@ -24,10 +24,17 @@ export class FilmRoomService implements IFilmRoomService {
 
     screamEvent = new SyncEvent<ActionEvent>()
 
+    errorEvent = new SyncEvent<string>()
+
+    pauseEvent = new SyncEvent<PauseEvent>()
+
+    seekEvent = new SyncEvent<SeekEvent>()
+
     constructor(tokenFactory: () => Promise<string>, authUrl: string) {
         this.authUrl = authUrl
         this.tokenFactory = tokenFactory
     }
+
 
     async connect(roomId: string, url: string) {
 
@@ -67,9 +74,17 @@ export class FilmRoomService implements IFilmRoomService {
             await actionSchema.validate(action)
             this.screamEvent.post(action)
         });
-        // this.connection.on('Error', (id, message) => room.ProcessReceiveEvent(new ErrorReceiveEvent(id, message)));
-        // this.connection.on('Pause', (id, pause, second) => room.ProcessReceiveEvent(new PauseReceiveEvent(id, pause, second)));
-        // this.connection.on('Seek', (id, second) => room.ProcessReceiveEvent(new SeekReceiveEvent(id, second)));
+        this.connection.on('Error', async (error: string) => {
+            this.errorEvent.post(error)
+        });
+
+        this.connection.on('Pause', (id: string, pause: boolean, second: number) => {
+            this.pauseEvent.post({onPause: pause, seconds: second, userId: id})
+        });
+
+        this.connection.on('Seek', (id: string, second: number) => {
+            this.seekEvent.post({seconds: second, userId: id})
+        });
         // this.connection.on('ChangeSeries', (id, season, series) => room.ProcessReceiveEvent(new ChangeSeriesReceiveEvent(id, season, series)));
         // this.connection.on('Leave', (id) => room.ProcessReceiveEvent(new LeaveReceiveEvent(id)));
         // this.connection.on('Type', (id) => room.ProcessReceiveEvent(new TypeReceiveEvent(id)));

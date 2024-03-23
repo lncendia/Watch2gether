@@ -9,9 +9,11 @@ export class PlayerJsHandler implements IPlayerHandler {
     fullscreen = new SyncEvent<boolean>();
     changeSeries = new SyncEvent<[number, number]>();
 
+    private handlerFunc = this.handler.bind(this)
+
     constructor(iframe: HTMLIFrameElement) {
         this.iframe = iframe;
-        window.addEventListener("message", this.handler.bind(this))
+        window.addEventListener("message", this.handlerFunc)
     }
 
     private handler(event: MessageEvent<any>) {
@@ -44,5 +46,9 @@ export class PlayerJsHandler implements IPlayerHandler {
     setPause(pause: boolean): void {
         const message = pause ? 'pause' : 'play';
         this.iframe.contentWindow!.postMessage({'api': message}, '*');
+    }
+
+    unmount() {
+        window.removeEventListener("message", this.handlerFunc)
     }
 }

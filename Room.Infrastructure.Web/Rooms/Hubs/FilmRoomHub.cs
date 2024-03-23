@@ -8,6 +8,7 @@ using Room.Application.Abstractions.Queries.FilmRooms;
 using Room.Domain.Messages.Messages.Exceptions;
 using Room.Domain.Rooms.FilmRooms.Exceptions;
 using Room.Domain.Rooms.Rooms.Exceptions;
+using Room.Infrastructure.Web.Rooms.Exceptions;
 using Room.Infrastructure.Web.Rooms.Mappers;
 using Room.Infrastructure.Web.Rooms.ViewModels.Common;
 using Room.Infrastructure.Web.Rooms.ViewModels.Messages;
@@ -185,6 +186,7 @@ public class FilmRoomHub(IMediator mediator) : Hub
     {
         try
         {
+            Action();
             var userId = GetUserId();
             var roomId = GetRoomId();
             await mediator.Send(new BeepCommand
@@ -206,6 +208,7 @@ public class FilmRoomHub(IMediator mediator) : Hub
     {
         try
         {
+            Action();
             var userId = GetUserId();
             var roomId = GetRoomId();
             await mediator.Send(new ScreamCommand
@@ -214,7 +217,8 @@ public class FilmRoomHub(IMediator mediator) : Hub
                 RoomId = roomId,
                 TargetId = target
             });
-            await Clients.Groups(roomId.ToString()).SendAsync("Scream", new ActionViewModel { Initiator = userId, Target = target });
+            await Clients.Groups(roomId.ToString())
+                .SendAsync("Scream", new ActionViewModel { Initiator = userId, Target = target });
         }
         catch (Exception ex)
         {
@@ -248,6 +252,7 @@ public class FilmRoomHub(IMediator mediator) : Hub
     {
         try
         {
+            Action();
             var userId = GetUserId();
             var roomId = GetRoomId();
             await mediator.Send(new ChangeNameCommand
@@ -298,6 +303,19 @@ public class FilmRoomHub(IMediator mediator) : Hub
         return (Guid)(Context.Items["roomId"] ?? throw new InvalidOperationException());
     }
 
+    private void Action()
+    {
+        var date = (DateTime?)Context.Items["LastActionTime"] ?? DateTime.MinValue;
+
+        var now = DateTime.Now;
+
+        var difference = now - date;
+
+        if (difference.Minutes == 0) throw new ActionCooldownException(60 - difference.Seconds);
+
+        Context.Items["LastActionTime"] = now;
+    }
+
     private Task HandleException(Exception ex)
     {
         var error = ex switch
@@ -308,6 +326,7 @@ public class FilmRoomHub(IMediator mediator) : Hub
             InvalidUsernameLengthException => "Длина имени должна составлять от 1 до 200 символов",
             ChangeFilmSeriesException => "Вы не можете изменить серию у фильма",
             MessageLengthException => "Сообщение должно быть от одного до тысячи символов",
+            ActionCooldownException a => $"Действие будет доступно через {a.Seconds} секунд",
             _ => "Неизвестная ошибка"
         };
         return Clients.Caller.SendAsync("Error", error);

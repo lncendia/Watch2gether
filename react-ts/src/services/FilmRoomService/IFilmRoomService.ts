@@ -1,5 +1,5 @@
 import {SyncEvent} from "ts-events";
-import {ActionEvent, MessageEvent, MessagesEvent} from "./Models/RoomEvents.ts";
+import {ActionEvent, MessageEvent, MessagesEvent, PauseEvent, SeekEvent} from "./Models/RoomEvents.ts";
 
 export interface IFilmRoomService {
 
@@ -8,12 +8,18 @@ export interface IFilmRoomService {
     messagesEvent: SyncEvent<MessagesEvent>
 
     messageEvent: SyncEvent<MessageEvent>
-    
+
     beepEvent: SyncEvent<ActionEvent>
 
     screamEvent: SyncEvent<ActionEvent>
 
-    connect(roomId: string, url:string): Promise<void>;
+    errorEvent: SyncEvent<string>
+
+    pauseEvent: SyncEvent<PauseEvent>
+
+    seekEvent: SyncEvent<SeekEvent>
+
+    connect(roomId: string, url: string): Promise<void>;
 
     getMessages(fromId?: string, count?: number): Promise<void>;
 

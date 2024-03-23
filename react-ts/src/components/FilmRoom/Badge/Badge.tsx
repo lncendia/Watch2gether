@@ -1,7 +1,11 @@
 import styles from './Badge.module.css'
-import {BadgeData} from "./BadgeData.ts";
 
-const Badge = ({color, text}: BadgeData) => {
+export interface BadgeProps {
+    color: 'primary' | 'secondary' | 'warning' | 'danger' | 'dark' | 'light'
+    text: string
+}
+
+const Badge = ({color, text}: BadgeProps) => {
     return (
         <div className={`bg-${color} ${styles.badge}`}>
             {text}

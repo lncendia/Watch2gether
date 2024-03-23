@@ -6,6 +6,7 @@ import {Col, Row} from "react-bootstrap";
 import ConnectFilmRoomModule from "../../modules/Room/FilmRoom/ConnectFilmRoomModule/ConnectFilmRoomModule.tsx";
 import BeepModule from "../../modules/Room/Common/BeepModule/BeepModule.tsx";
 import ScreamModule from "../../modules/Room/Common/ScreamModule/ScreamModule.tsx";
+import NotificationModule from "../../modules/Room/Common/NotificationModule/NotificationModule.tsx";
 
 const FilmRoomPage = () => {
 
@@ -21,7 +22,10 @@ const FilmRoomPage = () => {
                 </Col>
                 <Col xl={4}>
                     <FilmRoomInfoModule/>
-                    <FilmRoomChatModule/>
+                    <div className="position-relative">
+                        <FilmRoomChatModule/>
+                        <NotificationModule/>
+                    </div>
                 </Col>
             </Row>
             <BeepModule/>

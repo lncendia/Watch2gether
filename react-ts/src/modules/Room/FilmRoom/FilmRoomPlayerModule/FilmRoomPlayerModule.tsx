@@ -56,7 +56,24 @@ const FilmRoomPlayerModule = () => {
             await service.changeSeries(season, series)
         })
 
-    }, [room.cdnName, room.currentId, service]);
+        service.pauseEvent.attach((event) => {
+            if (event.userId === room.ownerId) {
+                handler.setPause(event.onPause)
+                handler.setSecond(event.seconds)
+            }
+            updatePauseRef.current(event.userId, event.onPause, event.seconds)
+        })
+
+        service.seekEvent.attach((event) => {
+            if (event.userId === room.ownerId) {
+                handler.setSecond(event.seconds)
+            }
+            updateTimeLineRef.current(event.userId, event.seconds)
+        })
+
+        return handler.unmount.bind(handler)
+
+    }, [room.cdnName, room.currentId, room.ownerId, service]);
 
     return (
         <FilmRoomPlayer reference={frame} src={room.cdnUrl}/>
