@@ -12,25 +12,25 @@ interface MessageProps {
 
 const Message = ({message, className = '', isMe, isOwner}: MessageProps) => {
 
-    let justify: string
-    let messageClass: string
-
-    if (isMe) {
-        justify = "justify-content-start"
-        messageClass = styles.me
-    } else {
-        justify = "justify-content-end"
-        messageClass = styles.other
-    }
-
-    return (
-        <div className={`d-flex flex-row ${justify} mb-4 ${className}`}>
-            <div className={`${styles.message} ${messageClass}`}>
+    if (isMe) return (
+        <div className={`d-flex flex-row justify-content-start mb-4 ${className}`}>
+            <div className={`${styles.message} ${styles.me}`}>
                 <div className={styles.username}>{message.username}</div>
                 <div className={styles.text}>{message.text}</div>
-                <div className={styles.createdAt}>{moment(message.createdAt).format("hh:mm:ss")}</div>
+                <div className={styles.createdAt}>{moment(message.createdAt).format("HH:mm:ss")}</div>
             </div>
             <RoomAvatar owner={isOwner} src={message.photoUrl}/>
+        </div>
+    )
+
+    return (
+        <div className={`d-flex flex-row justify-content-end mb-4 ${className}`}>
+            <RoomAvatar owner={isOwner} src={message.photoUrl}/>
+            <div className={`${styles.message} ${styles.other}`}>
+                <div className={styles.username}>{message.username}</div>
+                <div className={styles.text}>{message.text}</div>
+                <div className={styles.createdAt}>{moment(message.createdAt).format("HH:mm:ss")}</div>
+            </div>
         </div>
     );
 };

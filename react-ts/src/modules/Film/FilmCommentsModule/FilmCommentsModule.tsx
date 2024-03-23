@@ -6,6 +6,7 @@ import {ICommentsService} from "../../../services/CommentsService/ICommentsServi
 import CommentList from "../../../components/Comments/CommentList/CommentList.tsx";
 import AddCommentForm from "../AddCommentForm/AddCommentForm.tsx";
 import {CommentData} from "../../../components/Comments/CommentItem/CommentData.ts";
+import ContentBlock from "../../../UI/ContentBlock/ContentBlock.tsx";
 
 const FilmCommentsModule = ({id, className}: { id: string, className?: string }) => {
 //todo: check avatars
@@ -57,7 +58,9 @@ const FilmCommentsModule = ({id, className}: { id: string, className?: string })
 
     return (
         <>
-            <AddCommentForm className={className} callback={addComment}/>
+            <ContentBlock className={className}>
+                <AddCommentForm callback={addComment}/>
+            </ContentBlock>
             <InfiniteScroll {...scrollProps}>
                 <CommentList comments={comments} removeComment={removeComment}/>
             </InfiniteScroll>

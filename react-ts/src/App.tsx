@@ -68,7 +68,7 @@ const App = () => {
                 {
                     path: '/filmRoom',
                     element: <FilmRoomPage/>
-                },
+                }
             ]
         }
     ])

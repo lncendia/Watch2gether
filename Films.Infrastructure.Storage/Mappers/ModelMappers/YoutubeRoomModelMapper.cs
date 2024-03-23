@@ -17,6 +17,7 @@ internal class YoutubeRoomModelMapper(ApplicationDbContext context) : IModelMapp
 
         model.ServerId = aggregate.ServerId;
         model.Code = aggregate.Code;
+        model.CreationDate = aggregate.CreationDate;
 
         ProcessUsers(aggregate, model);
         ProcessBanned(aggregate, model);

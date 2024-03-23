@@ -19,6 +19,7 @@ internal class YoutubeRoomMapper : IAggregateMapperUnit<YoutubeRoom, YoutubeRoom
     {
         var room = (YoutubeRoom)RuntimeHelpers.GetUninitializedObject(YoutubeRoomType);
         VideoAccess.SetValue(room, model.VideoAccess);
+        RoomFields.CreationDate.SetValue(room, model.CreationDate);
         RoomFields.Code.SetValue(room, model.Code);
         RoomFields.ServerId.SetValue(room, model.ServerId);
         RoomFields.Viewers.SetValue(room, model.Viewers.Select(v => v.UserId).ToList());

@@ -32,27 +32,27 @@ export interface TypeEvent {
     userId: string
 }
 
-export interface BeepEvent {
-    userId: string,
-    targetId: string
+export interface ActionEvent {
+    initiator: string,
+    target: string
 }
 
-export interface ScreamEvent {
-    userId: string,
-    targetId: string
-}
-
-export interface KickEvent {
-    userId: string,
-    targetId: string
-}
-
-export interface ChangeNameEvent {
-    userId: string,
-    targetId: string,
+export interface ChangeNameEvent extends ActionEvent{
     name: string
 }
 
 export interface ConnectEvent{
 
+}
+
+export interface MessageEvent {
+    id: string;
+    userId: string;
+    createdAt: Date;
+    text: string;
+}
+
+export interface MessagesEvent {
+    messages: MessageEvent[];
+    count: number;
 }

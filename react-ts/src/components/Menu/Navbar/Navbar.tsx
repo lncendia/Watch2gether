@@ -2,7 +2,7 @@ import Container from "../../../UI/Container/Container.tsx";
 import NavLogo from "../NavLogo/NavLogo.tsx";
 import {Nav, Navbar as NavbarBs, NavDropdown} from "react-bootstrap";
 import Svg from "../../../UI/Svg/Svg.tsx";
-import {AuthorizedUser} from "../../../contexts/UserContext/AuthorizedUser.ts";
+import {IAuthorizedUser} from "../../../contexts/UserContext/AuthorizedUser.ts";
 import FilmSearch from "../FilmSearch/FilmSearch.tsx";
 import styles from "./Navbar.module.css"
 import {FilmShort} from "../../../services/FilmsService/Models/Films.ts";
@@ -10,7 +10,7 @@ import {FilmShort} from "../../../services/FilmsService/Models/Films.ts";
 export interface MenuProps {
     films: FilmShort[],
     onFilmSearch: (value: string) => void,
-    user: AuthorizedUser | null,
+    user: IAuthorizedUser | null,
     onLogout: () => void,
     onLogin: () => void,
     onCatalog: () => void,
@@ -86,7 +86,7 @@ const Navbar = (props: MenuProps) => {
                                     {props.user.name}
                                 </Nav.Link>
 
-                                {props.user.isInRole('admin') &&
+                                {props.user.roles.includes('admin') &&
                                     <NavDropdown title="Управление">
                                         <NavDropdown.Item>
                                             <Svg width={16} height={16} fill="currentColor"

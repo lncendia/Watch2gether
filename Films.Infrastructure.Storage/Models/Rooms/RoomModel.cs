@@ -18,6 +18,11 @@ public class RoomModel : IAggregateModel
     /// Идентификатор сервера.
     /// </summary> 
     public Guid ServerId { get; set; }
+    
+    /// <summary>
+    /// Дата создания
+    /// </summary>
+    public DateTime CreationDate { get; set; }
 
     /// <summary>
     /// Сервер.

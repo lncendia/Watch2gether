@@ -1,12 +1,23 @@
-using Room.Application.Abstractions.Commands.Rooms;
+using MediatR;
+using Room.Application.Abstractions.DTOs.Messages;
 
 namespace Room.Application.Abstractions.Commands.FilmRooms;
 
 /// <summary>
 /// Команда на отправку сообщения
 /// </summary>
-public class SendMessageCommand : RoomCommand
+public class SendMessageCommand : IRequest<MessageDto>
 {
+    /// <summary>
+    /// Идентификатор пользователя
+    /// </summary>
+    public required Guid ViewerId { get; init; }
+    
+    /// <summary>
+    /// Идентификатор комнаты
+    /// </summary>
+    public required Guid RoomId { get; init; }
+    
     /// <summary>
     /// Текст сообщения
     /// </summary>

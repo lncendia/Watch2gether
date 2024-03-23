@@ -2,6 +2,7 @@ namespace Films.Infrastructure.Web.Rooms.ViewModels;
 
 public class FilmRoomViewModel : RoomViewModel
 {
+    public required Guid FilmId { get; init; }
     public required string Title { get; init; }
     public required string PosterUrl { get; init; }
     public required int Year { get; init; }

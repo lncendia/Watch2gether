@@ -20,4 +20,7 @@ public class FilmRoomSortingVisitor : BaseSortingVisitor<FilmRoomModel, IFilmRoo
 
     public void Visit(FilmRoomOrderByViewersCount order) =>
         SortItems.Add(new SortData<FilmRoomModel>(f => f.Viewers.Count, false));
+
+    public void Visit(FilmRoomOrderByDate order) =>
+        SortItems.Add(new SortData<FilmRoomModel>(f => f.CreationDate, false));
 }

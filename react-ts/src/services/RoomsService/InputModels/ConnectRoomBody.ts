@@ -1,4 +1,4 @@
-interface ConnectRoomBody {
+export interface ConnectRoomBody {
     id: string;
     code?: string;
 }

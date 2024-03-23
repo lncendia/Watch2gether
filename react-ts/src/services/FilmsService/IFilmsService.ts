@@ -1,9 +1,9 @@
 import {Films, FilmShort} from "./Models/Films.ts";
-import {SearchQuery} from "./InputModels/SearchQuery.ts";
+import {SearchFilmQuery} from "./InputModels/SearchFilmQuery.ts";
 import {Film} from "./Models/Film.ts";
 
 export interface IFilmsService {
-    search(query: SearchQuery): Promise<Films>
+    search(query: SearchFilmQuery): Promise<Films>
 
     popular(count?: number): Promise<FilmShort[]>
 

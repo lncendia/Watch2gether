@@ -13,10 +13,6 @@ public class YoutubeRoomByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandl
     {
         var room = await unitOfWork.YoutubeRoomRepository.Value.GetAsync(request.Id);
         if (room == null) throw new RoomNotFoundException();
-
-        var server = await unitOfWork.ServerRepository.Value.GetAsync(room.ServerId);
-        if (server == null) throw new ServerNotFoundException();
-
-        return Mapper.Map(room, server);
+        return Mapper.Map(room, request.UserId);
     }
 }

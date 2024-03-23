@@ -23,6 +23,7 @@ public abstract class Room : AggregateRoot
 
         if (!isOpen) Code = GenerateRandomCode(5);
         _viewers.Add(user.Id);
+        CreationDate = DateTime.UtcNow;
     }
 
     private static string GenerateRandomCode(int length)
@@ -45,6 +46,10 @@ public abstract class Room : AggregateRoot
     /// </summary>
     public string? Code { get; }
 
+    /// <summary>
+    /// Дата создания
+    /// </summary>
+    public DateTime CreationDate { get; }
 
     /// <summary> 
     /// Участники комнаты
@@ -72,8 +77,10 @@ public abstract class Room : AggregateRoot
     /// </summary> 
     public Guid ServerId { get; }
 
-    public void Connect(User user, string? code)
+    public virtual void Connect(User user, string? code)
     {
+        if (_viewers.Any(v => v == user.Id)) return;
+
         if (Code != null)
         {
             if (!string.Equals(Code, code, StringComparison.CurrentCultureIgnoreCase)) throw new InvalidCodeException();

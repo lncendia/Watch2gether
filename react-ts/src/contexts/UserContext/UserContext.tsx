@@ -1,12 +1,12 @@
 import React, {createContext, useContext, useState, useEffect, ReactNode} from 'react';
 import {User, UserManager} from 'oidc-client';
-import {AuthorizedUser} from "./AuthorizedUser.ts";
 import {useInjection} from "inversify-react";
+import {IAuthorizedUser} from "./AuthorizedUser.ts";
 
 
 // Создайте интерфейс для контекста
 interface UserContextType {
-    authorizedUser: AuthorizedUser | null;
+    authorizedUser: IAuthorizedUser | null;
 }
 
 // Создайте сам контекст
@@ -19,7 +19,7 @@ interface UserContextProviderProps {
 
 export const UserContextProvider: React.FC<UserContextProviderProps> = ({children}) => {
 
-    const [authorizedUser, setAuthorizedUser] = useState<AuthorizedUser | null>(null);
+    const [authorizedUser, setIAuthorizedUser] = useState<IAuthorizedUser | null>(null);
 
     const userManager = useInjection<UserManager>('UserManager')
 
@@ -27,7 +27,14 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({childre
         const onUserLoaded = (user: User) => {
 
             // Обновить текущего пользователя
-            setAuthorizedUser(mapUser(user));
+            setIAuthorizedUser(mapUser(user));
+
+            setTimeout(() => {
+                console.log("Устанавливаю")
+                setIAuthorizedUser(prev => {
+                    return {...prev!}
+                });
+            }, 10000)
         };
 
         // Подписаться на события обновления пользователя
@@ -47,7 +54,7 @@ export const UserContextProvider: React.FC<UserContextProviderProps> = ({childre
             // Очистка подписки
             userManager.events.removeUserLoaded(onUserLoaded);
         };
-    }, []);
+    }, [userManager]);
 
     return (
         <UserContext.Provider value={{authorizedUser}}>
@@ -65,7 +72,7 @@ export const useUser = () => {
     return context;
 };
 
-function mapUser(user: User): AuthorizedUser {
+function mapUser(user: User): IAuthorizedUser {
 
     // Получаем claims пользователя
     const userClaims = user.profile as any;
@@ -97,5 +104,12 @@ function mapUser(user: User): AuthorizedUser {
         profilePhoto = '/vite.svg'
     }
 
-    return new AuthorizedUser(user.profile.sub, user.profile.name!, profilePhoto, roles, user.profile.email!, user.profile.locale!);
+    return {
+        avatarUrl: profilePhoto,
+        email: user.profile.email!,
+        id: user.profile.sub,
+        locale: user.profile.locale!,
+        name: user.profile.name!,
+        roles: roles
+    }
 }

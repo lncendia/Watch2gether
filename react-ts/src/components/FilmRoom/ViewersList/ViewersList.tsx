@@ -9,6 +9,8 @@ interface ViewersListProps {
     viewers: ViewerData[]
     currentId: string,
     ownerId: string,
+    onBeep: (viewer: ViewerData) => void
+    onScream: (viewer: ViewerData) => void
 }
 
 const ViewersList = (props: ViewersListProps) => {
@@ -23,7 +25,8 @@ const ViewersList = (props: ViewersListProps) => {
 
                 <Viewer viewer={currentViewer} owner={isCurrentOwner} showBeep={false}
                         showChange={currentViewer.change} showKick={false} showScream={false}
-                        showSync={!isCurrentOwner}/>
+                        showSync={!isCurrentOwner} onBeep={() => props.onBeep(currentViewer)}
+                        onScream={() => props.onScream(currentViewer)}/>
 
                 <Button variant="outline-primary" active={show} onClick={() => setShow(v => !v)}>
                     <svg xmlns="http://www.w3.org/2000/svg" className={styles.menu} viewBox="0 0 16 16">
@@ -36,7 +39,8 @@ const ViewersList = (props: ViewersListProps) => {
             {show && props.viewers.filter(v => v.id != props.currentId).map(v =>
                 (
                     <Viewer className="mt-3" key={v.id} viewer={v} owner={v.id === props.ownerId} showBeep={v.beep}
-                            showScream={v.scream} showChange={v.change} showKick={isCurrentOwner} showSync={false}/>
+                            showScream={v.scream} showChange={v.change} showKick={isCurrentOwner} showSync={false}
+                            onBeep={() => props.onBeep(v)} onScream={() => props.onScream(v)}/>
                 )
             )}
         </div>

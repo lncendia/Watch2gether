@@ -19,6 +19,7 @@ internal class FilmRoomModelMapper(ApplicationDbContext context) : IModelMapperU
         model.FilmId = aggregate.FilmId;
         model.Code = aggregate.Code;
         model.CdnName = aggregate.CdnName;
+        model.CreationDate = aggregate.CreationDate;
 
         ProcessViewers(aggregate, model);
         ProcessBanned(aggregate, model);

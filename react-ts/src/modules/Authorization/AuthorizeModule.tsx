@@ -4,7 +4,7 @@ import NotEnoughRights from "../../components/NotEnoughRights/NotEnoughRights.ts
 import {useUser} from "../../contexts/UserContext/UserContext.tsx";
 
 // Модуль проверки авторизации пользователя
-const AuthorizeModule = ({role, children}: { role?: string, children: ReactNode }) => {
+const AuthorizeModule = ({role, children, showError}: { role?: string, children: ReactNode, showError: boolean }) => {
 
     // Навигационный хук
     const navigate = useNavigate();
@@ -38,7 +38,9 @@ const AuthorizeModule = ({role, children}: { role?: string, children: ReactNode 
     if (show) return children;
 
     // Если нет - выводим компонент недостаточной авторизации
-    return <NotEnoughRights goBack={goBack}/>
+    if (showError) return <NotEnoughRights goBack={goBack}/>
+
+    return <></>
 
 }
 

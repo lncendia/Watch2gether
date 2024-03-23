@@ -141,6 +141,9 @@ namespace Films.Infrastructure.Storage.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("FilmId")
                         .HasColumnType("uuid");
 
@@ -540,6 +543,9 @@ namespace Films.Infrastructure.Storage.Migrations
 
                     b.Property<string>("Code")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("ServerId")
                         .HasColumnType("uuid");

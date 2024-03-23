@@ -12,10 +12,12 @@ import {IProfileService} from "../services/ProfileService/IProfileService.ts";
 import {ProfileService} from "../services/ProfileService/ProfileService.ts";
 import {IPlaylistsService} from "../services/PlaylistsService/IPlaylistsService.ts";
 import {PlaylistsService} from "../services/PlaylistsService/PlaylistsService.ts";
-import {IRoomsService} from "../services/RoomsService/IRoomsService.ts";
-import {RoomsService} from "../services/RoomsService/RoomsService.ts";
+import {IFilmRoomsService} from "../services/RoomsService/IFilmRoomsService.ts";
+import {FilmRoomsService} from "../services/RoomsService/FilmRoomsService.ts";
 import {IFilmRoomService} from "../services/FilmRoomService/IFilmRoomService.ts";
 import {FilmRoomService} from "../services/FilmRoomService/FilmRoomService.ts";
+import {IYoutubeRoomsService} from "../services/RoomsService/IYoutubeRoomsService.ts";
+import {YoutubeRoomsService} from "../services/RoomsService/YoutubeRoomsService.ts";
 
 
 const config: UserManagerSettings = {
@@ -80,8 +82,12 @@ container.bind<IPlaylistsService>('PlaylistsService')
     .toDynamicValue(() => new PlaylistsService(axiosInstance))
     .inSingletonScope();
 
-container.bind<IRoomsService>('RoomsService')
-    .toDynamicValue(() => new RoomsService(axiosInstance))
+container.bind<IFilmRoomsService>('FilmRoomsService')
+    .toDynamicValue(() => new FilmRoomsService(axiosInstance))
+    .inSingletonScope();
+
+container.bind<IYoutubeRoomsService>('YoutubeRoomsService')
+    .toDynamicValue(() => new YoutubeRoomsService(axiosInstance))
     .inSingletonScope();
 
 container.bind<IFilmRoomService>('FilmRoomService')

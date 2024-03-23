@@ -31,13 +31,9 @@ const FilmsModule = (props: FilmsModuleProps) => {
     useEffect(() => {
         const processFilms = async () => {
             const response = await filmsService.search({
-                genre: props.genre,
-                person: props.person,
-                country: props.country,
-                serial: props.serial,
+                ...props,
                 minYear: props.year,
                 maxYear: props.year,
-                playlistId: props.playlistId
             })
 
             setPage(2);
@@ -51,11 +47,7 @@ const FilmsModule = (props: FilmsModuleProps) => {
     const onBottom = () => {
         const processFilms = async () => {
             const response = await filmsService.search({
-                genre: props.genre,
-                person: props.person,
-                country: props.country,
-                serial: props.serial,
-                playlistId: props.playlistId,
+                ...props,
                 minYear: props.year,
                 maxYear: props.year,
                 page: page

@@ -1,11 +1,17 @@
 import {SyncEvent} from "ts-events";
-import {Messages} from "./Models/Messages.ts";
+import {ActionEvent, MessageEvent, MessagesEvent} from "./Models/RoomEvents.ts";
 
 export interface IFilmRoomService {
 
-    roomLoad: SyncEvent<FilmRoom>;
+    roomLoadEvent: SyncEvent<FilmRoom>;
 
-    messages: SyncEvent<Messages>
+    messagesEvent: SyncEvent<MessagesEvent>
+
+    messageEvent: SyncEvent<MessageEvent>
+    
+    beepEvent: SyncEvent<ActionEvent>
+
+    screamEvent: SyncEvent<ActionEvent>
 
     connect(roomId: string, url:string): Promise<void>;
 

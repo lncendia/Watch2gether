@@ -13,7 +13,7 @@ const FilmsList = ({films, onFilmSelect, className}: {
         <ContentBlock className={className}>
             <Row className="gy-4">
                 {films.map(film =>
-                    <Col xs={6} sm={4} lg={3} xxl={2} key={film.filmId}>
+                    <Col xs={6} sm={4} lg={3} xxl={2} key={film.id}>
                         <FilmShortItem film={film} onClick={() => onFilmSelect(film)}/>
                     </Col>
                 )}

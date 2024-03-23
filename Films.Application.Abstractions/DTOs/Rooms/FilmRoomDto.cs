@@ -2,6 +2,7 @@ namespace Films.Application.Abstractions.DTOs.Rooms;
 
 public class FilmRoomDto : RoomDto
 {
+    public required Guid FilmId { get; init; }
     public required string Title { get; init; }
     public required Uri PosterUrl { get; init; }
     public required int Year { get; init; }

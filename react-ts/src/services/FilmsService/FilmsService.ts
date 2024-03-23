@@ -1,7 +1,7 @@
 import {AxiosInstance} from "axios";
 import {IFilmsService} from "./IFilmsService.ts";
 import {Films, FilmShort} from "./Models/Films.ts";
-import {SearchQuery} from "./InputModels/SearchQuery.ts";
+import {SearchFilmQuery} from "./InputModels/SearchFilmQuery.ts";
 import {filmsSchema, filmShortSchema} from "./Validators/FilmsValidator.ts"
 import {Film} from "./Models/Film.ts";
 import {filmSchema} from "./Validators/FilmValidator.ts";
@@ -18,7 +18,7 @@ export class FilmsService implements IFilmsService {
     }
 
     // Возвращает Promise, который содержит массив объектов EmployeeModel
-    public async search(query: SearchQuery): Promise<Films> {
+    public async search(query: SearchFilmQuery): Promise<Films> {
 
         // Отправка запроса к серверу для получения списка фильмов
         const response = await this.axiosInstance.get<Films>('films/search', {params: query});

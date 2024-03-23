@@ -3,8 +3,8 @@ import {HubConnection} from "@microsoft/signalr";
 import {IFilmRoomService} from "./IFilmRoomService.ts";
 import {SyncEvent} from "ts-events";
 import filmRoomSchema from "./Validators/RoomValidator.ts";
-import {Messages} from "./Models/Messages.ts";
-import messagesSchema from "./Validators/MessagesValidator.ts";
+import {actionSchema, messageSchema, messagesSchema} from "./Validators/EventsValidator.ts";
+import {ActionEvent, MessageEvent, MessagesEvent} from "./Models/RoomEvents.ts";
 
 
 export class FilmRoomService implements IFilmRoomService {
@@ -14,9 +14,15 @@ export class FilmRoomService implements IFilmRoomService {
 
     private readonly authUrl: string
 
-    roomLoad = new SyncEvent<FilmRoom>();
+    roomLoadEvent = new SyncEvent<FilmRoom>();
 
-    messages = new SyncEvent<Messages>();
+    messagesEvent = new SyncEvent<MessagesEvent>();
+
+    messageEvent = new SyncEvent<MessageEvent>();
+
+    beepEvent = new SyncEvent<ActionEvent>()
+
+    screamEvent = new SyncEvent<ActionEvent>()
 
     constructor(tokenFactory: () => Promise<string>, authUrl: string) {
         this.authUrl = authUrl
@@ -35,18 +41,33 @@ export class FilmRoomService implements IFilmRoomService {
                 if (v.photoUrl) v.photoUrl = `${this.authUrl}/${v.photoUrl}`
             })
             await filmRoomSchema.validate(room)
-            this.roomLoad.post(room)
+            this.roomLoadEvent.post(room)
         })
 
-        this.connection.on("Messages", async (messages: Messages) => {
+        this.connection.on("Messages", async (messages: MessagesEvent) => {
             messages.messages.forEach(m => {
                 m.createdAt = new Date(m.createdAt)
             })
             await messagesSchema.validate(messages)
-            this.messages.post(messages)
+            this.messagesEvent.post(messages)
         })
+
+        this.connection.on('NewMessage', async (message: MessageEvent) => {
+            message.createdAt = new Date(message.createdAt)
+            await messageSchema.validate(message)
+            this.messageEvent.post(message)
+        });
+
+        this.connection.on('Beep', async (action: ActionEvent) => {
+            await actionSchema.validate(action)
+            this.beepEvent.post(action)
+        });
+
+        this.connection.on('Scream', async (action: ActionEvent) => {
+            await actionSchema.validate(action)
+            this.screamEvent.post(action)
+        });
         // this.connection.on('Error', (id, message) => room.ProcessReceiveEvent(new ErrorReceiveEvent(id, message)));
-        // this.connection.on('NewMessage', (id, message) => room.ProcessReceiveEvent(new MessageReceiveEvent(id, message)));
         // this.connection.on('Pause', (id, pause, second) => room.ProcessReceiveEvent(new PauseReceiveEvent(id, pause, second)));
         // this.connection.on('Seek', (id, second) => room.ProcessReceiveEvent(new SeekReceiveEvent(id, second)));
         // this.connection.on('ChangeSeries', (id, season, series) => room.ProcessReceiveEvent(new ChangeSeriesReceiveEvent(id, season, series)));

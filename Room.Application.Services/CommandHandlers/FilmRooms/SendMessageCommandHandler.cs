@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Room.Application.Abstractions.Commands.FilmRooms;
+using Room.Application.Abstractions.DTOs.Messages;
 using Room.Application.Services.Common;
 using Room.Domain.Abstractions.Interfaces;
 using Room.Domain.Messages.FilmMessages;
@@ -12,9 +13,9 @@ namespace Room.Application.Services.CommandHandlers.FilmRooms;
 /// </summary>
 /// <param name="unitOfWork">Единица работы</param>
 /// <param name="cache">Сервис кеша в памяти</param>
-public class SendMessageCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) : IRequestHandler<SendMessageCommand>
+public class SendMessageCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cache) : IRequestHandler<SendMessageCommand, MessageDto>
 {
-    public async Task Handle(SendMessageCommand request, CancellationToken cancellationToken)
+    public async Task<MessageDto> Handle(SendMessageCommand request, CancellationToken cancellationToken)
     {
         // Получаем комнату
         var room = await cache.TryGetFilmRoomFromCache(request.RoomId, unitOfWork);
@@ -26,5 +27,8 @@ public class SendMessageCommandHandler(IUnitOfWork unitOfWork, IMemoryCache cach
 
         // Сохраняем изменения
         await unitOfWork.SaveChangesAsync();
+
+        // Возвращаем сообщение
+        return Mappers.MessageMapper.Map(message);
     }
 }

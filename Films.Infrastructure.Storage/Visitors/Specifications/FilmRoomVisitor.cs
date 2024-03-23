@@ -21,4 +21,5 @@ public class FilmRoomVisitor : BaseVisitor<FilmRoomModel, IFilmRoomSpecification
     public void Visit(FilmRoomByUserSpecification spec) => Expr = x => x.Viewers.Any(v => v.UserId == spec.UserId);
 
     public void Visit(OpenFilmRoomsSpecification specification) => Expr = x => x.Code != null;
+    public void Visit(FilmRoomByFilmSpecification spec) => Expr = x => x.FilmId == spec.FilmId;
 }

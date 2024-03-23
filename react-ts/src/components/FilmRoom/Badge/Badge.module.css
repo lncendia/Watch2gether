@@ -1,0 +1,8 @@
+.badge {
+    margin-top: 30px;
+    position: absolute;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 12px;
+    text-align: center;
+}

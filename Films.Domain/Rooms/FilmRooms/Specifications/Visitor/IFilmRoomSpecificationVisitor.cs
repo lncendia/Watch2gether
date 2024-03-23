@@ -6,4 +6,5 @@ public interface IFilmRoomSpecificationVisitor : ISpecificationVisitor<IFilmRoom
 {
     void Visit(FilmRoomByUserSpecification spec);
     void Visit(OpenFilmRoomsSpecification spec);
+    void Visit(FilmRoomByFilmSpecification spec);
 }

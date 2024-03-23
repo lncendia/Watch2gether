@@ -1,0 +1,9 @@
+.clipboard {
+    margin-top: 5px;
+    color: rgba(var(--bs-body-color-rgb), 0.8);
+    cursor: pointer;
+}
+
+.copied {
+    color: rgba(var(--bs-body-color-rgb), 0.5);
+}

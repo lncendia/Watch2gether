@@ -20,4 +20,7 @@ public class YoutubeRoomSortingVisitor : BaseSortingVisitor<YoutubeRoomModel, IY
 
     public void Visit(YoutubeRoomOrderByViewersCount order) =>
         SortItems.Add(new SortData<YoutubeRoomModel>(f => f.Viewers.Count, false));
+
+    public void Visit(YoutubeRoomOrderByDate order) =>
+        SortItems.Add(new SortData<YoutubeRoomModel>(f => f.CreationDate, false));
 }

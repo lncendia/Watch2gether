@@ -23,6 +23,7 @@ internal class FilmRoomMapper : IAggregateMapperUnit<FilmRoom, FilmRoomModel>
         var room = (FilmRoom)RuntimeHelpers.GetUninitializedObject(FilmRoomType);
         FilmId.SetValue(room, model.FilmId);
         CdnName.SetValue(room, model.CdnName);
+        RoomFields.CreationDate.SetValue(room, model.CreationDate);
         RoomFields.Code.SetValue(room, model.Code);
         RoomFields.ServerId.SetValue(room, model.ServerId);
         RoomFields.Viewers.SetValue(room, model.Viewers.Select(v => v.UserId).ToList());

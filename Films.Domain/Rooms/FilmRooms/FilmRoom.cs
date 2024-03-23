@@ -34,6 +34,12 @@ public class FilmRoom : Room
         AddDomainEvent(new FilmRoomUserLeavedDomainEvent(this, userId));
     }
 
+    public override void Connect(User user, string? code)
+    {
+        base.Connect(user, code);
+        AddDomainEvent(new FilmRoomUserConnectedDomainEvent(this, user));
+    }
+
     /// <summary> 
     /// Идентификатор фильма.
     /// </summary> 

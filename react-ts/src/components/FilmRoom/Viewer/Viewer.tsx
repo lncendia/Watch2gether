@@ -49,6 +49,8 @@ interface ViewerProps {
     showKick: boolean,
     showSync: boolean
     owner: boolean,
+    onBeep: () => void
+    onScream: () => void
 }
 
 const Viewer = (props: ViewerProps) => {
@@ -60,8 +62,8 @@ const Viewer = (props: ViewerProps) => {
                     <NavDropdown className="me-2" title={props.viewer.username}>
                         {props.showSync && <NavDropdown.Item>Синхронизовать</NavDropdown.Item>}
                         {props.showKick && <NavDropdown.Item>Выгнать</NavDropdown.Item>}
-                        {props.showBeep && <NavDropdown.Item>Разбудить</NavDropdown.Item>}
-                        {props.showScream && <NavDropdown.Item>Напугать</NavDropdown.Item>}
+                        {props.showBeep && <NavDropdown.Item onClick={props.onBeep}>Разбудить</NavDropdown.Item>}
+                        {props.showScream && <NavDropdown.Item onClick={props.onScream}>Напугать</NavDropdown.Item>}
                         {props.showChange && <NavDropdown.Item>Изменить имя</NavDropdown.Item>}
                     </NavDropdown>
                     {pauseComponent(props.viewer.pause)}

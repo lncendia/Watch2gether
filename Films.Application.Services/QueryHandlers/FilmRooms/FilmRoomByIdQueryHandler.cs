@@ -17,10 +17,7 @@ public class FilmRoomByIdQueryHandler(IUnitOfWork unitOfWork, IMemoryCache cache
         if (room == null) throw new RoomNotFoundException();
 
         var film = await cache.TryGetFilmFromCacheAsync(room.FilmId, unitOfWork);
-
-        var server = await unitOfWork.ServerRepository.Value.GetAsync(room.ServerId);
-        if (server == null) throw new ServerNotFoundException();
         
-        return Mapper.Map(room, film, server);
+        return Mapper.Map(room, film, request.UserId);
     }
 }

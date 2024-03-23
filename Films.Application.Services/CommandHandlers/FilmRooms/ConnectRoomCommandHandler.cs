@@ -17,21 +17,24 @@ public class ConnectRoomCommandHandler(IUnitOfWork unitOfWork)
         var room = await unitOfWork.FilmRoomRepository.Value.GetAsync(request.RoomId);
         if (room == null) throw new RoomNotFoundException();
 
-        var user = await unitOfWork.UserRepository.Value.GetAsync(request.UserId);
-        if (user == null) throw new UserNotFoundException();
-
+        if (room.Viewers.All(v => v != request.UserId))
+        {
+            var user = await unitOfWork.UserRepository.Value.GetAsync(request.UserId);
+            if (user == null) throw new UserNotFoundException();
+            
+            room.Connect(user, request.Code);
+            await unitOfWork.FilmRoomRepository.Value.UpdateAsync(room);
+            await unitOfWork.SaveChangesAsync();
+        }
+        
         var server = await unitOfWork.ServerRepository.Value.GetAsync(room.ServerId);
         if (server == null) throw new ServerNotFoundException();
-
-        room.Connect(user, request.Code);
-
-        await unitOfWork.FilmRoomRepository.Value.UpdateAsync(room);
-        await unitOfWork.SaveChangesAsync();
 
         return new RoomServerDto
         {
             Id = room.Id,
-            ServerUrl = server.Url
+            ServerUrl = server.Url,
+            Code = room.Code
         };
     }
 }

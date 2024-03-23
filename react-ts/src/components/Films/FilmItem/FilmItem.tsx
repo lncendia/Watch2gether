@@ -15,8 +15,8 @@ const FilmItem = ({film, selectedGenre, typeSelected, onClick}: FilmItemProps) =
     const genres: ReactNode[] = [];
 
     for (let _i = 0; _i < film.genres.length; _i++) {
-        let className = film.genres[_i] === selectedGenre ? styles.genre_active : styles.genre;
-        let coma = _i !== film.genres.length - 1;
+        const className = film.genres[_i] === selectedGenre ? styles.genre_active : styles.genre;
+        const coma = _i !== film.genres.length - 1;
         genres.push(
             <span className={className} key={film.genres[_i]}>{film.genres[_i]}{coma && ", "}</span>
         )

@@ -18,4 +18,7 @@ public class RoomFields
     
     public static readonly FieldInfo ServerId =
         RoomType.GetField("<ServerId>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
+    
+    public static readonly FieldInfo CreationDate =
+        RoomType.GetField("<CreationDate>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
 }
