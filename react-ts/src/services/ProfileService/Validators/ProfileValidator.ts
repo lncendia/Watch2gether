@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 const userFilmSchema = yup.object().shape({
-    filmId: yup.string().required(),
+    id: yup.string().uuid().required(),
     title: yup.string().required(),
     year: yup.number().positive().required(),
     ratingKp: yup.number().min(0).max(10).nullable(),
@@ -15,11 +15,18 @@ const allowsSchema = yup.object().shape({
     change: yup.boolean().required(),
 });
 
-const profileSchema = yup.object().shape({
+export const profileSchema = yup.object().shape({
     allows: allowsSchema.required(),
     watchlist: yup.array().of(userFilmSchema).required(),
     history: yup.array().of(userFilmSchema).required(),
     genres: yup.array().of(yup.string()).required(),
 });
 
-export {profileSchema}
+const ratingSchema = userFilmSchema.shape({
+    score: yup.number().min(0).max(10).required(),
+});
+
+export const ratingsSchema = yup.object().shape({
+    ratings: yup.array().of(ratingSchema).required(),
+    countPages: yup.number().required(),
+});

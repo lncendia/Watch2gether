@@ -1,25 +1,40 @@
 import {Col, Row} from "react-bootstrap";
 import FilmItem from "../FilmItem/FilmItem.tsx";
 import {FilmItemData} from "../FilmItem/FilmItemData.ts";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Spinner from "../../Common/Spinner/Spinner.tsx";
 
 export interface FilmsCatalogProps {
     films: FilmItemData[],
     className?: string,
     genre?: string,
     typeSelected: boolean
-    onFilmSelect: (film: FilmItemData) => void
+    onSelect: (film: FilmItemData) => void,
+    hasMore: boolean,
+    next: () => void
 }
 
-const FilmsCatalog = ({films, genre, typeSelected, className = '', onFilmSelect}: FilmsCatalogProps) => {
+const FilmsCatalog = (props: FilmsCatalogProps) => {
+
+    const scrollProps = {
+        dataLength: props.films.length,
+        next: props.next,
+        hasMore: props.hasMore,
+        loader: <Spinner/>,
+        className: props.className
+    }
+
     return (
-        <Row className={`gy-5 m-0 justify-content-start ${className}`.trim()}>
-            {films.map(film =>
-                <Col sm={6} xxl={4} key={film.id}>
-                    <FilmItem selectedGenre={genre} film={film} onClick={() => onFilmSelect(film)}
-                              typeSelected={typeSelected}/>
-                </Col>
-            )}
-        </Row>
+        <InfiniteScroll {...scrollProps}>
+            <Row className="gy-5 m-0 justify-content-start">
+                {props.films.map(film =>
+                    <Col sm={6} xxl={4} key={film.id}>
+                        <FilmItem selectedGenre={props.genre} film={film} onClick={() => props.onSelect(film)}
+                                  typeSelected={props.typeSelected}/>
+                    </Col>
+                )}
+            </Row>
+        </InfiniteScroll>
     );
 };
 

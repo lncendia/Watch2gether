@@ -1,12 +1,26 @@
 import {Formik} from "formik";
 import Form from "react-bootstrap/Form";
 import sendMessageFormSchema from "./SendMessageFormValidation.ts";
+import {useCallback} from "react";
 
-const SendMessageForm = ({callback, className}: { className?: string, callback: (text: string) => void }) => {
-    const handleSubmit = (values: { text: string; }) => {
+interface SendMessageFormProps {
+    className?: string,
+    callback: (text: string) => void,
+    type: () => void
+}
+
+const SendMessageForm = ({callback, className, type}: SendMessageFormProps) => {
+
+
+
+    const handleSubmit = useCallback((values: { text: string; }) => {
         callback(values.text)
         values.text = ''
-    };
+    }, [callback]);
+
+    const onType = () => {
+
+    }
 
     return (
         <Formik validationSchema={sendMessageFormSchema} onSubmit={handleSubmit}
@@ -20,6 +34,8 @@ const SendMessageForm = ({callback, className}: { className?: string, callback: 
                                       if (event.key === 'Enter' && !event.ctrlKey) {
                                           event.preventDefault();
                                           handleSubmit();
+                                      } else {
+                                          type()
                                       }
                                   }}/>
                     <Form.Control.Feedback type="invalid">{errors.text}</Form.Control.Feedback>

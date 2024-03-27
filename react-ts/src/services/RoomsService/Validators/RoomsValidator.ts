@@ -6,7 +6,7 @@ const roomSchema = yup.object().shape({
     isCodeNeeded: yup.boolean().required(),
 });
 
-export const filmRoomSchema = roomSchema.shape({
+export const filmRoomShortSchema = roomSchema.shape({
     filmId: yup.string().uuid().required(),
     title: yup.string().required(),
     posterUrl: yup.string().required(),
@@ -18,16 +18,28 @@ export const filmRoomSchema = roomSchema.shape({
     isSerial: yup.boolean().required(),
 });
 
+export const filmRoomSchema = filmRoomShortSchema.shape({
+    userRatingsCount: yup.number().required(),
+    userScore: yup.number().min(0).max(10).nullable(),
+});
+
+
 export const youtubeRoomSchema = roomSchema.shape({
     videoAccess: yup.boolean().required(),
 });
 
 export const filmRoomsSchema = yup.object().shape({
-    rooms: yup.array().of(filmRoomSchema).required(),
+    rooms: yup.array().of(filmRoomShortSchema).required(),
     countPages: yup.number().required()
 });
 
 export const youtubeRoomsSchema = yup.object().shape({
     rooms: yup.array().of(youtubeRoomSchema).required(),
     countPages: yup.number().required()
+});
+
+export const roomServerSchema = yup.object().shape({
+    id: yup.string().required(),
+    url: yup.string().required(),
+    code: yup.string().min(5).max(5).nullable()
 });

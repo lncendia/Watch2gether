@@ -1,4 +1,4 @@
-import ConnectUrl from "../../../../components/FilmRoom/ConnectUrl/ConnectUrl.tsx";
+import ConnectUrl from "../../../../components/Room/Common/ConnectUrl/ConnectUrl.tsx";
 import {useState} from "react";
 
 const ConnectLinkModule = ({id, endpoint, code}: { code?: string, id: string, endpoint: string }) => {

@@ -16,3 +16,7 @@ export const actionSchema = yup.object().shape({
     initiator: yup.string().uuid().required(),
     target: yup.string().uuid().required()
 });
+
+export const changeNameSchema = actionSchema.shape({
+    name: yup.string().required(),
+});

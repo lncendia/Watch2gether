@@ -4,7 +4,7 @@ interface Room {
     isCodeNeeded: boolean;
 }
 
-export interface FilmRoom extends Room {
+export interface FilmRoomShort extends Room {
     filmId: string;
     title: string;
     posterUrl: string;
@@ -14,6 +14,11 @@ export interface FilmRoom extends Room {
     ratingImdb?: number;
     description: string;
     isSerial: boolean;
+}
+
+export interface FilmRoom extends FilmRoomShort {
+    userRatingsCount: number;
+    userScore?: number;
 }
 
 export interface YoutubeRoom extends Room {

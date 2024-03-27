@@ -101,7 +101,7 @@ function mapUser(user: User): IAuthorizedUser {
     if (user.profile.picture) {
         profilePhoto = `https://localhost:10001/${user.profile.picture}`
     } else {
-        profilePhoto = '/vite.svg'
+        profilePhoto = '/img/profile.svg'
     }
 
     return {

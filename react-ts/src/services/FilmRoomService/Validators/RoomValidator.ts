@@ -6,7 +6,7 @@ const allowsSchema = yup.object().shape({
     change: yup.boolean().required(),
 });
 
-const filmViewerSchema = yup.object().shape({
+export const filmViewerSchema = yup.object().shape({
     season: yup.number().nullable(),
     series: yup.number().nullable(),
     id: yup.string().uuid().required(),
@@ -19,7 +19,7 @@ const filmViewerSchema = yup.object().shape({
     allows: allowsSchema.required(),
 });
 
-const filmRoomSchema = yup.object().shape({
+export const filmRoomSchema = yup.object().shape({
     title: yup.string().required(),
     cdnName: yup.string().required(),
     cdnUrl: yup.string().url().required(),
@@ -28,5 +28,3 @@ const filmRoomSchema = yup.object().shape({
     ownerId: yup.string().uuid().required(),
     viewers: yup.array().of(filmViewerSchema).required(),
 });
-
-export default filmRoomSchema

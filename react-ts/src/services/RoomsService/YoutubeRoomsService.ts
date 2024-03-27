@@ -1,9 +1,8 @@
 import {IYoutubeRoomsService} from "./IYoutubeRoomsService.ts";
 import {RoomServer} from "./Models/RoomServer.ts";
 import {AxiosInstance} from "axios";
-import {roomServerSchema} from "./Validators/RoomServerValidator.ts";
 import {YoutubeRoom, Rooms} from "./Models/Rooms.ts";
-import {youtubeRoomsSchema} from "./Validators/RoomsValidator.ts";
+import {roomServerSchema, youtubeRoomsSchema} from "./Validators/RoomsValidator.ts";
 import {CreateYoutubeRoomBody} from "./InputModels/CreateYoutubeRoomBody.ts";
 import {ConnectRoomBody} from "./InputModels/ConnectRoomBody.ts";
 import {RoomSearchQuery} from "./InputModels/SearchRoomQuery.ts";

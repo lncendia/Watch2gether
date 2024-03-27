@@ -2,10 +2,10 @@ import Carousel from "react-multi-carousel";
 import FilmShortItem from "../FilmShortItem/FilmShortItem.tsx";
 import {FilmShortData} from "../FilmShortItem/FilmShortData.ts";
 
-const FilmsSlider = ({films, onFilmSelect, className}: {
+const FilmsSlider = ({films, onSelect, className}: {
     films: FilmShortData[],
     className?: string,
-    onFilmSelect: (film: FilmShortData) => void
+    onSelect: (film: FilmShortData) => void
 }) => {
 
     const responsive = {
@@ -53,7 +53,7 @@ const FilmsSlider = ({films, onFilmSelect, className}: {
 
     return (
         <Carousel {...carouselProps}>
-            {films.map(film => <FilmShortItem key={film.id} film={film} onClick={() => onFilmSelect(film)}/>)}
+            {films.map(film => <FilmShortItem key={film.id} film={film} onClick={() => onSelect(film)}/>)}
         </Carousel>
     );
 };

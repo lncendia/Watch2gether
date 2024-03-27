@@ -6,7 +6,7 @@ export interface Profile {
 }
 
 export interface UserFilm {
-    filmId: string;
+    id: string;
     title: string;
     year: number;
     posterUrl: string;

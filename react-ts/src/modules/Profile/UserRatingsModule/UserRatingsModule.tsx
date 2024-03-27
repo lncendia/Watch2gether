@@ -2,9 +2,7 @@ import {Col} from "react-bootstrap";
 import FilmsList from "../../../components/Films/FilmsList/FilmsList.tsx";
 import {useNavigate} from "react-router-dom";
 import {useInjection} from "inversify-react";
-import {useEffect, useState} from "react";
-import Spinner from "../../../components/Common/Spinner/Spinner.tsx";
-import InfiniteScroll from "react-infinite-scroll-component";
+import {useCallback, useEffect, useState} from "react";
 import {IProfileService} from "../../../services/ProfileService/IProfileService.ts";
 import {FilmShortData} from "../../../components/Films/FilmShortItem/FilmShortData.ts";
 
@@ -32,36 +30,25 @@ const UserRatingsModule = ({className}: { className?: string }) => {
         processRatings().then()
     }, [profileService]);
 
-    const onBottom = () => {
-        const processRatings = async () => {
-            const response = await profileService.ratings({
-                page: page
-            })
-            setPage(page + 1);
-            setHasMore(response.countPages !== page)
-            setRatings([...ratings, ...response.ratings])
-        };
+    const next = useCallback(async () => {
+        const response = await profileService.ratings({
+            page: page
+        })
+        setPage(page + 1);
+        setHasMore(response.countPages !== page)
+        setRatings(prev => [...prev, ...response.ratings])
 
-        processRatings().then()
-    }
+    }, [profileService, page])
 
-    const onFilmSelect = (film: FilmShortData) => {
-        navigate('/film', {state: {id: film.filmId}})
-    }
+    const onSelect = useCallback((film: FilmShortData) => {
+        navigate('/film', {state: {id: film.id}})
+    }, [navigate])
 
-    const scrollProps = {
-        dataLength: ratings.length,
-        next: onBottom,
-        hasMore: hasMore,
-        loader: <Spinner/>,
-        className: "mt-3"
-    }
+    if (ratings.length === 0) return <></>
 
     return (
         <Col xl={9} lg={10} className={className}>
-            <InfiniteScroll {...scrollProps}>
-                <FilmsList films={ratings} onFilmSelect={onFilmSelect}/>
-            </InfiniteScroll>
+            <FilmsList hasMore={hasMore} next={next} films={ratings} onSelect={onSelect}/>
         </Col>
     );
 };

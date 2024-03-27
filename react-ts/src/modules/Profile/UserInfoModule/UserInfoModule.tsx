@@ -3,10 +3,12 @@ import UserInfo from "../../../components/Profile/UserInfo/UserInfo.tsx";
 import {useNavigate} from "react-router-dom";
 import {Col} from "react-bootstrap";
 import {useCallback} from "react";
+import {useProfile} from "../../../contexts/ProfileContext/ProfileContext.tsx";
 
-const UserInfoModule = ({genres, className}: { genres: string[], className?: string }) => {
+const UserInfoModule = ({className}: { className?: string }) => {
 
     const {authorizedUser} = useUser()
+    const {genres} = useProfile()
 
     // Навигационный хук
     const navigate = useNavigate();

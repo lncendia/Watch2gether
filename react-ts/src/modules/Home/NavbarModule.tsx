@@ -1,5 +1,5 @@
 import Navbar from "../../components/Menu/Navbar/Navbar.tsx";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import {useInjection} from "inversify-react";
 import {IFilmsService} from "../../services/FilmsService/IFilmsService.ts";
 import {useNavigate} from "react-router-dom";
@@ -17,27 +17,27 @@ const NavbarModule = () => {
     // Навигационный хук
     const navigate = useNavigate();
 
-    const onFilmSearch = async (value: string) => {
+    const onFilmSearch = useCallback(async (value: string) => {
         if (value === '') setFilms([])
         else {
             const filmsResponse = await filmService.search({query: value})
             setFilms(filmsResponse.films)
         }
-    }
+    }, [filmService])
 
 
-    const onLogout = authService.signOut.bind(authService)
-    const onLogin = authService.signIn.bind(authService)
-    const onCatalog = () => navigate('/catalog')
-    const onPlaylists = () => navigate('/playlists')
-    const onRooms = () => navigate('/rooms')
-    const onYouTube = () => navigate('/youtube')
-    const onProfile = () => navigate('/profile')
-    const onHome = () => navigate('/')
+    const onLogout = useCallback(authService.signOut.bind(authService), [authService])
+    const onLogin = useCallback(authService.signIn.bind(authService), [authService])
+    const onCatalog = useCallback(() => navigate('/catalog'), [navigate])
+    const onPlaylists = useCallback(() => navigate('/playlists'), [navigate])
+    const onRooms = useCallback(() => navigate('/rooms'), [navigate])
+    const onYouTube = useCallback(() => navigate('/youtube'), [navigate])
+    const onProfile = useCallback(() => navigate('/profile'), [navigate])
+    const onHome = useCallback(() => navigate('/'), [navigate])
 
-    const onFilm = (film: FilmShort) => {
+    const onFilm = useCallback((film: FilmShort) => {
         navigate('/film', {state: {id: film.id}})
-    }
+    }, [navigate])
 
     return (
         <Navbar onFilm={onFilm} onHome={onHome} onCatalog={onCatalog} onLogin={onLogin} onLogout={onLogout}

@@ -44,8 +44,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 [data-bs-theme="light"] {
-    --bs-body-bg: rgb(189, 189, 189);
-    --bs-body-bg-rgb: 189, 189, 189;
+    --bs-body-bg: rgb(138, 138, 138);
+    --bs-body-bg-rgb: 138, 138, 138;
     --body-bg: linear-gradient(#4b2064, transparent),
     linear-gradient(90deg, #143d44, transparent),
     linear-gradient(-90deg, #54301c, transparent);

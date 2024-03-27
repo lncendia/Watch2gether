@@ -1,7 +1,7 @@
 import {useLocation} from "react-router-dom";
 import FilmCommentsModule from "../../modules/Film/FilmCommentsModule/FilmCommentsModule.tsx";
 import {useEffect, useState} from "react";
-import {Film} from "../../services/FilmsService/Models/Film.ts";
+import {Film} from "../../services/FilmsService/Models/Films.ts";
 import {useInjection} from "inversify-react";
 import {IFilmsService} from "../../services/FilmsService/IFilmsService.ts";
 import {IProfileService} from "../../services/ProfileService/IProfileService.ts";
@@ -38,8 +38,8 @@ const FilmPage = () => {
     return (
         <>
             <FilmInfoModule className="mt-3" film={film} onRoomCreateClicked={() => setFormOpen(true)}/>
-            <FilmPlayerModule className="mt-5" film={film}/>
-            <FilmRatingModule className="mt-3" film={film}/>
+            <FilmPlayerModule className="mt-5" cdnList={film.cdnList}/>
+            <FilmRatingModule className="mt-3" {...film}/>
             <CreateFilmRoomModule cdnList={film.cdnList.map(c => [c.cdn, c.quality])} id={film.id}
                                   onClose={() => setFormOpen(false)} open={formOpen}/>
             <FilmCommentsModule className="mt-5" id={film.id}/>

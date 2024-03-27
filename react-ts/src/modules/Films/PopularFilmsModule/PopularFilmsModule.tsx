@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useInjection} from "inversify-react";
 import {IFilmsService} from "../../../services/FilmsService/IFilmsService.ts";
 import {useNavigate} from "react-router-dom";
@@ -35,11 +35,11 @@ const PopularFilmsModule = ({className}: { className?: string }) => {
         processFilms().then()
     }, []); // Эффект будет вызываться при каждом изменении `genre`
 
-    const onFilmSelect = (film: FilmShortData) => {
+    const onSelect = useCallback((film: FilmShortData) => {
         navigate('/film', {state: {id: film.id}})
-    }
+    }, [navigate])
 
-    return <FilmsSlider className={className} films={films} onFilmSelect={onFilmSelect}/>
+    return <FilmsSlider className={className} films={films} onSelect={onSelect}/>
 };
 
 export default PopularFilmsModule;

@@ -1,6 +1,5 @@
-import {Button} from "@mui/material";
+import {Button} from "react-bootstrap";
 
-// Компонент отображается если у пользователя недостаточно прав для посещения страницы
 const NotEnoughRights = ({goBack}: { goBack: () => void }) => {
     return (
         <>

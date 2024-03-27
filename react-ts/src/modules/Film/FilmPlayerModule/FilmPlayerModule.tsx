@@ -1,9 +1,9 @@
-import {Film} from "../../../services/FilmsService/Models/Film.ts";
+import {Cdn} from "../../../services/FilmsService/Models/Films.ts";
 import FilmPlayer from "../../../components/Film/FilmPlayer/FilmPlayer.tsx";
 
-const FilmPlayerModule = ({film, className}: { film: Film, className?: string }) => {
+const FilmPlayerModule = ({cdnList, className}: { cdnList: Cdn[], className?: string }) => {
     return (
-        <FilmPlayer className={className} cdns={film.cdnList}/>
+        <FilmPlayer className={className} cdns={cdnList}/>
     );
 };
 

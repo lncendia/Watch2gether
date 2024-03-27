@@ -3,7 +3,7 @@ import {IPlayerHandler} from "./IPlayerHandler.ts";
 
 export class PlayerJsHandler implements IPlayerHandler {
 
-    private iframe: HTMLIFrameElement
+    private iframe?: HTMLIFrameElement
     pause = new SyncEvent<[boolean, number]>();
     seek = new SyncEvent<number>();
     fullscreen = new SyncEvent<boolean>();
@@ -11,7 +11,7 @@ export class PlayerJsHandler implements IPlayerHandler {
 
     private handlerFunc = this.handler.bind(this)
 
-    constructor(iframe: HTMLIFrameElement) {
+    mount(iframe: HTMLIFrameElement) {
         this.iframe = iframe;
         window.addEventListener("message", this.handlerFunc)
     }
@@ -27,10 +27,19 @@ export class PlayerJsHandler implements IPlayerHandler {
             const time = parseInt(event.data.time);
             this.seek.post(time)
         } else if (event.data.event === 'new') {
-            const data = event.data.id.split('_') as Array<string>
-            if (data.length === 1) return
-            const season = parseInt(data[0]);
-            const series = parseInt(data[1]);
+
+            let season: number
+            let series: number
+
+            if (typeof event.data.id === 'number') {
+                series = event.data.id
+                season = event.data.id
+            } else{
+                const data = event.data.id.split('_') as Array<string>
+                season = parseInt(data[0]);
+                series = parseInt(data[1]);
+            }
+
             this.changeSeries.post([season, series])
         } else if (event.data.event === 'fullscreen') {
             this.fullscreen.post(true)
@@ -40,15 +49,26 @@ export class PlayerJsHandler implements IPlayerHandler {
     }
 
     setSecond(second: number): void {
-        this.iframe.contentWindow!.postMessage({'api': 'seek', 'set': second}, '*');
+        this.iframe?.contentWindow!.postMessage({'api': 'seek', 'set': second}, '*');
     }
 
     setPause(pause: boolean): void {
         const message = pause ? 'pause' : 'play';
-        this.iframe.contentWindow!.postMessage({'api': message}, '*');
+        this.iframe?.contentWindow!.postMessage({'api': message}, '*');
+    }
+
+    setSeries(season: number, episode: number) {
+        this.iframe?.contentWindow!.postMessage({'api': 'find', 'set': `${season}_${episode}`}, '*');
     }
 
     unmount() {
         window.removeEventListener("message", this.handlerFunc)
+    }
+
+    generateUrl(base: string, second: number, season?: number, episode?: number): string {
+        const seasonParam = season ? `season=${season}&` : ''
+        const episodeParam = episode ? `episode=${episode}&` : ''
+        const secondParam = `start_time=${second}`
+        return `${base}?${seasonParam}${episodeParam}${secondParam}`
     }
 }

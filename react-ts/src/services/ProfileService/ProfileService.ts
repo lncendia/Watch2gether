@@ -4,8 +4,7 @@ import {GetRatingsQuery} from "./InputModels/GetRatingsQuery.ts";
 import {Profile} from "./Models/Profile.ts";
 import {Ratings} from "./Models/Ratings.ts";
 import {AxiosInstance} from "axios";
-import {profileSchema} from "./Validators/ProfileValidator.ts";
-import {ratingsSchema} from "./Validators/RatingsValidator.ts";
+import {profileSchema, ratingsSchema} from "./Validators/ProfileValidator.ts";
 
 export class ProfileService implements IProfileService {
 

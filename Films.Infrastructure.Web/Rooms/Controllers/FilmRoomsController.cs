@@ -54,7 +54,7 @@ public class FilmRoomsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
-    public async Task<RoomsViewModel<FilmRoomViewModel>> Search([FromQuery] FilmRoomSearchInputModel model)
+    public async Task<RoomsViewModel<FilmRoomShortViewModel>> Search([FromQuery] FilmRoomSearchInputModel model)
     {
         var data = await mediator.Send(new SearchFilmRoomsQuery
         {
@@ -68,7 +68,7 @@ public class FilmRoomsController(IMediator mediator) : ControllerBase
 
         var count = data.count / model.CountPerPage;
         if (data.count % model.CountPerPage > 0) count++;
-        return new RoomsViewModel<FilmRoomViewModel>
+        return new RoomsViewModel<FilmRoomShortViewModel>
         {
             CountPages = count,
             Rooms = data.rooms.Select(Map)
@@ -88,10 +88,10 @@ public class FilmRoomsController(IMediator mediator) : ControllerBase
     }
 
 
-    private static FilmRoomViewModel Map(FilmRoomDto dto) => new()
+    private FilmRoomShortViewModel Map(FilmRoomShortDto dto) => new()
     {
         Title = dto.Title,
-        PosterUrl = dto.PosterUrl.ToString().Replace('\\', '/'),
+        PosterUrl = $"{Request.Scheme}://{Request.Host}/{dto.PosterUrl.ToString().Replace('\\', '/')}",
         Year = dto.Year,
         UserRating = dto.UserRating,
         Description = dto.Description,
@@ -102,5 +102,23 @@ public class FilmRoomsController(IMediator mediator) : ControllerBase
         ViewersCount = dto.ViewersCount,
         IsCodeNeeded = dto.IsCodeNeeded,
         FilmId = dto.FilmId,
+    };
+
+    private FilmRoomViewModel Map(FilmRoomDto dto) => new()
+    {
+        Title = dto.Title,
+        PosterUrl = $"{Request.Scheme}://{Request.Host}/{dto.PosterUrl.ToString().Replace('\\', '/')}",
+        Year = dto.Year,
+        UserRating = dto.UserRating,
+        Description = dto.Description,
+        IsSerial = dto.IsSerial,
+        RatingKp = dto.RatingKp,
+        RatingImdb = dto.RatingImdb,
+        Id = dto.Id,
+        ViewersCount = dto.ViewersCount,
+        IsCodeNeeded = dto.IsCodeNeeded,
+        FilmId = dto.FilmId,
+        UserRatingsCount = dto.UserRatingsCount,
+        UserScore = dto.UserScore
     };
 }

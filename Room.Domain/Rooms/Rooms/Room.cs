@@ -99,7 +99,7 @@ public abstract class Room<T> : AggregateRoot where T : Viewer
         _viewersList.Add(viewer);
     }
     
-    public void Disconnect(Guid targetId)
+    public virtual void Disconnect(Guid targetId)
     {
         var viewer = GetViewer(targetId);
         _viewersList.Remove(viewer);

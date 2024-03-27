@@ -23,10 +23,10 @@ public class YoutubeRoom : Room
         });
     }
     
-    public override void Disconnect(Guid userId)
+    public override void Connect(User user, string? code)
     {
-        base.Disconnect(userId);
-        AddDomainEvent(new YoutubeRoomUserLeavedDomainEvent(this, userId));
+        base.Connect(user, code);
+        AddDomainEvent(new YoutubeRoomUserConnectedDomainEvent(this, user));
     }
 
     public required bool VideoAccess { get; init; }

@@ -1,6 +1,4 @@
-import {useEffect, useState} from 'react';
-import InfiniteScroll from "react-infinite-scroll-component";
-import Spinner from "../../../components/Common/Spinner/Spinner.tsx";
+import {useCallback, useEffect, useState} from 'react';
 import {useInjection} from "inversify-react";
 import {IFilmsService} from "../../../services/FilmsService/IFilmsService.ts";
 import {useNavigate} from "react-router-dom";
@@ -44,39 +42,25 @@ const FilmsModule = (props: FilmsModuleProps) => {
         processFilms().then()
     }, [props]); // Эффект будет вызываться при каждом изменении `genre`
 
-    const onBottom = () => {
-        const processFilms = async () => {
-            const response = await filmsService.search({
-                ...props,
-                minYear: props.year,
-                maxYear: props.year,
-                page: page
-            })
-            setPage(page + 1);
-            setHasMore(response.countPages !== page)
-            setFilms([...films, ...response.films])
-        };
+    const next = useCallback(async () => {
+        const response = await filmsService.search({
+            ...props,
+            minYear: props.year,
+            maxYear: props.year,
+            page: page
+        })
+        setPage(page + 1);
+        setHasMore(response.countPages !== page)
+        setFilms(prev => [...prev, ...response.films])
+    }, [props, page, filmsService])
 
-        processFilms().then()
-    }
-
-    const onFilmSelect = (film: FilmItemData) => {
+    const onSelect = useCallback((film: FilmItemData) => {
         navigate('/film', {state: {id: film.id}})
-    }
-
-    const scrollProps = {
-        dataLength: films.length,
-        next: onBottom,
-        hasMore: hasMore,
-        loader: <Spinner/>,
-        className: props.className
-    }
+    }, [navigate])
 
     return (
-        <InfiniteScroll {...scrollProps}>
-            <FilmsCatalog genre={props.genre} films={films} onFilmSelect={onFilmSelect}
-                          typeSelected={props.serial !== undefined}/>
-        </InfiniteScroll>
+        <FilmsCatalog hasMore={hasMore} next={next} genre={props.genre} films={films} onSelect={onSelect}
+                      typeSelected={props.serial !== undefined}/>
     );
 };
 

@@ -5,7 +5,7 @@ export interface FilmInfoData {
     title: string;
     posterUrl: string;
     ratingKp?: number;
-    ratingImdb: number;
+    ratingImdb?: number;
     type: [string, string?];
     genres: [string, string?][];
     countries: [string, string?][];

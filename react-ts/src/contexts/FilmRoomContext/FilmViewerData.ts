@@ -1,19 +1,20 @@
 interface FilmViewerData {
-    season?: number;
-    series?: number;
     id: string;
     username: string;
-    photoUrl?: string;
+    photoUrl: string;
+    beep: boolean;
+    scream: boolean;
+    change: boolean;
+}
+
+interface FilmViewerParams {
+    id: string;
+    season?: number;
+    series?: number;
     pause: boolean;
     fullScreen: boolean;
     online: boolean;
     second: number;
     typing: boolean;
-    allows: Allows;
-}
-
-interface Allows {
-    beep: boolean;
-    scream: boolean;
-    change: boolean;
+    typingTimeout?: NodeJS.Timeout
 }

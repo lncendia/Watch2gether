@@ -5,7 +5,7 @@ import {useInjection} from "inversify-react";
 import {IProfileService} from "../../../services/ProfileService/IProfileService.ts";
 import {useUser} from "../../../contexts/UserContext/UserContext.tsx";
 import {FilmInfoData} from "../../../components/Film/FilmInfo/FilmInfoData.ts";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 
 const getSeasonsString = (count: number) => {
     count = count % 10
@@ -33,6 +33,7 @@ const map = (film: Film): FilmInfoData => {
     }
 
     return {
+        ...film,
         type: type,
         actors: film.actors.map(c => [c.name, c.description]),
         countries: film.countries.map(c => [c, undefined]),
@@ -40,13 +41,6 @@ const map = (film: Film): FilmInfoData => {
         directors: film.directors.map(c => [c, undefined]),
         genres: film.genres.map(c => [c, undefined]),
         screenWriters: film.screenWriters.map(c => [c, undefined]),
-        id: film.id,
-        posterUrl: film.posterUrl,
-        ratingImdb: film.ratingImdb,
-        ratingKp: film.ratingKp,
-        title: film.title,
-        year: film.year
-
     }
 }
 
@@ -66,11 +60,11 @@ const FilmInfoModule = ({film, className, onRoomCreateClicked}: FilmInfoProps) =
     // Навигационный хук
     const navigate = useNavigate();
 
-    const toggleWatchlist = async () => {
+    const toggleWatchlist = useCallback(async () => {
         if (authorizedUser === null) return
         await profileService.toggleWatchlist(film.id)
-        setWatchlist(!watchList)
-    }
+        setWatchlist(prev => !prev)
+    }, [authorizedUser, profileService, film.id])
 
     return (
         <FilmInfo className={className} film={map(film)}

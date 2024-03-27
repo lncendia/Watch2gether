@@ -28,13 +28,9 @@ public static class MassTransitServices
         {
             x.AddConsumer<FilmRoomCreatedConsumer>();
             x.AddConsumer<FilmRoomViewerConnectedConsumer>();
-            x.AddConsumer<FilmRoomViewerLeavedConsumer>();
-            x.AddConsumer<FilmRoomDeletedConsumer>();
 
             x.AddConsumer<YoutubeRoomCreatedConsumer>();
             x.AddConsumer<YoutubeRoomViewerConnectedConsumer>();
-            x.AddConsumer<YoutubeRoomViewerLeavedConsumer>();
-            x.AddConsumer<YoutubeRoomDeletedConsumer>();
 
             x.UsingRabbitMq((context, cfg) =>
             {

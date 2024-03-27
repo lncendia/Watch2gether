@@ -1,4 +1,4 @@
-import Screamer from "../../../../components/FilmRoom/Screamer/Screamer.tsx";
+import Screamer from "../../../../components/Room/Common/Screamer/Screamer.tsx";
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useFilmRoom} from "../../../../contexts/FilmRoomContext/FilmRoomContext.tsx";
 

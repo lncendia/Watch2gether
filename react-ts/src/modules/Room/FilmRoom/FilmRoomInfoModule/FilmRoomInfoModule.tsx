@@ -1,36 +1,19 @@
+import FilmRoomInfo from "../../../../components/Room/FilmRoom/FilmRoomInfo/FilmRoomInfo.tsx";
 import {useFilmRoom} from "../../../../contexts/FilmRoomContext/FilmRoomContext.tsx";
-import ViewersList from "../../../../components/FilmRoom/ViewersList/ViewersList.tsx";
-import {ViewerData} from "../../../../components/FilmRoom/Viewer/ViewerData.ts";
 import {useCallback} from "react";
+import {useNavigate} from "react-router-dom";
 
-const map = (viewer: FilmViewerData): ViewerData => {
+const FilmRoomInfoModule = ({className}: { className?: string }) => {
 
-    const current = viewer.season && viewer.series ? `${viewer.season} сезон, ${viewer.series} серия` : undefined;
+    const {room, service} = useFilmRoom()
+    const navigate = useNavigate()
 
-    return {
-        ...viewer,
-        ...viewer.allows,
-        photoUrl: viewer.photoUrl ?? '/vite.svg',
-        current: current
-    }
-}
+    const leave = useCallback(async () => {
+        await service.leave()
+        navigate("/")
+    }, [service, navigate])
 
-const FilmRoomInfoModule = () => {
-
-    const {viewers, room, service} = useFilmRoom()
-
-    const onBeep = useCallback(async (viewer: ViewerData) => {
-        await service.beep(viewer.id)
-    }, [service])
-
-    const onScream = useCallback(async (viewer: ViewerData) => {
-        await service.scream(viewer.id)
-    }, [service])
-
-    return (
-        <ViewersList viewers={viewers.map(map)} currentId={room.currentId} ownerId={room.ownerId} onBeep={onBeep}
-                     onScream={onScream}/>
-    );
+    return <FilmRoomInfo film={room} className={className} onLeaveClicked={leave}/>
 };
 
 export default FilmRoomInfoModule;

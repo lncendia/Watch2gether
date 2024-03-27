@@ -36,6 +36,12 @@ public class FilmRoom : Room<FilmViewer>
         viewer.Series = Owner.Series;
         base.Connect(viewer);
     }
+
+    public override void Disconnect(Guid targetId)
+    {
+        base.Disconnect(targetId);
+        AddDomainEvent(new FilmRoomViewerLeavedDomainEvent(this, targetId));
+    }
     
     public override void Kick(Guid initiatorId, Guid targetId)
     {
@@ -52,5 +58,6 @@ public class FilmRoom : Room<FilmViewer>
         viewer.Season = season;
         viewer.Series = series;
         viewer.TimeLine = TimeSpan.Zero;
+        viewer.Pause = true;
     }
 }

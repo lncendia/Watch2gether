@@ -2,19 +2,33 @@ import * as signalR from "@microsoft/signalr";
 import {HubConnection} from "@microsoft/signalr";
 import {IFilmRoomService} from "./IFilmRoomService.ts";
 import {SyncEvent} from "ts-events";
-import filmRoomSchema from "./Validators/RoomValidator.ts";
-import {actionSchema, messageSchema, messagesSchema} from "./Validators/EventsValidator.ts";
-import {ActionEvent, MessageEvent, MessagesEvent, PauseEvent, SeekEvent} from "./Models/RoomEvents.ts";
+import {filmRoomSchema, filmViewerSchema} from "./Validators/RoomValidator.ts";
+import {actionSchema, changeNameSchema, messageSchema, messagesSchema} from "./Validators/EventsValidator.ts";
+import {
+    ActionEvent,
+    ChangeNameEvent,
+    ChangeSeriesEvent,
+    MessageEvent,
+    MessagesEvent,
+    PauseEvent,
+    SeekEvent
+} from "./Models/RoomEvents.ts";
 
 
 export class FilmRoomService implements IFilmRoomService {
 
     private connection?: HubConnection
-    private tokenFactory: () => Promise<string>
+    private readonly tokenFactory: () => Promise<string>
 
     private readonly authUrl: string
 
     roomLoadEvent = new SyncEvent<FilmRoom>();
+
+    connectEvent = new SyncEvent<FilmViewer>
+
+    disconnectEvent = new SyncEvent<string>
+
+    leaveEvent = new SyncEvent<string>
 
     messagesEvent = new SyncEvent<MessagesEvent>();
 
@@ -30,11 +44,16 @@ export class FilmRoomService implements IFilmRoomService {
 
     seekEvent = new SyncEvent<SeekEvent>()
 
+    typeEvent = new SyncEvent<string>()
+
+    changeNameEvent = new SyncEvent<ChangeNameEvent>
+
+    changeSeriesEvent = new SyncEvent<ChangeSeriesEvent>
+
     constructor(tokenFactory: () => Promise<string>, authUrl: string) {
         this.authUrl = authUrl
         this.tokenFactory = tokenFactory
     }
-
 
     async connect(roomId: string, url: string) {
 
@@ -43,40 +62,54 @@ export class FilmRoomService implements IFilmRoomService {
             .configureLogging(signalR.LogLevel.Information)
             .build();
 
-        this.connection.on("Room", async (room: FilmRoom) => {
+        this.connection.on("Room", (room: FilmRoom) => {
             room.viewers.forEach(v => {
                 if (v.photoUrl) v.photoUrl = `${this.authUrl}/${v.photoUrl}`
             })
-            await filmRoomSchema.validate(room)
+            filmRoomSchema.validateSync(room)
             this.roomLoadEvent.post(room)
         })
 
-        this.connection.on("Messages", async (messages: MessagesEvent) => {
+        this.connection.on('Connect', (viewer: FilmViewer) => {
+            if (viewer.photoUrl) viewer.photoUrl = `${this.authUrl}/${viewer.photoUrl}`
+            filmViewerSchema.validateSync(viewer)
+            this.connectEvent.post(viewer)
+        });
+
+        this.connection.on('Disconnect', (id: string) => this.disconnectEvent.post(id));
+
+        this.connection.on('Leave', (id: string) => this.leaveEvent.post(id));
+
+        this.connection.on("Messages", (messages: MessagesEvent) => {
             messages.messages.forEach(m => {
                 m.createdAt = new Date(m.createdAt)
             })
-            await messagesSchema.validate(messages)
+            messagesSchema.validateSync(messages)
             this.messagesEvent.post(messages)
         })
 
-        this.connection.on('NewMessage', async (message: MessageEvent) => {
+        this.connection.on('NewMessage', (message: MessageEvent) => {
             message.createdAt = new Date(message.createdAt)
-            await messageSchema.validate(message)
+            messageSchema.validateSync(message)
             this.messageEvent.post(message)
         });
 
-        this.connection.on('Beep', async (action: ActionEvent) => {
-            await actionSchema.validate(action)
+        this.connection.on('Beep', (action: ActionEvent) => {
+            actionSchema.validateSync(action)
             this.beepEvent.post(action)
         });
 
-        this.connection.on('Scream', async (action: ActionEvent) => {
-            await actionSchema.validate(action)
+        this.connection.on('Scream', (action: ActionEvent) => {
+            actionSchema.validateSync(action)
             this.screamEvent.post(action)
         });
-        this.connection.on('Error', async (error: string) => {
-            this.errorEvent.post(error)
+
+        this.connection.on('ChangeName', (action: ChangeNameEvent) => {
+            changeNameSchema.validateSync(action)
+            this.changeNameEvent.post(action)
         });
+
+        this.connection.on('Error', (error: string) => this.errorEvent.post(error));
 
         this.connection.on('Pause', (id: string, pause: boolean, second: number) => {
             this.pauseEvent.post({onPause: pause, seconds: second, userId: id})
@@ -85,19 +118,25 @@ export class FilmRoomService implements IFilmRoomService {
         this.connection.on('Seek', (id: string, second: number) => {
             this.seekEvent.post({seconds: second, userId: id})
         });
-        // this.connection.on('ChangeSeries', (id, season, series) => room.ProcessReceiveEvent(new ChangeSeriesReceiveEvent(id, season, series)));
-        // this.connection.on('Leave', (id) => room.ProcessReceiveEvent(new LeaveReceiveEvent(id)));
-        // this.connection.on('Type', (id) => room.ProcessReceiveEvent(new TypeReceiveEvent(id)));
-        // this.connection.on('Beep', (id, target) => room.ProcessReceiveEvent(new BeepReceiveEvent(id, target)));
-        // this.connection.on('Scream', (id, target) => room.ProcessReceiveEvent(new ScreamReceiveEvent(id, target)));
+
+        this.connection.on('Type', (id: string) => this.typeEvent.post(id));
+
+        this.connection.on('ChangeSeries', (id: string, season: number, series: number) => {
+            this.changeSeriesEvent.post({
+                userId: id,
+                season: season,
+                series: series
+            })
+        });
         // this.connection.on('Kick', (id, target) => room.ProcessReceiveEvent(new KickReceiveEvent(id, target)));
         // this.connection.on('FullScreen', (id, fullscreen) => room.ProcessReceiveEvent(new FullScreenReceiveEvent(id, fullscreen)));
-        // this.connection.on('Connect', (data) => {
-        //     room.ProcessReceiveEvent(new ConnectFilmReceiveEvent(data.id, data.username, data.avatar, data.time, data.beep, data.scream, data.change, data.season, data.series))
-        // });
 
         await this.connection.start();
         await this.connection.send("Connect", roomId)
+    }
+
+    async disconnect(): Promise<void> {
+        await this.connection?.stop()
     }
 
     async getMessages(fromId: string, count: number): Promise<void> {
@@ -139,6 +178,15 @@ export class FilmRoomService implements IFilmRoomService {
 
     async changeName(target: string, name: string): Promise<void> {
         await this.connection?.send("ChangeName", target, name)
+    }
+
+    async type(): Promise<void> {
+        await this.connection?.send("Type")
+    }
+
+    async leave(): Promise<void> {
+        await this.connection?.send("Leave")
+        await this.connection?.stop()
     }
 }
 

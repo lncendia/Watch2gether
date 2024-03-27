@@ -15,9 +15,9 @@ using MediatR;
 
 namespace Films.Application.Services.QueryHandlers.FilmRooms;
 
-public class SearchFilmRoomsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<SearchFilmRoomsQuery, (IReadOnlyCollection<FilmRoomDto> rooms, int count)>
+public class SearchFilmRoomsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<SearchFilmRoomsQuery, (IReadOnlyCollection<FilmRoomShortDto> rooms, int count)>
 {
-    public async Task<(IReadOnlyCollection<FilmRoomDto> rooms, int count)> Handle(SearchFilmRoomsQuery request, CancellationToken cancellationToken)
+    public async Task<(IReadOnlyCollection<FilmRoomShortDto> rooms, int count)> Handle(SearchFilmRoomsQuery request, CancellationToken cancellationToken)
     {
         ISpecification<FilmRoom, IFilmRoomSpecificationVisitor>? specification = null;
 
@@ -41,7 +41,7 @@ public class SearchFilmRoomsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandl
         var filmsSpecification = new FilmsByIdsSpecification(rooms.Select(x => x.FilmId));
         var films = await unitOfWork.FilmRepository.Value.FindAsync(filmsSpecification);
 
-        List<FilmRoomDto> filmRooms = [];
+        List<FilmRoomShortDto> filmRooms = [];
 
         foreach (var room in rooms)
         {

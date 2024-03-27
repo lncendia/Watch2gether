@@ -10,6 +10,8 @@ export interface FilmRoomData {
     posterUrl: string;
     year: number;
     userRating: number;
+    userRatingsCount: number;
+    userScore?: number;
     ratingKp?: number;
     ratingImdb?: number;
     description: string;

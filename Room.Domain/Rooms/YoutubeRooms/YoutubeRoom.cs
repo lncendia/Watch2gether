@@ -20,12 +20,19 @@ public class YoutubeRoom : Room<YoutubeViewer>
         base.Connect(viewer);
     }
 
+    public override void Disconnect(Guid targetId)
+    {
+        base.Disconnect(targetId);
+        AddDomainEvent(new YoutubeRoomViewerLeavedDomainEvent(this, targetId));
+    }
+
+
     public override void Kick(Guid initiatorId, Guid targetId)
     {
         base.Kick(initiatorId, targetId);
         AddDomainEvent(new YoutubeRoomViewerKickedDomainEvent(this, targetId));
     }
-    
+
     public void ChangeVideo(Guid target, string videoId)
     {
         var viewer = GetViewer(target);

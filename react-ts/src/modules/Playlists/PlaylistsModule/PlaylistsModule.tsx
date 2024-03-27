@@ -1,6 +1,4 @@
-import {useEffect, useState} from 'react';
-import InfiniteScroll from "react-infinite-scroll-component";
-import Spinner from "../../../components/Common/Spinner/Spinner.tsx";
+import {useCallback, useEffect, useState} from 'react';
 import {useInjection} from "inversify-react";
 import {IPlaylistsService} from "../../../services/PlaylistsService/IPlaylistsService.ts";
 import {useNavigate} from "react-router-dom";
@@ -37,36 +35,22 @@ const PlaylistsModule = (props: PlaylistsModuleProps) => {
         processPlaylists().then()
     }, [props]); // Эффект будет вызываться при каждом изменении `genre`
 
-    const onBottom = () => {
-        const processPlaylists = async () => {
-            const response = await playlistsService.search({
-                genre: props.genre,
-                page: page
-            })
-            setPage(page + 1);
-            setHasMore(response.countPages !== page)
-            setPlaylists([...playlists, ...response.playlists])
-        };
+    const next = useCallback(async () => {
+        const response = await playlistsService.search({
+            genre: props.genre,
+            page: page
+        })
+        setPage(page + 1);
+        setHasMore(response.countPages !== page)
+        setPlaylists(prev => [...prev, ...response.playlists])
+    }, [playlistsService, props.genre, page])
 
-        processPlaylists().then()
-    }
-
-    const onPlaylistSelect = (playlist: PlaylistItemData) => {
+    const onSelect = useCallback((playlist: PlaylistItemData) => {
         navigate('/playlist', {state: {id: playlist.id}})
-    }
-
-    const scrollProps = {
-        dataLength: playlists.length,
-        next: onBottom,
-        hasMore: hasMore,
-        loader: <Spinner/>,
-        className: props.className
-    }
+    }, [navigate])
 
     return (
-        <InfiniteScroll {...scrollProps}>
-            <PlaylistsCatalog genre={props.genre} playlists={playlists} onPlaylistSelect={onPlaylistSelect}/>
-        </InfiniteScroll>
+        <PlaylistsCatalog hasMore={hasMore} next={next} genre={props.genre} playlists={playlists} onSelect={onSelect}/>
     );
 };
 

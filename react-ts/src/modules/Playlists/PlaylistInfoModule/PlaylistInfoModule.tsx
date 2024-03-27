@@ -7,7 +7,6 @@ import {IPlaylistsService} from "../../../services/PlaylistsService/IPlaylistsSe
 import Spinner from "../../../components/Common/Spinner/Spinner.tsx";
 
 const PlaylistInfoModule = ({id, className}: { id: string, className?: string }) => {
-
     const [playlist, setPlaylist] = useState<PlaylistInfoData>()
     const playlistsService = useInjection<IPlaylistsService>('PlaylistsService');
 

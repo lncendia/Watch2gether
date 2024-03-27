@@ -91,10 +91,9 @@ public abstract class Room : AggregateRoot
         _viewers.Add(user.Id);
     }
 
-    public virtual void Disconnect(Guid userId)
+    public void Disconnect(Guid userId)
     {
         var viewer = GetViewer(userId);
-        _bannedUsers.Add(viewer);
         _viewers.Remove(viewer);
     }
 

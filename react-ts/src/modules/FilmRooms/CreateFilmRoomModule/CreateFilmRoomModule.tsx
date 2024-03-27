@@ -28,7 +28,7 @@ const CreateFilmRoomModule = (props: CreateFilmRoomModuleProps) => {
             cdnName: cdn
         })
 
-        navigate("/filmRoom", {state: response})
+        navigate("/filmRoom", {state: {id: response.id}})
     }
 
     return (

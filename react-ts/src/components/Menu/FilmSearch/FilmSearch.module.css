@@ -8,7 +8,7 @@
     border: 1px solid rgba(var(--bs-body-color-rgb), 0.5);
     border-radius: 10px 10px;
     padding: 5px 2px 5px 2px;
-    transition: all 1s;
+    transition: all 5s;
 
     @media (max-width: 400px) {
         width: 300px;

@@ -1,12 +1,11 @@
 import {IFilmRoomsService} from "./IFilmRoomsService.ts";
 import {RoomServer} from "./Models/RoomServer.ts";
 import {AxiosInstance} from "axios";
-import {roomServerSchema} from "./Validators/RoomServerValidator.ts";
 import {CreateFilmRoomBody} from "./InputModels/CreateFilmRoomBody.ts";
 import {ConnectRoomBody} from "./InputModels/ConnectRoomBody.ts";
 import {FilmRoomSearchQuery} from "./InputModels/SearchRoomQuery.ts";
 import {Rooms, FilmRoom} from "./Models/Rooms.ts";
-import {filmRoomSchema, filmRoomsSchema} from "./Validators/RoomsValidator.ts";
+import {filmRoomSchema, filmRoomsSchema, roomServerSchema} from "./Validators/RoomsValidator.ts";
 
 export class FilmRoomsService implements IFilmRoomsService {
 

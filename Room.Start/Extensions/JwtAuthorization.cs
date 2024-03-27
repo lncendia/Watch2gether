@@ -48,6 +48,25 @@ public static class JwtAuthorization
                     ValidateAudience = true,
                     ValidateLifetime = true
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+
+                        // если запрос направлен хабу
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/filmRoom") ||
+                                                                   path.StartsWithSegments("/youtubeRoom")))
+                        {
+                            // получаем токен из строки запроса
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
         services.AddAuthorization();

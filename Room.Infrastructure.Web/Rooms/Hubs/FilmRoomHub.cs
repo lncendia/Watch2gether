@@ -22,11 +22,13 @@ public class FilmRoomHub(IMediator mediator) : Hub
     {
         try
         {
+            var userId = GetUserId();
+
             await mediator.Send(new SetOnlineCommand
             {
                 RoomId = roomId,
                 Online = true,
-                ViewerId = GetUserId()
+                ViewerId = userId
             });
 
             Context.Items.Add("roomId", roomId);
@@ -35,7 +37,11 @@ public class FilmRoomHub(IMediator mediator) : Hub
 
             var room = await mediator.Send(new FilmRoomByIdQuery { Id = roomId });
 
-            await Clients.Caller.SendAsync("Room", FilmRoomMapper.Map(room));
+            var viewModel = FilmRoomMapper.Map(room);
+
+            await Clients.Caller.SendAsync("Room", viewModel);
+
+            await Clients.Groups(roomId.ToString()).SendAsync("Connect", viewModel.Viewers.First(v => v.Id == userId));
         }
         catch (Exception ex)
         {
@@ -87,6 +93,21 @@ public class FilmRoomHub(IMediator mediator) : Hub
                 RoomId = roomId
             });
             await Clients.OthersInGroup(roomId.ToString()).SendAsync("ChangeSeries", userId, season, series);
+        }
+        catch (Exception ex)
+        {
+            await HandleException(ex);
+        }
+    }
+
+    public async Task Type()
+    {
+        try
+        {
+            var userId = GetUserId();
+            var roomId = GetRoomId();
+
+            await Clients.OthersInGroup(roomId.ToString()).SendAsync("Type", userId);
         }
         catch (Exception ex)
         {
@@ -239,7 +260,8 @@ public class FilmRoomHub(IMediator mediator) : Hub
                 RoomId = roomId,
                 TargetId = target
             });
-            await Clients.Groups(roomId.ToString()).SendAsync("Kick", userId, target);
+            await Clients.Groups(roomId.ToString())
+                .SendAsync("Kick", new ActionViewModel { Initiator = userId, Target = target });
         }
         catch (Exception ex)
         {
@@ -262,7 +284,27 @@ public class FilmRoomHub(IMediator mediator) : Hub
                 RoomId = roomId,
                 TargetId = target
             });
-            await Clients.Groups(roomId.ToString()).SendAsync("ChangeName", userId, target, name);
+            await Clients.Groups(roomId.ToString()).SendAsync("ChangeName",
+                new ChangeNameViewModel { Initiator = userId, Target = target, Name = name });
+        }
+        catch (Exception ex)
+        {
+            await HandleException(ex);
+        }
+    }
+
+    public async Task Leave()
+    {
+        try
+        {
+            var userId = GetUserId();
+            var roomId = GetRoomId();
+            await mediator.Send(new LeaveCommand
+            {
+                ViewerId = userId,
+                RoomId = roomId,
+            });
+            await Clients.OthersInGroup(roomId.ToString()).SendAsync("Leave", userId);
         }
         catch (Exception ex)
         {
@@ -282,7 +324,7 @@ public class FilmRoomHub(IMediator mediator) : Hub
                 RoomId = roomId,
                 ViewerId = userId,
             });
-            await Clients.OthersInGroup(roomId.ToString()).SendAsync("Leave", userId);
+            await Clients.OthersInGroup(roomId.ToString()).SendAsync("Disconnect", userId);
             await base.OnDisconnectedAsync(exception);
         }
         catch

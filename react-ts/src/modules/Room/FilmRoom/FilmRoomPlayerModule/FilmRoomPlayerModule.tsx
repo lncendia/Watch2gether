@@ -1,83 +1,91 @@
-import {useEffect, useRef} from "react";
-import FilmRoomPlayer from "../../../../components/FilmRoom/FilmRoomPlayer/FilmRoomPlayer.tsx";
+import {useCallback, useEffect, useMemo, useRef} from "react";
+import FilmRoomPlayer from "../../../../components/Room/FilmRoom/FilmRoomPlayer/FilmRoomPlayer.tsx";
 import {IPlayerHandler} from "./IPlayerHandler.ts";
 import {PlayerJsHandler} from "./PlayerJsHandler.ts";
 import {useFilmRoom} from "../../../../contexts/FilmRoomContext/FilmRoomContext.tsx";
+import {ChangeSeriesEvent, PauseEvent, SeekEvent} from "../../../../services/FilmRoomService/Models/RoomEvents.ts";
 
-const FilmRoomPlayerModule = () => {
+const FilmRoomPlayerModule = ({className}: { className?: string }) => {
 
+    const {room, service, viewersParams, updatePause, updateTimeLine, changeSeries} = useFilmRoom()
     const frame = useRef<HTMLIFrameElement>(null)
-    const {room, service, viewers, updatePause, updateTimeLine, changeSeries} = useFilmRoom()
 
-    const changeSeriesRef = useRef(changeSeries)
-    const updateTimeLineRef = useRef(updateTimeLine)
-    const updatePauseRef = useRef(updatePause)
-    const viewersRef = useRef(viewers)
+    const params = viewersParams.filter(v => v.id === room.currentId)[0]
+    const currentData = useRef({
+        season: params.season,
+        episode: params.series,
+        second: params.second
+    })
 
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            viewersRef.current.forEach(v => {
-                if (!v.pause) {
-                    updateTimeLineRef.current(v.id, v.second + 1)
-                }
-            })
-        }, 1000)
-
-        return () => clearInterval(intervalId)
-    }, []);
-
-    useEffect(() => {
-        viewersRef.current = viewers
-        updatePauseRef.current = updatePause
-        updateTimeLineRef.current = updateTimeLine
-        changeSeriesRef.current = changeSeries
-    }, [updatePause, updateTimeLine, changeSeries, viewers]);
-
-    useEffect(() => {
-
-        let handler: IPlayerHandler
-
-        if (room.cdnName === "VideoCDN") handler = new PlayerJsHandler(frame.current!)
-        // else if (room.cdnName === "Kodik") handler = new KodikHandler(service)
+    const handler = useMemo<IPlayerHandler>(() => {
+        if (room.cdnName === "VideoCDN") return new PlayerJsHandler()
+        // else if (room.cdnName === "Kodik") return new KodikHandler()
         else throw new Error()
+    }, [room.cdnName]);
 
-        handler.pause.attach(async (data: [boolean, number]) => {
-            updatePauseRef.current(room.currentId, data[0], data[1])
-            await service.setPause(data[0], data[1])
-        })
 
-        handler.seek.attach(async (second: number) => {
-            updateTimeLineRef.current(room.currentId, second)
-            await service.setTimeLine(second)
-        })
+    const url = useMemo(() => {
+        return handler.generateUrl(room.cdnUrl, currentData.current.second, currentData.current.season, currentData.current.episode)
+    }, [handler, room.cdnUrl]);
 
-        handler.changeSeries.attach(async ([season, series]) => {
-            changeSeriesRef.current(room.currentId, season, series)
-            await service.changeSeries(season, series)
-        })
 
-        service.pauseEvent.attach((event) => {
-            if (event.userId === room.ownerId) {
-                handler.setPause(event.onPause)
-                handler.setSecond(event.seconds)
-            }
-            updatePauseRef.current(event.userId, event.onPause, event.seconds)
-        })
+    const handlePause = useCallback(async (data: [boolean, number]) => {
+        updatePause(room.currentId, data[0], data[1])
+        await service.setPause(data[0], data[1])
+    }, [room.currentId, service, updatePause]);
 
-        service.seekEvent.attach((event) => {
-            if (event.userId === room.ownerId) {
-                handler.setSecond(event.seconds)
-            }
-            updateTimeLineRef.current(event.userId, event.seconds)
-        })
+    const handleSeek = useCallback(async (second: number) => {
+        updateTimeLine(room.currentId, second)
+        await service.setTimeLine(second)
+    }, [room.currentId, service, updateTimeLine]);
+
+    const handleChangeSeries = useCallback(async (data: [number, number]) => {
+        changeSeries(room.currentId, data[0], data[1])
+        await service.changeSeries(data[0], data[1])
+    }, [room.currentId, service, changeSeries]);
+
+
+    const handlePauseEvent = useCallback((event: PauseEvent) => {
+        if (event.userId === room.ownerId) {
+            handler.setPause(event.onPause)
+            handler.setSecond(event.seconds)
+        }
+    }, [room.ownerId, handler]);
+
+    const handleSeekEvent = useCallback((event: SeekEvent) => {
+        if (event.userId === room.ownerId) {
+            handler.setSecond(event.seconds)
+        }
+    }, [room.ownerId, handler]);
+
+
+    const handleChangeSeriesEvent = useCallback((event: ChangeSeriesEvent) => {
+        if (event.userId === room.ownerId) {
+            handler.setSeries(event.season, event.series)
+        }
+    }, [room.ownerId, handler]);
+
+    useEffect(() => {
+
+        handler.mount(frame.current!)
+
+        handler.pause.attach(handlePause)
+
+        handler.seek.attach(handleSeek)
+
+        handler.changeSeries.attach(handleChangeSeries)
+
+        service.pauseEvent.attach(handlePauseEvent)
+
+        service.seekEvent.attach(handleSeekEvent)
+
+        service.changeSeriesEvent.attach(handleChangeSeriesEvent)
 
         return handler.unmount.bind(handler)
 
-    }, [room.cdnName, room.currentId, room.ownerId, service]);
+    }, [service, handler, handlePause, handleSeek, handleChangeSeries, handlePauseEvent, handleSeekEvent]);
 
-    return (
-        <FilmRoomPlayer reference={frame} src={room.cdnUrl}/>
-    );
+    return <FilmRoomPlayer className={className} reference={frame} src={url}/>
 };
 
 export default FilmRoomPlayerModule;

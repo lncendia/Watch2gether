@@ -1,11 +1,9 @@
-import {useCallback, useEffect, useState} from "react";
-import {MessageData} from "../../../../components/FilmRoom/Message/MessageData.ts";
-import InfiniteScroll from "react-infinite-scroll-component";
-import Chat from "../../../../components/FilmRoom/Chat/Chat.tsx";
+import {useCallback, useEffect, useMemo, useState} from "react";
+import Chat from "../../../../components/Room/Common/Chat/Chat.tsx";
 import SendMessageForm from "../../Common/SendMessageForm/SendMessageForm.tsx";
 import {useFilmRoom} from "../../../../contexts/FilmRoomContext/FilmRoomContext.tsx";
-import Spinner from "../../../../components/Common/Spinner/Spinner.tsx";
 import ConnectLinkModule from "../../Common/ConnectLinkModule/ConnectLinkModule.tsx";
+import {MessageData} from "../../../../components/Room/Common/Message/MessageData.ts";
 
 export interface Message {
     userId: string;
@@ -18,20 +16,21 @@ const FilmRoomChatModule = () => {
     const [messages, setMessages] = useState<Message[]>([])
     const [lastMessageId, setLastMessageId] = useState<string>()
     const [hasMore, setHasMore] = useState(false)
-    const {viewers, service, room} = useFilmRoom()
+    const {viewers, service, room, type} = useFilmRoom()
 
-    const mapMessage = useCallback((m: Message): MessageData => {
+    const mappedMessages = useMemo<MessageData[]>(() => {
+        return messages.map(m => {
+            const viewer = viewers.filter(v => v.id === m.userId)[0]
 
-        const viewer = viewers.filter(v => v.id === m.userId)[0]
-
-        return {
-            photoUrl: viewer.photoUrl ?? "/vite.png",
-            text: m.text,
-            createdAt: new Date(m.createdAt),
-            userId: m.userId,
-            username: viewer.username
-        }
-    }, [viewers])
+            return {
+                createdAt: new Date(m.createdAt),
+                photoUrl: viewer?.photoUrl ?? "/img/profile.svg",
+                text: m.text,
+                userId: m.userId,
+                username: viewer?.username ?? "Зритель"
+            }
+        })
+    }, [viewers, messages])
 
 
     useEffect(() => {
@@ -57,25 +56,17 @@ const FilmRoomChatModule = () => {
         await service.sendMessage(text)
     }), [service])
 
-    const scrollProps = {
-        dataLength: messages.length,
-        next: onBottom,
-        hasMore: hasMore,
-        inverse: true,
-        scrollableTarget: "scrollableDiv",
-        loader: <Spinner/>
-    }
-
+    const onType = useCallback((async () => {
+        await service.type()
+        type(room.currentId)
+    }), [service, room.currentId, type])
 
     return (
-        <>
-            <InfiniteScroll style={{display: 'flex', flexDirection: 'column-reverse'}} {...scrollProps}>
-                <Chat userId={room.currentId} messages={messages.map(mapMessage)} ownerId={room.ownerId}>
-                    <SendMessageForm callback={sendMessage}/>
-                    <ConnectLinkModule code={room.code} id={room.id} endpoint="filmRoom"/>
-                </Chat>
-            </InfiniteScroll>
-        </>
+        <Chat next={onBottom} hasMore={hasMore} userId={room.currentId} messages={mappedMessages}
+              ownerId={room.ownerId}>
+            <SendMessageForm type={onType} callback={sendMessage}/>
+            <ConnectLinkModule code={room.code} id={room.id} endpoint="filmRoom"/>
+        </Chat>
     );
 };
 

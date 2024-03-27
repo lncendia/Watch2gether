@@ -1,5 +1,4 @@
 using Room.Application.Abstractions.DTOs.FilmRooms;
-using Room.Infrastructure.Web.Rooms.ViewModels;
 using Room.Infrastructure.Web.Rooms.ViewModels.Common;
 using Room.Infrastructure.Web.Rooms.ViewModels.FilmRooms;
 
@@ -23,7 +22,7 @@ public class FilmRoomMapper
             Pause = v.Pause,
             FullScreen = v.FullScreen,
             Online = v.Online,
-            Second = v.TimeLine.Seconds,
+            Second = (int)v.TimeLine.TotalSeconds,
             Season = v.Season,
             Series = v.Series,
             Allows = new AllowsViewModel

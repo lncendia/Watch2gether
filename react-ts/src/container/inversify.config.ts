@@ -14,10 +14,10 @@ import {IPlaylistsService} from "../services/PlaylistsService/IPlaylistsService.
 import {PlaylistsService} from "../services/PlaylistsService/PlaylistsService.ts";
 import {IFilmRoomsService} from "../services/RoomsService/IFilmRoomsService.ts";
 import {FilmRoomsService} from "../services/RoomsService/FilmRoomsService.ts";
-import {IFilmRoomService} from "../services/FilmRoomService/IFilmRoomService.ts";
-import {FilmRoomService} from "../services/FilmRoomService/FilmRoomService.ts";
 import {IYoutubeRoomsService} from "../services/RoomsService/IYoutubeRoomsService.ts";
 import {YoutubeRoomsService} from "../services/RoomsService/YoutubeRoomsService.ts";
+import {IFilmRoomServiceFactory} from "../services/FilmRoomService/IFilmRoomServiceFactory.ts";
+import {FilmRoomServiceFactory} from "../services/FilmRoomService/FilmRoomServiceFactory.ts";
 
 
 const config: UserManagerSettings = {
@@ -90,8 +90,8 @@ container.bind<IYoutubeRoomsService>('YoutubeRoomsService')
     .toDynamicValue(() => new YoutubeRoomsService(axiosInstance))
     .inSingletonScope();
 
-container.bind<IFilmRoomService>('FilmRoomService')
-    .toDynamicValue(() => new FilmRoomService(() => tokenFactory(container), config.authority!))
+container.bind<IFilmRoomServiceFactory>('FilmRoomServiceFactory')
+    .toDynamicValue(() => new FilmRoomServiceFactory(() => tokenFactory(container), config.authority!))
     .inSingletonScope();
 
 configureAxiosAuthorization(axiosInstance, container)

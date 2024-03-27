@@ -1,7 +1,5 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useInjection} from "inversify-react";
-import Spinner from "../../../components/Common/Spinner/Spinner.tsx";
-import InfiniteScroll from "react-infinite-scroll-component";
 import {ICommentsService} from "../../../services/CommentsService/ICommentsService.ts";
 import CommentList from "../../../components/Comments/CommentList/CommentList.tsx";
 import AddCommentForm from "../AddCommentForm/AddCommentForm.tsx";
@@ -26,44 +24,29 @@ const FilmCommentsModule = ({id, className}: { id: string, className?: string })
         processComments().then()
     }, [commentsService, id]);
 
-    const onBottom = () => {
-        const processFilms = async () => {
-            const response = await commentsService.get({filmId: id, page: page})
-            setPage(page + 1);
-            setHasMore(response.countPages !== page)
-            setComments([...comments, ...response.comments])
-        };
+    const next = useCallback(async () => {
+        const response = await commentsService.get({filmId: id, page: page})
+        setPage(page + 1);
+        setHasMore(response.countPages !== page)
+        setComments(prev => [...prev, ...response.comments])
+    }, [id, page, commentsService])
 
-        processFilms().then()
-    }
-
-    const removeComment = async (comment: CommentData) => {
+    const removeComment = useCallback(async (comment: CommentData) => {
         await commentsService.delete(comment.id)
         setComments(comments.filter(c => c.id !== comment.id))
-    }
+    }, [comments])
 
-    const addComment = async (text: string) => {
+    const addComment = useCallback(async (text: string) => {
         const comment = await commentsService.add({text: text, filmId: id})
-        setComments([comment, ...comments])
-    }
-
-    const scrollProps = {
-        style: {overflow: "visible"},
-        dataLength: comments.length,
-        next: onBottom,
-        hasMore: hasMore,
-        loader: <Spinner/>,
-        className: "mt-4"
-    }
+        setComments(prev => [comment, ...prev])
+    }, [commentsService, id])
 
     return (
         <>
             <ContentBlock className={className}>
                 <AddCommentForm callback={addComment}/>
             </ContentBlock>
-            <InfiniteScroll {...scrollProps}>
-                <CommentList comments={comments} removeComment={removeComment}/>
-            </InfiniteScroll>
+            <CommentList hasMore={hasMore} next={next} comments={comments} removeComment={removeComment}/>
         </>
     );
 };

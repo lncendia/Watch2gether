@@ -6,12 +6,12 @@ using Overoom.IntegrationEvents.Rooms.FilmRooms;
 
 namespace Films.Application.Services.EventHandlers.FilmRooms;
 
-public class FilmRoomUserConnectedEventHandler(IPublishEndpoint publishEndpoint)
+public class FilmRoomUserConnectedEventHandler(IRequestClient<FilmRoomViewerConnectedIntegrationEvent> client)
     : INotificationHandler<FilmRoomUserConnectedDomainEvent>
 {
     public async Task Handle(FilmRoomUserConnectedDomainEvent notification, CancellationToken cancellationToken)
     {
-        await publishEndpoint.Publish(new FilmRoomViewerConnectedIntegrationEvent
+        var integrationEvent = new FilmRoomViewerConnectedIntegrationEvent
         {
             RoomId = notification.Room.Id,
             Viewer = new Viewer
@@ -23,6 +23,10 @@ public class FilmRoomUserConnectedEventHandler(IPublishEndpoint publishEndpoint)
                 Scream = notification.User.Allows.Scream,
                 Change = notification.User.Allows.Change
             }
-        }, context => context.SetRoutingKey(notification.Room.ServerId.ToString()), cancellationToken);
+        };
+
+        await client.GetResponse<FilmRoomAcceptedIntegrationEvent>(integrationEvent,
+            c => c.UseExecute(context => context.SetRoutingKey(notification.Room.ServerId.ToString())),
+            cancellationToken);
     }
 }

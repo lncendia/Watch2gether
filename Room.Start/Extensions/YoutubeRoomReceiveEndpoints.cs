@@ -33,27 +33,5 @@ public static class YoutubeRoomReceiveEndpoints
                 configurator.RoutingKey = serverId;
             });
         });
-        cfg.ReceiveEndpoint($"YoutubeRoomViewerLeaved_{serverId}", re =>
-        {
-            // Отключаем конфигурацию по умолчанию, так как мы конфигурируем обменник вручную ниже в методе Bind
-            re.ConfigureConsumeTopology = false;
-            re.ConfigureConsumer<YoutubeRoomViewerLeavedConsumer>(context);
-            re.Bind<YoutubeRoomViewerLeavedIntegrationEvent>(configurator =>
-            {
-                configurator.ExchangeType = ExchangeType.Direct;
-                configurator.RoutingKey = serverId;
-            });
-        });
-        cfg.ReceiveEndpoint($"YoutubeRoomDeleted_{serverId}", re =>
-        {
-            // Отключаем конфигурацию по умолчанию, так как мы конфигурируем обменник вручную ниже в методе Bind
-            re.ConfigureConsumeTopology = false;
-            re.ConfigureConsumer<YoutubeRoomDeletedConsumer>(context);
-            re.Bind<YoutubeRoomDeletedIntegrationEvent>(configurator =>
-            {
-                configurator.ExchangeType = ExchangeType.Direct;
-                configurator.RoutingKey = serverId;
-            });
-        });
     }
 }

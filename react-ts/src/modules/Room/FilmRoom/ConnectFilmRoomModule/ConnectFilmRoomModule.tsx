@@ -1,7 +1,7 @@
 import {useInjection} from "inversify-react";
 import {IFilmRoomsService} from "../../../../services/RoomsService/IFilmRoomsService.ts";
 import Offcanvas from "../../../../components/Common/Offcanvas/Offcanvas.tsx";
-import ConnectRoomForm from "../../../FilmRooms/ConnectRoomForm/ConnectRoomForm.tsx";
+import ConnectRoomForm from "../../Common/ConnectRoomForm/ConnectRoomForm.tsx";
 import {ReactNode, useCallback, useEffect, useState} from "react";
 import {FilmRoom} from "../../../../services/RoomsService/Models/Rooms.ts";
 import Loader from "../../../../UI/Loader/Loader.tsx";

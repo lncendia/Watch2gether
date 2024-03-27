@@ -12,19 +12,19 @@ namespace Room.Infrastructure.Bus.FilmRooms;
 /// Обработчик интеграционного события FilmRoomCreatedIntegrationEvent
 /// </summary>
 /// <param name="mediator">Медиатор</param>
-public class FilmRoomCreatedConsumer(IMediator mediator) : IConsumer<FilmRoomCreatedIntegrationEvent>
+public class FilmRoomCreatedConsumer(ISender mediator) : IConsumer<FilmRoomCreatedIntegrationEvent>
 {
     /// <summary>
     /// Метод обработчик 
     /// </summary>
     /// <param name="context">Контекст сообщения</param>
-    public Task Consume(ConsumeContext<FilmRoomCreatedIntegrationEvent> context)
+    public async Task Consume(ConsumeContext<FilmRoomCreatedIntegrationEvent> context)
     {
         // Получаем данные события
         var integrationEvent = context.Message;
 
         // Отправляем команду на обработку события
-        return mediator.Send(new CreateRoomCommand
+        await mediator.Send(new CreateRoomCommand
         {
             Id = integrationEvent.Id,
             Owner = new ViewerData
@@ -47,5 +47,7 @@ public class FilmRoomCreatedConsumer(IMediator mediator) : IConsumer<FilmRoomCre
             },
             IsSerial = integrationEvent.IsSerial
         }, context.CancellationToken);
+
+        await context.RespondAsync(new FilmRoomAcceptedIntegrationEvent { Id = integrationEvent.Id });
     }
 }

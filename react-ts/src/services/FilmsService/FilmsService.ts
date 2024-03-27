@@ -1,10 +1,8 @@
 import {AxiosInstance} from "axios";
 import {IFilmsService} from "./IFilmsService.ts";
-import {Films, FilmShort} from "./Models/Films.ts";
+import {Film, Films, FilmShort} from "./Models/Films.ts";
 import {SearchFilmQuery} from "./InputModels/SearchFilmQuery.ts";
-import {filmsSchema, filmShortSchema} from "./Validators/FilmsValidator.ts"
-import {Film} from "./Models/Film.ts";
-import {filmSchema} from "./Validators/FilmValidator.ts";
+import {filmsSchema, filmSchema, filmShortSchema} from "./Validators/FilmsValidator.ts"
 
 
 // Экспорт класса FilmsService для его использования из других модулей

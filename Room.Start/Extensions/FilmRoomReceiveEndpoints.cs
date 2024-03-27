@@ -33,27 +33,5 @@ public static class FilmRoomReceiveEndpoints
                 configurator.RoutingKey = serverId;
             });
         });
-        cfg.ReceiveEndpoint($"FilmRoomViewerLeaved_{serverId}", re =>
-        {
-            // Отключаем конфигурацию по умолчанию, так как мы конфигурируем обменник вручную ниже в методе Bind
-            re.ConfigureConsumeTopology = false;
-            re.ConfigureConsumer<FilmRoomViewerLeavedConsumer>(context);
-            re.Bind<FilmRoomViewerLeavedIntegrationEvent>(configurator =>
-            {
-                configurator.ExchangeType = ExchangeType.Direct;
-                configurator.RoutingKey = serverId;
-            });
-        });
-        cfg.ReceiveEndpoint($"FilmRoomDeleted_{serverId}", re =>
-        {
-            // Отключаем конфигурацию по умолчанию, так как мы конфигурируем обменник вручную ниже в методе Bind
-            re.ConfigureConsumeTopology = false;
-            re.ConfigureConsumer<FilmRoomDeletedConsumer>(context);
-            re.Bind<FilmRoomDeletedIntegrationEvent>(configurator =>
-            {
-                configurator.ExchangeType = ExchangeType.Direct;
-                configurator.RoutingKey = serverId;
-            });
-        });
     }
 }

@@ -10,7 +10,9 @@ using Overoom.IntegrationEvents.Rooms.FilmRooms;
 
 namespace Films.Application.Services.EventHandlers.FilmRooms;
 
-public class FilmRoomCreatedEventHandler(IUnitOfWork unitOfWork, IPublishEndpoint publishEndpoint)
+public class FilmRoomCreatedEventHandler(
+    IUnitOfWork unitOfWork,
+    IRequestClient<FilmRoomCreatedIntegrationEvent> client)
     : INotificationHandler<FilmRoomCreatedDomainEvent>
 {
     public async Task Handle(FilmRoomCreatedDomainEvent notification, CancellationToken cancellationToken)
@@ -24,8 +26,8 @@ public class FilmRoomCreatedEventHandler(IUnitOfWork unitOfWork, IPublishEndpoin
         if (filmRoomsCount + youtubeRoomsCount >= 3) throw new MaxNumberRoomsReachedException();
 
         var cdn = notification.Film.CdnList.First(c => c.Name == notification.Room.CdnName);
-        
-        await publishEndpoint.Publish(new FilmRoomCreatedIntegrationEvent
+
+        var integrationEvent = new FilmRoomCreatedIntegrationEvent
         {
             Id = notification.Room.Id,
             Title = notification.Film.Title,
@@ -41,6 +43,9 @@ public class FilmRoomCreatedEventHandler(IUnitOfWork unitOfWork, IPublishEndpoin
                 Scream = notification.Owner.Allows.Scream,
                 Change = notification.Owner.Allows.Change
             }
-        }, context => context.SetRoutingKey(notification.Room.ServerId.ToString()), cancellationToken);
+        };
+
+        await client.GetResponse<FilmRoomAcceptedIntegrationEvent>(integrationEvent, context =>
+            context.UseExecute(c => c.SetRoutingKey(notification.Room.ServerId.ToString())), cancellationToken);
     }
 }

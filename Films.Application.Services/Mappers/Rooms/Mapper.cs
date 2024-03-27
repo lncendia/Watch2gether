@@ -7,13 +7,15 @@ namespace Films.Application.Services.Mappers.Rooms;
 
 internal class Mapper
 {
-    internal static FilmRoomDto Map(FilmRoom room, Film film, Guid? userId) => new()
+    internal static FilmRoomShortDto Map(FilmRoom room, Film film, Guid? userId) => new()
     {
         Title = film.Title,
         PosterUrl = film.PosterUrl,
         Year = film.Year,
         UserRating = film.UserRating,
         Description = film.ShortDescription,
+        RatingKp = film.RatingKp,
+        RatingImdb = film.RatingImdb,
         IsSerial = film.IsSerial,
         Id = room.Id,
         ViewersCount = room.Viewers.Count,

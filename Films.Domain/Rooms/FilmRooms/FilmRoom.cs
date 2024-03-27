@@ -28,12 +28,6 @@ public class FilmRoom : Room
         });
     }
 
-    public override void Disconnect(Guid userId)
-    {
-        base.Disconnect(userId);
-        AddDomainEvent(new FilmRoomUserLeavedDomainEvent(this, userId));
-    }
-
     public override void Connect(User user, string? code)
     {
         base.Connect(user, code);

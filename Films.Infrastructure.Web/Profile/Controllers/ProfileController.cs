@@ -93,7 +93,7 @@ public class ProfileController(IMediator mediator) : ControllerBase
 
     private UserRatingViewModel Map(UserRatingDto dto) => new()
     {
-        FilmId = dto.Id,
+        Id = dto.Id,
         Title = dto.Title,
         Year = dto.Year,
         PosterUrl = $"{Request.Scheme}://{Request.Host}/{dto.PosterUrl.ToString().Replace('\\', '/')}",
@@ -120,7 +120,7 @@ public class ProfileController(IMediator mediator) : ControllerBase
 
     private UserFilmViewModel Map(UserFilmDto dto) => new()
     {
-        FilmId = dto.Id,
+        Id = dto.Id,
         Title = dto.Title,
         Year = dto.Year,
         RatingKp = dto.RatingKp,

@@ -28,7 +28,9 @@ public static class MassTransitServices
         services.AddMassTransit(busConfigurator =>
         {
             busConfigurator.AddConsumer<FilmRoomViewerKickedConsumer>();
+            busConfigurator.AddConsumer<FilmRoomViewerLeavedConsumer>();
             busConfigurator.AddConsumer<YoutubeRoomViewerKickedConsumer>();
+            busConfigurator.AddConsumer<YoutubeRoomViewerLeavedConsumer>();
 
             busConfigurator.AddConsumer<UserCreatedConsumer>();
             busConfigurator.AddConsumer<UserDataChangedConsumer>();
@@ -37,21 +39,13 @@ public static class MassTransitServices
             {
                 cfg.Host(rmq);
                 cfg.ConfigureEndpoints(context);
-                
+
                 // Конфигурируем обменники для событий комнат с фильмом
                 cfg.Publish<FilmRoomCreatedIntegrationEvent>(configurator =>
                 {
                     configurator.ExchangeType = ExchangeType.Direct;
                 });
                 cfg.Publish<FilmRoomViewerConnectedIntegrationEvent>(configurator =>
-                {
-                    configurator.ExchangeType = ExchangeType.Direct;
-                });
-                cfg.Publish<FilmRoomViewerLeavedIntegrationEvent>(configurator =>
-                {
-                    configurator.ExchangeType = ExchangeType.Direct;
-                });
-                cfg.Publish<FilmRoomDeletedIntegrationEvent>(configurator =>
                 {
                     configurator.ExchangeType = ExchangeType.Direct;
                 });
@@ -62,14 +56,6 @@ public static class MassTransitServices
                     configurator.ExchangeType = ExchangeType.Direct;
                 });
                 cfg.Publish<YoutubeRoomViewerConnectedIntegrationEvent>(configurator =>
-                {
-                    configurator.ExchangeType = ExchangeType.Direct;
-                });
-                cfg.Publish<YoutubeRoomViewerLeavedIntegrationEvent>(configurator =>
-                {
-                    configurator.ExchangeType = ExchangeType.Direct;
-                });
-                cfg.Publish<YoutubeRoomDeletedIntegrationEvent>(configurator =>
                 {
                     configurator.ExchangeType = ExchangeType.Direct;
                 });
