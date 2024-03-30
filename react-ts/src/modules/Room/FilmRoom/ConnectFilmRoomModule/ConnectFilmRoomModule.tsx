@@ -66,7 +66,7 @@ const ConnectFilmRoomModule = (props: ConnectFilmRoomModuleProps) => {
                 <Offcanvas title={`Подключение к комнате "${filmRoom.title}"`} show={connectFormOpen}
                            onClose={() => setConnectFormOpen(false)}>
                     <ConnectRoomForm warning={connectError} callback={connectToFilmRoom} code={props.code}
-                                     onChange={() => setError(undefined)}/>
+                                     onChange={() => setConnectError(undefined)}/>
                 </Offcanvas>
                 <Loader/>
             </>

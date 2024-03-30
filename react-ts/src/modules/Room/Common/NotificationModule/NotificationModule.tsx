@@ -4,7 +4,7 @@ import Badge from "../../../../components/Room/Common/Badge/Badge.tsx";
 
 const NotificationModule = () => {
     const {viewers, service} = useFilmRoom();
-    const [notification, setNotification] = useState<NotificationData>();
+    const [notification, setNotification] = useState<any>();
     const [notificationOpen, setNotificationOpen] = useState(false);
     const viewersRef = useRef(viewers);
 

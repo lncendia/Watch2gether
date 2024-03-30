@@ -11,16 +11,10 @@ interface SendMessageFormProps {
 
 const SendMessageForm = ({callback, className, type}: SendMessageFormProps) => {
 
-
-
     const handleSubmit = useCallback((values: { text: string; }) => {
         callback(values.text)
         values.text = ''
     }, [callback]);
-
-    const onType = () => {
-
-    }
 
     return (
         <Formik validationSchema={sendMessageFormSchema} onSubmit={handleSubmit}

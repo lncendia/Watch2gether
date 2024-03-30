@@ -1,4 +1,3 @@
-import React from 'react';
 import ContentBlock from "../ContentBlock/ContentBlock.tsx";
 
 const NoData = ({text, className = ''}: { text: string, className?: string }) => {

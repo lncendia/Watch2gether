@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import {ReactNode} from 'react';
 import {Col, Row} from "react-bootstrap";
 import styles from "./FilmInfoBlock.module.css";
 
@@ -6,11 +6,9 @@ interface FilmInfoBlockProps {
     posterUrl: string,
     ratingKp?: number,
     ratingImdb?: number,
-    title: string,
     description: string
     posterClassName?: string
     children: ReactNode
-    maxPosterWidth: string
 }
 
 const FilmInfoBlock = (props: FilmInfoBlockProps) => {

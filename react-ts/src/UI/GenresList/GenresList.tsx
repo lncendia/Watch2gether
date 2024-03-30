@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import {ReactNode} from 'react';
 import styles from "./GenresList.module.css";
 
 const GenresList = ({genres, selected}: { genres: string[], selected?: string }) => {

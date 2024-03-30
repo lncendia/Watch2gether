@@ -4,7 +4,7 @@ import {Button} from "react-bootstrap";
 import {connectFilmRoomFormSchema} from "./ConnectRoomFormValidation.ts";
 
 interface ConnectRoomFormProps {
-    warning: string,
+    warning?: string,
     code?: string,
     callback: (code: string) => void,
     onChange: () => void
@@ -18,7 +18,7 @@ const ConnectRoomForm = (props: ConnectRoomFormProps) => {
 
     return (
         <Formik validationSchema={connectFilmRoomFormSchema} onSubmit={handleSubmit}
-                initialValues={{code: props.code}}>
+                initialValues={{code: props.code ?? ''}}>
             {({handleSubmit, handleChange, values, touched, errors}) => (
                 <Form onSubmit={handleSubmit}>
                     <Form.Label>Код</Form.Label>
@@ -26,7 +26,7 @@ const ConnectRoomForm = (props: ConnectRoomFormProps) => {
                     <Form.Control name="code" value={values.code} onChange={(e) => {
                         handleChange(e)
                         props.onChange()
-                    }} isInvalid={touched.code && (!!errors.code || props.warning)}/>
+                    }} isInvalid={!!touched.code && (!!errors.code || !!props.warning)}/>
 
                     <Form.Control.Feedback type="invalid">
                         {errors.code == null ? props.warning : errors.code}
