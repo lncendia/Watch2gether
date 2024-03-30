@@ -1,9 +1,10 @@
-import {Col, Row} from "react-bootstrap";
 import ContentBlock from "../../../UI/ContentBlock/ContentBlock.tsx";
 import styles from "./PlaylistInfo.module.css"
 import {PlaylistInfoData} from "./PlaylistInfoData.ts";
-import KeyList from "../../Common/KeyList/KeyList.tsx";
+import KeyList from "../../../UI/KeyList/KeyList.tsx";
 import moment from "moment";
+import FilmInfoBlock from "../../../UI/FilmInfoBlock/FilmInfoBlock.tsx";
+import Divider from "../../../UI/Divider/Divider.tsx";
 
 export interface PlaylistInfo {
     playlist: PlaylistInfoData,
@@ -16,24 +17,19 @@ const PlaylistInfo = (props: PlaylistInfo) => {
 
     return (
         <ContentBlock className={props.className}>
-            <Row>
-                <Col xl={3} lg={4} className="text-center mb-3">
-                    <img className={styles.poster} src={props.playlist.posterUrl} alt="Постер"/>
-                </Col>
-                <Col xl={9} lg={8}>
-                    <h3 className="m-0">{props.playlist.name}</h3>
-                    <div className={styles.border}></div>
-                    <div className={styles.description}>
-                        {props.playlist.description}
-                    </div>
-                    <div className={styles.border}></div>
-                    <KeyList className="mb-2" title="Жанр: " values={props.playlist.genres.map(g => [g, undefined])}
-                             onKeySelect={props.onGenreSelect}/>
-                    <KeyList className="mb-2" title="Обновлена: "
-                             values={[[moment(props.playlist.updated).format("DD.MM.YYYY"), undefined]]}
-                    />
-                </Col>
-            </Row>
+            <FilmInfoBlock posterClassName={styles.poster}  {...props.playlist}>
+                <h3 className="m-0">{props.playlist.name}</h3>
+                <Divider/>
+                <div className={styles.description}>
+                    {props.playlist.description}
+                </div>
+                <Divider/>
+                <KeyList className="mb-2" title="Жанр: " values={props.playlist.genres.map(g => [g, undefined])}
+                         onKeySelect={props.onGenreSelect}/>
+                <KeyList className="mb-2" title="Обновлена: "
+                         values={[[moment(props.playlist.updated).format("DD.MM.YYYY"), undefined]]}
+                />
+            </FilmInfoBlock>
         </ContentBlock>
     );
 };

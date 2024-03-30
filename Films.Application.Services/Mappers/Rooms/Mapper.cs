@@ -7,7 +7,7 @@ namespace Films.Application.Services.Mappers.Rooms;
 
 internal class Mapper
 {
-    internal static FilmRoomShortDto Map(FilmRoom room, Film film, Guid? userId) => new()
+    internal static FilmRoomShortDto Map(FilmRoom room, Film film) => new()
     {
         Title = film.Title,
         PosterUrl = film.PosterUrl,
@@ -20,14 +20,14 @@ internal class Mapper
         Id = room.Id,
         ViewersCount = room.Viewers.Count,
         FilmId = film.Id,
-        IsCodeNeeded = room.Viewers.All(v => v != userId) && !string.IsNullOrEmpty(room.Code)
+        IsPrivate = !string.IsNullOrEmpty(room.Code)
     };
 
-    internal static YoutubeRoomDto Map(YoutubeRoom room, Guid? userId) => new()
+    internal static YoutubeRoomShortDto Map(YoutubeRoom room) => new()
     {
         Id = room.Id,
         ViewersCount = room.Viewers.Count,
         VideoAccess = room.VideoAccess,
-        IsCodeNeeded = room.Viewers.All(v => v != userId) && !string.IsNullOrEmpty(room.Code)
+        IsPrivate = !string.IsNullOrEmpty(room.Code)
     };
 }

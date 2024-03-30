@@ -4,6 +4,7 @@ import {IPlaylistsService} from "../../../services/PlaylistsService/IPlaylistsSe
 import {useNavigate} from "react-router-dom";
 import PlaylistsCatalog from "../../../components/Playlists/PlaylistsCatalog/PlaylistsCatalog.tsx";
 import {PlaylistItemData} from "../../../components/Playlists/PlaylistItem/PlaylistItemData.ts";
+import NoData from "../../../UI/NoData/NoData.tsx";
 
 interface PlaylistsModuleProps {
     genre?: string;
@@ -49,9 +50,10 @@ const PlaylistsModule = (props: PlaylistsModuleProps) => {
         navigate('/playlist', {state: {id: playlist.id}})
     }, [navigate])
 
-    return (
-        <PlaylistsCatalog hasMore={hasMore} next={next} genre={props.genre} playlists={playlists} onSelect={onSelect}/>
-    );
+    if (playlists.length === 0) return <NoData className="mt-5" text="Подборки не найдены"/>
+
+    return <PlaylistsCatalog hasMore={hasMore} next={next} genre={props.genre} playlists={playlists}
+                             onSelect={onSelect}/>
 };
 
 export default PlaylistsModule;

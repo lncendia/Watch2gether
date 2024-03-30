@@ -1,7 +1,7 @@
 import CommentItem from "../CommentItem/CommentItem.tsx";
 import {CommentData} from "../CommentItem/CommentData.ts";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Spinner from "../../Common/Spinner/Spinner.tsx";
+import Spinner from "../../../UI/Spinner/Spinner.tsx";
 
 interface CommentListParams {
     comments: CommentData[];

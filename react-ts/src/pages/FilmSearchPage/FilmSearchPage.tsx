@@ -11,7 +11,7 @@ const getTitle = (state: any) => {
     return ''
 }
 
-const SearchPage = () => {
+const FilmSearchPage = () => {
 
     const {state} = useLocation();
     return (
@@ -23,4 +23,4 @@ const SearchPage = () => {
     );
 };
 
-export default SearchPage;
+export default FilmSearchPage;

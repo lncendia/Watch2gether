@@ -4,8 +4,8 @@ import {AxiosInstance} from "axios";
 import {CreateFilmRoomBody} from "./InputModels/CreateFilmRoomBody.ts";
 import {ConnectRoomBody} from "./InputModels/ConnectRoomBody.ts";
 import {FilmRoomSearchQuery} from "./InputModels/SearchRoomQuery.ts";
-import {Rooms, FilmRoom} from "./Models/Rooms.ts";
-import {filmRoomSchema, filmRoomsSchema, roomServerSchema} from "./Validators/RoomsValidator.ts";
+import {Rooms, FilmRoom, FilmRoomShort} from "./Models/Rooms.ts";
+import {filmRoomSchema, filmRoomShortSchema, filmRoomsSchema, roomServerSchema} from "./Validators/RoomsValidator.ts";
 
 export class FilmRoomsService implements IFilmRoomsService {
 
@@ -26,12 +26,21 @@ export class FilmRoomsService implements IFilmRoomsService {
         return response.data
     }
 
-    async search(query: FilmRoomSearchQuery): Promise<Rooms<FilmRoom>> {
+    async search(query: FilmRoomSearchQuery): Promise<Rooms<FilmRoomShort>> {
 
-        const response = await this.axiosInstance.get<Rooms<FilmRoom>>('filmRooms/search', {params: query});
+        const response = await this.axiosInstance.get<Rooms<FilmRoomShort>>('filmRooms/search', {params: query});
 
         // Валидация ответа сервера
         await filmRoomsSchema.validate(response.data)
+
+        return response.data
+    }
+
+    async my(): Promise<FilmRoomShort[]> {
+
+        const response = await this.axiosInstance.get<FilmRoomShort[]>('filmRooms/my');
+
+        response.data.forEach(v=>filmRoomShortSchema.validateSync(v))
 
         return response.data
     }

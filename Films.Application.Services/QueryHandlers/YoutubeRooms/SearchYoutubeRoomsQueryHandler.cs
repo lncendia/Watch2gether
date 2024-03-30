@@ -15,15 +15,12 @@ using MediatR;
 namespace Films.Application.Services.QueryHandlers.YoutubeRooms;
 
 public class SearchYoutubeRoomsQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<SearchYoutubeRoomsQuery, (IReadOnlyCollection<YoutubeRoomDto> rooms, int count)>
+    : IRequestHandler<SearchYoutubeRoomsQuery, (IReadOnlyCollection<YoutubeRoomShortDto> rooms, int count)>
 {
-    public async Task<(IReadOnlyCollection<YoutubeRoomDto> rooms, int count)> Handle(SearchYoutubeRoomsQuery request,
+    public async Task<(IReadOnlyCollection<YoutubeRoomShortDto> rooms, int count)> Handle(SearchYoutubeRoomsQuery request,
         CancellationToken cancellationToken)
     {
         ISpecification<YoutubeRoom, IYoutubeRoomSpecificationVisitor>? specification = null;
-
-        if (request is { UserId: not null, OnlyMy: true })
-            specification.AddToSpecification(new YoutubeRoomByUserSpecification(request.UserId.Value));
 
         if (request.OnlyPublic)
             specification.AddToSpecification(new OpenYoutubeRoomsSpecification());
@@ -36,6 +33,6 @@ public class SearchYoutubeRoomsQueryHandler(IUnitOfWork unitOfWork)
 
         var count = await unitOfWork.YoutubeRoomRepository.Value.CountAsync(specification);
 
-        return (rooms.Select(r => Mapper.Map(r, request.UserId)).ToArray(), count);
+        return (rooms.Select(Mapper.Map).ToArray(), count);
     }
 }

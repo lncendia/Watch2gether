@@ -1,6 +1,6 @@
 namespace Films.Infrastructure.Web.Rooms.ViewModels;
 
-public class YoutubeRoomViewModel : RoomViewModel
+public class YoutubeRoomViewModel : YoutubeRoomShortViewModel
 {
-    public required bool VideoAccess { get; init; }
+    public required bool IsCodeNeeded { get; init; }
 }

@@ -3,7 +3,7 @@ import styles from "./Chat.module.css"
 import Message from "../Message/Message.tsx";
 import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Spinner from "../../../Common/Spinner/Spinner.tsx";
+import Spinner from "../../../../UI/Spinner/Spinner.tsx";
 
 interface ChatProps {
     userId: string,

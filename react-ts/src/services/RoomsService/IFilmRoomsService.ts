@@ -12,5 +12,7 @@ export interface IFilmRoomsService {
 
     search(query: FilmRoomSearchQuery): Promise<Rooms<FilmRoomShort>>
 
+    my(): Promise<FilmRoomShort[]>
+
     room(id: string): Promise<FilmRoom>
 }

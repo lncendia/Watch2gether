@@ -3,7 +3,7 @@ import * as yup from 'yup';
 const roomSchema = yup.object().shape({
     id: yup.string().required(),
     viewersCount: yup.number().required(),
-    isCodeNeeded: yup.boolean().required(),
+    isPrivate: yup.boolean().required(),
 });
 
 export const filmRoomShortSchema = roomSchema.shape({
@@ -21,11 +21,7 @@ export const filmRoomShortSchema = roomSchema.shape({
 export const filmRoomSchema = filmRoomShortSchema.shape({
     userRatingsCount: yup.number().required(),
     userScore: yup.number().min(0).max(10).nullable(),
-});
-
-
-export const youtubeRoomSchema = roomSchema.shape({
-    videoAccess: yup.boolean().required(),
+    isCodeNeeded: yup.boolean().required(),
 });
 
 export const filmRoomsSchema = yup.object().shape({
@@ -33,10 +29,20 @@ export const filmRoomsSchema = yup.object().shape({
     countPages: yup.number().required()
 });
 
+export const youtubeRoomShortSchema = roomSchema.shape({
+    videoAccess: yup.boolean().required(),
+});
+
+export const youtubeRoomSchema = youtubeRoomShortSchema.shape({
+    isCodeNeeded: yup.boolean().required(),
+});
+
 export const youtubeRoomsSchema = yup.object().shape({
-    rooms: yup.array().of(youtubeRoomSchema).required(),
+    rooms: yup.array().of(youtubeRoomShortSchema).required(),
     countPages: yup.number().required()
 });
+
+
 
 export const roomServerSchema = yup.object().shape({
     id: yup.string().required(),

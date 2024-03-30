@@ -61,9 +61,7 @@ public class FilmRoomsController(IMediator mediator) : ControllerBase
             Skip = (model.Page - 1) * model.CountPerPage,
             Take = model.CountPerPage,
             FilmId = model.FilmId,
-            UserId = User.Identity?.IsAuthenticated ?? false ? User.GetId() : null,
             OnlyPublic = model.OnlyPublic,
-            OnlyMy = model.OnlyMy
         });
 
         var count = data.count / model.CountPerPage;
@@ -73,6 +71,14 @@ public class FilmRoomsController(IMediator mediator) : ControllerBase
             CountPages = count,
             Rooms = data.rooms.Select(Map)
         };
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IEnumerable<FilmRoomShortViewModel>> My()
+    {
+        var rooms = await mediator.Send(new UserFilmRoomsQuery { UserId = User.GetId() });
+        return rooms.Select(Map);
     }
 
     [Authorize]
@@ -100,7 +106,7 @@ public class FilmRoomsController(IMediator mediator) : ControllerBase
         RatingImdb = dto.RatingImdb,
         Id = dto.Id,
         ViewersCount = dto.ViewersCount,
-        IsCodeNeeded = dto.IsCodeNeeded,
+        IsPrivate = dto.IsPrivate,
         FilmId = dto.FilmId,
     };
 
@@ -116,6 +122,7 @@ public class FilmRoomsController(IMediator mediator) : ControllerBase
         RatingImdb = dto.RatingImdb,
         Id = dto.Id,
         ViewersCount = dto.ViewersCount,
+        IsPrivate = dto.IsPrivate,
         IsCodeNeeded = dto.IsCodeNeeded,
         FilmId = dto.FilmId,
         UserRatingsCount = dto.UserRatingsCount,

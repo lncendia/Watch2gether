@@ -4,6 +4,7 @@ import {IFilmsService} from "../../../services/FilmsService/IFilmsService.ts";
 import {useNavigate} from "react-router-dom";
 import FilmsCatalog from "../../../components/Films/FilmsCatalog/FilmsCatalog.tsx";
 import {FilmItemData} from "../../../components/Films/FilmItem/FilmItemData.ts";
+import NoData from "../../../UI/NoData/NoData.tsx";
 
 interface FilmsModuleProps {
     genre?: string
@@ -57,6 +58,8 @@ const FilmsModule = (props: FilmsModuleProps) => {
     const onSelect = useCallback((film: FilmItemData) => {
         navigate('/film', {state: {id: film.id}})
     }, [navigate])
+
+    if(films.length === 0) return <NoData className="mt-5" text="Фильмы не найдены"/>
 
     return (
         <FilmsCatalog hasMore={hasMore} next={next} genre={props.genre} films={films} onSelect={onSelect}

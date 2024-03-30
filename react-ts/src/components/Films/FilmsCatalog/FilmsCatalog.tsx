@@ -2,7 +2,7 @@ import {Col, Row} from "react-bootstrap";
 import FilmItem from "../FilmItem/FilmItem.tsx";
 import {FilmItemData} from "../FilmItem/FilmItemData.ts";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Spinner from "../../Common/Spinner/Spinner.tsx";
+import Spinner from "../../../UI/Spinner/Spinner.tsx";
 
 export interface FilmsCatalogProps {
     films: FilmItemData[],

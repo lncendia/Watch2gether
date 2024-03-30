@@ -1,7 +1,7 @@
 import {useInjection} from "inversify-react";
 import {IFilmRoomsService} from "../../../services/RoomsService/IFilmRoomsService.ts";
 import {useUser} from "../../../contexts/UserContext/UserContext.tsx";
-import Offcanvas from "../../../components/Common/Offcanvas/Offcanvas.tsx";
+import Offcanvas from "../../../UI/Offcanvas/Offcanvas.tsx";
 import CreateFilmRoomForm from "../CreateFilmRoomForm/CreateFilmRoomForm.tsx";
 import {useNavigate} from "react-router-dom";
 

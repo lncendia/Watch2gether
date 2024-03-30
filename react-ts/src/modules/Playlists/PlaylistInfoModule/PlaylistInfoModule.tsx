@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import PlaylistInfo from "../../../components/Playlists/PlaylistInfo/PlaylistInfo.tsx";
 import {PlaylistInfoData} from "../../../components/Playlists/PlaylistInfo/PlaylistInfoData.ts";
 import {IPlaylistsService} from "../../../services/PlaylistsService/IPlaylistsService.ts";
-import Spinner from "../../../components/Common/Spinner/Spinner.tsx";
+import Spinner from "../../../UI/Spinner/Spinner.tsx";
 
 const PlaylistInfoModule = ({id, className}: { id: string, className?: string }) => {
     const [playlist, setPlaylist] = useState<PlaylistInfoData>()
@@ -25,7 +25,7 @@ const PlaylistInfoModule = ({id, className}: { id: string, className?: string })
     if (!playlist) return <Spinner/>
 
     return <PlaylistInfo className={className} playlist={playlist!}
-                         onGenreSelect={(value) => navigate('/search', {state: {genre: value}})}/>
+                         onGenreSelect={(value) => navigate('/filmSearch', {state: {genre: value}})}/>
 };
 
 export default PlaylistInfoModule;

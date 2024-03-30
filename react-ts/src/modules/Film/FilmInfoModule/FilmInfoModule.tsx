@@ -1,11 +1,11 @@
 import FilmInfo from "../../../components/Film/FilmInfo/FilmInfo.tsx";
-import {Film} from "../../../services/FilmsService/Models/Film.ts";
 import {useNavigate} from "react-router-dom";
 import {useInjection} from "inversify-react";
 import {IProfileService} from "../../../services/ProfileService/IProfileService.ts";
 import {useUser} from "../../../contexts/UserContext/UserContext.tsx";
 import {FilmInfoData} from "../../../components/Film/FilmInfo/FilmInfoData.ts";
 import {useCallback, useState} from "react";
+import {Film} from "../../../services/FilmsService/Models/Films.ts";
 
 const getSeasonsString = (count: number) => {
     count = count % 10
@@ -68,11 +68,11 @@ const FilmInfoModule = ({film, className, onRoomCreateClicked}: FilmInfoProps) =
 
     return (
         <FilmInfo className={className} film={map(film)}
-                  onCountrySelect={value => navigate('/search', {state: {country: value}})}
-                  onGenreSelect={value => navigate('/search', {state: {genre: value}})}
-                  onPersonSelect={value => navigate('/search', {state: {person: value}})}
-                  onYearSelect={value => navigate('/search', {state: {year: value}})}
-                  onTypeSelect={value => navigate('/search', {state: {serial: value === 'Сериал'}})}
+                  onCountrySelect={value => navigate('/filmSearch', {state: {country: value}})}
+                  onGenreSelect={value => navigate('/filmSearch', {state: {genre: value}})}
+                  onPersonSelect={value => navigate('/filmSearch', {state: {person: value}})}
+                  onYearSelect={value => navigate('/filmSearch', {state: {year: value}})}
+                  onTypeSelect={value => navigate('/filmSearch', {state: {serial: value === 'Сериал'}})}
                   isWatchlistEnabled={authorizedUser !== null} inWatchlist={watchList}
                   onWatchlistToggle={toggleWatchlist} onRoomCreateClicked={onRoomCreateClicked}/>
     );

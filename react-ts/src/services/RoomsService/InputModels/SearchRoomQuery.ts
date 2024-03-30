@@ -1,6 +1,5 @@
 export interface RoomSearchQuery {
     onlyPublic?: boolean;
-    onlyMy?: boolean;
     page?: number;
     countPerPage?: number;
 }

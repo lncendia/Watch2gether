@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
-import VideoWrapper from "../../UI/VideoWrapper/VideoWrapper.tsx";
+import VideoWrapper from "../../../UI/VideoWrapper/VideoWrapper.tsx";
 
-const RandomVideoWrapper = ({children}: { children: React.ReactNode }) => {
+const RandomVideoModule = ({children}: { children: React.ReactNode }) => {
 
     const [randomVideo, setRandomVideo] = useState('');
 
@@ -33,4 +33,4 @@ const RandomVideoWrapper = ({children}: { children: React.ReactNode }) => {
     );
 };
 
-export default RandomVideoWrapper;
+export default RandomVideoModule;

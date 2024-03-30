@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Films.Application.Abstractions.Queries.YoutubeRooms;
 
-public class SearchYoutubeRoomsQuery : IRequest<(IReadOnlyCollection<YoutubeRoomDto> rooms, int count)>
+public class SearchYoutubeRoomsQuery : IRequest<(IReadOnlyCollection<YoutubeRoomShortDto> rooms, int count)>
 {
     public Guid? UserId { get; init; }
     public bool OnlyPublic { get; init; }

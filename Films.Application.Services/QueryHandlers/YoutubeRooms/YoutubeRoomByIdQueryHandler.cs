@@ -1,8 +1,8 @@
 using Films.Application.Abstractions.DTOs.Rooms;
 using Films.Application.Abstractions.Exceptions;
 using Films.Application.Abstractions.Queries.YoutubeRooms;
-using Films.Application.Services.Mappers.Rooms;
 using Films.Domain.Abstractions.Interfaces;
+using Films.Domain.Rooms.YoutubeRooms;
 using MediatR;
 
 namespace Films.Application.Services.QueryHandlers.YoutubeRooms;
@@ -13,6 +13,15 @@ public class YoutubeRoomByIdQueryHandler(IUnitOfWork unitOfWork) : IRequestHandl
     {
         var room = await unitOfWork.YoutubeRoomRepository.Value.GetAsync(request.Id);
         if (room == null) throw new RoomNotFoundException();
-        return Mapper.Map(room, request.UserId);
+        return Map(room, request.UserId);
     }
+
+    private static YoutubeRoomDto Map(YoutubeRoom room, Guid? userId) => new()
+    {
+        Id = room.Id,
+        ViewersCount = room.Viewers.Count,
+        IsCodeNeeded = room.Viewers.All(v => v != userId) && !string.IsNullOrEmpty(room.Code),
+        IsPrivate = !string.IsNullOrEmpty(room.Code),
+        VideoAccess = room.VideoAccess
+    };
 }

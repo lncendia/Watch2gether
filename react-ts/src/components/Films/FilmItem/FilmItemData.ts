@@ -8,7 +8,5 @@ export interface FilmItemData {
     userRating: number
     description: string
     isSerial: boolean
-    countSeasons?: number
-    countEpisodes?: number
     genres: string[]
 }

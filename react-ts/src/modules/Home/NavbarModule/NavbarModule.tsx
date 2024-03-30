@@ -1,11 +1,11 @@
-import Navbar from "../../components/Menu/Navbar/Navbar.tsx";
+import Navbar from "../../../components/Menu/Navbar/Navbar.tsx";
 import {useCallback, useState} from "react";
 import {useInjection} from "inversify-react";
-import {IFilmsService} from "../../services/FilmsService/IFilmsService.ts";
+import {IFilmsService} from "../../../services/FilmsService/IFilmsService.ts";
 import {useNavigate} from "react-router-dom";
-import {IAuthService} from "../../services/AuthService/IAuthService.ts";
-import {useUser} from "../../contexts/UserContext/UserContext.tsx";
-import {FilmShort} from "../../services/FilmsService/Models/Films.ts";
+import {IAuthService} from "../../../services/AuthService/IAuthService.ts";
+import {useUser} from "../../../contexts/UserContext/UserContext.tsx";
+import {FilmShort} from "../../../services/FilmsService/Models/Films.ts";
 
 const NavbarModule = () => {
 
@@ -30,7 +30,7 @@ const NavbarModule = () => {
     const onLogin = useCallback(authService.signIn.bind(authService), [authService])
     const onCatalog = useCallback(() => navigate('/catalog'), [navigate])
     const onPlaylists = useCallback(() => navigate('/playlists'), [navigate])
-    const onRooms = useCallback(() => navigate('/rooms'), [navigate])
+    const onRooms = useCallback(() => navigate('/filmRooms'), [navigate])
     const onYouTube = useCallback(() => navigate('/youtube'), [navigate])
     const onProfile = useCallback(() => navigate('/profile'), [navigate])
     const onHome = useCallback(() => navigate('/'), [navigate])

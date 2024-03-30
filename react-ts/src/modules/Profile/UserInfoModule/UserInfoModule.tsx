@@ -14,7 +14,7 @@ const UserInfoModule = ({className}: { className?: string }) => {
     const navigate = useNavigate();
 
     const onGenreSelect = useCallback((genre: string) => {
-        navigate('/search', {state: {genre: genre}})
+        navigate('/filmSearch', {state: {genre: genre}})
     }, [navigate])
 
     return (

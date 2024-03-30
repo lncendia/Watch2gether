@@ -2,7 +2,7 @@ import {Col, Row} from "react-bootstrap";
 import {PlaylistItemData} from "../PlaylistItem/PlaylistItemData.ts";
 import PlaylistItem from "../PlaylistItem/PlaylistItem.tsx";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Spinner from "../../Common/Spinner/Spinner.tsx";
+import Spinner from "../../../UI/Spinner/Spinner.tsx";
 
 interface PlaylistsProps {
     playlists: PlaylistItemData[],

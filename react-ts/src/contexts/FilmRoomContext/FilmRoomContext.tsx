@@ -11,7 +11,7 @@ import {IFilmRoomServiceFactory} from "../../services/FilmRoomService/IFilmRoomS
 
 // Создайте интерфейс для контекста
 interface FilmRoomContextData {
-    viewers: FilmViewerData[];
+    viewers: YoutubeViewerData[];
     viewersParams: FilmViewerParams[];
     room: FilmRoomData;
     service: IFilmRoomService;
@@ -37,7 +37,7 @@ interface FilmRoomContextProviderProps {
 
 export const FilmRoomContextProvider: React.FC<FilmRoomContextProviderProps> = ({filmRoom, server, children}) => {
 
-    const [viewers, setViewers] = useState<FilmViewerData[]>([])
+    const [viewers, setViewers] = useState<YoutubeViewerData[]>([])
     const [viewersParams, setViewersParams] = useState<FilmViewerParams[]>([])
     const [room, setRoom] = useState<FilmRoomData>()
     const [service, setService] = useState<IFilmRoomService>()
@@ -66,6 +66,20 @@ export const FilmRoomContextProvider: React.FC<FilmRoomContextProviderProps> = (
         setService(service)
 
         return () => {
+            service.roomLoadEvent.detach()
+            service.connectEvent.detach()
+            service.disconnectEvent.detach()
+            service.leaveEvent.detach()
+            service.messagesEvent.detach()
+            service.messageEvent.detach()
+            service.beepEvent.detach()
+            service.screamEvent.detach()
+            service.changeNameEvent.detach()
+            service.errorEvent.detach()
+            service.pauseEvent.detach()
+            service.seekEvent.detach()
+            service.changeSeriesEvent.detach()
+            service.typeEvent.detach()
             service.disconnect().then()
         }
     }, [filmRoom, server, server.id, server.url, factory]);

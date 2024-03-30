@@ -9,10 +9,11 @@ import HomePage from "./pages/HomePage/HomePage.tsx";
 import './index.css'
 import FilmPage from "./pages/FilmPage/FilmPage.tsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.tsx";
-import SearchPage from "./pages/SearchPage/SearchPage.tsx";
+import FilmSearchPage from "./pages/FilmSearchPage/FilmSearchPage.tsx";
 import PlaylistsPage from "./pages/PlaylistsPage/PlaylistsPage.tsx";
 import PlaylistPage from "./pages/PlaylistPage/PlaylistPage.tsx";
 import FilmRoomPage from "./pages/FilmRoomPage/FilmRoomPage.tsx";
+import FilmRoomsPage from "./pages/FilmRoomsPage/FilmRoomsPage.tsx";
 
 // Основной класс приложения
 const App = () => {
@@ -54,8 +55,8 @@ const App = () => {
                     element: <PlaylistPage/>
                 },
                 {
-                    path: '/search',
-                    element: <SearchPage/>
+                    path: '/filmSearch',
+                    element: <FilmSearchPage/>
                 },
                 {
                     path: '/film',
@@ -64,6 +65,10 @@ const App = () => {
                 {
                     path: '/profile',
                     element: <ProfilePage/>
+                },
+                {
+                    path: '/filmRooms',
+                    element: <FilmRoomsPage/>
                 },
                 {
                     path: '/filmRoom',

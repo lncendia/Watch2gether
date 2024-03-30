@@ -56,6 +56,7 @@ public class FilmRoomByIdQueryHandler(IUnitOfWork unitOfWork, IMemoryCache cache
         FilmId = film.Id,
         IsCodeNeeded = room.Viewers.All(v => v != userId) && !string.IsNullOrEmpty(room.Code),
         UserRatingsCount = film.UserRatingsCount,
-        UserScore = rating?.Score
+        UserScore = rating?.Score,
+        IsPrivate = !string.IsNullOrEmpty(room.Code)
     };
 }

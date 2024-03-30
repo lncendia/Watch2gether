@@ -1,5 +1,5 @@
 import {Outlet} from "react-router-dom";
-import NavbarModule from "../../modules/Home/NavbarModule.tsx";
+import NavbarModule from "../../modules/Home/NavbarModule/NavbarModule.tsx";
 import Footer from "../../modules/Home/Footer.tsx";
 import Container from "../../UI/Container/Container.tsx";
 

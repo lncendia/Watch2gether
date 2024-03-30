@@ -1,5 +1,5 @@
-import RandomVideoWrapper from "../../modules/Home/RandomVideoWrapper.tsx";
-import NavbarModule from "../../modules/Home/NavbarModule.tsx";
+import RandomVideoModule from "../../modules/Home/RandomVideoModule/RandomVideoModule.tsx";
+import NavbarModule from "../../modules/Home/NavbarModule/NavbarModule.tsx";
 import Logo from "../../components/Home/Logo/Logo";
 import Footer from "../../modules/Home/Footer.tsx";
 import Content from "../../components/Home/Content/Content.tsx";
@@ -16,10 +16,10 @@ const allowsInfo = "Во время просмотра фильма или ви�
 const HomePage = () => {
     return (
         <>
-            <RandomVideoWrapper>
+            <RandomVideoModule>
                 <NavbarModule/>
                 <Logo/>
-            </RandomVideoWrapper>
+            </RandomVideoModule>
             <Container>
                 <BlockTitle className={"mt-5"} title="Каталог"/>
                 <Content src="img/catalog.png" text={catalogInfo}/>

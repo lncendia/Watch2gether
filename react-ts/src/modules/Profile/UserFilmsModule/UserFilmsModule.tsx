@@ -4,6 +4,7 @@ import FilmsList from "../../../components/Films/FilmsList/FilmsList.tsx";
 import {FilmShortData} from "../../../components/Films/FilmShortItem/FilmShortData.ts";
 import {Col} from "react-bootstrap";
 import {useCallback} from "react";
+import NoData from "../../../UI/NoData/NoData.tsx";
 
 const UserFilmsModule = ({films, className}: { films: UserFilm[], className?: string }) => {
 
@@ -14,11 +15,11 @@ const UserFilmsModule = ({films, className}: { films: UserFilm[], className?: st
         navigate('/film', {state: {id: film.id}})
     }, [navigate])
 
-    if (films.length === 0) return <></>
-
     return (
         <Col xl={9} lg={10} className={className}>
-            <FilmsList films={films} hasMore={false} next={() => {}} onSelect={onSelect}/>
+            {films.length === 0 && <NoData text="Пусто"/>}
+            {films.length !== 0 && <FilmsList films={films} hasMore={false} next={() => {
+            }} onSelect={onSelect}/>}
         </Col>
     );
 };

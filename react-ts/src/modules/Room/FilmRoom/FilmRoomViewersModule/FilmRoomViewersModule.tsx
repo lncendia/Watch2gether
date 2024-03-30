@@ -48,6 +48,7 @@ const FilmRoomViewersModule = () => {
     }, [viewerToChange, service])
 
 
+    // Отписка от событий делегирована контексту
     useEffect(() => {
         service.pauseEvent.attach((event) => updatePause(event.userId, event.onPause, event.seconds))
         service.changeSeriesEvent.attach((event) => changeSeries(event.userId, event.season, event.series))
@@ -58,7 +59,7 @@ const FilmRoomViewersModule = () => {
         service.disconnectEvent.attach((id) => disconnectViewer(id))
         service.leaveEvent.attach((id) => removeViewer(id))
 
-    }, [updatePause, updateTimeLine, type, changeSeries]);
+    }, [service, updatePause, updateTimeLine, type, changeSeries, changeName, connectViewer, disconnectViewer, removeViewer]);
 
     const mappedViewers = useMemo<ViewerData[]>(() => {
         return viewers.map<ViewerData>(v => {

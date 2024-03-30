@@ -1,12 +1,11 @@
-import {useEffect, useState} from "react";
-import {FilmItemData} from "../../../components/Films/FilmItem/FilmItemData.ts";
+import {useCallback, useEffect, useState} from "react";
 import {useInjection} from "inversify-react";
 import {useNavigate} from "react-router-dom";
-import Spinner from "../../../components/Common/Spinner/Spinner.tsx";
-import InfiniteScroll from "react-infinite-scroll-component";
-import FilmsCatalog from "../../../components/Films/FilmsCatalog/FilmsCatalog.tsx";
-import {FilmRoom} from "../../../services/RoomsService/Models/Rooms.ts";
+import {FilmRoomShort} from "../../../services/RoomsService/Models/Rooms.ts";
 import {IFilmRoomsService} from "../../../services/RoomsService/IFilmRoomsService.ts";
+import {FilmRoomItemData} from "../../../components/FilmRooms/FilmRoomItem/FilmRoomItemData.ts";
+import FilmRoomsCatalog from "../../../components/FilmRooms/FilmRoomsCatalog/FilmRoomsCatalog.tsx";
+import NoData from "../../../UI/NoData/NoData.tsx";
 
 interface FilmRoomsModuleProps {
     onlyPublic?: boolean;
@@ -18,7 +17,7 @@ interface FilmRoomsModuleProps {
 }
 
 const FilmRoomsModule = (props: FilmRoomsModuleProps) => {
-    const [rooms, setRooms] = useState<FilmRoom[]>([]);
+    const [rooms, setRooms] = useState<FilmRoomShort[]>([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(false);
     const roomsService = useInjection<IFilmRoomsService>('FilmRoomsService');
@@ -38,7 +37,7 @@ const FilmRoomsModule = (props: FilmRoomsModuleProps) => {
         processRooms().then()
     }, [props, roomsService]);
 
-    const onBottom = () => {
+    const next = useCallback(() => {
         const processRooms = async () => {
             const response = await roomsService.search({
                 ...props,
@@ -50,26 +49,15 @@ const FilmRoomsModule = (props: FilmRoomsModuleProps) => {
         };
 
         processRooms().then()
-    }
+    }, [props, page, rooms])
 
-    const onFilmSelect = (film: FilmItemData) => {
-        navigate('/film', {state: {id: film.id}})
-    }
+    const onSelect = useCallback((room: FilmRoomItemData) => {
+        navigate('/filmRoom', {state: {id: room.id}})
+    }, [navigate])
 
-    const scrollProps = {
-        dataLength: rooms.length,
-        next: onBottom,
-        hasMore: hasMore,
-        loader: <Spinner/>,
-        className: props.className
-    }
+    if (rooms.length === 0) return <NoData className="mt-5" text="Подборки не найдены"/>
 
-    return (
-        <InfiniteScroll {...scrollProps}>
-            <FilmsCatalog genre={props.genre} films={films} onFilmSelect={onFilmSelect}
-                          typeSelected={props.serial !== undefined}/>
-        </InfiniteScroll>
-    );
+    return <FilmRoomsCatalog rooms={rooms} onSelect={onSelect} next={next} hasMore={hasMore}/>
 };
 
 export default FilmRoomsModule;

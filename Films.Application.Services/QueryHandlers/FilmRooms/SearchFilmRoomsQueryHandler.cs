@@ -24,13 +24,9 @@ public class SearchFilmRoomsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandl
         if (request.FilmId.HasValue)
             specification.AddToSpecification(new FilmRoomByFilmSpecification(request.FilmId.Value));
 
-        if (request is { UserId: not null, OnlyMy: true })
-            specification.AddToSpecification(new FilmRoomByUserSpecification(request.UserId.Value));
-
         if (request.OnlyPublic)
             specification.AddToSpecification(new OpenFilmRoomsSpecification());
-
-
+        
         var order = new DescendingOrder<FilmRoom, IFilmRoomSortingVisitor>(new FilmRoomOrderByDate());
 
         var rooms = await unitOfWork.FilmRoomRepository.Value.FindAsync(specification, order, request.Skip,
@@ -46,7 +42,7 @@ public class SearchFilmRoomsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandl
         foreach (var room in rooms)
         {
             var film = films.First(f => f.Id == room.FilmId);
-            filmRooms.Add(Mapper.Map(room, film, request.UserId));
+            filmRooms.Add(Mapper.Map(room, film));
         }
 
         return (filmRooms, count);

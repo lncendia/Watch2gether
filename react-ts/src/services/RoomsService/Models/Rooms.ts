@@ -1,7 +1,7 @@
 interface Room {
     id: string;
     viewersCount: number;
-    isCodeNeeded: boolean;
+    isPrivate: boolean;
 }
 
 export interface FilmRoomShort extends Room {
@@ -19,10 +19,16 @@ export interface FilmRoomShort extends Room {
 export interface FilmRoom extends FilmRoomShort {
     userRatingsCount: number;
     userScore?: number;
+    isCodeNeeded: boolean;
 }
 
-export interface YoutubeRoom extends Room {
+export interface YoutubeRoomShort extends Room {
     videoAccess: boolean;
+}
+
+export interface YoutubeRoom extends YoutubeRoomShort {
+    videoAccess: boolean;
+    isCodeNeeded: boolean;
 }
 
 export interface Rooms<T extends Room> {
