@@ -13,7 +13,7 @@ namespace Films.Infrastructure.Web.Rooms.Controllers;
 
 [ApiController]
 [Route("filmApi/[controller]/[action]")]
-public class FilmRoomsController(IMediator mediator) : ControllerBase
+public class FilmRoomsController(ISender mediator) : ControllerBase
 {
     [Authorize]
     [HttpPut]

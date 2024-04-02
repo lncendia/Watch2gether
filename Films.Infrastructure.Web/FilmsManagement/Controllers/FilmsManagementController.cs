@@ -10,7 +10,7 @@ namespace Films.Infrastructure.Web.FilmsManagement.Controllers;
 [ApiController]
 [Authorize("admin")]
 [Route("filmApi/[controller]")]
-public class FilmsManagementController(IMediator mediator) : ControllerBase
+public class FilmsManagementController(ISender mediator) : ControllerBase
 {
     [HttpPut]
     public async Task Add(AddFilmInputModel model)

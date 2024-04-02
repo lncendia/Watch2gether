@@ -15,7 +15,7 @@ namespace Films.Infrastructure.Web.Profile.Controllers;
 [Authorize]
 [ApiController]
 [Route("filmApi/[controller]/[action]")]
-public class ProfileController(IMediator mediator) : ControllerBase
+public class ProfileController(ISender mediator) : ControllerBase
 {
     [HttpGet]
     public async Task<ProfileViewModel> Profile()

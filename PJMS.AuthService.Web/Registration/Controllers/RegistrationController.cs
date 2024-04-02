@@ -31,7 +31,7 @@ public class RegistrationController : Controller
     /// <summary>
     /// Медиатр
     /// </summary>
-    private readonly IMediator _mediator;
+    private readonly ISender _mediator;
 
     /// <summary>
     /// Предоставляет услуги, используемые пользовательским интерфейсом для связи с IdentityServer.
@@ -70,7 +70,7 @@ public class RegistrationController : Controller
     public RegistrationController(IIdentityServerInteractionService interaction,
         IAuthenticationSchemeProvider schemeProvider,
         SignInManager<AppUser> signInManager,
-        IEventService events, IStringLocalizer<RegistrationController> localizer, IMediator mediator)
+        IEventService events, IStringLocalizer<RegistrationController> localizer, ISender mediator)
     {
         _interaction = interaction;
         _schemeProvider = schemeProvider;

@@ -13,7 +13,7 @@ namespace Films.Infrastructure.Web.Comments.Controllers;
 
 [ApiController]
 [Route("filmApi/[controller]")]
-public class CommentsController(IMediator mediator) : ControllerBase
+public class CommentsController(ISender mediator) : ControllerBase
 {
     [HttpGet]
     public async Task<ListViewModel<CommentViewModel>> Get([FromQuery] GetCommentsInputModel model)

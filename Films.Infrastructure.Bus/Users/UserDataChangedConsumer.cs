@@ -9,7 +9,7 @@ namespace Films.Infrastructure.Bus.Users;
 /// Обработчик интеграционного события UserDataChangedIntegrationEvent
 /// </summary>
 /// <param name="mediator">Медиатор</param>
-public class UserDataChangedConsumer(IMediator mediator) : IConsumer<UserDataChangedIntegrationEvent>
+public class UserDataChangedConsumer(ISender mediator) : IConsumer<UserDataChangedIntegrationEvent>
 {
     /// <summary>
     /// Метод обработчик 

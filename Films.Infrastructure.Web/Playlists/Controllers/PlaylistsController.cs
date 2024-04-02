@@ -10,7 +10,7 @@ namespace Films.Infrastructure.Web.Playlists.Controllers;
 
 [ApiController]
 [Route("filmApi/[controller]")]
-public class PlaylistsController(IMediator mediator) : ControllerBase
+public class PlaylistsController(ISender mediator) : ControllerBase
 {
     [HttpGet]
     public async Task<ListViewModel<PlaylistViewModel>> Search([FromQuery] PlaylistsSearchInputModel model)

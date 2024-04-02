@@ -31,7 +31,7 @@ public class TwoFactorController : Controller
     /// <summary>
     /// Медиатор
     /// </summary>
-    private readonly IMediator _mediator;
+    private readonly ISender _mediator;
 
     /// <summary>
     /// Предоставляет API для входа пользователя.
@@ -61,7 +61,7 @@ public class TwoFactorController : Controller
     /// <param name="localizer">Локализатор</param>
     /// <param name="interaction">Предоставляет услуги, используемые пользовательским интерфейсом для связи с IdentityServer</param>
     /// <param name="events">Интерфейс службы событий</param>
-    public TwoFactorController(IMediator mediator, SignInManager<AppUser> signInManager,
+    public TwoFactorController(ISender mediator, SignInManager<AppUser> signInManager,
         IStringLocalizer<TwoFactorController> localizer, IIdentityServerInteractionService interaction,
         IEventService events)
     {

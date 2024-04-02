@@ -14,7 +14,7 @@ namespace Films.Infrastructure.Web.Rooms.Controllers;
 
 [ApiController]
 [Route("filmApi/[controller]/[action]")]
-public class YoutubeRoomsController(IMediator mediator) : ControllerBase
+public class YoutubeRoomsController(ISender mediator) : ControllerBase
 {
     [Authorize]
     [HttpPut]

@@ -15,7 +15,7 @@ using Room.Infrastructure.Web.Rooms.ViewModels.Messages;
 namespace Room.Infrastructure.Web.Rooms.Hubs;
 
 [Authorize]
-public class FilmRoomHub(IMediator mediator) : Hub
+public class FilmRoomHub(ISender mediator) : Hub
 {
     public async Task Connect(Guid roomId)
     {

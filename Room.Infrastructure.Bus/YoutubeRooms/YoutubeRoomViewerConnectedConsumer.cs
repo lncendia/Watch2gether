@@ -11,7 +11,7 @@ namespace Room.Infrastructure.Bus.YoutubeRooms;
 /// Обработчик интеграционного события YoutubeRoomViewerConnectedIntegrationEvent
 /// </summary>
 /// <param name="mediator">Медиатор</param>
-public class YoutubeRoomViewerConnectedConsumer(IMediator mediator)
+public class YoutubeRoomViewerConnectedConsumer(ISender mediator)
     : IConsumer<YoutubeRoomViewerConnectedIntegrationEvent>
 {
     /// <summary>

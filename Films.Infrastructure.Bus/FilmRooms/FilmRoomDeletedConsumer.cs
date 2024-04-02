@@ -9,7 +9,7 @@
 // /// Обработчик интеграционного события FilmRoomDeletedIntegrationEvent
 // /// </summary>
 // /// <param name="mediator">Медиатор</param>
-// public class FilmRoomDeletedConsumer(IMediator mediator) : IConsumer<FilmRoomDeletedIntegrationEvent>
+// public class FilmRoomDeletedConsumer(ISender mediator) : IConsumer<FilmRoomDeletedIntegrationEvent>
 // {
 //     /// <summary>
 //     /// Метод обработчик 
