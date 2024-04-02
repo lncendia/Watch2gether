@@ -1,6 +1,7 @@
 ﻿using Films.Application.Abstractions.DTOs.Rooms;
 using Films.Application.Abstractions.Queries.YoutubeRooms;
 using Films.Infrastructure.Web.Authentication;
+using Films.Infrastructure.Web.Common.ViewModels;
 using Films.Infrastructure.Web.Rooms.InputModels;
 using Films.Infrastructure.Web.Rooms.ViewModels;
 using MediatR;
@@ -54,7 +55,7 @@ public class YoutubeRoomsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
-    public async Task<RoomsViewModel<YoutubeRoomShortViewModel>> Search([FromQuery] RoomSearchInputModel model)
+    public async Task<ListViewModel<YoutubeRoomShortViewModel>> Search([FromQuery] RoomSearchInputModel model)
     {
         var data = await mediator.Send(new SearchYoutubeRoomsQuery
         {
@@ -65,12 +66,12 @@ public class YoutubeRoomsController(IMediator mediator) : ControllerBase
             OnlyMy = model.OnlyMy
         });
 
-        var count = data.count / model.CountPerPage;
-        if (data.count % model.CountPerPage > 0) count++;
-        return new RoomsViewModel<YoutubeRoomShortViewModel>
+        var count = data.TotalCount / model.CountPerPage;
+        if (data.TotalCount % model.CountPerPage > 0) count++;
+        return new ListViewModel<YoutubeRoomShortViewModel>
         {
-            CountPages = count,
-            Rooms = data.rooms.Select(Map)
+            TotalPages = count,
+            List = data.List.Select(Map)
         };
     }
 

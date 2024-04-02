@@ -23,9 +23,4 @@ public class RoomModel : IAggregateModel
     /// Дата создания
     /// </summary>
     public DateTime CreationDate { get; set; }
-
-    /// <summary>
-    /// Сервер.
-    /// </summary>
-    public ServerModel Server { get; set; } = null!;
 }

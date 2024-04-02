@@ -1,6 +1,6 @@
 ﻿using Films.Domain.Abstractions;
-using Films.Domain.Comments.Exceptions;
 using Films.Domain.Comments.Extensions;
+using Films.Domain.Extensions;
 using Films.Domain.Films;
 using Films.Domain.Users;
 
@@ -12,26 +12,26 @@ namespace Films.Domain.Comments;
 /// </summary>
 public class Comment : AggregateRoot
 {
+    private const int MaxTextLength = 100;
+
     /// <summary>
     /// Конструктор класса Comment, создающий новый комментарий.
     /// </summary>
     /// <param name="film">Экземпляр фильма, к которому относится комментарий.</param>
     /// <param name="user">Идентификатор пользователя, создавшего комментарий.</param>
     /// <param name="text">Текст комментария.</param>
-    /// <exception cref="TextLengthException">Вызывается, если текст комментария пустой или слишком длинный.</exception>
     public Comment(Film film, User user, string text)
     {
         // Запоминаем идентификатор фильма
         FilmId = film.Id;
-        
+
         // Запоминаем идентификатор пользователя
         UserId = user.Id;
-        
+
         // Проверяем текст комментария на пустоту и длину
-        if (string.IsNullOrEmpty(text) || text.Length > 1000) throw new TextLengthException();
 
         // Сохраняем отфильтрованный текст комментария
-        Text = text.CensorText();
+        Text = text.ValidateLength(MaxTextLength).CensorText();
     }
 
     /// <summary>

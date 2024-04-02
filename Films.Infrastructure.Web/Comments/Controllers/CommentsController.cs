@@ -4,6 +4,7 @@ using Films.Application.Abstractions.Queries.Comments;
 using Films.Infrastructure.Web.Authentication;
 using Films.Infrastructure.Web.Comments.InputModels;
 using Films.Infrastructure.Web.Comments.ViewModels;
+using Films.Infrastructure.Web.Common.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace Films.Infrastructure.Web.Comments.Controllers;
 public class CommentsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    public async Task<CommentsViewModel> Get([FromQuery] GetCommentsInputModel model)
+    public async Task<ListViewModel<CommentViewModel>> Get([FromQuery] GetCommentsInputModel model)
     {
         var data = await mediator.Send(new FilmCommentsQuery
         {
@@ -30,10 +31,10 @@ public class CommentsController(IMediator mediator) : ControllerBase
 
         Guid? userId = User.Identity is { IsAuthenticated: true } ? User.GetId() : null;
 
-        return new CommentsViewModel
+        return new ListViewModel<CommentViewModel>
         {
-            Comments = data.comments.Select(c => Map(c, userId)),
-            CountPages = countPages
+            List = data.comments.Select(c => Map(c, userId)),
+            TotalPages = countPages
         };
     }
 

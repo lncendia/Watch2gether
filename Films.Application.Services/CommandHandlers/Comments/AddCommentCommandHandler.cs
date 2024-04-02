@@ -1,7 +1,7 @@
 using Films.Application.Abstractions.Commands.Comments;
 using Films.Application.Abstractions.DTOs.Comments;
 using Films.Application.Abstractions.Exceptions;
-using Films.Application.Services.Common;
+using Films.Application.Services.Extensions;
 using Films.Application.Services.Mappers.Comments;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Comments;

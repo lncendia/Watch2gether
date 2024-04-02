@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.SignalR;
 using Room.Application.Abstractions.Commands.FilmRooms;
 using Room.Application.Abstractions.Exceptions;
 using Room.Application.Abstractions.Queries.FilmRooms;
-using Room.Domain.Messages.Messages.Exceptions;
 using Room.Domain.Rooms.FilmRooms.Exceptions;
 using Room.Domain.Rooms.Rooms.Exceptions;
 using Room.Infrastructure.Web.Rooms.Exceptions;
@@ -365,10 +364,9 @@ public class FilmRoomHub(IMediator mediator) : Hub
             RoomNotFoundException => "Комната не найдена",
             ViewerNotFoundException => "Зритель не найден",
             ActionNotAllowedException => "Действие не разрешено",
-            InvalidUsernameLengthException => "Длина имени должна составлять от 1 до 200 символов",
             ChangeFilmSeriesException => "Вы не можете изменить серию у фильма",
-            MessageLengthException => "Сообщение должно быть от одного до тысячи символов",
             ActionCooldownException a => $"Действие будет доступно через {a.Seconds} секунд",
+            ArgumentException => "Данные указаны некорректно или в неверном формате",
             _ => "Неизвестная ошибка"
         };
         return Clients.Caller.SendAsync("Error", error);

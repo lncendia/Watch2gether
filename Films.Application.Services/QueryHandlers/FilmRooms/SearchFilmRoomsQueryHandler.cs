@@ -1,6 +1,7 @@
+using Films.Application.Abstractions.DTOs.Common;
 using Films.Application.Abstractions.DTOs.Rooms;
 using Films.Application.Abstractions.Queries.FilmRooms;
-using Films.Application.Services.Common;
+using Films.Application.Services.Extensions;
 using Films.Application.Services.Mappers.Rooms;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films.Specifications;
@@ -15,9 +16,9 @@ using MediatR;
 
 namespace Films.Application.Services.QueryHandlers.FilmRooms;
 
-public class SearchFilmRoomsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<SearchFilmRoomsQuery, (IReadOnlyCollection<FilmRoomShortDto> rooms, int count)>
+public class SearchFilmRoomsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<SearchFilmRoomsQuery, ListDto<FilmRoomShortDto>>
 {
-    public async Task<(IReadOnlyCollection<FilmRoomShortDto> rooms, int count)> Handle(SearchFilmRoomsQuery request, CancellationToken cancellationToken)
+    public async Task<ListDto<FilmRoomShortDto>> Handle(SearchFilmRoomsQuery request, CancellationToken cancellationToken)
     {
         ISpecification<FilmRoom, IFilmRoomSpecificationVisitor>? specification = null;
 
@@ -32,7 +33,7 @@ public class SearchFilmRoomsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandl
         var rooms = await unitOfWork.FilmRoomRepository.Value.FindAsync(specification, order, request.Skip,
             request.Take);
 
-        var count = await unitOfWork.FilmRoomRepository.Value.CountAsync(specification);
+        if (rooms.Count == 0) return new ListDto<FilmRoomShortDto> { List = [], TotalCount = 0 };
         
         var filmsSpecification = new FilmsByIdsSpecification(rooms.Select(x => x.FilmId));
         var films = await unitOfWork.FilmRepository.Value.FindAsync(filmsSpecification);
@@ -45,6 +46,10 @@ public class SearchFilmRoomsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandl
             filmRooms.Add(Mapper.Map(room, film));
         }
 
-        return (filmRooms, count);
+        return new ListDto<FilmRoomShortDto>
+        {
+            List = filmRooms,
+            TotalCount = await unitOfWork.FilmRoomRepository.Value.CountAsync(specification)
+        };
     }
 }

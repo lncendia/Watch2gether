@@ -1,6 +1,7 @@
 ﻿using Films.Application.Abstractions.DTOs.Films;
 using Films.Application.Abstractions.Queries.Films;
 using Films.Infrastructure.Web.Authentication;
+using Films.Infrastructure.Web.Common.ViewModels;
 using Films.Infrastructure.Web.Films.InputModels;
 using Films.Infrastructure.Web.Films.ViewModels;
 using MediatR;
@@ -25,7 +26,7 @@ public class FilmsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
-    public async Task<FilmsViewModel> Search([FromQuery] FilmsSearchInputModel model)
+    public async Task<ListViewModel<FilmShortViewModel>> Search([FromQuery] FilmsSearchInputModel model)
     {
         var data = await mediator.Send(new FindFilmsQuery
         {
@@ -41,14 +42,14 @@ public class FilmsController(IMediator mediator) : ControllerBase
             Take = model.CountPerPage
         });
 
-        var countPages = data.count / model.CountPerPage;
+        var countPages = data.TotalCount / model.CountPerPage;
 
-        if (data.count % model.CountPerPage > 0) countPages++;
+        if (data.TotalCount % model.CountPerPage > 0) countPages++;
 
-        return new FilmsViewModel
+        return new ListViewModel<FilmShortViewModel>
         {
-            CountPages = countPages,
-            Films = data.films.Select(Map)
+            TotalPages = countPages,
+            List = data.List.Select(Map)
         };
     }
 
@@ -85,7 +86,7 @@ public class FilmsController(IMediator mediator) : ControllerBase
     {
         var films = await mediator.Send(new UserHistoryQuery
         {
-            Id = User.GetId(),
+            Id = User.GetId()
         });
 
         return films.Select(Map);

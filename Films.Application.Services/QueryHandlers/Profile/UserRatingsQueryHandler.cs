@@ -1,3 +1,4 @@
+using Films.Application.Abstractions.DTOs.Common;
 using Films.Application.Abstractions.DTOs.Profile;
 using Films.Application.Abstractions.Queries.Profile;
 using Films.Domain.Abstractions.Interfaces;
@@ -13,9 +14,9 @@ using MediatR;
 namespace Films.Application.Services.QueryHandlers.Profile;
 
 public class UserRatingsQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<UserRatingsQuery, (IReadOnlyCollection<UserRatingDto> retings, int count)>
+    : IRequestHandler<UserRatingsQuery, ListDto<UserRatingDto>>
 {
-    public async Task<(IReadOnlyCollection<UserRatingDto> retings, int count)> Handle(UserRatingsQuery request,
+    public async Task<ListDto<UserRatingDto>> Handle(UserRatingsQuery request,
         CancellationToken cancellationToken)
     {
         var specification = new RatingByUserSpecification(request.Id);
@@ -24,17 +25,17 @@ public class UserRatingsQueryHandler(IUnitOfWork unitOfWork)
         var ratings =
             await unitOfWork.RatingRepository.Value.FindAsync(specification, order, request.Skip, request.Take);
 
-        if (ratings.Count == 0) return ([], 0);
+        if (ratings.Count == 0) return new ListDto<UserRatingDto> { List = [], TotalCount = 0 };
 
         var filmSpecification = new FilmsByIdsSpecification(ratings.Select(r => r.FilmId));
 
         var films = await unitOfWork.FilmRepository.Value.FindAsync(filmSpecification);
 
-        var ratingsDtos = ratings.Select(r => Map(r, films.First(f => f.Id == r.FilmId))).ToArray();
-
-        var count = await unitOfWork.RatingRepository.Value.CountAsync(specification);
-
-        return (ratingsDtos, count);
+        return new ListDto<UserRatingDto>
+        {
+            List = ratings.Select(r => Map(r, films.First(f => f.Id == r.FilmId))).ToArray(),
+            TotalCount = await unitOfWork.RatingRepository.Value.CountAsync(specification)
+        };
     }
 
     private static UserRatingDto Map(Rating rating, Film film) => new()

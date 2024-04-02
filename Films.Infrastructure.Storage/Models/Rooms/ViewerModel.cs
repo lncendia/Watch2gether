@@ -7,8 +7,6 @@ namespace Films.Infrastructure.Storage.Models.Rooms;
 public class ViewerModel<TR> where TR : RoomModel
 {
     public Guid UserId { get; set; }
-    public UserModel User { get; set; } = null!;
-    
     public Guid RoomId { get; set; }
     public TR Room { get; set; }= null!;
 }

@@ -2,6 +2,7 @@
 using Films.Application.Abstractions.DTOs.Rooms;
 using Films.Application.Abstractions.Queries.FilmRooms;
 using Films.Infrastructure.Web.Authentication;
+using Films.Infrastructure.Web.Common.ViewModels;
 using Films.Infrastructure.Web.Rooms.InputModels;
 using Films.Infrastructure.Web.Rooms.ViewModels;
 using MediatR;
@@ -54,7 +55,7 @@ public class FilmRoomsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
-    public async Task<RoomsViewModel<FilmRoomShortViewModel>> Search([FromQuery] FilmRoomSearchInputModel model)
+    public async Task<ListViewModel<FilmRoomShortViewModel>> Search([FromQuery] FilmRoomSearchInputModel model)
     {
         var data = await mediator.Send(new SearchFilmRoomsQuery
         {
@@ -64,12 +65,12 @@ public class FilmRoomsController(IMediator mediator) : ControllerBase
             OnlyPublic = model.OnlyPublic,
         });
 
-        var count = data.count / model.CountPerPage;
-        if (data.count % model.CountPerPage > 0) count++;
-        return new RoomsViewModel<FilmRoomShortViewModel>
+        var count = data.TotalCount / model.CountPerPage;
+        if (data.TotalCount % model.CountPerPage > 0) count++;
+        return new ListViewModel<FilmRoomShortViewModel>
         {
-            CountPages = count,
-            Rooms = data.rooms.Select(Map)
+            TotalPages = count,
+            List = data.List.Select(Map)
         };
     }
 

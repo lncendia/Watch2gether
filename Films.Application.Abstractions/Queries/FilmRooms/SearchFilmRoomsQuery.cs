@@ -1,9 +1,10 @@
+using Films.Application.Abstractions.DTOs.Common;
 using Films.Application.Abstractions.DTOs.Rooms;
 using MediatR;
 
 namespace Films.Application.Abstractions.Queries.FilmRooms;
 
-public class SearchFilmRoomsQuery : IRequest<(IReadOnlyCollection<FilmRoomShortDto> rooms, int count)>
+public class SearchFilmRoomsQuery : IRequest<ListDto<FilmRoomShortDto>>
 {
     public Guid? FilmId { get; init; }
     public bool OnlyPublic { get; init; }

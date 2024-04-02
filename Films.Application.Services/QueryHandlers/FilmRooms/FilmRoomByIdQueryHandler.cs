@@ -1,7 +1,7 @@
 using Films.Application.Abstractions.DTOs.Rooms;
 using Films.Application.Abstractions.Exceptions;
 using Films.Application.Abstractions.Queries.FilmRooms;
-using Films.Application.Services.Common;
+using Films.Application.Services.Extensions;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films;
 using Films.Domain.Ratings;

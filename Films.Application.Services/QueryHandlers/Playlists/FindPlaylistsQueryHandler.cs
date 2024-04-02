@@ -1,6 +1,7 @@
+using Films.Application.Abstractions.DTOs.Common;
 using Films.Application.Abstractions.DTOs.Playlists;
 using Films.Application.Abstractions.Queries.Playlists;
-using Films.Application.Services.Common;
+using Films.Application.Services.Extensions;
 using Films.Application.Services.Mappers.Playlists;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Ordering;
@@ -15,9 +16,9 @@ using MediatR;
 namespace Films.Application.Services.QueryHandlers.Playlists;
 
 public class FindPlaylistsQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<FindPlaylistsQuery, (IReadOnlyCollection<PlaylistDto> playlists, int count)>
+    : IRequestHandler<FindPlaylistsQuery, ListDto<PlaylistDto>>
 {
-    public async Task<(IReadOnlyCollection<PlaylistDto> playlists, int count)> Handle(FindPlaylistsQuery request,
+    public async Task<ListDto<PlaylistDto>> Handle(FindPlaylistsQuery request,
         CancellationToken cancellationToken)
     {
         ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification = null;
@@ -37,11 +38,13 @@ public class FindPlaylistsQueryHandler(IUnitOfWork unitOfWork)
         var playlists =
             await unitOfWork.PlaylistRepository.Value.FindAsync(specification, orderBy, request.Skip, request.Take);
 
-        if (playlists.Count == 0) return ([], 0);
-
-        var count = await unitOfWork.PlaylistRepository.Value.CountAsync(specification);
+        if (playlists.Count == 0) return new ListDto<PlaylistDto> { List = [], TotalCount = 0 };
 
         // Преобразуем фильмы в список DTO фильмов 
-        return (playlists.Select(Mapper.Map).ToArray(), count);
+        return new ListDto<PlaylistDto>
+        {
+            List = playlists.Select(Mapper.Map).ToArray(),
+            TotalCount = await unitOfWork.PlaylistRepository.Value.CountAsync(specification)
+        };
     }
 }

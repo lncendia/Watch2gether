@@ -1,9 +1,9 @@
 using Films.Domain.Specifications;
 using Films.Domain.Specifications.Abstractions;
 
-namespace Films.Application.Services.Common;
+namespace Films.Application.Services.Extensions;
 
-public static class SpecificationExtensions
+internal static class SpecificationExtensions
 {
     public static ISpecification<T, TV> AddToSpecification<T, TV>(this ISpecification<T, TV>? baseSpec,
         ISpecification<T, TV> newSpec) where TV : ISpecificationVisitor<TV, T>

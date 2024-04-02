@@ -3,9 +3,9 @@ using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Films.Application.Services.Common;
+namespace Films.Application.Services.Extensions;
 
-public static class FilmExtensions
+internal static class FilmExtensions
 {
     /// <summary>
     /// Асинхронно получает фильм из кэша или базы данных по его идентификатору.

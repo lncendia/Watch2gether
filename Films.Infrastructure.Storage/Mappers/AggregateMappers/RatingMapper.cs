@@ -28,11 +28,11 @@ internal class RatingMapper : IAggregateMapperUnit<Rating, RatingModel>
     public Rating Map(RatingModel model)
     {
         var rating = (Rating)RuntimeHelpers.GetUninitializedObject(RatingType);
-        IdFields.AggregateId.SetValue(rating, model.Id);
         UserId.SetValue(rating, model.UserId);
         Date.SetValue(rating, model.Date);
         FilmId.SetValue(rating, model.FilmId);
         Score.SetValue(rating, model.Score);
+        IdFields.AggregateId.SetValue(rating, model.Id);
         IdFields.DomainEvents.SetValue(rating, new List<IDomainEvent>());
         return rating;
     }

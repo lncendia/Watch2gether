@@ -1,4 +1,3 @@
-using Films.Infrastructure.Storage.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Films.Infrastructure.Storage.Models.Rooms;
@@ -7,8 +6,6 @@ namespace Films.Infrastructure.Storage.Models.Rooms;
 public class BannedModel<TR> where TR : RoomModel
 {
     public Guid UserId { get; set; }
-    public UserModel User { get; set; } = null!;
-
     public Guid RoomId { get; set; }
     public TR Room { get; set; } = null!;
 }

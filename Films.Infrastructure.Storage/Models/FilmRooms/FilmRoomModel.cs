@@ -26,9 +26,4 @@ public class FilmRoomModel : RoomModel
     /// </summary>
     [MaxLength(30)]
     public string CdnName { get; set; } = null!;
-
-    /// <summary>
-    /// Фильм.
-    /// </summary>
-    public FilmModel Film { get; set; } = null!;
 }
