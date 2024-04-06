@@ -1,0 +1,33 @@
+.message {
+    border-radius: 15px;
+    padding: 5px 15px;
+    width: 100%;
+}
+
+.me {
+    background: #6b789d;
+    margin-right: 15px;
+}
+
+.other {
+    background: #656565;
+    margin-left: 15px;
+}
+
+.username {
+    font-size: 12px;
+    color: rgba(var(--bs-body-color-rgb), 0.8);
+    margin-bottom: 3px;
+}
+
+.createdAt {
+    font-size: 10px;
+    float: right;
+    color: rgba(var(--bs-body-color-rgb), 0.6);
+}
+
+.text {
+    font-size: 14px;
+    word-wrap: break-word;
+    word-break: break-word;
+}

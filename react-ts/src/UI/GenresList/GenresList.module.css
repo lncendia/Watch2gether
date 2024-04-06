@@ -1,7 +1,0 @@
-.genre {
-    color: rgba(var(--bs-body-color-rgb), 0.6);
-}
-
-.genre_active {
-    color: var(--bs-body-color);
-}

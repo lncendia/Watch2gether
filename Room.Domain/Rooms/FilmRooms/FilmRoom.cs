@@ -1,4 +1,5 @@
-﻿using Room.Domain.Rooms.FilmRooms.Entities;
+﻿using Room.Domain.Extensions;
+using Room.Domain.Rooms.FilmRooms.Entities;
 using Room.Domain.Rooms.FilmRooms.Events;
 using Room.Domain.Rooms.FilmRooms.Exceptions;
 using Room.Domain.Rooms.FilmRooms.ValueObjects;
@@ -19,11 +20,7 @@ public class FilmRoom : Room<FilmViewer>
     public required string Title
     {
         get => _title;
-        init
-        {
-            if (string.IsNullOrEmpty(value) || value.Length > 200) throw new FilmTitleLengthException();
-            _title = value;
-        }
+        init => _title = value.ValidateLength(200);
     }
 
     public required Cdn Cdn { get; init; }

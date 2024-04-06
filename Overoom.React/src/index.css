@@ -1,0 +1,53 @@
+body {
+    background-blend-mode: screen;
+    background: var(--body-bg);
+    background-size: cover;
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 100px;
+}
+
+body::-webkit-scrollbar {
+    width: 7px;
+    background-color: rgba(var(--bs-body-bg-rgb), 1);
+}
+
+body::-webkit-scrollbar-thumb {
+    background: var(--bs-orange);
+}
+
+@font-face {
+    font-family: "Morice-Bejar";
+    src: url("./fonts/Morice-Bejar.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "RobotoFlex";
+    src: url("./fonts/RobotoFlex.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Hero";
+    src: url("./fonts/Hero.ttf") format("truetype");
+}
+
+[data-bs-theme="dark"] {
+    --bs-emphasis-color-rgb: 255, 255, 255;
+    --bs-body-color: var(--bs-white);
+    --bs-body-color-rgb: 255, 255, 255;
+    --body-bg: linear-gradient(#1f052c, transparent),
+    linear-gradient(90deg, #052126, transparent),
+    linear-gradient(-90deg, #261106, transparent);
+    --bs-body-bg: rgb(17, 17, 30);
+    --bs-body-bg-rgb: 17, 17, 30;
+    --bs-body-font-family: "RobotoFlex", "Arial", sans-serif;
+}
+
+[data-bs-theme="light"] {
+    --bs-body-bg: rgb(138, 138, 138);
+    --bs-body-bg-rgb: 138, 138, 138;
+    --body-bg: linear-gradient(#4b2064, transparent),
+    linear-gradient(90deg, #143d44, transparent),
+    linear-gradient(-90deg, #54301c, transparent);
+    --bs-body-font-family: "RobotoFlex", "Arial", sans-serif;
+}
