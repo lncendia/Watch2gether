@@ -1,7 +1,7 @@
 import {useLocation} from "react-router-dom";
 import FilmCommentsModule from "../../modules/Film/FilmCommentsModule/FilmCommentsModule.tsx";
 import {useEffect, useState} from "react";
-import {Film} from "../../services/FilmsService/Models/Films.ts";
+import {Film} from "../../services/FilmsService/ViewModels/FilmViewModels.ts";
 import {useInjection} from "inversify-react";
 import {IFilmsService} from "../../services/FilmsService/IFilmsService.ts";
 import {IProfileService} from "../../services/ProfileService/IProfileService.ts";

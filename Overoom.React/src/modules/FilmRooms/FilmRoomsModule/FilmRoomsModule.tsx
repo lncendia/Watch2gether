@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 import {useInjection} from "inversify-react";
 import {useNavigate} from "react-router-dom";
-import {FilmRoomShort} from "../../../services/RoomsService/Models/Rooms.ts";
+import {FilmRoomShort} from "../../../services/RoomsService/ViewModels/YoutubeRoomsViewModels.ts";
 import {IFilmRoomsService} from "../../../services/RoomsService/IFilmRoomsService.ts";
 import {FilmRoomItemData} from "../../../components/FilmRooms/FilmRoomItem/FilmRoomItemData.ts";
 import FilmRoomsCatalog from "../../../components/FilmRooms/FilmRoomsCatalog/FilmRoomsCatalog.tsx";
@@ -30,7 +30,7 @@ const FilmRoomsModule = (props: FilmRoomsModuleProps) => {
         const processRooms = async () => {
             const response = await roomsService.search(props)
             setPage(2);
-            setHasMore(response.countPages > 1)
+            setHasMore(response.totalPages > 1)
             setRooms(response.rooms)
         };
 
@@ -44,12 +44,12 @@ const FilmRoomsModule = (props: FilmRoomsModuleProps) => {
                 page: page
             })
             setPage(page + 1);
-            setHasMore(response.countPages !== page)
-            setRooms([...rooms, ...response.rooms])
+            setHasMore(response.totalPages !== page)
+            setRooms(prev=> [...prev, ...response.rooms])
         };
 
         processRooms().then()
-    }, [props, page, rooms])
+    }, [roomsService, props, page])
 
     const onSelect = useCallback((room: FilmRoomItemData) => {
         navigate('/filmRoom', {state: {id: room.id}})

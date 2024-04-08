@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import styles from "./FilmSearch.module.css"
 import FilmSearchElement from "../FilmSearchElement/FilmSearchElement.tsx";
 import Form from "react-bootstrap/Form";
-import {FilmShort} from "../../../services/FilmsService/Models/Films.ts";
+import {FilmShort} from "../../../services/FilmsService/ViewModels/FilmViewModels.ts";
 
 const FilmSearch = ({onFilmSearch, films, onClick}: {
     films: FilmShort[],

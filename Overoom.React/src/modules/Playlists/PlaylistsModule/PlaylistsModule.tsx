@@ -29,12 +29,12 @@ const PlaylistsModule = (props: PlaylistsModuleProps) => {
             })
 
             setPage(2);
-            setHasMore(response.countPages > 1)
-            setPlaylists(response.playlists)
+            setHasMore(response.totalPages > 1)
+            setPlaylists(response.list)
         };
 
         processPlaylists().then()
-    }, [props]); // Эффект будет вызываться при каждом изменении `genre`
+    }, [playlistsService, props]);
 
     const next = useCallback(async () => {
         const response = await playlistsService.search({
@@ -42,18 +42,18 @@ const PlaylistsModule = (props: PlaylistsModuleProps) => {
             page: page
         })
         setPage(page + 1);
-        setHasMore(response.countPages !== page)
-        setPlaylists(prev => [...prev, ...response.playlists])
+        setHasMore(response.totalPages !== page)
+        setPlaylists(prev => [...prev, ...response.list])
     }, [playlistsService, props.genre, page])
 
     const onSelect = useCallback((playlist: PlaylistItemData) => {
         navigate('/playlist', {state: {id: playlist.id}})
     }, [navigate])
 
-    if (playlists.length === 0) return <NoData className="mt-5" text="Подборки не найдены"/>
+    if (playlists.length === 0) return <NoData className={props.className} text="Подборки не найдены"/>
 
-    return <PlaylistsCatalog hasMore={hasMore} next={next} genre={props.genre} playlists={playlists}
-                             onSelect={onSelect}/>
+    return <PlaylistsCatalog className={props.className} hasMore={hasMore} next={next} genre={props.genre}
+                             playlists={playlists} onSelect={onSelect}/>
 };
 
 export default PlaylistsModule;

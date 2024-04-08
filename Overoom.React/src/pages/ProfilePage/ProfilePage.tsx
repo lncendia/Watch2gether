@@ -5,17 +5,24 @@ import AuthorizeModule from "../../modules/Authorization/AuthorizeModule.tsx";
 import ProfileContextProvider from "../../contexts/ProfileContext/ProfileContext.tsx";
 import UserWatchlistModule from "../../modules/Profile/UserWatchlistModule/UserWatchlistModule.tsx";
 import UserHistoryModule from "../../modules/Profile/UserHistoryModule/UserHistoryModule.tsx";
+import {Col} from "react-bootstrap";
 
 const ProfilePage = () => {
 
     return (
         <AuthorizeModule showError>
             <ProfileContextProvider>
-                <UserInfoModule className="mt-5"/>
+                <Col lg={8} xl={7} className="mt-5">
+                    <UserInfoModule className="mt-5"/>
+                </Col>
                 <BlockTitle className="mt-5" title="Смотреть позже"/>
-                <UserWatchlistModule/>
+                <Col xl={9} lg={10} className="mt-5">
+                    <UserWatchlistModule/>
+                </Col>
                 <BlockTitle className="mt-5" title="История"/>
-                <UserHistoryModule/>
+                <Col xl={9} lg={10} className="mt-5">
+                    <UserHistoryModule/>
+                </Col>
                 <BlockTitle className="mt-5" title="Оценки"/>
                 <UserRatingsModule/>
             </ProfileContextProvider>

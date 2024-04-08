@@ -1,20 +1,21 @@
 import React, {createContext, useContext, useState, useEffect, ReactNode, useRef, useCallback} from 'react';
 import {useInjection} from "inversify-react";
-import {IFilmRoomService} from "../../services/FilmRoomService/IFilmRoomService.ts";
-import Loader from "../../UI/Loader/Loader.tsx";
+import {FilmViewer} from "../../services/RoomsManagers/FilmRoomManager/ViewModels/FilmRoomViewModels.ts";
+import {IFilmRoomManager} from "../../services/RoomsManagers/FilmRoomManager/IFilmRoomManager.ts";
 import {FilmRoomData} from "./FilmRoomData.ts";
-import {FilmRoom} from "../../services/RoomsService/Models/Rooms.ts";
-import {RoomServer} from "../../services/RoomsService/Models/RoomServer.ts";
+import {FilmRoom} from "../../services/RoomsServices/FilmRoomsService/Models/FilmRoomsViewModels.ts";
+import {RoomServer} from "../../services/RoomsServices/Common/ViewModels/RoomsViewModels.ts";
 import {useUser} from "../UserContext/UserContext.tsx";
-import {IFilmRoomServiceFactory} from "../../services/FilmRoomService/IFilmRoomServiceFactory.ts";
+import {IFilmRoomManagerFactory} from "../../services/RoomsManagers/FilmRoomManager/Factory/IFilmRoomServiceFactory.ts";
+import Loader from "../../UI/Loader/Loader.tsx";
 
 
 // Создайте интерфейс для контекста
 interface FilmRoomContextData {
-    viewers: YoutubeViewerData[];
+    viewers: FilmViewerData[];
     viewersParams: FilmViewerParams[];
     room: FilmRoomData;
-    service: IFilmRoomService;
+    service: IFilmRoomManager;
     connectViewer: (viewer: FilmViewer) => void
     disconnectViewer: (id: string) => void
     removeViewer: (id: string) => void
@@ -37,14 +38,14 @@ interface FilmRoomContextProviderProps {
 
 export const FilmRoomContextProvider: React.FC<FilmRoomContextProviderProps> = ({filmRoom, server, children}) => {
 
-    const [viewers, setViewers] = useState<YoutubeViewerData[]>([])
+    const [viewers, setViewers] = useState<FilmViewerData[]>([])
     const [viewersParams, setViewersParams] = useState<FilmViewerParams[]>([])
     const [room, setRoom] = useState<FilmRoomData>()
-    const [service, setService] = useState<IFilmRoomService>()
+    const [service, setService] = useState<IFilmRoomManager>()
     const {authorizedUser} = useUser()
     const userId = useRef(authorizedUser!.id)
 
-    const factory = useInjection<IFilmRoomServiceFactory>('FilmRoomServiceFactory');
+    const factory = useInjection<IFilmRoomManagerFactory>('FilmRoomManagerFactory');
 
     useEffect(() => {
 

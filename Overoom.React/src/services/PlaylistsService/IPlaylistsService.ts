@@ -1,7 +1,8 @@
-import {Playlist, Playlists} from "./Models/Playlists.ts";
-import {SearchQuery} from "./InputModels/SearchQuery.ts";
+import {Playlist} from "./ViewModels/PlaylistViewModels.ts";
+import {SearchInputModel} from "./InputModels/PlaylistInputModels.ts";
+import {List} from "../Common/Models/List.ts";
 
 export interface IPlaylistsService {
-    search(query: SearchQuery): Promise<Playlists>
+    search(query: SearchInputModel): Promise<List<Playlist>>
     get(id: string): Promise<Playlist>
 }

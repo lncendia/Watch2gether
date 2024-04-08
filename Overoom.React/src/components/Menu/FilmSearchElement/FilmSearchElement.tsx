@@ -1,5 +1,5 @@
 import styles from './FilmSearchElement.module.css'
-import {FilmShort} from "../../../services/FilmsService/Models/Films.ts";
+import {FilmShort} from "../../../services/FilmsService/ViewModels/FilmViewModels.ts";
 
 const FilmSearchElement = ({film, onClick}: { film: FilmShort, onClick: () => void }) => {
     return (

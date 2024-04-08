@@ -1,19 +1,19 @@
-import {GetRatingsQuery} from "./InputModels/GetRatingsQuery.ts";
-import {Ratings} from "./Models/Ratings.ts";
-import {AddRatingBody} from "./InputModels/AddRatingBody.ts";
-import {Profile} from "./Models/Profile.ts";
+import {Profile, Rating} from "./ViewModels/ProfileViewModels.ts";
+import {List} from "../Common/Models/List.ts";
+import {AddRatingInputModel, ChangeAllowsInputModel, GetRatingsInputModel} from "./InputModels/ProfileInputModels.ts";
+
 
 export interface IProfileService {
 
     profile(): Promise<Profile>
 
-    ratings(query: GetRatingsQuery): Promise<Ratings>
+    ratings(query: GetRatingsInputModel): Promise<List<Rating>>
 
-    addRating(body: AddRatingBody): Promise<void>
+    addRating(body: AddRatingInputModel): Promise<void>
 
     addToHistory(filmId: string): Promise<void>
 
     toggleWatchlist(filmId: string): Promise<void>
 
-    changeAllows(body: ChangeAllowsBody): Promise<void>
+    changeAllows(body: ChangeAllowsInputModel): Promise<void>
 }

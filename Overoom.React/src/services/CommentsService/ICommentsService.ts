@@ -1,11 +1,11 @@
-import {GetQuery} from "./InputModels/GetQuery.ts";
-import {AddBody} from "./InputModels/AddBody.ts";
-import {Comment, Comments} from "./Models/Comments.ts";
+import {List} from "../Common/Models/List.ts";
+import {AddInputModel, GetInputModel} from "./InputModels/CommentInputModels.ts";
+import {Comment} from "./Models/CommentViewModels.ts";
 
 export interface ICommentsService {
-    get(query: GetQuery): Promise<Comments>
+    get(query: GetInputModel): Promise<List<Comment>>
 
     delete(id: string): Promise<void>
 
-    add(body: AddBody): Promise<Comment>
+    add(body: AddInputModel): Promise<Comment>
 }

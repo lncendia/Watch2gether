@@ -5,7 +5,7 @@ import {IFilmsService} from "../../../services/FilmsService/IFilmsService.ts";
 import {useNavigate} from "react-router-dom";
 import {IAuthService} from "../../../services/AuthService/IAuthService.ts";
 import {useUser} from "../../../contexts/UserContext/UserContext.tsx";
-import {FilmShort} from "../../../services/FilmsService/Models/Films.ts";
+import {FilmShort} from "../../../services/FilmsService/ViewModels/FilmViewModels.ts";
 
 const NavbarModule = () => {
 
@@ -13,21 +13,18 @@ const NavbarModule = () => {
     const filmService = useInjection<IFilmsService>('FilmsService');
     const authService = useInjection<IAuthService>('AuthService');
     const {authorizedUser} = useUser()
-
-    // Навигационный хук
     const navigate = useNavigate();
 
     const onFilmSearch = useCallback(async (value: string) => {
         if (value === '') setFilms([])
         else {
             const filmsResponse = await filmService.search({query: value})
-            setFilms(filmsResponse.films)
+            setFilms(filmsResponse.list)
         }
     }, [filmService])
 
-
-    const onLogout = useCallback(authService.signOut.bind(authService), [authService])
-    const onLogin = useCallback(authService.signIn.bind(authService), [authService])
+    const onLogout = useCallback(() => authService.signOut(), [authService])
+    const onLogin = useCallback(() => authService.signIn(), [authService])
     const onCatalog = useCallback(() => navigate('/catalog'), [navigate])
     const onPlaylists = useCallback(() => navigate('/playlists'), [navigate])
     const onRooms = useCallback(() => navigate('/filmRooms'), [navigate])
@@ -39,11 +36,9 @@ const NavbarModule = () => {
         navigate('/film', {state: {id: film.id}})
     }, [navigate])
 
-    return (
-        <Navbar onFilm={onFilm} onHome={onHome} onCatalog={onCatalog} onLogin={onLogin} onLogout={onLogout}
-                onPlaylists={onPlaylists} onRooms={onRooms} onProfile={onProfile} onYouTube={onYouTube} films={films}
-                onFilmSearch={onFilmSearch} user={authorizedUser}/>
-    );
+    return <Navbar onFilm={onFilm} onHome={onHome} onCatalog={onCatalog} onLogin={onLogin} onLogout={onLogout}
+                   onPlaylists={onPlaylists} onRooms={onRooms} onProfile={onProfile} onYouTube={onYouTube} films={films}
+                   onFilmSearch={onFilmSearch} user={authorizedUser}/>
 };
 
 export default NavbarModule;

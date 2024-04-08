@@ -1,9 +1,8 @@
 import {AxiosInstance} from "axios";
 import {ICommentsService} from "./ICommentsService.ts";
-import {AddBody} from "./InputModels/AddBody.ts";
-import {GetQuery} from "./InputModels/GetQuery.ts";
-import {commentSchema, commentsSchema} from "./Validators/CommentsValidator.ts";
-import {Comments, Comment} from "./Models/Comments.ts";
+import {List} from "../Common/Models/List.ts";
+import {AddInputModel, GetInputModel} from "./InputModels/CommentInputModels.ts";
+import {Comment} from "./Models/CommentViewModels.ts";
 
 
 // Экспорт класса CommentsService для его использования из других модулей
@@ -19,13 +18,11 @@ export class CommentsService implements ICommentsService {
         this.authUrl = authUrl
     }
 
-    async get(query: GetQuery): Promise<Comments> {
+    async get(query: GetInputModel): Promise<List<Comment>> {
 
-        const response = await this.axiosInstance.get<Comments>('/comments', {params: query});
+        const response = await this.axiosInstance.get<List<Comment>>('/comments', {params: query});
 
-        await commentsSchema.validate(response.data)
-
-        response.data.comments.forEach(c => {
+        response.data.list.forEach(c => {
             if (c.avatarUrl) c.avatarUrl = `${this.authUrl}/${c.avatarUrl}`
         })
 
@@ -36,11 +33,9 @@ export class CommentsService implements ICommentsService {
         await this.axiosInstance.delete(`/comments/${id}`);
     }
 
-    async add(body: AddBody): Promise<Comment> {
+    async add(body: AddInputModel): Promise<Comment> {
 
         const response = await this.axiosInstance.put<Comment>('/comments', body);
-
-        await commentSchema.validate(response.data)
 
         if (response.data.avatarUrl) response.data.avatarUrl = `${this.authUrl}/${response.data.avatarUrl}`
 

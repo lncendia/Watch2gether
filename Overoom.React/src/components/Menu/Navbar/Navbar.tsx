@@ -5,7 +5,7 @@ import Svg from "../../../UI/Svg/Svg.tsx";
 import {IAuthorizedUser} from "../../../contexts/UserContext/AuthorizedUser.ts";
 import FilmSearch from "../FilmSearch/FilmSearch.tsx";
 import styles from "./Navbar.module.css"
-import {FilmShort} from "../../../services/FilmsService/Models/Films.ts";
+import {FilmShort} from "../../../services/FilmsService/ViewModels/FilmViewModels.ts";
 
 export interface MenuProps {
     films: FilmShort[],

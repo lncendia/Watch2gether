@@ -12,12 +12,12 @@ import {IProfileService} from "../services/ProfileService/IProfileService.ts";
 import {ProfileService} from "../services/ProfileService/ProfileService.ts";
 import {IPlaylistsService} from "../services/PlaylistsService/IPlaylistsService.ts";
 import {PlaylistsService} from "../services/PlaylistsService/PlaylistsService.ts";
-import {IFilmRoomsService} from "../services/RoomsService/IFilmRoomsService.ts";
-import {FilmRoomsService} from "../services/RoomsService/FilmRoomsService.ts";
-import {IYoutubeRoomsService} from "../services/RoomsService/IYoutubeRoomsService.ts";
-import {YoutubeRoomsService} from "../services/RoomsService/YoutubeRoomsService.ts";
-import {IFilmRoomServiceFactory} from "../services/FilmRoomService/IFilmRoomServiceFactory.ts";
-import {FilmRoomServiceFactory} from "../services/FilmRoomService/FilmRoomServiceFactory.ts";
+import {IFilmRoomsService} from "../services/RoomsServices/FilmRoomsService/IFilmRoomsService.ts";
+import {IYoutubeRoomsService} from "../services/RoomsServices/YoutubeRoomsService/IYoutubeRoomsService.ts";
+import {IFilmRoomManagerFactory} from "../services/RoomsManagers/FilmRoomManager/Factory/IFilmRoomServiceFactory.ts";
+import {FilmRoomManagerFactory} from "../services/RoomsManagers/FilmRoomManager/Factory/FilmRoomServiceFactory.ts";
+import {YoutubeRoomsService} from "../services/RoomsServices/YoutubeRoomsService/YoutubeRoomsService.ts";
+import {FilmRoomsService} from "../services/RoomsServices/FilmRoomsService/FilmRoomsService.ts";
 
 
 const config: UserManagerSettings = {
@@ -35,7 +35,7 @@ const config: UserManagerSettings = {
     response_type: "code",
 
     // Запрашиваемые области доступа
-    scope: "openid profile roles Films Rooms",
+    scope: "openid profile roles Films Room",
 
     // URI перенаправления после выхода из системы
     post_logout_redirect_uri: "https://localhost:5173/signout-oidc",
@@ -90,8 +90,8 @@ container.bind<IYoutubeRoomsService>('YoutubeRoomsService')
     .toDynamicValue(() => new YoutubeRoomsService(axiosInstance))
     .inSingletonScope();
 
-container.bind<IFilmRoomServiceFactory>('FilmRoomServiceFactory')
-    .toDynamicValue(() => new FilmRoomServiceFactory(() => tokenFactory(container), config.authority!))
+container.bind<IFilmRoomManagerFactory>('FilmRoomManagerFactory')
+    .toDynamicValue(() => new FilmRoomManagerFactory(() => tokenFactory(container), config.authority!))
     .inSingletonScope();
 
 configureAxiosAuthorization(axiosInstance, container)

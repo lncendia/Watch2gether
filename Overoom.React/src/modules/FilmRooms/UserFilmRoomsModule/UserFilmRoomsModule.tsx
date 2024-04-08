@@ -1,15 +1,14 @@
 import {useCallback, useEffect, useState} from "react";
 import {useInjection} from "inversify-react";
 import {useNavigate} from "react-router-dom";
-import {FilmRoomShort} from "../../../services/RoomsService/Models/Rooms.ts";
-import {IFilmRoomsService} from "../../../services/RoomsService/IFilmRoomsService.ts";
-import {FilmRoomItemData} from "../../../components/FilmRooms/FilmRoomItem/FilmRoomItemData.ts";
 import NoData from "../../../UI/NoData/NoData.tsx";
 import FilmsList from "../../../components/Films/FilmsList/FilmsList.tsx";
+import {IFilmRoomsService} from "../../../services/RoomsServices/FilmRoomsService/IFilmRoomsService.ts";
+import {FilmShortData} from "../../../components/Films/FilmShortItem/FilmShortData.ts";
 
 
 const UserFilmRoomsModule = ({className}: { className?: string }) => {
-    const [rooms, setRooms] = useState<FilmRoomShort[]>([]);
+    const [rooms, setRooms] = useState<FilmShortData[]>([]);
     const roomsService = useInjection<IFilmRoomsService>('FilmRoomsService');
 
     // Навигационный хук
@@ -19,7 +18,7 @@ const UserFilmRoomsModule = ({className}: { className?: string }) => {
         roomsService.my().then(r => setRooms(r))
     }, [roomsService]);
 
-    const onSelect = useCallback((room: FilmRoomItemData) => {
+    const onSelect = useCallback((room: FilmShortData) => {
         navigate('/filmRoom', {state: {id: room.id}})
     }, [navigate])
 

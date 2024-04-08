@@ -1,8 +1,8 @@
 import {AxiosInstance} from "axios";
 import {IPlaylistsService} from "./IPlaylistsService.ts";
-import {Playlist, Playlists} from "./Models/Playlists.ts";
-import {SearchQuery} from "./InputModels/SearchQuery.ts";
-import {playlistSchema, playlistsSchema} from "./Validators/PlaylistsValidator.ts";
+import {List} from "../Common/Models/List.ts";
+import {Playlist} from "./ViewModels/PlaylistViewModels.ts";
+import {SearchInputModel} from "./InputModels/PlaylistInputModels.ts";
 
 export class PlaylistsService implements IPlaylistsService {
 
@@ -18,21 +18,15 @@ export class PlaylistsService implements IPlaylistsService {
         // Отправка запроса к серверу для получения списка фильмов
         const response = await this.axiosInstance.get<Playlist>(`playlists/${id}`);
 
-        // Валидация ответа сервера
-        await playlistSchema.validate(response.data);
-
         // Возвращаем данные
         return response.data
     }
 
     // Возвращает Promise, который содержит массив объектов EmployeeModel
-    public async search(query: SearchQuery): Promise<Playlists> {
+    public async search(query: SearchInputModel): Promise<List<Playlist>> {
 
         // Отправка запроса к серверу для получения списка фильмов
-        const response = await this.axiosInstance.get<Playlists>('playlists', {params: query});
-
-        // Валидация ответа сервера
-        await playlistsSchema.validate(response.data);
+        const response = await this.axiosInstance.get<List<Playlist>>('playlists', {params: query});
 
         // Возвращаем данные
         return response.data

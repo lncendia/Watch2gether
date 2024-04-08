@@ -1,5 +1,5 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
-import {Allows, Profile, UserFilm} from "../../services/ProfileService/Models/Profile.ts";
+import {Allows, ProfileViewModels, UserFilm} from "../../services/ProfileService/ViewModels/ProfileViewModels.ts";
 import {useInjection} from "inversify-react";
 import {IProfileService} from "../../services/ProfileService/IProfileService.ts";
 import Loader from "../../UI/Loader/Loader.tsx";
@@ -16,7 +16,7 @@ const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 
 const ProfileContextProvider = ({children}: { children: ReactNode }) => {
-    const [profile, setProfile] = useState<Profile>();
+    const [profile, setProfile] = useState<ProfileViewModels>();
     const profileService = useInjection<IProfileService>('ProfileService');
 
     useEffect(() => {

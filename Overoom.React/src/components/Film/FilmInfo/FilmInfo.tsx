@@ -5,7 +5,7 @@ import styles from "./FilmInfo.module.css"
 import FilmWatchlist from "../FilmWatchlist/FilmWatchlist.tsx";
 import {FilmInfoData} from "./FilmInfoData.ts";
 import Divider from "../../../UI/Divider/Divider.tsx";
-import FilmInfoBlock from "../../../UI/FilmInfoBlock/FilmInfoBlock.tsx";
+import FilmInfoCard from "../../../UI/FilmInfoCard/FilmInfoCard.tsx";
 
 export interface FilmInfoProps {
     film: FilmInfoData,
@@ -26,7 +26,7 @@ const FilmInfo = (props: FilmInfoProps) => {
 
     return (
         <ContentBlock className={props.className}>
-            <FilmInfoBlock posterClassName={styles.poster} {...props.film}>
+            <FilmInfoCard posterClassName={styles.poster} {...props.film}>
                 <div className="d-flex justify-content-between align-items-center">
                     <h3 className="m-0">{props.film.title}</h3>
                     <FilmWatchlist inWatchlist={props.inWatchlist} onWatchlistToggle={props.onWatchlistToggle}/>
@@ -55,7 +55,7 @@ const FilmInfo = (props: FilmInfoProps) => {
                 <Button onClick={props.onRoomCreateClicked} className="w-50 mt-4" variant="outline-danger">
                     Создать комнату
                 </Button>
-            </FilmInfoBlock>
+            </FilmInfoCard>
         </ContentBlock>
     );
 };

@@ -3,9 +3,9 @@ import {IFilmRoomsService} from "../../../../services/RoomsService/IFilmRoomsSer
 import Offcanvas from "../../../../UI/Offcanvas/Offcanvas.tsx";
 import ConnectRoomForm from "../../Common/ConnectRoomForm/ConnectRoomForm.tsx";
 import {ReactNode, useCallback, useEffect, useState} from "react";
-import {FilmRoom} from "../../../../services/RoomsService/Models/Rooms.ts";
+import {FilmRoom} from "../../../../services/RoomsService/ViewModels/YoutubeRoomsViewModels.ts";
 import Loader from "../../../../UI/Loader/Loader.tsx";
-import {RoomServer} from "../../../../services/RoomsService/Models/RoomServer.ts";
+import {RoomServer} from "../../../../services/RoomsService/ViewModels/RoomServer.ts";
 import {FilmRoomContextProvider} from "../../../../contexts/FilmRoomContext/FilmRoomContext.tsx";
 import {IProfileService} from "../../../../services/ProfileService/IProfileService.ts";
 

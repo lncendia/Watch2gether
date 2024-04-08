@@ -1,8 +1,9 @@
-import {Film, Films, FilmShort} from "./Models/Films.ts";
-import {SearchFilmQuery} from "./InputModels/SearchFilmQuery.ts";
+import {Film, FilmShort} from "./ViewModels/FilmViewModels.ts";
+import {SearchFilmInputModel} from "./InputModels/FilmInputModels.ts";
+import {List} from "../Common/Models/List.ts";
 
 export interface IFilmsService {
-    search(query: SearchFilmQuery): Promise<Films>
+    search(query: SearchFilmInputModel): Promise<List<FilmShort>>
 
     popular(count?: number): Promise<FilmShort[]>
 

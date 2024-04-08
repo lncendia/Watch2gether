@@ -1,11 +1,11 @@
 import CommentItem from "../CommentItem/CommentItem.tsx";
-import {CommentData} from "../CommentItem/CommentData.ts";
+import {CommentItemData} from "../CommentItem/CommentItemData.ts";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "../../../UI/Spinner/Spinner.tsx";
 
 interface CommentListParams {
-    comments: CommentData[];
-    removeComment: (comment: CommentData) => void;
+    comments: CommentItemData[];
+    removeComment: (comment: CommentItemData) => void;
     hasMore: boolean,
     next: () => void
 }

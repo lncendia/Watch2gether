@@ -1,10 +1,9 @@
 import {IProfileService} from "./IProfileService.ts";
-import {AddRatingBody} from "./InputModels/AddRatingBody.ts";
-import {GetRatingsQuery} from "./InputModels/GetRatingsQuery.ts";
-import {Profile} from "./Models/Profile.ts";
-import {Ratings} from "./Models/Ratings.ts";
 import {AxiosInstance} from "axios";
-import {profileSchema, ratingsSchema} from "./Validators/ProfileValidator.ts";
+import {List} from "../Common/Models/List.ts";
+import {Profile, Rating} from "./ViewModels/ProfileViewModels.ts";
+import {AddRatingInputModel, ChangeAllowsInputModel, GetRatingsInputModel} from "./InputModels/ProfileInputModels.ts";
+
 
 export class ProfileService implements IProfileService {
 
@@ -18,22 +17,16 @@ export class ProfileService implements IProfileService {
     async profile(): Promise<Profile> {
         const response = await this.axiosInstance.get<Profile>('profile/profile')
 
-        // Валидация ответа сервера
-        await profileSchema.validate(response.data);
+        return response.data
+    }
+
+    async ratings(query: GetRatingsInputModel): Promise<List<Rating>> {
+        const response = await this.axiosInstance.get<List<Rating>>('profile/ratings', {params: query})
 
         return response.data
     }
 
-    async ratings(query: GetRatingsQuery): Promise<Ratings> {
-        const response = await this.axiosInstance.get<Ratings>('profile/ratings', {params: query})
-
-        // Валидация ответа сервера
-        await ratingsSchema.validate(response.data);
-
-        return response.data
-    }
-
-    async addRating(body: AddRatingBody): Promise<void> {
+    async addRating(body: AddRatingInputModel): Promise<void> {
         await this.axiosInstance.put('profile/addRating', body)
     }
 
@@ -45,7 +38,7 @@ export class ProfileService implements IProfileService {
         await this.axiosInstance.post('profile/toggleWatchlist', {filmId: filmId})
     }
 
-    async changeAllows(body: ChangeAllowsBody): Promise<void> {
+    async changeAllows(body: ChangeAllowsInputModel): Promise<void> {
         await this.axiosInstance.post('profile/changeAllows', body)
     }
 

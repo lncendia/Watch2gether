@@ -1,13 +1,13 @@
-import {IFilmRoomService} from "../../../../services/FilmRoomService/IFilmRoomService.ts";
+import {IFilmRoomManager} from "../../../../services/FilmRoomManager/IFilmRoomManager.ts";
 import {IPlayerHandler} from "./IPlayerHandler.ts";
 
 export class KodikHandler implements IPlayerHandler {
 
-    constructor(service: IFilmRoomService) {
+    constructor(service: IFilmRoomManager) {
         this.service = service;
     }
 
-    private service: IFilmRoomService
+    private service: IFilmRoomManager
     private time = 0
     private isTimeUpdateNeeded = true
 

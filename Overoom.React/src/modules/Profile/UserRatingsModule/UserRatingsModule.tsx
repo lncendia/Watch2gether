@@ -23,7 +23,7 @@ const UserRatingsModule = ({className}: { className?: string }) => {
             const response = await profileService.ratings({})
 
             setPage(2);
-            setHasMore(response.countPages > 1)
+            setHasMore(response.totalPages > 1)
             setRatings(response.ratings)
         };
 
@@ -35,7 +35,7 @@ const UserRatingsModule = ({className}: { className?: string }) => {
             page: page
         })
         setPage(page + 1);
-        setHasMore(response.countPages !== page)
+        setHasMore(response.totalPages !== page)
         setRatings(prev => [...prev, ...response.ratings])
 
     }, [profileService, page])

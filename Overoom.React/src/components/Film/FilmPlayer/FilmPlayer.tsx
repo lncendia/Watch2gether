@@ -2,7 +2,7 @@ import ContentBlock from "../../../UI/ContentBlock/ContentBlock.tsx";
 import styles from "./FilmPlayer.module.css"
 import {Nav} from "react-bootstrap";
 import {useState} from "react";
-import {Cdn} from "../../../services/FilmsService/Models/Films.ts";
+import {Cdn} from "../../../services/FilmsService/ViewModels/FilmViewModels.ts";
 
 const FilmPlayer = ({cdns, className}: { cdns: Cdn[], className?: string }) => {
 

@@ -36,12 +36,12 @@ const FilmsModule = (props: FilmsModuleProps) => {
             })
 
             setPage(2);
-            setHasMore(response.countPages > 1)
-            setFilms(response.films)
+            setHasMore(response.totalPages > 1)
+            setFilms(response.list)
         };
 
         processFilms().then()
-    }, [props]); // Эффект будет вызываться при каждом изменении `genre`
+    }, [filmsService, props]);
 
     const next = useCallback(async () => {
         const response = await filmsService.search({
@@ -51,20 +51,19 @@ const FilmsModule = (props: FilmsModuleProps) => {
             page: page
         })
         setPage(page + 1);
-        setHasMore(response.countPages !== page)
-        setFilms(prev => [...prev, ...response.films])
+        setHasMore(response.totalPages !== page)
+        setFilms(prev => [...prev, ...response.list])
     }, [props, page, filmsService])
 
     const onSelect = useCallback((film: FilmItemData) => {
         navigate('/film', {state: {id: film.id}})
     }, [navigate])
 
-    if(films.length === 0) return <NoData className="mt-5" text="Фильмы не найдены"/>
+    if (films.length === 0) return <NoData className={props.className} text="Фильмы не найдены"/>
 
-    return (
-        <FilmsCatalog hasMore={hasMore} next={next} genre={props.genre} films={films} onSelect={onSelect}
-                      typeSelected={props.serial !== undefined}/>
-    );
+    return <FilmsCatalog className={props.className} hasMore={hasMore} next={next} genre={props.genre} films={films}
+                         onSelect={onSelect}
+                         typeSelected={props.serial !== undefined}/>
 };
 
 export default FilmsModule;

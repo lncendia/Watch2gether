@@ -2,10 +2,10 @@ import {Card} from "react-bootstrap";
 import Svg from "../../../UI/Svg/Svg.tsx";
 import styles from "./CommentItem.module.css"
 import moment from 'moment'
-import {CommentData} from "./CommentData.ts";
+import {CommentItemData} from "./CommentItemData.ts";
 
 export interface CommentParams {
-    comment: CommentData;
+    comment: CommentItemData;
     removeComment: () => void;
     className?: string;
 }

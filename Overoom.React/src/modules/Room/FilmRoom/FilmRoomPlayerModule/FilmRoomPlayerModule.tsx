@@ -3,7 +3,7 @@ import FilmRoomPlayer from "../../../../components/Room/FilmRoom/FilmRoomPlayer/
 import {IPlayerHandler} from "./IPlayerHandler.ts";
 import {PlayerJsHandler} from "./PlayerJsHandler.ts";
 import {useFilmRoom} from "../../../../contexts/FilmRoomContext/FilmRoomContext.tsx";
-import {ChangeSeriesEvent, PauseEvent, SeekEvent} from "../../../../services/FilmRoomService/Models/RoomEvents.ts";
+import {ChangeSeriesEvent, PauseEvent, SeekEvent} from "../../../../services/FilmRoomManager/ViewModels/FilmRoomEvents.ts";
 
 const FilmRoomPlayerModule = ({className}: { className?: string }) => {
 

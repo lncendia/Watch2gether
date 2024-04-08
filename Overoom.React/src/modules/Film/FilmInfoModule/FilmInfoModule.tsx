@@ -5,7 +5,7 @@ import {IProfileService} from "../../../services/ProfileService/IProfileService.
 import {useUser} from "../../../contexts/UserContext/UserContext.tsx";
 import {FilmInfoData} from "../../../components/Film/FilmInfo/FilmInfoData.ts";
 import {useCallback, useState} from "react";
-import {Film} from "../../../services/FilmsService/Models/Films.ts";
+import {Film} from "../../../services/FilmsService/ViewModels/FilmViewModels.ts";
 
 const getSeasonsString = (count: number) => {
     count = count % 10
