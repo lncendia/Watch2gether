@@ -1,13 +1,14 @@
 import {useInjection} from "inversify-react";
-import {IFilmRoomsService} from "../../../../services/RoomsService/IFilmRoomsService.ts";
-import Offcanvas from "../../../../UI/Offcanvas/Offcanvas.tsx";
-import ConnectRoomForm from "../../Common/ConnectRoomForm/ConnectRoomForm.tsx";
+import {FilmRoomContextProvider} from "../../../contexts/FilmRoomContext/FilmRoomContext.tsx";
+import {IProfileService} from "../../../services/ProfileService/IProfileService.ts";
+import {IFilmRoomsService} from "../../../services/RoomsServices/FilmRoomsService/IFilmRoomsService.ts";
+import {RoomServer} from "../../../services/RoomsServices/Common/ViewModels/RoomsViewModels.ts";
 import {ReactNode, useCallback, useEffect, useState} from "react";
-import {FilmRoom} from "../../../../services/RoomsService/ViewModels/YoutubeRoomsViewModels.ts";
-import Loader from "../../../../UI/Loader/Loader.tsx";
-import {RoomServer} from "../../../../services/RoomsService/ViewModels/RoomServer.ts";
-import {FilmRoomContextProvider} from "../../../../contexts/FilmRoomContext/FilmRoomContext.tsx";
-import {IProfileService} from "../../../../services/ProfileService/IProfileService.ts";
+import {FilmRoom} from "../../../services/RoomsServices/FilmRoomsService/Models/FilmRoomsViewModels.ts";
+import Loader from "../../../UI/Loader/Loader.tsx";
+import Offcanvas from "../../../UI/Offcanvas/Offcanvas.tsx";
+import ConnectRoomForm from "./ConnectRoomForm/ConnectRoomForm.tsx";
+import {AxiosError} from "axios";
 
 interface ConnectFilmRoomModuleProps {
     id: string,
@@ -25,16 +26,19 @@ const ConnectFilmRoomModule = (props: ConnectFilmRoomModuleProps) => {
     const [connectError, setConnectError] = useState<string>();
 
     // Получение данных о комнате
-    const getFilmRoom = useCallback(() => {
-        roomsService.room(props.id)
-            .then(r => setFilmRoom(r))
+    const getFilmRoom = useCallback(async () => {
+        const room = await roomsService.room(props.id)
+        setFilmRoom(room)
     }, [props.id, roomsService]);
 
     // Подключение к комнате
-    const connectToFilmRoom = useCallback((code?: string) => {
-        roomsService.connect({code: code, id: props.id})
-            .then(r => setRoomServer(r))
-            .catch(e => setConnectError(e.response.data.errors.error))
+    const connectToFilmRoom = useCallback(async (code?: string) => {
+        try {
+            const server = await roomsService.connect({code: code, id: props.id})
+            setRoomServer(server)
+        } catch (e) {
+            if (e instanceof AxiosError) setConnectError(e.response?.data.errors.error)
+        }
     }, [props.id, roomsService]);
 
     // Добавление комнаты в историю просмотров
@@ -44,12 +48,12 @@ const ConnectFilmRoomModule = (props: ConnectFilmRoomModuleProps) => {
     }, [filmRoom, roomServer, profileService]);
 
     useEffect(() => {
-        getFilmRoom();
+        getFilmRoom().then();
     }, [getFilmRoom]);
 
     useEffect(() => {
         if (!filmRoom) return;
-        if (!filmRoom.isCodeNeeded) connectToFilmRoom();
+        if (!filmRoom.isCodeNeeded) connectToFilmRoom().then();
     }, [connectToFilmRoom, filmRoom]);
 
     useEffect(() => {

@@ -3,7 +3,7 @@ import FilmRoomPlayerModule from "../../modules/Room/FilmRoom/FilmRoomPlayerModu
 import FilmRoomChatModule from "../../modules/Room/FilmRoom/FilmRoomChatModule/FilmRoomChatModule.tsx";
 import FilmRoomViewersModule from "../../modules/Room/FilmRoom/FilmRoomViewersModule/FilmRoomViewersModule.tsx";
 import {Col, Row} from "react-bootstrap";
-import ConnectFilmRoomModule from "../../modules/Room/FilmRoom/ConnectFilmRoomModule/ConnectFilmRoomModule.tsx";
+import ConnectFilmRoomModule from "../../modules/FilmRooms/ConnectFilmRoomModule/ConnectFilmRoomModule.tsx";
 import BeepModule from "../../modules/Room/Common/BeepModule/BeepModule.tsx";
 import ScreamModule from "../../modules/Room/Common/ScreamModule/ScreamModule.tsx";
 import NotificationModule from "../../modules/Room/Common/NotificationModule/NotificationModule.tsx";

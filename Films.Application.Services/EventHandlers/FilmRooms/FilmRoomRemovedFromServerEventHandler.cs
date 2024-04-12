@@ -5,11 +5,13 @@ using MediatR;
 namespace Films.Application.Services.EventHandlers.FilmRooms;
 
 public class FilmRoomRemovedFromServerEventHandler(IUnitOfWork unitOfWork)
-    : INotificationHandler<FilmRoomDeDomainEvent>
+    : INotificationHandler<FilmRoomDeletedDomainEvent>
 {
-    public async Task Handle(FilmRoomCreatedDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(FilmRoomDeletedDomainEvent notification, CancellationToken cancellationToken)
     {
-        notification.Server.RoomsCount += 1;
-        await unitOfWork.ServerRepository.Value.UpdateAsync(notification.Server);
+        var server = await unitOfWork.ServerRepository.Value.GetAsync(notification.FilmRoom.ServerId);
+        if (server == null) return;
+        server.RoomsCount -= 1;
+        await unitOfWork.ServerRepository.Value.UpdateAsync(server);
     }
 }
