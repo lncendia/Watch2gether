@@ -13,14 +13,14 @@ const ProfilePage = () => {
         <AuthorizeModule showError>
             <ProfileContextProvider>
                 <Col lg={8} xl={7} className="mt-5">
-                    <UserInfoModule className="mt-5"/>
+                    <UserInfoModule/>
                 </Col>
                 <BlockTitle className="mt-5" title="Смотреть позже"/>
-                <Col xl={9} lg={10} className="mt-5">
+                <Col xl={9} lg={10}>
                     <UserWatchlistModule/>
                 </Col>
                 <BlockTitle className="mt-5" title="История"/>
-                <Col xl={9} lg={10} className="mt-5">
+                <Col xl={9} lg={10}>
                     <UserHistoryModule/>
                 </Col>
                 <BlockTitle className="mt-5" title="Оценки"/>

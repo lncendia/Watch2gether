@@ -17,7 +17,7 @@ const FilmItem = ({film, selectedGenre, typeSelected, onClick}: FilmItemProps) =
         <FilmCard {...film} onClick={onClick} header={`Рейтинг: ${film.userRating}`}>
             <Card.Title>{film.title}</Card.Title>
             <Card.Text className={`mb-3 ${styles.subtitle}`}>{film.description}</Card.Text>
-            <GenresList genres={film.genres} selected={selectedGenre}/>
+            <GenresList className={styles.genres} genres={film.genres} selected={selectedGenre}/>
             <small
                 className={typeSelected ? styles.type_active : styles.type}>{film.isSerial ? "Сериал" : "Фильм"}</small>
         </FilmCard>

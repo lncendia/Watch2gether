@@ -1,8 +1,8 @@
 import {AxiosInstance} from "axios";
 import {IFilmsService} from "./IFilmsService.ts";
-import {Film, Films, FilmShort} from "./ViewModels/FilmViewModels.ts";
-import {SearchFilmQuery} from "./InputModels/FilmInputModels.ts";
-import {filmsSchema, filmSchema, filmShortSchema} from "./Validators/FilmsValidator.ts"
+import {Film, FilmShort} from "./ViewModels/FilmViewModels.ts";
+import {SearchFilmInputModel} from "./InputModels/FilmInputModels.ts";
+import {List} from "../Common/Models/List.ts";
 
 
 // Экспорт класса FilmsService для его использования из других модулей
@@ -16,13 +16,10 @@ export class FilmsService implements IFilmsService {
     }
 
     // Возвращает Promise, который содержит массив объектов EmployeeModel
-    public async search(query: SearchFilmInputModel): Promise<Films> {
+    public async search(query: SearchFilmInputModel): Promise<List<FilmShort>> {
 
         // Отправка запроса к серверу для получения списка фильмов
-        const response = await this.axiosInstance.get<Films>('films/search', {params: query});
-
-        // Валидация ответа сервера
-        await filmsSchema.validate(response.data);
+        const response = await this.axiosInstance.get<List<FilmShort>>('films/search', {params: query});
 
         // Возвращаем данные
         return response.data
@@ -33,9 +30,6 @@ export class FilmsService implements IFilmsService {
         // Отправка запроса к серверу для получения списка фильмов
         const response = await this.axiosInstance.get<FilmShort[]>('films/popular', {params: {count: count}});
 
-        // Валидация элементов массива
-        response.data.forEach(f => filmShortSchema.validateSync(f))
-
         // Возвращаем данные
         return response.data;
     }
@@ -44,9 +38,6 @@ export class FilmsService implements IFilmsService {
 
         // Отправка запроса к серверу для получения списка фильмов
         const response = await this.axiosInstance.get<Film>(`films/get/${id}`);
-
-        // Валидация ответа сервера
-        await filmSchema.validate(response.data);
 
         // Возвращаем данные
         return response.data

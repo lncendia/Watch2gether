@@ -1,7 +1,11 @@
 import {ReactNode} from 'react';
 import styles from "./GenresList.module.css";
 
-const GenresList = ({genres, selected}: { genres: string[], selected?: string }) => {
+const GenresList = ({genres, selected, className = ''}: {
+    genres: string[],
+    selected?: string,
+    className?: string
+}) => {
 
     const genresNodes: ReactNode[] = [];
 
@@ -14,9 +18,9 @@ const GenresList = ({genres, selected}: { genres: string[], selected?: string })
     }
 
     return (
-        <>
+        <div className={className}>
             {genresNodes.map(g => g)}
-        </>
+        </div>
     );
 };
 

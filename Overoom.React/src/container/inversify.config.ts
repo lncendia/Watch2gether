@@ -35,7 +35,7 @@ const config: UserManagerSettings = {
     response_type: "code",
 
     // Запрашиваемые области доступа
-    scope: "openid profile roles Films Room",
+    scope: "openid profile roles Films Rooms",
 
     // URI перенаправления после выхода из системы
     post_logout_redirect_uri: "https://localhost:5173/signout-oidc",

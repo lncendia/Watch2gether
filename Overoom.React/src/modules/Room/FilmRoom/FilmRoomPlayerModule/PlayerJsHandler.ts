@@ -31,10 +31,11 @@ export class PlayerJsHandler implements IPlayerHandler {
             let season: number
             let series: number
 
+            if (!event.data.id) return
             if (typeof event.data.id === 'number') {
                 series = event.data.id
                 season = event.data.id
-            } else{
+            } else {
                 const data = event.data.id.split('_') as Array<string>
                 season = parseInt(data[0]);
                 series = parseInt(data[1]);

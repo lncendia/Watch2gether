@@ -5,6 +5,7 @@ import {useInjection} from "inversify-react";
 import {useCallback, useEffect, useState} from "react";
 import {IProfileService} from "../../../services/ProfileService/IProfileService.ts";
 import {FilmShortData} from "../../../components/Films/FilmShortItem/FilmShortData.ts";
+import NoData from "../../../UI/NoData/NoData.tsx";
 
 const UserRatingsModule = ({className}: { className?: string }) => {
 
@@ -24,7 +25,7 @@ const UserRatingsModule = ({className}: { className?: string }) => {
 
             setPage(2);
             setHasMore(response.totalPages > 1)
-            setRatings(response.ratings)
+            setRatings(response.list)
         };
 
         processRatings().then()
@@ -36,7 +37,7 @@ const UserRatingsModule = ({className}: { className?: string }) => {
         })
         setPage(page + 1);
         setHasMore(response.totalPages !== page)
-        setRatings(prev => [...prev, ...response.ratings])
+        setRatings(prev => [...prev, ...response.list])
 
     }, [profileService, page])
 
@@ -44,11 +45,10 @@ const UserRatingsModule = ({className}: { className?: string }) => {
         navigate('/film', {state: {id: film.id}})
     }, [navigate])
 
-    if (ratings.length === 0) return <></>
-
     return (
         <Col xl={9} lg={10} className={className}>
-            <FilmsList hasMore={hasMore} next={next} films={ratings} onSelect={onSelect}/>
+            {ratings.length == 0 && <NoData text="Пусто"/>}
+            {ratings.length != 0 && <FilmsList hasMore={hasMore} next={next} films={ratings} onSelect={onSelect}/>}
         </Col>
     );
 };

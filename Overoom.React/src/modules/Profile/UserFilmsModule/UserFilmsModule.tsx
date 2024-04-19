@@ -14,10 +14,9 @@ const UserFilmsModule = ({films, className}: { films: UserFilm[], className?: st
         navigate('/film', {state: {id: film.id}})
     }, [navigate])
 
-    if (films.length === 0) <NoData text="Пусто"/>
+    if (films.length === 0) return <NoData text="Пусто"/>
 
-    return <FilmsList className={className} films={films} hasMore={false} next={() => {
-    }} onSelect={onSelect}/>
+    return <FilmsList className={className} films={films} hasMore={false} next={() => {}} onSelect={onSelect}/>
 };
 
 export default UserFilmsModule;
