@@ -1,0 +1,59 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DefaultException" xml:space="preserve">
+        <value>Παρουσιάστηκε σφάλμα κατά την επεξεργασία του αιτήματος.</value>
+    </data>
+    <data name="EmailAlreadyTakenException" xml:space="preserve">
+        <value>Το ταχυδρομείο είναι ήδη σε χρήση</value>
+    </data>
+    <data name="EmailFormatException" xml:space="preserve">
+        <value>Η μορφή αλληλογραφίας δεν είναι σωστή</value>
+    </data>
+    <data name="EmailSendException" xml:space="preserve">
+        <value>Δεν ήταν δυνατή η αποστολή του μηνύματος στο email σας.</value>
+    </data>
+    <data name="IdentityContextException" xml:space="preserve">
+        <value>Η ενέργεια δεν είναι διαθέσιμη εκτός πλαισίου. Επιστρέψτε στην κύρια εφαρμογή και δοκιμάστε ξανά.</value>
+    </data>
+    <data name="InvalidCodeException" xml:space="preserve">
+        <value>Ο σύνδεσμος έχει λήξει</value>
+    </data>
+    <data name="LoginAlreadyAssociatedException" xml:space="preserve">
+        <value>Το όνομα χρήστη είναι ήδη συνδεδεμένο με άλλο χρήστη</value>
+    </data>
+    <data name="LoginNotFoundException" xml:space="preserve">
+        <value>Η σύνδεση δεν βρέθηκε</value>
+    </data>
+    <data name="OldPasswordNeededException" xml:space="preserve">
+        <value>Ο παλιός κωδικός πρόσβασης δεν έχει καθοριστεί</value>
+    </data>
+    <data name="QueryParameterMissingException" xml:space="preserve">
+        <value>Η παράμετρος συμβολοσειράς ερωτήματος λείπει</value>
+    </data>
+    <data name="UserLockoutException" xml:space="preserve">
+        <value>Έχετε αποκλειστεί λόγω μεγάλου αριθμού αποτυχημένων προσπαθειών σύνδεσης. Δοκιμάστε να συνδεθείτε αργότερα</value>
+    </data>
+    <data name="UserNotFoundException" xml:space="preserve">
+        <value>Ο χρήστης δεν βρέθηκε</value>
+    </data>
+    <data name="TwoFactorAlreadyEnabledException" xml:space="preserve">
+        <value>Ο έλεγχος ταυτότητας δύο παραγόντων είναι ήδη ενεργοποιημένος</value>
+    </data>
+    <data name="UserNameLengthException" xml:space="preserve">
+        <value>Μη έγκυρο μήκος ονόματος χρήστη</value>
+    </data>
+    <data name="ThumbnailSaveException" xml:space="preserve">
+        <value>Σφάλμα κατά την αποθήκευση φωτογραφίας προφίλ</value>
+    </data>
+</root>

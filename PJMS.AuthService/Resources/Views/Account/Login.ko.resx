@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Cancel" xml:space="preserve">
+        <value>취소</value>
+    </data>
+    <data name="ForgotPassword" xml:space="preserve">
+        <value>비밀번호를 잊으셨나요?</value>
+    </data>
+    <data name="InvalidRequest" xml:space="preserve">
+        <value>잘못된 로그인 요청</value>
+    </data>
+    <data name="LogIn" xml:space="preserve">
+        <value>입력</value>
+    </data>
+    <data name="LoginTitle" xml:space="preserve">
+        <value>입구</value>
+    </data>
+    <data name="NoAccount" xml:space="preserve">
+        <value>계정이 없습니까?</value>
+    </data>
+    <data name="Registration" xml:space="preserve">
+        <value>등록</value>
+    </data>
+    <data name="SchemesNotConfigured" xml:space="preserve">
+        <value>이 요청에 대해 로그인 구성표가 구성되어 있지 않습니다.</value>
+    </data>
+    <data name="UserLockout" xml:space="preserve">
+        <value>로그인 시도 실패 횟수를 초과하여 계정이 일시적으로 차단되었습니다.</value>
+    </data>
+</root>

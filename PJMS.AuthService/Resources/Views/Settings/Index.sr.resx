@@ -1,0 +1,50 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailChange" xml:space="preserve">
+        <value>Промена поште</value>
+    </data>
+    <data name="ExternalProviders" xml:space="preserve">
+        <value>Повезани рачуни</value>
+    </data>
+    <data name="PasswordChange" xml:space="preserve">
+        <value>Промена лозинке</value>
+    </data>
+    <data name="Return" xml:space="preserve">
+        <value>Повратак</value>
+    </data>
+    <data name="SettingsTitle" xml:space="preserve">
+        <value>Подешавања</value>
+    </data>
+    <data name="TerminateSessions" xml:space="preserve">
+        <value>Завршите сесије</value>
+    </data>
+    <data name="WarningInfo" xml:space="preserve">
+        <value>Промена података ће завршити остале сесије!</value>
+    </data>
+    <data name="Connect" xml:space="preserve">
+        <value>Повежите</value>
+    </data>
+    <data name="Disconnect" xml:space="preserve">
+        <value>Онемогући</value>
+    </data>
+    <data name="TwoFactor" xml:space="preserve">
+        <value>Двофакторска Аутентификација</value>
+    </data>
+    <data name="AvatarChange" xml:space="preserve">
+        <value>Промена фотографије</value>
+    </data>
+    <data name="NicknameChange" xml:space="preserve">
+        <value>Промена имена</value>
+    </data>
+</root>

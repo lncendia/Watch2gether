@@ -1,0 +1,59 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DefaultException" xml:space="preserve">
+        <value>处理请求时出错。</value>
+    </data>
+    <data name="EmailAlreadyTakenException" xml:space="preserve">
+        <value>邮件已经在使用中</value>
+    </data>
+    <data name="EmailFormatException" xml:space="preserve">
+        <value>邮件格式不正确</value>
+    </data>
+    <data name="EmailSendException" xml:space="preserve">
+        <value>该消息无法发送到您的电子邮件。</value>
+    </data>
+    <data name="IdentityContextException" xml:space="preserve">
+        <value>该操作不可断章取义。 回到主应用程序，然后再试一次。</value>
+    </data>
+    <data name="InvalidCodeException" xml:space="preserve">
+        <value>链接已过期</value>
+    </data>
+    <data name="LoginAlreadyAssociatedException" xml:space="preserve">
+        <value>用户名已经链接到另一个用户</value>
+    </data>
+    <data name="LoginNotFoundException" xml:space="preserve">
+        <value>未找到登录名</value>
+    </data>
+    <data name="OldPasswordNeededException" xml:space="preserve">
+        <value>未指定旧密码</value>
+    </data>
+    <data name="QueryParameterMissingException" xml:space="preserve">
+        <value>缺少查询字符串参数</value>
+    </data>
+    <data name="UserLockoutException" xml:space="preserve">
+        <value>由于大量失败的登录尝试，您已被阻止。 稍后尝试登录</value>
+    </data>
+    <data name="UserNotFoundException" xml:space="preserve">
+        <value>未找到用户</value>
+    </data>
+    <data name="TwoFactorAlreadyEnabledException" xml:space="preserve">
+        <value>双因素身份验证已启用</value>
+    </data>
+    <data name="UserNameLengthException" xml:space="preserve">
+        <value>用户名长度无效</value>
+    </data>
+    <data name="ThumbnailSaveException" xml:space="preserve">
+        <value>儲存個人資料照片時發生錯誤</value>
+    </data>
+</root>

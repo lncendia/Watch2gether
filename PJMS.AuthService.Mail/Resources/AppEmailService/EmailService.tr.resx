@@ -1,0 +1,74 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ConfirmMailChangeEmailButtonName" xml:space="preserve">
+        <value>Postayı değiştir</value>
+    </data>
+    <data name="ConfirmMailChangeEmailExplanation" xml:space="preserve">
+        <value>Bu e-postayı, e-posta adresinizde değişiklik talep ettiğiniz için aldınız.</value>
+    </data>
+    <data name="ConfirmMailChangeEmailSubject" xml:space="preserve">
+        <value>Posta değişimi</value>
+    </data>
+    <data name="ConfirmMailChangeEmailText" xml:space="preserve">
+        <value>Aşağıdaki düğmeye tıklayarak e-posta adresinizin yenisiyle değiştirildiğini onaylayın.</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailButtonName" xml:space="preserve">
+        <value>Şifreyi kurtar</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailExplanation" xml:space="preserve">
+        <value>Bu e-postayı şifrenizin kurtarılmasını talep ettiğiniz için aldınız.</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailSubject" xml:space="preserve">
+        <value>Şifre kurtarma</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailText" xml:space="preserve">
+        <value>Aşağıdaki düğmeye tıklayarak eski şifrenin sıfırlandığını onaylayın. Bu adım eski şifrenizi silecek ve yenisini belirlemenize izin verecektir.</value>
+    </data>
+    <data name="ConfirmRegistrationEmailButtonName" xml:space="preserve">
+        <value>Kaydı onayla</value>
+    </data>
+    <data name="ConfirmRegistrationEmailExplanation" xml:space="preserve">
+        <value>Bu e-postayı yakın zamanda bir hesaba kaydolduğunuz için aldınız.</value>
+    </data>
+    <data name="ConfirmRegistrationEmailSubject" xml:space="preserve">
+        <value>Hesap etkinleştirme</value>
+    </data>
+    <data name="ConfirmRegistrationEmailText" xml:space="preserve">
+        <value>Aşağıdaki düğmeye tıklayarak e-posta adresinizi doğrulayın. Bu adım, o posta adresinin sahibi olduğunuzu doğrulayarak işletmenizin güvenliğini artırır.</value>
+    </data>
+    <data name="LinkExpires" xml:space="preserve">
+        <value>Mektubun alınmasından 24 saat sonra bağlantının süresi dolar.</value>
+    </data>
+    <data name="PrivacyPolicy" xml:space="preserve">
+        <value>Gizlilik Politikası</value>
+    </data>
+    <data name="Thanks" xml:space="preserve">
+        <value>Teşekkür etmek</value>
+    </data>
+    <data name="Welcome" xml:space="preserve">
+        <value>Selamlıyoruz</value>
+    </data>
+    <data name="CodeExpires" xml:space="preserve">
+        <value>Kodun süresi, oluşturulduktan 1 dakika sonra sona erer.</value>
+    </data>
+    <data name="TwoFactorCodeEmailExplanation" xml:space="preserve">
+        <value>Bu e-postayı iki faktörlü bir kimlik doğrulama kodu talep ettiğiniz için aldınız.</value>
+    </data>
+    <data name="TwoFactorCodeEmailSubject" xml:space="preserve">
+        <value>İki faktörlü kimlik doğrulama kodu isteme</value>
+    </data>
+    <data name="TwoFactorCodeEmailText" xml:space="preserve">
+        <value>İki faktörlü kimlik doğrulamayı geçmek için aşağıdaki kodu uygulamaya girin.</value>
+    </data>
+</root>

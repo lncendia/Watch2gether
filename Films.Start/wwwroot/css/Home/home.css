@@ -1,0 +1,192 @@
+﻿body {
+    background-blend-mode: screen;
+    background: linear-gradient(#1f052c, transparent),
+    linear-gradient(90deg, #052126, transparent),
+    linear-gradient(-90deg, #261106, transparent);
+    background-size: cover;
+}
+
+header{
+    background: black;
+}
+
+.nav-background {
+    background: transparent;
+    --link-color: #d2d2d2;
+    --link-hover-color: #8a8a8a;
+}
+
+footer {
+    background: var(--color-dark) !important;
+}
+
+.form-control {
+    background: transparent !important;
+    color: var(--link-color) !important;
+}
+
+.comment {
+    margin-top: 10px;
+    color: #a4a7a8;
+}
+
+.comment-card {
+    --bs-card-cap-bg: var(--color-black);
+    --bs-card-bg: var(--color-dark);
+    border-radius: 10px;
+    box-shadow: 2px 2px 3px var(--shadow-purple);
+    transition: all 0.3s;
+}
+
+.comment-card:hover {
+    box-shadow: 2px 2px 3px var(--shadow-red);
+}
+
+
+.comment-avatar {
+    width: 45px;
+    height: 100%;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+
+.poster {
+    height: 230px;
+}
+
+.content-card {
+    height: 100%;
+    margin: auto;
+    --bs-card-bg: var(--color-dark);
+    box-shadow: 2px 2px 7px var(--shadow-purple);
+    transition: all 0.3s;
+}
+
+.content-card:hover {
+    box-shadow: 2px 2px 7px var(--shadow-red)
+}
+
+.content-link {
+    --bs-link-color: #eeeeee;
+    text-decoration: none;
+    height: 100%;
+}
+
+.content-link:hover {
+    color: #eeeeee;
+}
+
+.genres {
+    color: #9b9b9b;
+}
+
+video {
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
+}
+
+.video-wrapper {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.header {
+    position: relative;
+    text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.6);
+}
+
+.logo {
+    width: 70%;
+    margin: 30px auto 0;
+    text-align: center;
+}
+
+.main-text {
+    font-size: 60px;
+    font-weight: 600;
+}
+
+.side-text {
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.line {
+    width: 250px;
+    margin: 0 auto 10px;
+    border-top: 4px solid white;
+}
+
+.glasses {
+    width: 50px;
+    height: 50px;
+    bottom: 10px;
+}
+
+@media (min-width: 1080px) {
+    .logo {
+        width: 35%;
+        margin-left: 15%;
+        margin-top: 50px;
+    }
+
+    .main-text {
+        font-size: 70px;
+        font-weight: 700;
+    }
+
+    .side-text {
+        font-size: 30px;
+        font-weight: 500;
+    }
+
+    .line {
+        width: 300px;
+    }
+
+    .glasses {
+        width: 70px;
+        height: 70px;
+        bottom: 20px;
+    }
+}
+
+
+@media (min-width: 1700px) {
+    .logo {
+        width: 35%;
+        margin-left: 10%;
+    }
+
+    .main-text {
+        font-size: 80px;
+    }
+
+    .side-text {
+        font-size: 40px;
+    }
+
+    .line {
+        width: 400px;
+    }
+
+    .glasses {
+        width: 70px;
+        height: 70px;
+        bottom: 20px;
+    }
+}
+
+.alert {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+}

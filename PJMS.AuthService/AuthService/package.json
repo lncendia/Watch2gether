@@ -1,0 +1,28 @@
+{
+  "name": "authservice",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack",
+    "build-prod": "webpack --mode=production"
+  },
+  "devDependencies": {
+    "@fontsource/montserrat": "^5.0.16",
+    "@popperjs/core": "^2.11.8",
+    "@types/qrcode": "^1.5.5",
+    "bootstrap": "^5.3.3",
+    "css-loader": "^6.10.0",
+    "css-minimizer-webpack-plugin": "^6.0.0",
+    "jquery-validation-unobtrusive": "^4.0.0",
+    "material-design-iconic-font": "^2.2.0",
+    "mini-css-extract-plugin": "^2.8.0",
+    "qrcode": "^1.5.3",
+    "sass": "^1.71.0",
+    "sass-loader": "^14.1.0",
+    "terser-webpack-plugin": "^5.3.10",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webpack": "^5.90.2",
+    "webpack-cli": "^5.1.4"
+  }
+}

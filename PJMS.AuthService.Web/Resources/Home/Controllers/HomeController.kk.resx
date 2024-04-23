@@ -1,0 +1,59 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DefaultException" xml:space="preserve">
+        <value>Сұрауды өңдеу кезінде қате пайда болды.</value>
+    </data>
+    <data name="EmailAlreadyTakenException" xml:space="preserve">
+        <value>Пошта қазірдің өзінде қолданыста</value>
+    </data>
+    <data name="EmailFormatException" xml:space="preserve">
+        <value>Пошта пішімі дұрыс емес</value>
+    </data>
+    <data name="EmailSendException" xml:space="preserve">
+        <value>Сізге пошта арқылы хабарлама жіберу мүмкін болмады.</value>
+    </data>
+    <data name="IdentityContextException" xml:space="preserve">
+        <value>Әрекет контекстен тыс қол жетімді емес. Негізгі қолданбаға оралып, қайталап көріңіз.</value>
+    </data>
+    <data name="InvalidCodeException" xml:space="preserve">
+        <value>Сілтеменің мерзімі аяқталды</value>
+    </data>
+    <data name="LoginAlreadyAssociatedException" xml:space="preserve">
+        <value>Кіру басқа пайдаланушымен байланысты</value>
+    </data>
+    <data name="LoginNotFoundException" xml:space="preserve">
+        <value>Логин табылмады</value>
+    </data>
+    <data name="OldPasswordNeededException" xml:space="preserve">
+        <value>Ескі құпия сөз жоқ</value>
+    </data>
+    <data name="QueryParameterMissingException" xml:space="preserve">
+        <value>Сұрау жолының параметрі жоқ</value>
+    </data>
+    <data name="UserLockoutException" xml:space="preserve">
+        <value>Сіз көптеген сәтсіз кіру әрекеттеріне байланысты бұғатталдыңыз. Кейінірек кіруге тырысыңыз</value>
+    </data>
+    <data name="UserNotFoundException" xml:space="preserve">
+        <value>Пайдаланушы табылмады</value>
+    </data>
+    <data name="TwoFactorAlreadyEnabledException" xml:space="preserve">
+        <value>Екі факторлы аутентификация қазірдің өзінде қосылған</value>
+    </data>
+    <data name="UserNameLengthException" xml:space="preserve">
+        <value>Пайдаланушы аты дұрыс емес</value>
+    </data>
+    <data name="ThumbnailSaveException" xml:space="preserve">
+        <value>Профиль фотосуретін сақтау қатесі</value>
+    </data>
+</root>

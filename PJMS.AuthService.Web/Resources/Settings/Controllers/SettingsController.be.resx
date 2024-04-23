@@ -1,0 +1,77 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailAlreadyTaken" xml:space="preserve">
+        <value>Пошта ўжо выкарыстоўваецца</value>
+    </data>
+    <data name="EmailChanged" xml:space="preserve">
+        <value>Пошта зменена</value>
+    </data>
+    <data name="EmailChangeRequested" xml:space="preserve">
+        <value>Запыт адпраўлены вам на старую пошту</value>
+    </data>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>Фармат пошты не карэктны</value>
+    </data>
+    <data name="EmailNotConfirmed" xml:space="preserve">
+        <value>Для выканання гэтага дзеяння пацвердзіце сваю пошту</value>
+    </data>
+    <data name="OldPasswordMatchNew" xml:space="preserve">
+        <value>Новы пароль не можа супадаць са старым</value>
+    </data>
+    <data name="OldPasswordNeeded" xml:space="preserve">
+        <value>Неабходна ўказаць стары пароль для яго змены</value>
+    </data>
+    <data name="PasswordChanged" xml:space="preserve">
+        <value>Пароль паспяхова зменены</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>Няправільная даўжыня пароля</value>
+    </data>
+    <data name="PasswordMismatch" xml:space="preserve">
+        <value>Стары пароль паказаны няправільна</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>Пароль павінен утрымліваць лічбы</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>Пароль павінен утрымліваць літары ў ніжнім рэгістры</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Пароль павінен утрымліваць спецыяльныя сімвалы</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>Пароль павінен утрымліваць літары ў верхнім рэгістры</value>
+    </data>
+    <data name="ProviderLinked" xml:space="preserve">
+        <value>Правайдэр прывязаны</value>
+    </data>
+    <data name="ProviderUnlinked" xml:space="preserve">
+        <value>Правайдэр адвязаны</value>
+    </data>
+    <data name="SessionsClosed" xml:space="preserve">
+        <value>Іншыя сесіі паспяхова завершаны</value>
+    </data>
+    <data name="AvatarChanged" xml:space="preserve">
+        <value>Фота профілю зменена</value>
+    </data>
+    <data name="UserNameChanged" xml:space="preserve">
+        <value>Імя карыстальніка зменена</value>
+    </data>
+    <data name="UserNameLengthInvalid" xml:space="preserve">
+        <value>Няправільная даўжыня імя карыстальніка</value>
+    </data>
+    <data name="WrongFileSize" xml:space="preserve">
+        <value>Памер файла не можа перавышаць 15 Мб</value>
+    </data>
+</root>

@@ -1,0 +1,27 @@
+.badge {
+    position: absolute;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 15px;
+    text-align: center;
+    top: 30px;
+    left: 20px;
+    right: 20px;
+    font-size: 18px;
+    box-shadow: 0 0 45px 25px black;
+}
+
+.off {
+    animation: off-animation 1s forwards;
+}
+
+@keyframes off-animation {
+    0%{
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0);
+        display: none;
+    }
+}

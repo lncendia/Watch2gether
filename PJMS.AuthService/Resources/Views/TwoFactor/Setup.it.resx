@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="And" xml:space="preserve">
+        <value>anche</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Ritornare</value>
+    </data>
+    <data name="DownloadGoogle" xml:space="preserve">
+        <value>o Google Authenticator per</value>
+    </data>
+    <data name="DownloadMicrosoft" xml:space="preserve">
+        <value>1. Scarica un'app di autenticazione a due fattori come Microsoft Authenticator per</value>
+    </data>
+    <data name="QrCodeInvalid" xml:space="preserve">
+        <value>Se il codice QR non funziona, prova ad aumentare la luminosità dello schermo.</value>
+    </data>
+    <data name="ScanQrOrEnterKey" xml:space="preserve">
+        <value>2. Scansiona il codice QR o inserisci la seguente chiave nella tua app per l'autenticazione a due fattori. Il caso e gli spazi sono irrilevanti.</value>
+    </data>
+    <data name="SetUp" xml:space="preserve">
+        <value>Includere</value>
+    </data>
+    <data name="SetupTwoFactorTitle" xml:space="preserve">
+        <value>Autenticazione a due fattori</value>
+    </data>
+    <data name="UniqueCode" xml:space="preserve">
+        <value>3. Dopo aver scansionato il codice QR o inserito la chiave sopra, la tua app di autenticazione a due fattori ti fornirà un codice univoco. Inserisci questo codice nella casella di conferma qui sotto.</value>
+    </data>
+</root>

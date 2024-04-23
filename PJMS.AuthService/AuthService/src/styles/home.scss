@@ -1,0 +1,58 @@
+.home {
+  --welcome-size: 40px;
+  --username-size: 25px;
+  --line-border: 4px;
+
+  .nav-item {
+    --bs-nav-link-font-size: 18px;
+    --bs-navbar-nav-link-padding-y: 20px;
+    --bs-navbar-nav-link-padding-x: 20px;
+  }
+
+  @media (max-width: 1100px) {
+    --welcome-size: 30px;
+    --username-size: 25px;
+
+    .nav-item {
+      --bs-nav-link-font-size: 15px;
+      --bs-navbar-nav-link-padding-y: 10px;
+      --bs-navbar-nav-link-padding-x: 10px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    --welcome-size: 25px;
+    --username-size: 20px;
+    --line-border: 2px;
+  }
+
+  @media (max-width: 425px) {
+    --welcome-size: 18px;
+    --username-size: 15px;
+
+    .nav-item {
+      --bs-nav-link-font-size: 12px;
+      --bs-navbar-nav-link-padding-y: 3px;
+      --bs-navbar-nav-link-padding-x: 3px;
+    }
+  }
+
+  .logo {
+    margin-top: 50px;
+    margin-bottom: 60px;
+    display: flex;
+    justify-content: center;
+
+    div {
+      h1 {
+        font-size: var(--welcome-size);
+        border-bottom: var(--line-border) solid var(--bs-body-color);
+        padding-bottom: 5px;
+      }
+
+      h3 {
+        font-size: var(--username-size);
+      }
+    }
+  }
+}

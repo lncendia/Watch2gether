@@ -1,0 +1,50 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Cancel" xml:space="preserve">
+        <value>Annulation</value>
+    </data>
+    <data name="ForgotPassword" xml:space="preserve">
+        <value>Mot de passe oublié?</value>
+    </data>
+    <data name="InvalidRequest" xml:space="preserve">
+        <value>Demande de connexion incorrecte</value>
+    </data>
+    <data name="HaveAccount" xml:space="preserve">
+        <value>Vous avez un compte?</value>
+    </data>
+    <data name="RegistrationButton" xml:space="preserve">
+        <value>Enregistrement</value>
+    </data>
+    <data name="SchemesNotConfigured" xml:space="preserve">
+        <value>Aucun schéma de connexion n'est configuré pour cette requête.</value>
+    </data>
+    <data name="RegistrationTitle" xml:space="preserve">
+        <value>Enregistrement</value>
+    </data>
+    <data name="Login" xml:space="preserve">
+        <value>Entrer</value>
+    </data>
+    <data name="WeakPass" xml:space="preserve">
+        <value>Mot de passe faible</value>
+    </data>
+    <data name="MediumPass" xml:space="preserve">
+        <value>Mot de passe moyen</value>
+    </data>
+    <data name="StrongPass" xml:space="preserve">
+        <value>Mot de passe fort</value>
+    </data>
+    <data name="PassWarning" xml:space="preserve">
+        <value>Le mot de passe n'est pas fiable</value>
+    </data>
+</root>

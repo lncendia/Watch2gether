@@ -1,0 +1,74 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ConfirmMailChangeEmailButtonName" xml:space="preserve">
+        <value>E-mail módosítása</value>
+    </data>
+    <data name="ConfirmMailChangeEmailExplanation" xml:space="preserve">
+        <value>Ezt az e-mailt azért kapta, mert az e-mail cím megváltoztatását kérte.</value>
+    </data>
+    <data name="ConfirmMailChangeEmailSubject" xml:space="preserve">
+        <value>A levél módosítása</value>
+    </data>
+    <data name="ConfirmMailChangeEmailText" xml:space="preserve">
+        <value>Az alábbi gombra kattintva erősítse meg e-mail címének megváltoztatását egy újra.</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailButtonName" xml:space="preserve">
+        <value>Jelszó visszaállítása</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailExplanation" xml:space="preserve">
+        <value>Ezt az e-mailt azért kapta, mert a jelszó visszaállítását kérte.</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailSubject" xml:space="preserve">
+        <value>Jelszó Helyreállítás</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailText" xml:space="preserve">
+        <value>Az alábbi gombra kattintva erősítse meg a régi jelszó visszaállítását. Ez a lépés törli a régi jelszót, és lehetővé teszi egy új beállítását.</value>
+    </data>
+    <data name="ConfirmRegistrationEmailButtonName" xml:space="preserve">
+        <value>Regisztráció megerősítése</value>
+    </data>
+    <data name="ConfirmRegistrationEmailExplanation" xml:space="preserve">
+        <value>Azért kapta ezt az e-mailt, mert nemrég regisztrált egy fiókot.</value>
+    </data>
+    <data name="ConfirmRegistrationEmailSubject" xml:space="preserve">
+        <value>Fiók aktiválás</value>
+    </data>
+    <data name="ConfirmRegistrationEmailText" xml:space="preserve">
+        <value>Erősítse meg e-mail címét az alábbi gombra kattintva. Ez a lépés növeli vállalkozásának biztonságát azáltal, hogy megerősíti, hogy Ön az e-mail cím tulajdonosa.</value>
+    </data>
+    <data name="LinkExpires" xml:space="preserve">
+        <value>A link lejár 24 órával az e-mail kézhezvétele után.</value>
+    </data>
+    <data name="PrivacyPolicy" xml:space="preserve">
+        <value>Adatvédelmi szabályzat</value>
+    </data>
+    <data name="Thanks" xml:space="preserve">
+        <value>Köszönöm</value>
+    </data>
+    <data name="Welcome" xml:space="preserve">
+        <value>Üdvözöljük</value>
+    </data>
+    <data name="CodeExpires" xml:space="preserve">
+        <value>A kód lejár 1 perccel a generáció után.</value>
+    </data>
+    <data name="TwoFactorCodeEmailExplanation" xml:space="preserve">
+        <value>Ezt az e-mailt azért kapta, mert kétfaktoros hitelesítési kódot kért.</value>
+    </data>
+    <data name="TwoFactorCodeEmailSubject" xml:space="preserve">
+        <value>Kétfaktoros hitelesítési kód kérése</value>
+    </data>
+    <data name="TwoFactorCodeEmailText" xml:space="preserve">
+        <value>Írja be az alábbi kódot az alkalmazásba a kétfaktoros hitelesítés befejezéséhez.</value>
+    </data>
+</root>

@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Cancel" xml:space="preserve">
+        <value>Бас тарту</value>
+    </data>
+    <data name="ForgotPassword" xml:space="preserve">
+        <value>Құпия сөзді ұмыттыңыз ба?</value>
+    </data>
+    <data name="InvalidRequest" xml:space="preserve">
+        <value>Қате кіру сұрауы</value>
+    </data>
+    <data name="LogIn" xml:space="preserve">
+        <value>Кіру</value>
+    </data>
+    <data name="LoginTitle" xml:space="preserve">
+        <value>Кіру</value>
+    </data>
+    <data name="NoAccount" xml:space="preserve">
+        <value>Тіркелгі жоқ па?</value>
+    </data>
+    <data name="Registration" xml:space="preserve">
+        <value>Тіркеу</value>
+    </data>
+    <data name="SchemesNotConfigured" xml:space="preserve">
+        <value>Бұл сұрау үшін кіру схемалары конфигурацияланбаған.</value>
+    </data>
+    <data name="UserLockout" xml:space="preserve">
+        <value>Сіздің есептік жазбаңыз уақытша бұғатталған, себебі кіру әрекеттері сәтсіз аяқталды.</value>
+    </data>
+</root>

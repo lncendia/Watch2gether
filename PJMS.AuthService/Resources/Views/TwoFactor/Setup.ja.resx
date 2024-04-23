@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="And" xml:space="preserve">
+        <value>と</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>戻る</value>
+    </data>
+    <data name="DownloadGoogle" xml:space="preserve">
+        <value>またはGoogle Authenticatorのための</value>
+    </data>
+    <data name="DownloadMicrosoft" xml:space="preserve">
+        <value>1. Microsoft Authenticatorなどの二要素認証アプリケーションをダウンロードします。</value>
+    </data>
+    <data name="QrCodeInvalid" xml:space="preserve">
+        <value>QRコードが機能しない場合は、画面の明るさを上げてみてください。</value>
+    </data>
+    <data name="ScanQrOrEnterKey" xml:space="preserve">
+        <value>2. QRコードをスキャンするか、次のキーを2要素認証アプリケーションに入力します。 ケースとスペースは関係ありません。</value>
+    </data>
+    <data name="SetUp" xml:space="preserve">
+        <value>オンにする</value>
+    </data>
+    <data name="SetupTwoFactorTitle" xml:space="preserve">
+        <value>二要素認証</value>
+    </data>
+    <data name="UniqueCode" xml:space="preserve">
+        <value>3. QRコードをスキャンするか、上記のキーを入力した後、2要素認証アプリケーションは一意のコードを提供します。 下の確認フィールドにこのコードを入力します。</value>
+    </data>
+</root>

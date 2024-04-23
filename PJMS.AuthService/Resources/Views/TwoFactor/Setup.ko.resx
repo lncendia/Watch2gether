@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="And" xml:space="preserve">
+        <value>그리고</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>반환</value>
+    </data>
+    <data name="DownloadGoogle" xml:space="preserve">
+        <value>또는 구글 인증자</value>
+    </data>
+    <data name="DownloadMicrosoft" xml:space="preserve">
+        <value>1. 2 단계 인증 응용 프로그램 다운로드</value>
+    </data>
+    <data name="QrCodeInvalid" xml:space="preserve">
+        <value>화면 밝기를 높여보십시오.</value>
+    </data>
+    <data name="ScanQrOrEnterKey" xml:space="preserve">
+        <value>2. 2 단계 인증 응용 프로그램에 다음 키를 입력합니다. 케이스와 공간은 중요하지 않습니다.</value>
+    </data>
+    <data name="SetUp" xml:space="preserve">
+        <value>켜</value>
+    </data>
+    <data name="SetupTwoFactorTitle" xml:space="preserve">
+        <value>이중 인증</value>
+    </data>
+    <data name="UniqueCode" xml:space="preserve">
+        <value>3. 2 단계 인증 응용 프로그램은 고유 코드를 제공합니다. 아래의 확인 필드에 이 코드를 입력합니다.</value>
+    </data>
+</root>

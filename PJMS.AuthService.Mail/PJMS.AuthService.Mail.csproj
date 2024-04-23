@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>12</LangVersion>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="MailKit" Version="4.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\AppEmailService\EmailService.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>EmailService.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\AppEmailService\EmailService.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>EmailService.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PJMS.AuthService.Abstractions\PJMS.AuthService.Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PJMS.AuthService.Abstractions\PJMS.AuthService.Abstractions.csproj" />
+    </ItemGroup>
+</Project>

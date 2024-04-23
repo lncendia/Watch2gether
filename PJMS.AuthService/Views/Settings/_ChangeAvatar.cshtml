@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model PJMS.AuthService.Web.Settings.ViewModels.ChangeAvatarViewModel
+@inject IViewLocalizer Localizer
+
+<form asp-action="ChangeAvatar" enctype="multipart/form-data" method="post" class="mt-2">
+    
+    @if (Model.Thumbnail != null)
+    {
+        <div class="row justify-content-between">
+            <div class="col-2 text-center">
+                <img class="avatar" src="@Model.Thumbnail" alt="">
+            </div>
+            <div class="col-10">
+                <div class="wrap-input">
+                    <input asp-for="File" accept=".jpg,.jpeg,.gif,.bmp,.png"/>
+                    <span class="focus-input"></span>
+                </div>
+                <div class="wrap-error mb-4">
+                    <span asp-validation-for="File"></span>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="wrap-input">
+            <input accept="image/*" asp-for="File"/>
+            <span class="focus-input"></span>
+        </div>
+        <div class="wrap-error mb-4">
+            <span asp-validation-for="File"></span>
+        </div>
+    }
+
+    <div class="container-btn">
+        <div class="wrap-btn on-load">
+            <div class="bg-btn"></div>
+            <input class="m-btn" type="submit" value="@Localizer["Change"]">
+        </div>
+    </div>
+</form>

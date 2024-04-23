@@ -1,0 +1,72 @@
+.poster {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.black {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.black_bottom {
+    height: 70%;
+    background: linear-gradient(to top, black -5%, transparent 95%);
+}
+
+.black_all {
+    opacity: 60%;
+    height: 100%;
+    background: black;
+}
+
+.blacker_blur {
+    margin: auto;
+    width: 95%;
+    height: 95%;
+    position: relative;
+    display: block;
+    max-width: 170px;
+    box-shadow: 2px 3px 2px var(--bs-purple);
+    border-radius: 10px;
+    cursor: pointer;
+    color: #e5e5e5;
+}
+
+.blacker_blur:hover {
+    color: var(--bs-white)
+}
+
+.kp {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    font-size: 12px;
+}
+
+.imdb {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-size: 12px;
+}
+
+.title {
+    position: absolute;
+    text-align: center;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    font-size: 13px;
+}
+
+.score {
+    font-size: 30px;
+    top: 30px;
+    left: 0;
+    right: 0;
+    position: absolute;
+    text-align: center;
+}

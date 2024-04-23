@@ -1,0 +1,35 @@
+.search {
+    position: absolute;
+    z-index: 2000;
+    margin-top: 5px;
+    width: 400px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid rgba(var(--bs-body-color-rgb), 0.5);
+    border-radius: 10px 10px;
+    padding: 5px 2px 5px 2px;
+    transition: all 5s;
+
+    @media (max-width: 400px) {
+        width: 300px;
+    }
+}
+
+.search::-webkit-scrollbar {
+    width: 5px;
+    background-color: rgba(var(--bs-body-bg-rgb), 1);
+    border-radius: 20px
+}
+
+.search::-webkit-scrollbar-thumb {
+    background: var(--bs-orange);
+    border-radius: 20px
+}
+
+.input {
+    background-color: rgba(var(--bs-body-bg-rgb), 0.5) !important;
+}
+
+.input::placeholder {
+    color: rgba(var(--bs-body-color-rgb), 0.4) !important;
+}

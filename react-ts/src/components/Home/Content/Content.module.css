@@ -1,0 +1,24 @@
+.img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 3px 5px var(--bs-red);
+    margin-bottom: 20px;
+}
+
+.text{
+    font-size: 20px;
+    display: block;
+    text-align: justify;
+    margin-bottom: 20px;
+
+    @media(max-width: 1500px) {
+        font-size: 15px;
+    }
+}
+
+.block{
+    align-items: center;
+    border-radius: 10px;
+    background-color: rgba(var(--bs-body-bg-rgb), 0.2);
+    justify-content: space-around;
+}

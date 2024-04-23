@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model PJMS.AuthService.Web.Consent.ViewModels.ScopeViewModel
+@inject IViewLocalizer Localizer
+
+<div class="form-check my-2 mx-2">
+    <input name="ScopesConsented"
+           disabled="@Model.Required"
+           type="checkbox"
+           checked="@(Model.Checked || Model.Required)"
+           value="@Model.Value"
+           id="scopes_@Model.Value"
+           class="form-check-input"/>
+    <label class="form-check-label @(Model.Emphasize ? "emphasize" : "")" for="scopes_@Model.Value">@Model.DisplayName</label>
+
+    @if (Model.Required)
+    {
+        <input name="ScopesConsented" type="hidden" value="@Model.Value"/>
+        <span class="required">
+            <em>(@Localizer["Required"])</em>
+        </span>
+    }
+    @if (Model.Description != null)
+    {
+        <div class="consent-description">
+            <label for="scopes_@Model.Value">@Model.Description</label>
+        </div>
+    }
+</div>

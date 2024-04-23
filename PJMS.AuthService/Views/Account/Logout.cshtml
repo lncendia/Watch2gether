@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model PJMS.AuthService.Web.Account.InputModels.LogoutInputModel
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["LogoutTitle"];
+}
+
+<h5 class="card-title">@Localizer["LogoutTitle"]</h5>
+
+<form class="mt-5 mb-4" asp-action="Logout">
+    <input type="hidden" asp-for="LogoutId">
+    <div class="container-btn">
+        <div class="wrap-btn on-load">
+            <div class="bg-btn"></div>
+            <input class="m-btn" type="submit" value="@Localizer["YesButton"]">
+        </div>
+    </div>
+</form>

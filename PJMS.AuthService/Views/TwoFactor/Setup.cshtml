@@ -1,0 +1,77 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@model PJMS.AuthService.Web.TwoFactor.ViewModels.SetupTwoFactorViewModel
+@inject IViewLocalizer Localizer
+@{
+    // Устанавливаем значение в ViewData с ключом "Title" равным переводу строки "SetupTwoFactorTitle"
+    ViewData["Title"] = Localizer["SetupTwoFactorTitle"];
+}
+
+<h5 class="card-title">@Localizer["SetupTwoFactorTitle"]</h5>
+
+
+<div class="setupTwoFactor">
+    <div class="setup-info">
+        <div class="setup-info-item mt-3">
+            @Localizer["DownloadMicrosoft"]
+            <a class="m-btn" href="https://play.google.com/store/apps/details?id=com.azure.authenticator&hl=en_US">Android</a>
+            @Localizer["And"]
+            <a class="m-btn" href="https://apps.apple.com/us/app/microsoft-authenticator/id983156458">iOS</a>
+            @Localizer["DownloadGoogle"]
+            <a class="m-btn" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_US">Android</a>
+            @Localizer["And"]
+            <a class="m-btn" href="https://apps.apple.com/us/app/google-authenticator/id388497605">iOS</a>.
+        </div>
+
+        <div class="setup-info-item mt-3">
+            @Localizer["ScanQrOrEnterKey"]
+        </div>
+
+        <div class="auth-key mt-3 text-center fw-bold">
+            @Model.AuthenticatorKey
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
+            </svg>
+        </div>
+
+        <div>
+            <canvas class="d-block mx-auto my-3" id="qrCode" qr-data="@Html.Raw(Model.QrCodeUrl)"></canvas>
+        </div>
+
+        <div class="qrcode-invalid text-center">
+            @Localizer["QrCodeInvalid"]
+        </div>
+
+        <div class="setup-info-item mt-3">
+            @Localizer["UniqueCode"]
+        </div>
+    </div>
+
+
+    <div class="setup-form mt-4">
+        <form asp-action="VerifySetup" method="post">
+            
+            <input asp-for="AuthenticatorKey" type="hidden"/>
+
+            <div class="wrap-input">
+                <input asp-for="Code" autofocus>
+                <span class="focus-input" asp-placeholder-for="Code">
+                </span>
+            </div>
+            <div class="wrap-error mb-4">
+                <span asp-validation-for="Code"></span>
+            </div>
+            <div class="container-btn mb-4">
+                <div class="wrap-btn on-load">
+                    <div class="bg-btn"></div>
+                    <input class="m-btn" type="submit" value="@Localizer["SetUp"]">
+                </div>
+            </div>
+        </form>
+        <div class="container-btn mb-4">
+            <div class="wrap-btn on-hover">
+                <div class="bg-btn"></div>
+                <a class="m-btn" asp-controller="Settings" asp-action="Index">@Localizer["Cancel"]</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ConfirmMailChangeEmailButtonName" xml:space="preserve">
+        <value>Змінити пошту</value>
+    </data>
+    <data name="ConfirmMailChangeEmailExplanation" xml:space="preserve">
+        <value>Ви отримали цей електронний лист, оскільки просили змінити адресу електронної пошти.</value>
+    </data>
+    <data name="ConfirmMailChangeEmailSubject" xml:space="preserve">
+        <value>Зміна Пошти</value>
+    </data>
+    <data name="ConfirmMailChangeEmailText" xml:space="preserve">
+        <value>Підтвердіть зміну своєї адреси електронної пошти на новий натиснувши на кнопку нижче.</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailButtonName" xml:space="preserve">
+        <value>Відновити пароль</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailExplanation" xml:space="preserve">
+        <value>Ви отримали цей електронний лист, оскільки попросили відновити пароль.</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailSubject" xml:space="preserve">
+        <value>Відновлення пароля</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailText" xml:space="preserve">
+        <value>Підтвердіть скидання старого пароля, натиснувши на кнопку нижче. Цей крок видалить ваш старий пароль і дозволить встановити новий.</value>
+    </data>
+    <data name="ConfirmRegistrationEmailButtonName" xml:space="preserve">
+        <value>Підтвердити реєстрацію</value>
+    </data>
+    <data name="ConfirmRegistrationEmailExplanation" xml:space="preserve">
+        <value>Ви отримали цей електронний лист, оскільки нещодавно зареєстрували обліковий запис.</value>
+    </data>
+    <data name="ConfirmRegistrationEmailSubject" xml:space="preserve">
+        <value>Активація аккаунта</value>
+    </data>
+    <data name="ConfirmRegistrationEmailText" xml:space="preserve">
+        <value>Підтвердьте свою адресу електронної пошти, натиснувши на кнопку нижче. Цей крок підвищує безпеку вашого бізнесу, підтверджуючи, що ви є власником цієї поштової адреси.</value>
+    </data>
+    <data name="LinkExpires" xml:space="preserve">
+        <value>Посилання закінчується через 24 години після отримання листа.</value>
+    </data>
+    <data name="PrivacyPolicy" xml:space="preserve">
+        <value>Політика конфіденційності</value>
+    </data>
+    <data name="Thanks" xml:space="preserve">
+        <value>Дякуємо</value>
+    </data>
+    <data name="Welcome" xml:space="preserve">
+        <value>Вітаємо</value>
+    </data>
+    <data name="CodeExpires" xml:space="preserve">
+        <value>Код закінчується через 1 хвилину після генерації.</value>
+    </data>
+    <data name="TwoFactorCodeEmailExplanation" xml:space="preserve">
+        <value>Ви отримали цей електронний лист, оскільки попросили код двофакторної автентифікації.</value>
+    </data>
+    <data name="TwoFactorCodeEmailSubject" xml:space="preserve">
+        <value>Запит коду двофакторної автентифікації</value>
+    </data>
+    <data name="TwoFactorCodeEmailText" xml:space="preserve">
+        <value>Введіть код представлений нижче в додаток щоб пройти двофакторну аутентифікацію.</value>
+    </data>
+</root>

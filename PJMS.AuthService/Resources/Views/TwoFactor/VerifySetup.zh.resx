@@ -1,0 +1,26 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Continue" xml:space="preserve">
+        <value>继续</value>
+    </data>
+    <data name="CopyCodes" xml:space="preserve">
+        <value>复制列表</value>
+    </data>
+    <data name="Info" xml:space="preserve">
+        <value>唯一的一次性代码，允许您在无法访问临时代码生成应用程序或邮件时通过验证。在安全的地方保存或写下这些代码，以免丢失它们。</value>
+    </data>
+    <data name="VerifyCodes" xml:space="preserve">
+        <value>备份代码</value>
+    </data>
+</root>

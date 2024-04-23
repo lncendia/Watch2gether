@@ -1,0 +1,9 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["MailSentTitle"];
+}
+
+<h5 class="card-title">@Localizer["MailSentTitle"]</h5>
+
+<div class="mt-5">@Localizer["MailSentBody"]</div>

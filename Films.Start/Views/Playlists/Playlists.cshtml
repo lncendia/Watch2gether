@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Каталог";
+}
+<div>
+    <div class="row gy-5 playlists justify-content-lg-start justify-content-center">
+        <form asp-action="PlaylistsList" id="filter" method="get"></form>
+    </div>
+    <div class="spinner">
+        <div class="spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-secondary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-dark" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/lib/infinite-ajax-scroll/dist/infinite-ajax-scroll.min.js"></script>
+    <script src="~/js/scroller.js"></script>
+    <script src="~/js/playlists.js"></script>
+}
+
+@section styles
+{
+    <link rel="stylesheet" href="~/css/content.css"/>
+}

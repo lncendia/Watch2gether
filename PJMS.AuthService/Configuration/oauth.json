@@ -1,0 +1,28 @@
+{
+  "OAuth": {
+    "VkId": {
+      "Client": "51807703",
+      "Secret": "9bc494339bc494339bc49433a798d211e499bc49bc49433fea97ff0239f8c3e82685c2d"
+    },
+    "Yandex": {
+      "Client": "ecd6ed7a38334a5384357adfb36321e7",
+      "Secret": "60c1566032ab40eaae8e0adf8e5a7465"
+    },
+    "GitHub": {
+      "Client": "4056bf95710c772b88cb",
+      "Secret": "3dc4a078f92ea98829af1821e7c96c2290b5120b"
+    },
+    "Google": {
+      "Client": "984054948395-d55g4m16gq276kdmv55u9ne2qtp65sqh.apps.googleusercontent.com",
+      "Secret": "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"
+    },
+    "Microsoft": {
+      "Client": "bb1227a3-5ae5-49d3-8c01-d5b65ed63d57",
+      "Secret": "oUg8Q~KnSpzH0Lvfjgem0kacn-o4MNNgVO2e3bXx"
+    },
+    "X": {
+      "Client": "cqRtib2IIsl7hxE8kCycD2aLM",
+      "Secret": "kIVYRLrGtV8C2gb4civv79iosOtnHSklGtqxLtCyLkvELRlwnu"
+    }
+  }
+}

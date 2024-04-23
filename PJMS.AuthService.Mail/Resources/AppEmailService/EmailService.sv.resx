@@ -1,0 +1,74 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ConfirmMailChangeEmailButtonName" xml:space="preserve">
+        <value>Ändra din e-post</value>
+    </data>
+    <data name="ConfirmMailChangeEmailExplanation" xml:space="preserve">
+        <value>Du fick det här e-postmeddelandet eftersom du begärde en ändring av e-postadressen.</value>
+    </data>
+    <data name="ConfirmMailChangeEmailSubject" xml:space="preserve">
+        <value>Ändra e-post</value>
+    </data>
+    <data name="ConfirmMailChangeEmailText" xml:space="preserve">
+        <value>Bekräfta ändringen av din e-postadress till en ny genom att klicka på knappen nedan.</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailButtonName" xml:space="preserve">
+        <value>Återställ lösenord</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailExplanation" xml:space="preserve">
+        <value>Du fick det här e-postmeddelandet eftersom du begärde att återställa ditt lösenord.</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailSubject" xml:space="preserve">
+        <value>Återställning Av Lösenord</value>
+    </data>
+    <data name="ConfirmRecoverPasswordEmailText" xml:space="preserve">
+        <value>Bekräfta återställningen av det gamla lösenordet genom att klicka på knappen nedan. Detta steg tar bort ditt gamla lösenord och låter dig ställa in ett nytt.</value>
+    </data>
+    <data name="ConfirmRegistrationEmailButtonName" xml:space="preserve">
+        <value>Bekräfta registrering</value>
+    </data>
+    <data name="ConfirmRegistrationEmailExplanation" xml:space="preserve">
+        <value>Du har fått det här e-postmeddelandet eftersom du nyligen har registrerat ett konto.</value>
+    </data>
+    <data name="ConfirmRegistrationEmailSubject" xml:space="preserve">
+        <value>Aktivering av konto</value>
+    </data>
+    <data name="ConfirmRegistrationEmailText" xml:space="preserve">
+        <value>Bekräfta din e-postadress genom att klicka på knappen nedan. Detta steg ökar säkerheten för ditt företag genom att bekräfta att du är ägare till den här e-postadressen.</value>
+    </data>
+    <data name="LinkExpires" xml:space="preserve">
+        <value>Länken löper ut 24 timmar efter mottagandet av e-postmeddelandet.</value>
+    </data>
+    <data name="PrivacyPolicy" xml:space="preserve">
+        <value>Sekretesspolicy</value>
+    </data>
+    <data name="Thanks" xml:space="preserve">
+        <value>Tack</value>
+    </data>
+    <data name="Welcome" xml:space="preserve">
+        <value>Välkomna</value>
+    </data>
+    <data name="CodeExpires" xml:space="preserve">
+        <value>Koden upphör att gälla 1 minut efter generering.</value>
+    </data>
+    <data name="TwoFactorCodeEmailExplanation" xml:space="preserve">
+        <value>Du fick det här e-postmeddelandet eftersom du begärde en tvåfaktorsautentiseringskod.</value>
+    </data>
+    <data name="TwoFactorCodeEmailSubject" xml:space="preserve">
+        <value>Begär en tvåfaktorsautentiseringskod</value>
+    </data>
+    <data name="TwoFactorCodeEmailText" xml:space="preserve">
+        <value>Ange koden nedan i programmet för att slutföra tvåfaktorsautentisering.</value>
+    </data>
+</root>

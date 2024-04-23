@@ -1,0 +1,27 @@
+.grants {
+  --grant-name-size: 16px;
+  --logo-size: 30px;
+
+  img {
+    position: absolute;
+    width: var(--logo-size);
+    height: var(--logo-size);
+    border-radius: 20%;
+    left: 5px;
+  }
+
+  .card-title {
+    font-size: var(--grant-name-size) !important;
+  }
+}
+
+@media (max-width: 670px) {
+  .grants {
+    --grant-name-size: 13px;
+    --logo-size: 25px;
+
+    .card-title {
+      margin-left: 30px;
+    }
+  }
+}

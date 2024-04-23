@@ -1,0 +1,77 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailAlreadyTaken" xml:space="preserve">
+        <value>De mail is al in gebruik</value>
+    </data>
+    <data name="EmailChanged" xml:space="preserve">
+        <value>De mail is gewijzigd</value>
+    </data>
+    <data name="EmailChangeRequested" xml:space="preserve">
+        <value>Het verzoek is verzonden naar uw oude e-mailadres</value>
+    </data>
+    <data name="EmailNotConfirmed" xml:space="preserve">
+        <value>Bevestig uw e-mail om deze actie uit te voeren</value>
+    </data>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>Het e-mailformaat is niet correct</value>
+    </data>
+    <data name="OldPasswordMatchNew" xml:space="preserve">
+        <value>Het nieuwe wachtwoord komt niet overeen met het oude</value>
+    </data>
+    <data name="OldPasswordNeeded" xml:space="preserve">
+        <value>U moet het oude wachtwoord opgeven om het te wijzigen</value>
+    </data>
+    <data name="PasswordChanged" xml:space="preserve">
+        <value>Het wachtwoord is succesvol gewijzigd</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>Onjuiste wachtwoordlengte</value>
+    </data>
+    <data name="PasswordMismatch" xml:space="preserve">
+        <value>Het oude wachtwoord is onjuist</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>Het wachtwoord moet nummers bevatten</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>Het wachtwoord moet kleine letters bevatten</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Het wachtwoord moet speciale tekens bevatten</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>Het wachtwoord moet hoofdletters bevatten</value>
+    </data>
+    <data name="ProviderLinked" xml:space="preserve">
+        <value>De provider is gekoppeld</value>
+    </data>
+    <data name="ProviderUnlinked" xml:space="preserve">
+        <value>De provider is afgesloten</value>
+    </data>
+    <data name="SessionsClosed" xml:space="preserve">
+        <value>Andere sessies zijn succesvol afgerond</value>
+    </data>
+    <data name="AvatarChanged" xml:space="preserve">
+        <value>De profielfoto is gewijzigd</value>
+    </data>
+    <data name="UserNameChanged" xml:space="preserve">
+        <value>De naam van de gebruiker is gewijzigd</value>
+    </data>
+    <data name="UserNameLengthInvalid" xml:space="preserve">
+        <value>Ongeldige gebruikersnaam lengte</value>
+    </data>
+    <data name="WrongFileSize" xml:space="preserve">
+        <value>De bestandsgrootte mag niet groter zijn dan 15 MB</value>
+    </data>
+</root>

@@ -1,0 +1,29 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Enter" xml:space="preserve">
+        <value>Потвърдя</value>
+    </data>
+    <data name="RequestEmail" xml:space="preserve">
+        <value>Изпращане по пощата</value>
+    </data>
+    <data name="RequestFail" xml:space="preserve">
+        <value>Грешка при изпращане на код</value>
+    </data>
+    <data name="ResendInfo" xml:space="preserve">
+        <value>Можете да изпратите кода отново чрез</value>
+    </data>
+    <data name="Resending" xml:space="preserve">
+        <value>Изпрати отново</value>
+    </data>
+</root>

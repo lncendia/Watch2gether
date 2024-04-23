@@ -1,0 +1,14 @@
+.subtitle {
+    color: var(--bs-card-subtitle-color)
+}
+
+.viewers{
+    color: rgba(var(--bs-body-color-rgb), 0.7);
+}
+
+.type {
+    color: rgba(var(--bs-body-color-rgb), 0.6);
+    position: absolute;
+    bottom: 10px;
+    display: block;
+}

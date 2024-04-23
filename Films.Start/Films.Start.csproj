@@ -1,0 +1,167 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>aspnet-Watch2gether-0443B0C1-16EC-4947-9CA3-809A17128A62</UserSecretsId>
+        <LangVersion>12</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Films.Application.Services\Films.Application.Services.csproj" />
+      <ProjectReference Include="..\Films.Infrastructure.Bus\Films.Infrastructure.Bus.csproj" />
+      <ProjectReference Include="..\Films.Infrastructure.Load\Films.Infrastructure.Load.csproj" />
+      <ProjectReference Include="..\Films.Infrastructure.Storage\Films.Infrastructure.Storage.csproj" />
+      <ProjectReference Include="..\Films.Infrastructure.Web\Films.Infrastructure.Web.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.13" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Account\Continue.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\Login.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\NewPassword.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\Register.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\ResetPassword.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Account\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Account\login.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\Account\registration.js" />
+      <_ContentIncludedByDefault Remove="Views\FilmManagement\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmManagement\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmManagement\Load.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmRoom\Connect.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmRoom\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmRoom\CreateAnonymously.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmRoom\CreateUser.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\FilmRoom\Room.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Films\Films.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Films\FilmSearch.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Film\AddComment.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Film\AddRating.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Film\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\About.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PlaylistManagement\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PlaylistManagement\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\PlaylistManagement\Load.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Playlists\Playlists.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Room\Connect.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Room\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Room\CreateAnonymously.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Room\CreateUser.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Room\Room.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Footer.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Navbar.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\ChangeAllows.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\ChangeAvatar.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\ChangeEmail.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\ChangeName.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\ChangePassword.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\User\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\Account\account.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\Account\account.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\Account\account.scss" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\LICENSE" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\infinite-ajax-scroll\dist\infinite-ajax-scroll.es.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\infinite-ajax-scroll\dist\infinite-ajax-scroll.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\infinite-ajax-scroll\dist\infinite-ajax-scroll.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation-unobtrusive\LICENSE.txt" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery-validation\LICENSE.md" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\dist\jquery.min.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery\LICENSE.txt" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\signalr\dist\signalr.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\video\not_a_screamer.mp4" />
+      <_ContentIncludedByDefault Remove="wwwroot\video\trailer1.mp4" />
+      <_ContentIncludedByDefault Remove="wwwroot\video\trailer2.mp4" />
+      <_ContentIncludedByDefault Remove="wwwroot\video\trailer3.mp4" />
+      <_ContentIncludedByDefault Remove="wwwroot\video\trailer4.mp4" />
+      <_ContentIncludedByDefault Remove="wwwroot\video\trailer5.mp4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Views\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Views\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Views\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Views\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\img\posters\" />
+    </ItemGroup>
+</Project>

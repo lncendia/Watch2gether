@@ -1,0 +1,44 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>Фармат пошты не карэктны</value>
+    </data>
+    <data name="EmailNotConfirmed" xml:space="preserve">
+        <value>Для выканання гэтага дзеяння пацвердзіце сваю пошту</value>
+    </data>
+    <data name="InvalidCredentials" xml:space="preserve">
+        <value>Няслушныя ўліковыя дадзеныя</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>Няправільная даўжыня пароля</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>Пароль павінен утрымліваць лічбы</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>Пароль павінен утрымліваць літары ў ніжнім рэгістры</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Пароль павінен утрымліваць спецыяльныя сімвалы</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>Пароль павінен утрымліваць літары ў верхнім рэгістры</value>
+    </data>
+    <data name="UserLockout" xml:space="preserve">
+        <value>Вы былі заблакаваныя з-за вялікай колькасці няўдалых спробаў ўваходу. Паспрабуйце ўвайсці пазней</value>
+    </data>
+    <data name="UserNotFound" xml:space="preserve">
+        <value>Карыстальнік не знойдзены</value>
+    </data>
+</root>

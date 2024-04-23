@@ -1,0 +1,92 @@
+@model Overoom.WEB.Contracts.PlaylistManagement.Load.LoadParameters
+
+@{
+    ViewData["Title"] = "Создание подборки";
+    var filmCount = Model.Films.Count;
+}
+
+<div class="row">
+    <div class="col-12 mb-5">
+        <h3>Создание подборки</h3>
+    </div>
+    <div class="col-lg-4 order-lg-2">
+        <div class="block sticky-lg-top">
+            <form asp-controller="Films" asp-action="FilmsList" method="get" id="playlist-films-search-form">
+                <input type="text" name="Title" id="playlist-films-search" class="form-control" placeholder="Название">
+            </form>
+            <div class="playlist-films-search-block"></div>
+        </div>
+    </div>
+    <div class="col-lg-8 order-lg-1">
+        <form asp-action="Load" method="post" id="load" class="form-horizontal" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <div class="row block">
+                    <h4>Информация</h4>
+                    <div class="col-12">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control"/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="Description"></label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <label asp-for="PosterUri"></label>
+                        <input asp-for="PosterUri" class="form-control"/>
+                        <span asp-validation-for="PosterUri" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <label asp-for="Poster"></label>
+                        <input asp-for="Poster" class="form-control" accept="image/jpeg,image/png"/>
+                        <span asp-validation-for="Poster" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="block">
+                    <h4>Контент</h4>
+                    <div class="block-2">
+                        <label class="my-2" asp-for="Films"></label>
+                        <div class="row g-2" id="films" counter="@(filmCount - 1)">
+                            @for (var i = 0; i < filmCount; i++)
+                            {
+                                <div class="col-12">
+                                    <div class="playlist-film-element">
+                                        <img src="/@Model.Films[i].Uri" alt="">
+                                        <div class="playlist-film-text">
+                                            <div>@Model.Films[i].Name</div>
+                                            <div class="playlist-film-description">@Model.Films[i].Description</div>
+                                        </div>
+                                        <a class="playlist-film-delete" href="#">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                    <input type="hidden" asp-for="Films[i].Id"/>
+                                    <input type="hidden" asp-for="Films[i].Name"/>
+                                    <input type="hidden" asp-for="Films[i].Description"/>
+                                    <input type="hidden" asp-for="Films[i].Uri"/>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <input class="btn shadow-none btn-dark" type="submit" value="Создать подборку"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts {
+     <script src="~/js/playlistManagementFilmsSearch.js"></script>
+}
+
+@section styles
+{
+    <link rel="stylesheet" href="~/css/load.css"/>
+}

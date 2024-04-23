@@ -1,0 +1,77 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailAlreadyTaken" xml:space="preserve">
+        <value>Pošta se už používá</value>
+    </data>
+    <data name="EmailChanged" xml:space="preserve">
+        <value>Pošta upravena</value>
+    </data>
+    <data name="EmailChangeRequested" xml:space="preserve">
+        <value>Žádost vám byla zaslána na starou poštu</value>
+    </data>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>Formát pošty není korektní</value>
+    </data>
+    <data name="EmailNotConfirmed" xml:space="preserve">
+        <value>Chcete-li tuto akci provést, potvrďte svůj e-mail</value>
+    </data>
+    <data name="OldPasswordMatchNew" xml:space="preserve">
+        <value>Nové heslo se nemůže shodovat se starým</value>
+    </data>
+    <data name="OldPasswordNeeded" xml:space="preserve">
+        <value>Pro jeho změnu je nutné zadat staré heslo</value>
+    </data>
+    <data name="PasswordChanged" xml:space="preserve">
+        <value>Heslo úspěšně změněno</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>Nesprávná délka hesla</value>
+    </data>
+    <data name="PasswordMismatch" xml:space="preserve">
+        <value>Staré heslo je uvedeno nesprávně</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>Heslo musí obsahovat čísla</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>Heslo musí obsahovat malá písmena</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Heslo musí obsahovat speciální znaky</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>Heslo musí obsahovat velká písmena</value>
+    </data>
+    <data name="ProviderLinked" xml:space="preserve">
+        <value>Poskytovatel je vázán</value>
+    </data>
+    <data name="ProviderUnlinked" xml:space="preserve">
+        <value>Poskytovatel je odkázán</value>
+    </data>
+    <data name="SessionsClosed" xml:space="preserve">
+        <value>Další zasedání jsou úspěšně ukončena</value>
+    </data>
+    <data name="AvatarChanged" xml:space="preserve">
+        <value>Profilové foto upraveno</value>
+    </data>
+    <data name="UserNameChanged" xml:space="preserve">
+        <value>Uživatelské jméno změněno</value>
+    </data>
+    <data name="UserNameLengthInvalid" xml:space="preserve">
+        <value>Nesprávná délka uživatelského jména</value>
+    </data>
+    <data name="WrongFileSize" xml:space="preserve">
+        <value>Velikost souboru nesmí překročit 15 MB</value>
+    </data>
+</root>

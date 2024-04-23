@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PJMS - @ViewData["Title"]</title>
+    <link href="~/img/snowman2.ico"
+          rel="icon"
+          type="image/x-icon"/>
+    <link href="~/bundles/app.bundle.css"
+          rel="stylesheet"/>
+</head>
+<body data-bs-theme="light">
+
+<partial name="_Culture"/>
+<partial name="_Theme"/>
+<partial name="_ValidationSummary"/>
+<div class="card main-card px-md-5 p-3 my-5">
+    <div class="card-body">
+        @RenderBody()
+    </div>
+</div>
+
+
+<script src="~/bundles/app.bundle.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="AccessToService" xml:space="preserve">
+        <value>Accesul la serviciu</value>
+    </data>
+    <data name="email" xml:space="preserve">
+        <value>E-mailul dvs</value>
+    </data>
+    <data name="offline" xml:space="preserve">
+        <value>Acces nelimitat</value>
+    </data>
+    <data name="offlineDescription" xml:space="preserve">
+        <value>Serviciul va avea acces la datele dvs. în orice moment</value>
+    </data>
+    <data name="openid" xml:space="preserve">
+        <value>ID-ul tău</value>
+    </data>
+    <data name="profile" xml:space="preserve">
+        <value>Datele Profilului</value>
+    </data>
+    <data name="profileDescription" xml:space="preserve">
+        <value>Informații despre profilul dvs. de utilizator (prenume, prenume etc.)</value>
+    </data>
+    <data name="roles" xml:space="preserve">
+        <value>Rolurile tale</value>
+    </data>
+    <data name="rolesDescription" xml:space="preserve">
+        <value>Accesul la drepturile care vă sunt acordate</value>
+    </data>
+</root>

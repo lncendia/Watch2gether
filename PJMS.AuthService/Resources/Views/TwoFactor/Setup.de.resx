@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="UniqueCode" xml:space="preserve">
+        <value>3. Nachdem Sie den QR-Code gescannt oder den obigen Schlüssel eingegeben haben, gibt Ihnen Ihre Zwei-Faktor-Authentifizierungsanwendung einen eindeutigen Code. Geben Sie diesen Code in das unten stehende Bestätigungsfeld ein.</value>
+    </data>
+    <data name="And" xml:space="preserve">
+        <value>und</value>
+    </data>
+    <data name="DownloadGoogle" xml:space="preserve">
+        <value>oder Google Authenticator für</value>
+    </data>
+    <data name="DownloadMicrosoft" xml:space="preserve">
+        <value>1. Laden Sie eine Zwei-Faktor-Authentifizierungsanwendung wie Microsoft Authenticator herunter, um</value>
+    </data>
+    <data name="QrCodeInvalid" xml:space="preserve">
+        <value>Wenn der QR-Code nicht funktioniert, versuchen Sie, die Bildschirmhelligkeit zu erhöhen.</value>
+    </data>
+    <data name="ScanQrOrEnterKey" xml:space="preserve">
+        <value>2. Scannen Sie den QR-Code oder geben Sie den folgenden Schlüssel für die Zwei-Faktor-Authentifizierung in Ihre App ein. Groß- und Kleinschreibung und Leerzeichen spielen keine Rolle.</value>
+    </data>
+    <data name="SetupTwoFactorTitle" xml:space="preserve">
+        <value>Zwei-Faktor-Authentifizierung</value>
+    </data>
+    <data name="SetUp" xml:space="preserve">
+        <value>Einschalten</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Zurückkehren</value>
+    </data>
+</root>

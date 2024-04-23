@@ -1,0 +1,27 @@
+.card {
+    border-radius: 10px !important;
+    --bs-card-cap-bg: rgba(var(--bs-body-bg-rgb), 0.7) !important;
+    --bs-card-bg: rgba(var(--bs-body-bg-rgb), 0.6) !important;
+    --bs-card-cap-color: rgba(var(--bs-body-color-rgb), 0.6) !important;
+    box-shadow: 2px 2px 3px var(--bs-red);
+}
+
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.remove {
+    margin-left: auto;
+    margin-top: 5px;
+    display: block;
+    color: rgba(var(--bs-body-color-rgb), 0.6);
+}
+
+.remove:hover {
+    cursor: pointer;
+    color: var(--bs-body-color);
+}

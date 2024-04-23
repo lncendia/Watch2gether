@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="And" xml:space="preserve">
+        <value>și</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Pentru a reveni</value>
+    </data>
+    <data name="DownloadGoogle" xml:space="preserve">
+        <value>sau Google Authenticator pentru</value>
+    </data>
+    <data name="DownloadMicrosoft" xml:space="preserve">
+        <value>1. Descărcați o aplicație de autentificare cu doi factori, cum ar fi Microsoft Authenticator pentru</value>
+    </data>
+    <data name="QrCodeInvalid" xml:space="preserve">
+        <value>Dacă codul QR nu funcționează, încercați să măriți luminozitatea ecranului.</value>
+    </data>
+    <data name="ScanQrOrEnterKey" xml:space="preserve">
+        <value>2. Scanați codul QR sau introduceți următoarea cheie în aplicația dvs. de autentificare cu doi factori. Cazul și spațiile nu contează.</value>
+    </data>
+    <data name="SetUp" xml:space="preserve">
+        <value>Porniți</value>
+    </data>
+    <data name="SetupTwoFactorTitle" xml:space="preserve">
+        <value>Autentificare cu doi factori</value>
+    </data>
+    <data name="UniqueCode" xml:space="preserve">
+        <value>3. După ce ați scanat codul QR sau ați introdus cheia de mai sus, aplicația dvs. de autentificare cu doi factori vă va oferi un cod unic. Introduceți acest cod în câmpul de confirmare de mai jos.</value>
+    </data>
+</root>

@@ -1,0 +1,59 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DefaultException" xml:space="preserve">
+        <value>Wystąpił błąd podczas przetwarzania żądania.</value>
+    </data>
+    <data name="EmailAlreadyTakenException" xml:space="preserve">
+        <value>Poczta jest już używana</value>
+    </data>
+    <data name="EmailFormatException" xml:space="preserve">
+        <value>Format poczty nie jest poprawny</value>
+    </data>
+    <data name="EmailSendException" xml:space="preserve">
+        <value>Nie można wysłać wiadomości na pocztę.</value>
+    </data>
+    <data name="IdentityContextException" xml:space="preserve">
+        <value>Akcja nie jest dostępna poza kontekstem. Wróć do głównej aplikacji i spróbuj ponownie.</value>
+    </data>
+    <data name="InvalidCodeException" xml:space="preserve">
+        <value>Link wygasł</value>
+    </data>
+    <data name="LoginAlreadyAssociatedException" xml:space="preserve">
+        <value>Login jest już powiązany z innym użytkownikiem</value>
+    </data>
+    <data name="LoginNotFoundException" xml:space="preserve">
+        <value>Nie znaleziono loginu</value>
+    </data>
+    <data name="OldPasswordNeededException" xml:space="preserve">
+        <value>Nie podano starego hasła</value>
+    </data>
+    <data name="QueryParameterMissingException" xml:space="preserve">
+        <value>Brak parametru ciągu zapytania</value>
+    </data>
+    <data name="UserLockoutException" xml:space="preserve">
+        <value>Zostałeś zablokowany z powodu dużej liczby nieudanych prób logowania. Spróbuj zalogować się później</value>
+    </data>
+    <data name="UserNotFoundException" xml:space="preserve">
+        <value>Nie znaleziono użytkownika</value>
+    </data>
+    <data name="TwoFactorAlreadyEnabledException" xml:space="preserve">
+        <value>Uwierzytelnianie dwuskładnikowe jest już połączone</value>
+    </data>
+    <data name="UserNameLengthException" xml:space="preserve">
+        <value>Nieprawidłowa długość nazwy użytkownika</value>
+    </data>
+    <data name="ThumbnailSaveException" xml:space="preserve">
+        <value>Błąd podczas zapisywania zdjęcia profilowego</value>
+    </data>
+</root>

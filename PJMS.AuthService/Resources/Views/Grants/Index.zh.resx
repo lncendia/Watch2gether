@@ -1,0 +1,41 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ApiGrants" xml:space="preserve">
+        <value>API权限</value>
+    </data>
+    <data name="Created" xml:space="preserve">
+        <value>创建</value>
+    </data>
+    <data name="Description" xml:space="preserve">
+        <value>资料描述</value>
+    </data>
+    <data name="Expires" xml:space="preserve">
+        <value>过期</value>
+    </data>
+    <data name="GrantsEmpty" xml:space="preserve">
+        <value>您尚未授予任何应用程序的访问权限</value>
+    </data>
+    <data name="IdentityGrants" xml:space="preserve">
+        <value>识别权限</value>
+    </data>
+    <data name="RemoveAccess" xml:space="preserve">
+        <value>撤销许可</value>
+    </data>
+    <data name="GrantsTitle" xml:space="preserve">
+        <value>您的权限</value>
+    </data>
+    <data name="Return" xml:space="preserve">
+        <value>返回</value>
+    </data>
+</root>

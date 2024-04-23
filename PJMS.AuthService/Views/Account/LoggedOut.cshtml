@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model PJMS.AuthService.Web.Account.ViewModels.LoggedOutViewModel
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["LoggedOutTitle"];
+}
+
+<h5 class="card-title">@Localizer["LoggedOutTitle"]</h5>
+
+<div class="container-btn mt-5">
+    <div class="wrap-btn on-load">
+        <div class="bg-btn"></div>
+        <a class="m-btn" class="postLogoutRedirectUri" href="@Model.PostLogoutRedirectUri">
+            @Localizer["Redirect"]
+        </a>
+    </div>
+</div>
+<iframe width="0" height="0" class="signout" src="@Model.SignOutIframeUrl"></iframe>

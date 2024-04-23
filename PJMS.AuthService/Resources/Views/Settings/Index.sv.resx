@@ -1,0 +1,50 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailChange" xml:space="preserve">
+        <value>Ändra e-post</value>
+    </data>
+    <data name="ExternalProviders" xml:space="preserve">
+        <value>Länkade Konton</value>
+    </data>
+    <data name="PasswordChange" xml:space="preserve">
+        <value>Ändra lösenord</value>
+    </data>
+    <data name="Return" xml:space="preserve">
+        <value>Återvända</value>
+    </data>
+    <data name="SettingsTitle" xml:space="preserve">
+        <value>Inställning</value>
+    </data>
+    <data name="TerminateSessions" xml:space="preserve">
+        <value>Avsluta sessioner</value>
+    </data>
+    <data name="WarningInfo" xml:space="preserve">
+        <value>Ändra data kommer att avsluta de återstående sessionerna!</value>
+    </data>
+    <data name="Disconnect" xml:space="preserve">
+        <value>Koppla</value>
+    </data>
+    <data name="Connect" xml:space="preserve">
+        <value>Plug</value>
+    </data>
+    <data name="TwoFactor" xml:space="preserve">
+        <value>Tvåfaktorsautentisering</value>
+    </data>
+    <data name="AvatarChange" xml:space="preserve">
+        <value>Foto förändring</value>
+    </data>
+    <data name="NicknameChange" xml:space="preserve">
+        <value>Namnbyte</value>
+    </data>
+</root>

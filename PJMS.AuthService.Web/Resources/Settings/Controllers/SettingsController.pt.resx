@@ -1,0 +1,77 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailAlreadyTaken" xml:space="preserve">
+        <value>O correio já está em uso</value>
+    </data>
+    <data name="EmailChanged" xml:space="preserve">
+        <value>E-mail modificado</value>
+    </data>
+    <data name="EmailChangeRequested" xml:space="preserve">
+        <value>O pedido foi enviado para o seu e-mail antigo</value>
+    </data>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>O formato do E-mail não está correto</value>
+    </data>
+    <data name="EmailNotConfirmed" xml:space="preserve">
+        <value>Confirme o seu e-mail para concluir esta ação</value>
+    </data>
+    <data name="OldPasswordMatchNew" xml:space="preserve">
+        <value>A nova senha não pode coincidir com a antiga</value>
+    </data>
+    <data name="OldPasswordNeeded" xml:space="preserve">
+        <value>É necessário especificar uma senha antiga para alterá-la</value>
+    </data>
+    <data name="PasswordChanged" xml:space="preserve">
+        <value>Senha alterada com sucesso</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>Tamanho da senha inválido</value>
+    </data>
+    <data name="PasswordMismatch" xml:space="preserve">
+        <value>Senha antiga incorreta</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>A senha deve conter números</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>A senha deve conter letras minúsculas</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>A senha deve conter caracteres especiais</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>A senha deve conter letras maiúsculas</value>
+    </data>
+    <data name="ProviderLinked" xml:space="preserve">
+        <value>Provedor vinculado</value>
+    </data>
+    <data name="ProviderUnlinked" xml:space="preserve">
+        <value>Provedor desparafusado</value>
+    </data>
+    <data name="SessionsClosed" xml:space="preserve">
+        <value>Outras sessões concluídas com sucesso</value>
+    </data>
+    <data name="AvatarChanged" xml:space="preserve">
+        <value>Foto do perfil modificada</value>
+    </data>
+    <data name="UserNameChanged" xml:space="preserve">
+        <value>Nome de usuário alterado</value>
+    </data>
+    <data name="UserNameLengthInvalid" xml:space="preserve">
+        <value>Tamanho do nome de utilizador inválido</value>
+    </data>
+    <data name="WrongFileSize" xml:space="preserve">
+        <value>O tamanho do arquivo não pode exceder 15 MB</value>
+    </data>
+</root>

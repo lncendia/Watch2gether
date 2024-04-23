@@ -1,0 +1,18 @@
+select {
+  text-indent: 5px;
+}
+
+@media (max-width: 840px) {
+  .form-control {
+    font-size: 18px;
+  }
+}
+
+.form-culture {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  width: 150px;
+}
+
+

@@ -1,0 +1,77 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="EmailAlreadyTaken" xml:space="preserve">
+        <value>Poșta este deja în uz</value>
+    </data>
+    <data name="EmailChanged" xml:space="preserve">
+        <value>E-mailul a fost schimbat</value>
+    </data>
+    <data name="EmailChangeRequested" xml:space="preserve">
+        <value>Solicitarea a fost trimisă la vechea dvs. adresă de e-mail</value>
+    </data>
+    <data name="EmailFormatInvalid" xml:space="preserve">
+        <value>Formatul de e-mail nu este corect</value>
+    </data>
+    <data name="EmailNotConfirmed" xml:space="preserve">
+        <value>Pentru a efectua această acțiune, confirmați E-mailul</value>
+    </data>
+    <data name="OldPasswordMatchNew" xml:space="preserve">
+        <value>Noua parolă nu se poate potrivi cu cea veche</value>
+    </data>
+    <data name="OldPasswordNeeded" xml:space="preserve">
+        <value>Trebuie să specificați parola veche pentru ao schimba</value>
+    </data>
+    <data name="PasswordChanged" xml:space="preserve">
+        <value>Parola a fost modificată cu succes</value>
+    </data>
+    <data name="PasswordLengthInvalid" xml:space="preserve">
+        <value>Lungimea incorectă a parolei</value>
+    </data>
+    <data name="PasswordMismatch" xml:space="preserve">
+        <value>Parola veche este incorectă</value>
+    </data>
+    <data name="PasswordRequiresDigit" xml:space="preserve">
+        <value>Parola trebuie să conțină numere</value>
+    </data>
+    <data name="PasswordRequiresLower" xml:space="preserve">
+        <value>Parola trebuie să conțină litere mici</value>
+    </data>
+    <data name="PasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Parola trebuie să conțină caractere speciale</value>
+    </data>
+    <data name="PasswordRequiresUpper" xml:space="preserve">
+        <value>Parola trebuie să conțină litere mari</value>
+    </data>
+    <data name="ProviderLinked" xml:space="preserve">
+        <value>Furnizorul este conectat</value>
+    </data>
+    <data name="ProviderUnlinked" xml:space="preserve">
+        <value>Furnizorul este deconectat</value>
+    </data>
+    <data name="SessionsClosed" xml:space="preserve">
+        <value>Alte sesiuni au fost finalizate cu succes</value>
+    </data>
+    <data name="AvatarChanged" xml:space="preserve">
+        <value>Fotografia de profil a fost modificată</value>
+    </data>
+    <data name="UserNameChanged" xml:space="preserve">
+        <value>Numele utilizatorului a fost schimbat</value>
+    </data>
+    <data name="UserNameLengthInvalid" xml:space="preserve">
+        <value>Lungimea nevalidă a numelui de utilizator</value>
+    </data>
+    <data name="WrongFileSize" xml:space="preserve">
+        <value>Dimensiunea fișierului nu poate depăși 15 MB</value>
+    </data>
+</root>
