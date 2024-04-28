@@ -56,7 +56,7 @@ public class AccountController : Controller
     /// <summary>
     /// Медиатор
     /// </summary>
-    private readonly IMediator _mediator;
+    private readonly ISender _mediator;
 
     /// <summary>
     /// Конструктор контроллера для прохождения аутентификации.
@@ -69,7 +69,7 @@ public class AccountController : Controller
     /// аутентификации.</param>
     /// <param name="events">Интерфейс службы событий</param>
     /// <param name="localizer">Локализатор</param>
-    public AccountController(IMediator mediator, SignInManager<AppUser> signInManager,
+    public AccountController(ISender mediator, SignInManager<AppUser> signInManager,
         IIdentityServerInteractionService interaction,
         IAuthenticationSchemeProvider schemeProvider,
         IEventService events, IStringLocalizer<AccountController> localizer)

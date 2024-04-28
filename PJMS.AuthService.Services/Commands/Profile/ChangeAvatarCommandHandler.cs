@@ -37,9 +37,12 @@ public class ChangeAvatarCommandHandler(UserManager<AppUser> userManager, IThumb
 
         // Сохраняем старый аватар
         var oldThumbnail = user.Thumbnail;
+        
+        // Если до этого был установлен аватар удаляем его
+        if (oldThumbnail != null) await thumbnailStore.DeleteAsync(oldThumbnail);
 
         // Сохраняем новый аватар локально
-        var thumbnail = await thumbnailStore.SaveAsync(request.Thumbnail);
+        var thumbnail = await thumbnailStore.SaveAsync(request.Thumbnail, user.Id);
 
         // Устанавливаем пользователю новый аватар
         user.Thumbnail = thumbnail;
@@ -53,9 +56,6 @@ public class ChangeAvatarCommandHandler(UserManager<AppUser> userManager, IThumb
             // Заменяем утверждение об аватаре
             await userManager.ReplaceClaimAsync(user, new Claim(JwtClaimTypes.Picture, oldThumbnail.ToString()),
                 new Claim(JwtClaimTypes.Picture, user.Thumbnail.ToString()));
-
-            // Удаляем старый аватар
-            await thumbnailStore.DeleteAsync(oldThumbnail);
         }
         else
         {

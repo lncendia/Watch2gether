@@ -1,6 +1,7 @@
+using Films.Application.Abstractions.DTOs.Common;
 using Films.Application.Abstractions.DTOs.Films;
 using Films.Application.Abstractions.Queries.Films;
-using Films.Application.Services.Common;
+using Films.Application.Services.Extensions;
 using Films.Application.Services.Mappers.Films;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Films;
@@ -16,10 +17,9 @@ using MediatR;
 
 namespace Films.Application.Services.QueryHandlers.Films;
 
-public class FindFilmsQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<FindFilmsQuery, (IReadOnlyCollection<FilmShortDto> films, int count)>
+public class FindFilmsQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<FindFilmsQuery, ListDto<FilmShortDto>>
 {
-    public async Task<(IReadOnlyCollection<FilmShortDto> films, int count)> Handle(FindFilmsQuery request,
+    public async Task<ListDto<FilmShortDto>> Handle(FindFilmsQuery request,
         CancellationToken cancellationToken)
     {
         ISpecification<Film, IFilmSpecificationVisitor>? specification = null;
@@ -60,12 +60,14 @@ public class FindFilmsQueryHandler(IUnitOfWork unitOfWork)
         // Получаем список фильмов из репозитория с применением спецификаций, сортировки и ограничением на количество 
         var films = await unitOfWork.FilmRepository.Value.FindAsync(specification, orderBy, request.Skip, request.Take);
 
-        if (films.Count == 0) return ([], 0);
-
-        var count = await unitOfWork.FilmRepository.Value.CountAsync(specification);
+        if (films.Count == 0) return new ListDto<FilmShortDto> { List = [], TotalCount = 0 };
 
         // Преобразуем фильмы в список DTO фильмов 
-        return (films.Select(Mapper.Map).ToArray(), count);
+        return new ListDto<FilmShortDto>
+        {
+            List = films.Select(Mapper.Map).ToArray(),
+            TotalCount = await unitOfWork.FilmRepository.Value.CountAsync(specification)
+        };
     }
 
     private static ISpecification<Film, IFilmSpecificationVisitor> FilmByPerson(string person)

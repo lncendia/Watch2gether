@@ -11,9 +11,9 @@ internal class PlaylistModelMapper(ApplicationDbContext context) : IModelMapperU
 {
     public async Task<PlaylistModel> MapAsync(Playlist aggregate)
     {
-        var model = context.Playlists
+        var model = await context.Playlists
             .LoadDependencies()
-            .FirstOrDefault(x => x.Id == aggregate.Id) ?? new PlaylistModel { Id = aggregate.Id };
+            .FirstOrDefaultAsync(x => x.Id == aggregate.Id) ?? new PlaylistModel { Id = aggregate.Id };
 
         model.Name = aggregate.Name;
         model.Description = aggregate.Description;

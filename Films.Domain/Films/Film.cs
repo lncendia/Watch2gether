@@ -12,6 +12,11 @@ namespace Films.Domain.Films;
 /// </summary>
 public class Film : AggregateRoot
 {
+    private const int MaxTitleLength = 200;
+    private const int MaxDescriptionLength = 1500;
+    private const int MaxShortDescriptionLength = 500;
+
+
     /// <summary>
     /// Инициализирует новый экземпляр класса <see cref="Film"/>.
     /// </summary>
@@ -55,11 +60,7 @@ public class Film : AggregateRoot
     public required string Title
     {
         get => _title;
-        init
-        {
-            if (string.IsNullOrEmpty(value) || value.Length > 200) throw new FilmTitleLengthException();
-            _title = value.GetUpper();
-        }
+        init => _title = value.ValidateLength(MaxTitleLength).GetUpper();
     }
 
     /// <summary> 
@@ -68,11 +69,7 @@ public class Film : AggregateRoot
     public required string Description
     {
         get => _description;
-        set
-        {
-            if (string.IsNullOrEmpty(value) || value.Length > 1500) throw new FilmDescriptionLengthException();
-            _description = value.GetUpper();
-        }
+        set => _description = value.ValidateLength(MaxDescriptionLength).GetUpper();
     }
 
     /// <summary> 
@@ -86,11 +83,7 @@ public class Film : AggregateRoot
             if (_description.Length < 100) return _description;
             return _description[..100] + "...";
         }
-        set
-        {
-            if (value == string.Empty || value.Length > 500) throw new FilmShortDescriptionLengthException();
-            _shortDescription = value.GetUpper();
-        }
+        set => _shortDescription = value.ValidateLength(MaxShortDescriptionLength).GetUpper();
     }
 
     /// <summary> 

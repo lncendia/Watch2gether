@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using System.Net;
 using Films.Application.Abstractions.Exceptions;
+using Films.Domain.Rooms.BaseRoom.Exceptions;
+using Films.Domain.Rooms.FilmRooms.Exceptions;
 
 namespace Films.Start.Middlewares;
 
@@ -50,6 +52,22 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
                 case UriFormatException:
                     message = "Неверный формат ссылки";
                     break;
+                case InvalidCodeException:
+                    message = "Код неверный";
+                    break;
+                case NoSuitableServerException:
+                    message = "Нет подходящего сервера";
+                    break;
+                case RoomIsFullException:
+                    message = "Комната заполнена";
+                    break;
+                case UserBannedInRoomException:
+                    message = "Вы были забанены в этой комнате";
+                    break;
+                case CdnNotFoundException:
+                    message = "Указанный CDN не найден";
+                    break;
+                
                 default: // Действие по умолчанию
 
                     // Устанавливаем статус код 500

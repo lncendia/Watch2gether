@@ -46,6 +46,7 @@ public class FilmRoomCreatedEventHandler(
         };
 
         await client.GetResponse<FilmRoomAcceptedIntegrationEvent>(integrationEvent, context =>
-            context.UseExecute(c => c.SetRoutingKey(notification.Room.ServerId.ToString())), cancellationToken);
+            context.UseExecute(c => 
+                c.SetRoutingKey(notification.Room.ServerId.ToString())), cancellationToken);
     }
 }

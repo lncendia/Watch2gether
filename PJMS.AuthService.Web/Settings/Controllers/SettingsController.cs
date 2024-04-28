@@ -29,7 +29,7 @@ public class SettingsController : Controller
     /// <summary>
     /// Медиатор
     /// </summary>
-    private readonly IMediator _mediator;
+    private readonly ISender _mediator;
 
     /// <summary>
     /// Отвечает за управление поддерживаемыми схемами аутентификации.
@@ -54,7 +54,7 @@ public class SettingsController : Controller
     ///     аутентификации.</param>
     /// <param name="signInManager">Предоставляет API для входа пользователя.</param>
     /// <param name="localizer">Локализатор</param>
-    public SettingsController(IMediator mediator, IAuthenticationSchemeProvider schemeProvider,
+    public SettingsController(ISender mediator, IAuthenticationSchemeProvider schemeProvider,
         SignInManager<AppUser> signInManager, IStringLocalizer<SettingsController> localizer)
     {
         _mediator = mediator;

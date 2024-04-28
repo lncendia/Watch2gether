@@ -9,7 +9,7 @@ namespace Films.Infrastructure.Bus.YoutubeRooms;
 /// Обработчик интеграционного события YoutubeRoomCreatedIntegrationEvent
 /// </summary>
 /// <param name="mediator">Медиатор</param>
-public class YoutubeRoomViewerKickedConsumer(IMediator mediator) : IConsumer<YoutubeRoomViewerKickedIntegrationEvent>
+public class YoutubeRoomViewerKickedConsumer(ISender mediator) : IConsumer<YoutubeRoomViewerKickedIntegrationEvent>
 {
     /// <summary>
     /// Метод обработчик 

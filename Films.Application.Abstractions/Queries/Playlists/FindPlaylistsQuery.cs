@@ -1,9 +1,10 @@
+using Films.Application.Abstractions.DTOs.Common;
 using Films.Application.Abstractions.DTOs.Playlists;
 using MediatR;
 
 namespace Films.Application.Abstractions.Queries.Playlists;
 
-public class FindPlaylistsQuery : IRequest<(IReadOnlyCollection<PlaylistDto> playlists, int count)>
+public class FindPlaylistsQuery : IRequest<ListDto<PlaylistDto>>
 {
     public string? Query { get; init; }
     public string? Genre { get; init; }

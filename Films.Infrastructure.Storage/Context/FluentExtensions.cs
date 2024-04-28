@@ -4,6 +4,7 @@ using Films.Infrastructure.Storage.Models.Films;
 using Films.Infrastructure.Storage.Models.Playlists;
 using Films.Infrastructure.Storage.Models.Ratings;
 using Films.Infrastructure.Storage.Models.Rooms;
+using Films.Infrastructure.Storage.Models.Servers;
 using Films.Infrastructure.Storage.Models.Users;
 using Films.Infrastructure.Storage.Models.YoutubeRoom;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +52,7 @@ public static class FluentExtensions
 
         modelBuilder.Entity<FilmModel>()
             .HasMany(x => x.Playlists)
-            .WithOne(p => p.Film)
+            .WithOne()
             .HasForeignKey(x => x.FilmId)
             .OnDelete(DeleteBehavior.Cascade);
     }
@@ -90,7 +91,7 @@ public static class FluentExtensions
     {
         modelBuilder.Entity<PlaylistModel>()
             .HasMany(x => x.Films)
-            .WithOne(x => x.Playlist)
+            .WithOne()
             .HasForeignKey(p => p.PlaylistId)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -103,13 +104,13 @@ public static class FluentExtensions
     public static void ConfigureRatings(this ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<RatingModel>()
-            .HasOne(x => x.User)
+            .HasOne<UserModel>()
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.SetNull);
 
         modelBuilder.Entity<RatingModel>()
-            .HasOne(x => x.Film)
+            .HasOne<FilmModel>()
             .WithMany()
             .HasForeignKey(x => x.FilmId)
             .OnDelete(DeleteBehavior.Cascade);
@@ -118,13 +119,13 @@ public static class FluentExtensions
     public static void ConfigureComments(this ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CommentModel>()
-            .HasOne(x => x.User)
+            .HasOne<UserModel>()
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.SetNull);
 
         modelBuilder.Entity<CommentModel>()
-            .HasOne(x => x.Film)
+            .HasOne<FilmModel>()
             .WithMany()
             .HasForeignKey(x => x.FilmId)
             .OnDelete(DeleteBehavior.Cascade);
@@ -133,13 +134,13 @@ public static class FluentExtensions
     public static void ConfigureFilmRooms(this ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<FilmRoomModel>()
-            .HasOne(x => x.Film)
+            .HasOne<FilmModel>()
             .WithMany()
             .HasForeignKey(x => x.FilmId)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<FilmRoomModel>()
-            .HasOne(x => x.Server)
+            .HasOne<ServerModel>()
             .WithMany()
             .HasForeignKey(x => x.ServerId)
             .OnDelete(DeleteBehavior.Cascade);
@@ -157,13 +158,13 @@ public static class FluentExtensions
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<ViewerModel<FilmRoomModel>>()
-            .HasOne(x => x.User)
+            .HasOne<UserModel>()
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<BannedModel<FilmRoomModel>>()
-            .HasOne(x => x.User)
+            .HasOne<UserModel>()
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
@@ -184,19 +185,19 @@ public static class FluentExtensions
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<YoutubeRoomModel>()
-            .HasOne(x => x.Server)
+            .HasOne<ServerModel>()
             .WithMany()
             .HasForeignKey(x => x.ServerId)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<ViewerModel<YoutubeRoomModel>>()
-            .HasOne(x => x.User)
+            .HasOne<UserModel>()
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<BannedModel<YoutubeRoomModel>>()
-            .HasOne(x => x.User)
+            .HasOne<UserModel>()
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);

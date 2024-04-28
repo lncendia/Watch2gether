@@ -17,7 +17,10 @@ namespace PJMS.AuthService.Services.Commands.Create;
 /// Обработчик команды создания пользователя с внешней учетной записью.
 /// </summary>
 /// <param name="userManager">Менеджер пользователей, предоставленный ASP.NET Core Identity.</param>
-public class CreateUserExternalCommandHandler(UserManager<AppUser> userManager, IThumbnailStore thumbnailStore, IPublishEndpoint publishEndpoint)
+public class CreateUserExternalCommandHandler(
+    UserManager<AppUser> userManager,
+    IThumbnailStore thumbnailStore,
+    IPublishEndpoint publishEndpoint)
     : IRequestHandler<CreateUserExternalCommand, AppUser>
 {
     private const string ThumbnailClaimType = "photo:link";
@@ -46,26 +49,6 @@ public class CreateUserExternalCommandHandler(UserManager<AppUser> userManager, 
         // Пытаемся получить имя пользователя из утверждений, если нет - сплитим почту
         var username = request.LoginInfo.Principal.FindFirstValue(ClaimTypes.Name) ?? email.Split('@')[0];
 
-        // Пытаемся получить ссылку на аватар из утверждений
-        var thumbnailClaim = request.LoginInfo.Principal.FindFirstValue(ThumbnailClaimType);
-
-        // Переменная с ссылкой на аватар
-        Uri? thumbnail = null;
-
-        // Если аватар есть в утверждениях, то сохраняем его локально
-        if (thumbnailClaim != null)
-        {
-            try
-            {
-                // Переменная thumbnail будет содержать результат сохранения миниатюры 
-                thumbnail = await thumbnailStore.SaveAsync(new Uri(thumbnailClaim));
-            }
-            catch (ThumbnailSaveException)
-            {
-                // Если возникла ошибка ThumbnailSaveException, игнорируем ее и продолжаем выполнение
-            }
-        }
-
         // Создаем пользователя
         var user = new AppUser
         {
@@ -83,9 +66,6 @@ public class CreateUserExternalCommandHandler(UserManager<AppUser> userManager, 
 
             // Задаем локаль пользователя
             Locale = request.Locale,
-
-            // Задаем фотографию профиля
-            Thumbnail = thumbnail,
 
             // Устанавливаем подтверждение электронной почты пользователя в значение true
             EmailConfirmed = true
@@ -110,16 +90,29 @@ public class CreateUserExternalCommandHandler(UserManager<AppUser> userManager, 
         // Так же добавляем локализацию в утверждения пользователя
         await userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.Locale, user.Locale.GetLocalizationString()));
 
-        // Если удалось получить фото профиля из внешнего idp
-        if (user.Thumbnail != null)
+        // Пытаемся получить ссылку на аватар из утверждений
+        var thumbnailClaim = request.LoginInfo.Principal.FindFirstValue(ThumbnailClaimType);
+
+        // Если аватар есть в утверждениях, то сохраняем его локально
+        if (thumbnailClaim != null)
         {
-            // Так же добавляем фото профиля в утверждения пользователя
-            await userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.Picture, user.Thumbnail.ToString()));
+            try
+            {
+                // Переменная thumbnail будет содержать результат сохранения миниатюры 
+                user.Thumbnail = await thumbnailStore.SaveAsync(new Uri(thumbnailClaim), user.Id);
+                
+                // Так же добавляем фото профиля в утверждения пользователя
+                await userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.Picture, user.Thumbnail.ToString()));
+            }
+            catch (ThumbnailSaveException)
+            {
+                // Если возникла ошибка ThumbnailSaveException, игнорируем ее и продолжаем выполнение
+            }
         }
 
         // Связываем пользователя с внешним провайдером
         await userManager.AddLoginAsync(user, request.LoginInfo);
-        
+
         // Публикуем событие
         await publishEndpoint.Publish(new UserCreatedIntegrationEvent
         {

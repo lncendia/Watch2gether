@@ -45,7 +45,7 @@ public class ExternalController : Controller
     /// <summary>
     /// Медиатор
     /// </summary>
-    private readonly IMediator _mediator;
+    private readonly ISender _mediator;
 
     /// <summary>
     /// Конструктор класса ExternalController.
@@ -54,7 +54,7 @@ public class ExternalController : Controller
     /// <param name="interaction">Сервис взаимодействия с Identity Server.</param>
     /// <param name="events">Сервис событий.</param>
     /// <param name="mediator">Медиатор</param>
-    public ExternalController(IMediator mediator, SignInManager<AppUser> signInManager,
+    public ExternalController(ISender mediator, SignInManager<AppUser> signInManager,
         IIdentityServerInteractionService interaction,
         IEventService events)
     {

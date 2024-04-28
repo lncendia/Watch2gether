@@ -1,9 +1,10 @@
+using Films.Application.Abstractions.DTOs.Common;
 using Films.Application.Abstractions.DTOs.Films;
 using MediatR;
 
 namespace Films.Application.Abstractions.Queries.Films;
 
-public class FindFilmsQuery : IRequest<(IReadOnlyCollection<FilmShortDto> films, int count)>
+public class FindFilmsQuery : IRequest<ListDto<FilmShortDto>>
 {
     public string? Query { get; init; }
     public string? Genre { get; init; }

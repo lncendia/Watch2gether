@@ -3,6 +3,7 @@ using Films.Application.Abstractions.Commands.Ratings;
 using Films.Application.Abstractions.DTOs.Profile;
 using Films.Application.Abstractions.Queries.Profile;
 using Films.Infrastructure.Web.Authentication;
+using Films.Infrastructure.Web.Common.ViewModels;
 using Films.Infrastructure.Web.Profile.InputModels;
 using Films.Infrastructure.Web.Profile.ViewModels;
 using MediatR;
@@ -14,7 +15,7 @@ namespace Films.Infrastructure.Web.Profile.Controllers;
 [Authorize]
 [ApiController]
 [Route("filmApi/[controller]/[action]")]
-public class ProfileController(IMediator mediator) : ControllerBase
+public class ProfileController(ISender mediator) : ControllerBase
 {
     [HttpGet]
     public async Task<ProfileViewModel> Profile()
@@ -28,7 +29,7 @@ public class ProfileController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
-    public async Task<RatingsViewModel> Ratings([FromQuery] GetRatingsInputModel model)
+    public async Task<ListViewModel<UserRatingViewModel>> Ratings([FromQuery] GetRatingsInputModel model)
     {
         var data = await mediator.Send(new UserRatingsQuery
         {
@@ -37,14 +38,14 @@ public class ProfileController(IMediator mediator) : ControllerBase
             Take = model.CountPerPage
         });
 
-        var countPages = data.count / model.CountPerPage;
+        var countPages = data.TotalCount / model.CountPerPage;
 
-        if (data.count % model.CountPerPage > 0) countPages++;
+        if (data.TotalCount % model.CountPerPage > 0) countPages++;
 
-        return new RatingsViewModel
+        return new ListViewModel<UserRatingViewModel>
         {
-            Ratings = data.ratings.Select(Map),
-            CountPages = countPages
+            List = data.List.Select(Map),
+            TotalPages = countPages
         };
     }
 

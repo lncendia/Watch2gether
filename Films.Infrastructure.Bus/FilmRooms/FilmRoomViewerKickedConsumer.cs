@@ -9,7 +9,7 @@ namespace Films.Infrastructure.Bus.FilmRooms;
 /// Обработчик интеграционного события FilmRoomCreatedIntegrationEvent
 /// </summary>
 /// <param name="mediator">Медиатор</param>
-public class FilmRoomViewerKickedConsumer(IMediator mediator) : IConsumer<FilmRoomViewerKickedIntegrationEvent>
+public class FilmRoomViewerKickedConsumer(ISender mediator) : IConsumer<FilmRoomViewerKickedIntegrationEvent>
 {
     /// <summary>
     /// Метод обработчик 

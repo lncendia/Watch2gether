@@ -1,4 +1,4 @@
-using Room.Domain.Rooms.FilmRooms.Exceptions;
+using Room.Domain.Extensions;
 
 namespace Room.Domain.Rooms.FilmRooms.ValueObjects;
 
@@ -15,11 +15,7 @@ public class Cdn
     public required string Name
     {
         get => _name;
-        init
-        {
-            if (string.IsNullOrEmpty(value) || value.Length > 30) throw new CdnNameLengthException();
-            _name = value;
-        }
+        init => _name = value.ValidateLength(30);
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
 using Films.Domain.Extensions;
-using Films.Domain.Films.Exceptions;
 
 namespace Films.Domain.Films.ValueObjects;
 
@@ -8,6 +7,8 @@ namespace Films.Domain.Films.ValueObjects;
 /// </summary>
 public class Cdn
 {
+    private const int MaxNameLength = 30;
+
     private readonly string _name = null!;
 
     /// <summary>
@@ -16,18 +17,14 @@ public class Cdn
     public required string Name
     {
         get => _name;
-        init
-        {
-            if (string.IsNullOrEmpty(value) || value.Length > 30) throw new CdnNameLengthException();
-            _name = value.GetUpper();
-        }
+        init => _name = value.ValidateLength(MaxNameLength);
     }
 
     /// <summary>
     /// URL-адрес сервиса доставки контента.
     /// </summary>
     public required Uri Url { get; init; }
-    
+
     /// <summary>
     /// Качество контента.
     /// </summary>

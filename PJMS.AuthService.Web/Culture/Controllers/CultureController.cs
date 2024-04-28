@@ -10,7 +10,7 @@ namespace PJMS.AuthService.Web.Culture.Controllers;
 /// <summary>
 /// Контроллер для изменения настроек культуры
 /// </summary>
-public class CultureController(IMediator mediator) : Controller
+public class CultureController(ISender mediator) : Controller
 {
     /// <summary>
     /// Метод устанавливает куки с запрошенной культурой

@@ -9,7 +9,7 @@ namespace Films.Infrastructure.Web.PlaylistManagement.Controllers;
 [ApiController]
 [Authorize("admin")]
 [Route("filmApi/[controller]")]
-public class PlaylistManagementController(IMediator mediator) : ControllerBase
+public class PlaylistManagementController(ISender mediator) : ControllerBase
 {
     [HttpPut]
     public async Task Create(CreatePlaylistInputModel model)

@@ -1,10 +1,12 @@
-﻿using Room.Domain.Rooms.Rooms.Exceptions;
+﻿using Room.Domain.Extensions;
 using Room.Domain.Rooms.Rooms.ValueObjects;
 
 namespace Room.Domain.Rooms.Rooms.Entities;
 
 public abstract class Viewer
 {
+    private const int MaxUsernameLength = 40;
+
     public required Guid Id { get; init; }
     public bool Online { get; internal set; }
     public bool FullScreen { get; internal set; }
@@ -20,10 +22,6 @@ public abstract class Viewer
     public required string Username
     {
         get => _name;
-        set
-        {
-            if (string.IsNullOrEmpty(value) || value.Length > 40) throw new InvalidUsernameLengthException();
-            _name = value;
-        }
+        set => _name = value.ValidateLength(MaxUsernameLength);
     }
 }

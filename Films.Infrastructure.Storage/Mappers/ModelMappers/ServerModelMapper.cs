@@ -10,10 +10,7 @@ internal class ServerModelMapper(ApplicationDbContext context) : IModelMapperUni
 {
     public async Task<ServerModel> MapAsync(Server aggregate)
     {
-        var model = await context.Servers.FirstOrDefaultAsync(x => x.Id == aggregate.Id) ?? new ServerModel
-        {
-            Id = aggregate.Id,
-        };
+        var model = await context.Servers.FirstOrDefaultAsync(x => x.Id == aggregate.Id) ?? new ServerModel { Id = aggregate.Id };
         model.RoomsCount = aggregate.RoomsCount;
         model.IsEnabled = aggregate.IsEnabled;
         model.Url = aggregate.Url;

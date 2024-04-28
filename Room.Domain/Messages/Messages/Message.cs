@@ -1,16 +1,19 @@
 using Room.Domain.Abstractions;
-using Room.Domain.Messages.Messages.Exceptions;
+using Room.Domain.Extensions;
 using Room.Domain.Rooms.Rooms.Entities;
 
 namespace Room.Domain.Messages.Messages;
 
 public abstract class Message : AggregateRoot
 {
+    private const int MaxTextLength = 1000;
+
     protected Message(IEnumerable<Viewer> viewers, Guid roomId, Guid userId, string text)
     {
-        var count = text.Count(t => t != ' ' && t != '\n');
-        if (count == 0 || text.Length > 1000) throw new MessageLengthException();
-        Text = text.Replace('\n', ' ');
+        Text = text
+            .Replace('\n', ' ')
+            .ValidateLength(MaxTextLength);
+        
         UserId = userId;
         RoomId = roomId;
     }

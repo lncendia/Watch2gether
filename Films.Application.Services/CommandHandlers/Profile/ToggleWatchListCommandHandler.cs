@@ -1,6 +1,6 @@
 using Films.Application.Abstractions.Commands.Profile;
 using Films.Application.Abstractions.Exceptions;
-using Films.Application.Services.Common;
+using Films.Application.Services.Extensions;
 using Films.Domain.Abstractions.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;

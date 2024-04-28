@@ -54,7 +54,7 @@ public class PlaylistRepository(
         ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification,
         IOrderBy<Playlist, IPlaylistSortingVisitor>? orderBy = null, int? skip = null, int? take = null)
     {
-        var query = context.Playlists.Include(x=>x.Films).AsQueryable();
+        var query = context.Playlists.LoadDependencies().AsQueryable();
         if (specification != null)
         {
             var visitor = new PlaylistVisitor();

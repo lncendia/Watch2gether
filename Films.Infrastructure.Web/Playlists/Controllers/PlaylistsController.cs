@@ -1,5 +1,6 @@
 ﻿using Films.Application.Abstractions.DTOs.Playlists;
 using Films.Application.Abstractions.Queries.Playlists;
+using Films.Infrastructure.Web.Common.ViewModels;
 using Films.Infrastructure.Web.Playlists.InputModels;
 using Films.Infrastructure.Web.Playlists.ViewModels;
 using MediatR;
@@ -9,10 +10,10 @@ namespace Films.Infrastructure.Web.Playlists.Controllers;
 
 [ApiController]
 [Route("filmApi/[controller]")]
-public class PlaylistsController(IMediator mediator) : ControllerBase
+public class PlaylistsController(ISender mediator) : ControllerBase
 {
     [HttpGet]
-    public async Task<PlaylistsViewModel> Search([FromQuery] PlaylistsSearchInputModel model)
+    public async Task<ListViewModel<PlaylistViewModel>> Search([FromQuery] PlaylistsSearchInputModel model)
     {
         var data = await mediator.Send(new FindPlaylistsQuery
         {
@@ -24,14 +25,14 @@ public class PlaylistsController(IMediator mediator) : ControllerBase
         });
 
 
-        var countPages = data.count / model.CountPerPage;
+        var countPages = data.TotalCount / model.CountPerPage;
 
-        if (data.count % model.CountPerPage > 0) countPages++;
+        if (data.TotalCount % model.CountPerPage > 0) countPages++;
 
-        return new PlaylistsViewModel
+        return new ListViewModel<PlaylistViewModel>
         {
-            CountPages = countPages,
-            Playlists = data.playlists.Select(Map)
+            TotalPages = countPages,
+            List = data.List.Select(Map)
         };
     }
 

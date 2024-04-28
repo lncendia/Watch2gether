@@ -59,7 +59,7 @@ public class UserThumbnailStore : IThumbnailStore, IDisposable
     /// <summary>
     /// Сохраняет миниатюру из URL.
     /// </summary>
-    public async Task<Uri> SaveAsync(Uri url)
+    public async Task<Uri> SaveAsync(Uri url, Guid id)
     {
         try
         {
@@ -67,7 +67,7 @@ public class UserThumbnailStore : IThumbnailStore, IDisposable
             var stream = await _client.DownloadStreamAsync(new RestRequest(url));
 
             // Сохранение потока и возврат url на файл
-            return await SaveStreamAsync(stream ?? throw new NullReferenceException());
+            return await SaveStreamAsync(stream ?? throw new NullReferenceException(), id);
         }
         catch (Exception ex)
         {
@@ -80,12 +80,12 @@ public class UserThumbnailStore : IThumbnailStore, IDisposable
     /// <summary>
     /// Сохраняет миниатюру из потока данных.
     /// </summary>
-    public async Task<Uri> SaveAsync(Stream stream)
+    public async Task<Uri> SaveAsync(Stream stream, Guid id)
     {
         try
         {
             // Сохранение потока и возврат url на файл
-            return await SaveStreamAsync(stream);
+            return await SaveStreamAsync(stream, id);
         }
         catch (Exception ex)
         {
@@ -98,8 +98,9 @@ public class UserThumbnailStore : IThumbnailStore, IDisposable
     /// Асинхронно сохраняет поток данных в виде изображения.
     /// </summary>
     /// <param name="stream">Поток данных.</param>
+    /// <param name="id">Идентификатор фото</param>
     /// <returns>Относительный путь к сохраненному файлу.</returns>
-    private async Task<Uri> SaveStreamAsync(Stream stream)
+    private async Task<Uri> SaveStreamAsync(Stream stream, Guid id)
     {
         // Загрузка изображения из потока данных.
         using var image = await Image.LoadAsync(stream);
@@ -108,7 +109,7 @@ public class UserThumbnailStore : IThumbnailStore, IDisposable
         image.Mutate(x => x.Resize(128, 128));
 
         // Генерация уникального имени файла с расширением .jpg.
-        var fileName = $"{Guid.NewGuid()}.jpg";
+        var fileName = $"{id}.jpg";
 
         // Получаем путь к директории для сохранения.
         var directoryPath = Path.Combine(_rootPath, _path);

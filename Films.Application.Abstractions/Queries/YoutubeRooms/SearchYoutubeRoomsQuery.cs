@@ -1,9 +1,10 @@
+using Films.Application.Abstractions.DTOs.Common;
 using Films.Application.Abstractions.DTOs.Rooms;
 using MediatR;
 
 namespace Films.Application.Abstractions.Queries.YoutubeRooms;
 
-public class SearchYoutubeRoomsQuery : IRequest<(IReadOnlyCollection<YoutubeRoomShortDto> rooms, int count)>
+public class SearchYoutubeRoomsQuery : IRequest<ListDto<YoutubeRoomShortDto>>
 {
     public Guid? UserId { get; init; }
     public bool OnlyPublic { get; init; }

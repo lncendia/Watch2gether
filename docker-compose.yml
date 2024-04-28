@@ -16,6 +16,8 @@
       - POSTGRES_PASSWORD=pgpassword
     ports:
       - 5432:5432
+    volumes:
+      - ./containers/auth:/var/lib/postgresql/data
 
   films.postgres:
     image: postgres:latest
@@ -24,6 +26,8 @@
       - POSTGRES_PASSWORD=pgpassword
     ports:
       - 5433:5432
+    volumes:
+      - ./containers/films:/var/lib/postgresql/data
 
   rooms-1.postgres:
     image: postgres:latest
@@ -32,3 +36,5 @@
       - POSTGRES_PASSWORD=pgpassword
     ports:
       - 5434:5432
+    volumes:
+      - ./containers/rooms-1:/var/lib/postgresql/data

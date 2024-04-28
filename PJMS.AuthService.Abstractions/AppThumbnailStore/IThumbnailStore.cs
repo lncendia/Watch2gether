@@ -9,15 +9,17 @@ public interface IThumbnailStore
     /// Сохраняет миниатюру из URL.
     /// </summary>
     /// <param name="url">URL для загрузки миниатюры.</param>
+    /// <param name="id">Идентификатор фото.</param>
     /// <returns>URI сохраненной миниатюры.</returns>
-    Task<Uri> SaveAsync(Uri url);
+    Task<Uri> SaveAsync(Uri url, Guid id);
 
     /// <summary>
     /// Сохраняет миниатюру из потока данных.
     /// </summary>
     /// <param name="stream">Поток данных с миниатюрой.</param>
+    /// <param name="id">Идентификатор фото.</param>
     /// <returns>URI сохраненной миниатюры.</returns>
-    Task<Uri> SaveAsync(Stream stream);
+    Task<Uri> SaveAsync(Stream stream, Guid id);
 
     /// <summary>
     /// Удаляет миниатюру по URI.

@@ -1,6 +1,7 @@
+using Films.Application.Abstractions.DTOs.Common;
 using Films.Application.Abstractions.DTOs.Rooms;
 using Films.Application.Abstractions.Queries.YoutubeRooms;
-using Films.Application.Services.Common;
+using Films.Application.Services.Extensions;
 using Films.Application.Services.Mappers.Rooms;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Ordering;
@@ -15,9 +16,9 @@ using MediatR;
 namespace Films.Application.Services.QueryHandlers.YoutubeRooms;
 
 public class SearchYoutubeRoomsQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<SearchYoutubeRoomsQuery, (IReadOnlyCollection<YoutubeRoomShortDto> rooms, int count)>
+    : IRequestHandler<SearchYoutubeRoomsQuery, ListDto<YoutubeRoomShortDto>>
 {
-    public async Task<(IReadOnlyCollection<YoutubeRoomShortDto> rooms, int count)> Handle(SearchYoutubeRoomsQuery request,
+    public async Task<ListDto<YoutubeRoomShortDto>> Handle(SearchYoutubeRoomsQuery request,
         CancellationToken cancellationToken)
     {
         ISpecification<YoutubeRoom, IYoutubeRoomSpecificationVisitor>? specification = null;
@@ -25,14 +26,17 @@ public class SearchYoutubeRoomsQueryHandler(IUnitOfWork unitOfWork)
         if (request.OnlyPublic)
             specification.AddToSpecification(new OpenYoutubeRoomsSpecification());
 
-
         var order = new DescendingOrder<YoutubeRoom, IYoutubeRoomSortingVisitor>(new YoutubeRoomOrderByDate());
 
         var rooms = await unitOfWork.YoutubeRoomRepository.Value.FindAsync(specification, order, request.Skip,
             request.Take);
 
-        var count = await unitOfWork.YoutubeRoomRepository.Value.CountAsync(specification);
+        if (rooms.Count == 0) return new ListDto<YoutubeRoomShortDto> { List = [], TotalCount = 0 };
 
-        return (rooms.Select(Mapper.Map).ToArray(), count);
+        return new ListDto<YoutubeRoomShortDto>
+        {
+            List = rooms.Select(Mapper.Map).ToArray(),
+            TotalCount = await unitOfWork.YoutubeRoomRepository.Value.CountAsync(specification)
+        };
     }
 }

@@ -1,7 +1,6 @@
 using Films.Application.Abstractions.DTOs.Playlists;
 using Films.Application.Abstractions.Exceptions;
 using Films.Application.Abstractions.Queries.Playlists;
-using Films.Application.Services.Common;
 using Films.Application.Services.Mappers.Playlists;
 using Films.Domain.Abstractions.Interfaces;
 using Films.Domain.Ordering;
