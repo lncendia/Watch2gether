@@ -1,5 +1,5 @@
-import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
-import {Allows, ProfileViewModels, UserFilm} from "../../services/ProfileService/ViewModels/ProfileViewModels.ts";
+import {createContext, ReactNode, useCallback, useContext, useEffect, useState} from 'react';
+import {Allows, Profile, UserFilm} from "../../services/ProfileService/ViewModels/ProfileViewModels.ts";
 import {useInjection} from "inversify-react";
 import {IProfileService} from "../../services/ProfileService/IProfileService.ts";
 import Loader from "../../UI/Loader/Loader.tsx";
@@ -9,6 +9,7 @@ interface ProfileContextType {
     watchlist: UserFilm[];
     history: UserFilm[];
     genres: string[];
+    changeAllows: (allows: Allows) => void
 }
 
 // Создайте сам контекст
@@ -16,7 +17,7 @@ const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 
 const ProfileContextProvider = ({children}: { children: ReactNode }) => {
-    const [profile, setProfile] = useState<ProfileViewModels>();
+    const [profile, setProfile] = useState<Profile>();
     const profileService = useInjection<IProfileService>('ProfileService');
 
     useEffect(() => {
@@ -29,10 +30,16 @@ const ProfileContextProvider = ({children}: { children: ReactNode }) => {
     }, [profileService]);
 
 
+    const changeAllows = useCallback((allows: Allows) => {
+        setProfile(prev => {
+            if (prev) return {...prev, allows: allows}
+        })
+    }, [])
+
     if (!profile) return <Loader/>
 
     return (
-        <ProfileContext.Provider value={{...profile}}>
+        <ProfileContext.Provider value={{...profile, changeAllows}}>
             {children}
         </ProfileContext.Provider>
     );

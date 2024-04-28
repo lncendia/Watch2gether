@@ -1,11 +1,11 @@
 import styles from "./FilmWatchlist.module.css"
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
-const renderTooltip = (props) => (
-    <Tooltip {...props}>Смотреть позже</Tooltip>
+const renderTooltip = () => (
+    <Tooltip>Смотреть позже</Tooltip>
 );
 
-const renderSvg = ({inWatchlist, onWatchlistToggle}: { inWatchlist: boolean, onWatchlistToggle: () => void }) => {
+const renderSvg = (inWatchlist: boolean, onWatchlistToggle: () => void) => {
     if (inWatchlist) return (
         <svg className={`${styles.button} bi bi-clock-fill`} onClick={onWatchlistToggle}
              xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -33,7 +33,6 @@ const FilmWatchlist = ({inWatchlist, onWatchlistToggle}: { inWatchlist: boolean,
             placement="left"
             delay={{show: 250, hide: 400}}
             overlay={renderTooltip}
-            on
         >
             {renderSvg(inWatchlist, onWatchlistToggle)}
         </OverlayTrigger>

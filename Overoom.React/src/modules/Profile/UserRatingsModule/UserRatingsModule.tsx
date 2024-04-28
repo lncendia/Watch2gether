@@ -1,4 +1,3 @@
-import {Col} from "react-bootstrap";
 import FilmsList from "../../../components/Films/FilmsList/FilmsList.tsx";
 import {useNavigate} from "react-router-dom";
 import {useInjection} from "inversify-react";
@@ -45,12 +44,9 @@ const UserRatingsModule = ({className}: { className?: string }) => {
         navigate('/film', {state: {id: film.id}})
     }, [navigate])
 
-    return (
-        <Col xl={9} lg={10} className={className}>
-            {ratings.length == 0 && <NoData text="Пусто"/>}
-            {ratings.length != 0 && <FilmsList hasMore={hasMore} next={next} films={ratings} onSelect={onSelect}/>}
-        </Col>
-    );
+    if (ratings.length == 0) return <NoData text="Пусто"/>
+
+    return <FilmsList className={className} hasMore={hasMore} next={next} films={ratings} onSelect={onSelect}/>
 };
 
 export default UserRatingsModule;

@@ -1,11 +1,14 @@
 import {useCallback, useEffect, useRef, useState} from "react";
 import {useFilmRoom} from "../../../../contexts/FilmRoomContext/FilmRoomContext.tsx";
-import Badge from "../../../../components/Room/Common/Badge/Badge.tsx";
+import Badge, {BadgeProps} from "../../../../components/Room/Common/Badge/Badge.tsx";
+
+interface Notification extends BadgeProps {
+    timeoutId: NodeJS.Timeout
+}
 
 const NotificationModule = () => {
     const {viewers, service} = useFilmRoom();
-    const [notification, setNotification] = useState<any>();
-    const [notificationOpen, setNotificationOpen] = useState(false);
+    const [notification, setNotification] = useState<Notification>();
     const viewersRef = useRef(viewers);
 
     useEffect(() => {
@@ -13,12 +16,15 @@ const NotificationModule = () => {
     }, [viewers]);
 
     const showNotification = useCallback((color: 'primary' | 'secondary' | 'warning' | 'danger' | 'dark' | 'light', text: string) => {
-        const timeOut = setTimeout(() => setNotificationOpen(false), 6000);
+
+        const timeOut = setTimeout(() => setNotification(prev => {
+            if (prev) return {...prev, open: false}
+        }), 6000);
+
         setNotification(prev => {
             if (prev) clearTimeout(prev.timeoutId);
-            return {color: color, text: text, timeoutId: timeOut};
+            return {color: color, text: text, timeoutId: timeOut, open: true};
         });
-        setNotificationOpen(true);
     }, []);
 
     useEffect(() => {
@@ -38,7 +44,6 @@ const NotificationModule = () => {
         });
 
         service.disconnectEvent.attach((id) => {
-            console.log("тута")
             const initiator = getViewer(id);
             showNotification("primary", `${initiator.username} отключился`);
         });
@@ -62,7 +67,7 @@ const NotificationModule = () => {
     if (!notification) return <></>;
 
     return (
-        <Badge open={notificationOpen} color={notification.color} text={notification.text}/>
+        <Badge {...notification}/>
     );
 }
 

@@ -1,8 +1,9 @@
 import {Navbar} from "react-bootstrap";
+import styles from './NavLogo.module.css'
 
 const NavLogo = ({onClick}: { onClick?: () => void }) => {
     return (
-        <Navbar.Brand onClick={onClick}>
+        <Navbar.Brand className={styles.logo} onClick={onClick}>
             <b>
                 Over
                 <svg width="20" height="30" fill="currentColor" className="bi bi-list-nested"

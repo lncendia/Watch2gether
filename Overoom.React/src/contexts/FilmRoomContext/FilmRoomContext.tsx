@@ -9,8 +9,6 @@ import {useUser} from "../UserContext/UserContext.tsx";
 import {IFilmRoomManagerFactory} from "../../services/RoomsManagers/FilmRoomManager/Factory/IFilmRoomServiceFactory.ts";
 import Loader from "../../UI/Loader/Loader.tsx";
 
-
-// Создайте интерфейс для контекста
 interface FilmRoomContextData {
     viewers: FilmViewerData[];
     viewersParams: FilmViewerParams[];
@@ -26,10 +24,8 @@ interface FilmRoomContextData {
     type: (id: string) => void
 }
 
-// Создайте сам контекст
 const FilmRoomContext = createContext<FilmRoomContextData | undefined>(undefined);
 
-// Создайте провайдер
 interface FilmRoomContextProviderProps {
     children: ReactNode;
     filmRoom: FilmRoom

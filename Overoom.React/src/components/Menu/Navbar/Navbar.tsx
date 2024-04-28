@@ -28,7 +28,7 @@ const Navbar = (props: MenuProps) => {
             <Container>
                 <NavLogo onClick={props.onHome}/>
                 <NavbarBs.Toggle aria-controls="navbarSupportedContent" aria-expanded="false"
-                               aria-label="Переключатель навигации">
+                                 aria-label="Переключатель навигации">
                     <span className="navbar-toggler-icon"></span>
                 </NavbarBs.Toggle>
                 <NavbarBs.Collapse id="navbarSupportedContent">

@@ -1,11 +1,11 @@
 import {useCallback, useEffect, useState} from "react";
 import {useInjection} from "inversify-react";
 import {useNavigate} from "react-router-dom";
-import {FilmRoomShort} from "../../../services/RoomsService/ViewModels/YoutubeRoomsViewModels.ts";
-import {IFilmRoomsService} from "../../../services/RoomsService/IFilmRoomsService.ts";
 import {FilmRoomItemData} from "../../../components/FilmRooms/FilmRoomItem/FilmRoomItemData.ts";
 import FilmRoomsCatalog from "../../../components/FilmRooms/FilmRoomsCatalog/FilmRoomsCatalog.tsx";
 import NoData from "../../../UI/NoData/NoData.tsx";
+import {FilmRoomShort} from "../../../services/RoomsServices/FilmRoomsService/Models/FilmRoomsViewModels.ts";
+import {IFilmRoomsService} from "../../../services/RoomsServices/FilmRoomsService/IFilmRoomsService.ts";
 
 interface FilmRoomsModuleProps {
     onlyPublic?: boolean;
@@ -31,7 +31,7 @@ const FilmRoomsModule = (props: FilmRoomsModuleProps) => {
             const response = await roomsService.search(props)
             setPage(2);
             setHasMore(response.totalPages > 1)
-            setRooms(response.rooms)
+            setRooms(response.list)
         };
 
         processRooms().then()
@@ -45,7 +45,7 @@ const FilmRoomsModule = (props: FilmRoomsModuleProps) => {
             })
             setPage(page + 1);
             setHasMore(response.totalPages !== page)
-            setRooms(prev=> [...prev, ...response.rooms])
+            setRooms(prev=> [...prev, ...response.list])
         };
 
         processRooms().then()

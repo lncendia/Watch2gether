@@ -5,26 +5,30 @@ import AuthorizeModule from "../../modules/Authorization/AuthorizeModule.tsx";
 import ProfileContextProvider from "../../contexts/ProfileContext/ProfileContext.tsx";
 import UserWatchlistModule from "../../modules/Profile/UserWatchlistModule/UserWatchlistModule.tsx";
 import UserHistoryModule from "../../modules/Profile/UserHistoryModule/UserHistoryModule.tsx";
-import {Col} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
+import UserAllowsModule from "../../modules/Profile/UserAllowsModule/UserAllowsModule.tsx";
+import ProfileSettingsModule from "../../modules/Profile/ProfileSettingsModule/ProfileSettingsModule.tsx";
 
 const ProfilePage = () => {
 
     return (
         <AuthorizeModule showError>
             <ProfileContextProvider>
-                <Col lg={8} xl={7} className="mt-5">
-                    <UserInfoModule/>
-                </Col>
-                <BlockTitle className="mt-5" title="Смотреть позже"/>
-                <Col xl={9} lg={10}>
-                    <UserWatchlistModule/>
-                </Col>
-                <BlockTitle className="mt-5" title="История"/>
-                <Col xl={9} lg={10}>
-                    <UserHistoryModule/>
-                </Col>
-                <BlockTitle className="mt-5" title="Оценки"/>
-                <UserRatingsModule/>
+                <Row gx={5}>
+                    <Col xl={8} lg={7} md={12} className="order-last order-lg-first">
+                        <UserInfoModule className="mt-5"/>
+                        <BlockTitle className="mt-5" title="Смотреть позже"/>
+                        <UserWatchlistModule/>
+                        <BlockTitle className="mt-5" title="История"/>
+                        <UserHistoryModule/>
+                        <BlockTitle className="mt-5" title="Оценки"/>
+                        <UserRatingsModule/>
+                    </Col>
+                    <Col xl={4} lg={5} md={12} className="order-first order-lg-last">
+                        <UserAllowsModule className="mt-5"/>
+                        <ProfileSettingsModule className="mt-2"/>
+                    </Col>
+                </Row>
             </ProfileContextProvider>
         </AuthorizeModule>
     )
