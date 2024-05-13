@@ -99,7 +99,7 @@ public class CreateUserExternalCommandHandler(
             try
             {
                 // Переменная thumbnail будет содержать результат сохранения миниатюры 
-                user.Thumbnail = await thumbnailStore.SaveAsync(new Uri(thumbnailClaim), user.Id);
+                user.Thumbnail = await thumbnailStore.SaveAsync(user.Id, new Uri(thumbnailClaim));
                 
                 // Так же добавляем фото профиля в утверждения пользователя
                 await userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.Picture, user.Thumbnail.ToString()));

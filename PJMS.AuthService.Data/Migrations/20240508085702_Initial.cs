@@ -191,13 +191,13 @@ namespace PJMS.AuthService.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "Users",
-                column: "NormalizedEmail");
+                column: "NormalizedEmail",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "Users",
-                column: "NormalizedUserName",
-                unique: true);
+                column: "NormalizedUserName");
         }
 
         /// <inheritdoc />

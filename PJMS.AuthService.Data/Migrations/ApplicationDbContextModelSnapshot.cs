@@ -223,10 +223,10 @@ namespace PJMS.AuthService.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
+                        .IsUnique()
                         .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
-                        .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("Users", (string)null);

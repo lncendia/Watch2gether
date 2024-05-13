@@ -12,7 +12,7 @@ using PJMS.AuthService.Data.DbContexts;
 namespace PJMS.AuthService.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240213112425_Initial")]
+    [Migration("20240508085702_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -226,10 +226,10 @@ namespace PJMS.AuthService.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
+                        .IsUnique()
                         .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
-                        .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("Users", (string)null);

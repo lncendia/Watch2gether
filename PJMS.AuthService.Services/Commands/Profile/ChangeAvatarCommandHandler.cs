@@ -17,7 +17,10 @@ namespace PJMS.AuthService.Services.Commands.Profile;
 /// <param name="userManager">Менеджер пользователей, предоставленный ASP.NET Core Identity.</param>
 /// <param name="thumbnailStore">Хранилище фотографий.</param>
 /// <param name="publishEndpoint">Сервис публикации событий</param>
-public class ChangeAvatarCommandHandler(UserManager<AppUser> userManager, IThumbnailStore thumbnailStore, IPublishEndpoint publishEndpoint)
+public class ChangeAvatarCommandHandler(
+    UserManager<AppUser> userManager,
+    IThumbnailStore thumbnailStore,
+    IPublishEndpoint publishEndpoint)
     : IRequestHandler<ChangeAvatarCommand, AppUser>
 {
     /// <summary>
@@ -37,12 +40,12 @@ public class ChangeAvatarCommandHandler(UserManager<AppUser> userManager, IThumb
 
         // Сохраняем старый аватар
         var oldThumbnail = user.Thumbnail;
-        
+
         // Если до этого был установлен аватар удаляем его
         if (oldThumbnail != null) await thumbnailStore.DeleteAsync(oldThumbnail);
 
         // Сохраняем новый аватар локально
-        var thumbnail = await thumbnailStore.SaveAsync(request.Thumbnail, user.Id);
+        var thumbnail = await thumbnailStore.SaveAsync(user.Id, request.Thumbnail);
 
         // Устанавливаем пользователю новый аватар
         user.Thumbnail = thumbnail;
@@ -62,7 +65,7 @@ public class ChangeAvatarCommandHandler(UserManager<AppUser> userManager, IThumb
             // Добавляем утверждение об аватаре
             await userManager.AddClaimAsync(user, new Claim(JwtClaimTypes.Picture, user.Thumbnail.ToString()));
         }
-        
+
         // Публикуем событие
         await publishEndpoint.Publish(new UserDataChangedIntegrationEvent
         {

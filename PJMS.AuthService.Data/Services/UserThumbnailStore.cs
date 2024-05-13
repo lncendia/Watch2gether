@@ -55,11 +55,11 @@ public class UserThumbnailStore : IThumbnailStore, IDisposable
         return Task.CompletedTask;
     }
 
-    /// <inheritdoc cref="IThumbnailStore.SaveAsync(System.Uri)"/>
+    /// <inheritdoc cref="IThumbnailStore.SaveAsync(System.Guid, System.Uri)"/>
     /// <summary>
     /// Сохраняет миниатюру из URL.
     /// </summary>
-    public async Task<Uri> SaveAsync(Uri url, Guid id)
+    public async Task<Uri> SaveAsync(Guid id, Uri url)
     {
         try
         {
@@ -67,7 +67,7 @@ public class UserThumbnailStore : IThumbnailStore, IDisposable
             var stream = await _client.DownloadStreamAsync(new RestRequest(url));
 
             // Сохранение потока и возврат url на файл
-            return await SaveStreamAsync(stream ?? throw new NullReferenceException(), id);
+            return await SaveStreamAsync(id, stream ?? throw new NullReferenceException());
         }
         catch (Exception ex)
         {
@@ -76,16 +76,16 @@ public class UserThumbnailStore : IThumbnailStore, IDisposable
         }
     }
 
-    /// <inheritdoc cref="IThumbnailStore.SaveAsync(System.IO.Stream)"/>
+    /// <inheritdoc cref="IThumbnailStore.SaveAsync(System.Guid, System.IO.Stream)"/>
     /// <summary>
     /// Сохраняет миниатюру из потока данных.
     /// </summary>
-    public async Task<Uri> SaveAsync(Stream stream, Guid id)
+    public async Task<Uri> SaveAsync(Guid id, Stream stream)
     {
         try
         {
             // Сохранение потока и возврат url на файл
-            return await SaveStreamAsync(stream, id);
+            return await SaveStreamAsync(id, stream);
         }
         catch (Exception ex)
         {
@@ -98,9 +98,9 @@ public class UserThumbnailStore : IThumbnailStore, IDisposable
     /// Асинхронно сохраняет поток данных в виде изображения.
     /// </summary>
     /// <param name="stream">Поток данных.</param>
-    /// <param name="id">Идентификатор фото</param>
+    /// <param name="id">Идентификатор фото.</param>
     /// <returns>Относительный путь к сохраненному файлу.</returns>
-    private async Task<Uri> SaveStreamAsync(Stream stream, Guid id)
+    private async Task<Uri> SaveStreamAsync(Guid id, Stream stream)
     {
         // Загрузка изображения из потока данных.
         using var image = await Image.LoadAsync(stream);
@@ -133,6 +133,9 @@ public class UserThumbnailStore : IThumbnailStore, IDisposable
     /// </summary>
     public void Dispose()
     {
+        // Предотвращаем вызов GC
+        GC.SuppressFinalize(this);
+        
         // Уничтожение Rest Client
         _client.Dispose();
     }

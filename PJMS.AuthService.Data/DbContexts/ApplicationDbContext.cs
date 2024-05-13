@@ -19,10 +19,20 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         // Вызываем базовую реализацию метода OnModelCreating
         base.OnModelCreating(builder);
-
-        // Устанавливаем таблицу "Users" для сущности AppUser
-        builder.Entity<AppUser>(entity => entity.ToTable(name: "Users"));
-
+        
+        // Для сущности AppUser
+        builder.Entity<AppUser>(entity =>
+        {
+            // Устанавливаем таблицу "Users"
+            entity.ToTable(name: "Users");
+            
+            // Устанавливаем не уникальный индекс для имени пользователя
+            entity.HasIndex(u => u.NormalizedUserName).IsUnique(false);
+            
+            // Устанавливаем уникальный индекс для почты пользователя
+            entity.HasIndex(u => u.NormalizedEmail).IsUnique();
+        });
+        
         // Устанавливаем таблицу "Roles" для сущности AppRole
         builder.Entity<AppRole>(entity => entity.ToTable(name: "Roles"));
 
