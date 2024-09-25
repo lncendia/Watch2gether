@@ -40,8 +40,9 @@ public class ServerRepository(
 
     public async Task<Server?> GetAsync(Guid id)
     {
-        var room = await context.Servers.AsNoTracking().FirstOrDefaultAsync(youtubeServerModel => youtubeServerModel.Id == id);
-        return room == null ? null : aggregateMapper.Map(room);
+        var room = await context.Servers.AsNoTracking()
+            .FirstOrDefaultAsync(youtubeServerModel => youtubeServerModel.Id == id);
+        return await (room == null ? null : aggregateMapper.MapAsync(room))!;
     }
 
     public async Task<IReadOnlyCollection<Server>> FindAsync(
@@ -70,7 +71,7 @@ public class ServerRepository(
                 .Aggregate(orderedQuery, (current, sort) => sort.IsDescending
                     ? current.ThenByDescending(sort.Expr)
                     : current.ThenBy(sort.Expr));
-            
+
             query = orderedQuery.ThenBy(v => v.Id);
         }
         else
@@ -81,8 +82,10 @@ public class ServerRepository(
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        var models = await query.AsNoTracking().ToArrayAsync();
-        return models.Select(aggregateMapper.Map).ToArray();
+        var entities = await query.AsNoTracking().ToArrayAsync();
+        var aggregates = new Server[entities.Length];
+        for (var i = 0; i < aggregates.Length; i++) aggregates[i] = await aggregateMapper.MapAsync(entities[i]);
+        return aggregates;
     }
 
     public Task<int> CountAsync(ISpecification<Server, IServerSpecificationVisitor>? specification)

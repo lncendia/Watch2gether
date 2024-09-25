@@ -21,10 +21,10 @@ public class UnitOfWork : IUnitOfWork
             new UserRepository(_context, new UserMapper(), new UserModelMapper(_context)));
         
         FilmRepository = new Lazy<IFilmRepository>(() =>
-            new FilmRepository(_context, new FilmMapper(), new FilmModelMapper(_context)));
+            new FilmRepository(_context, new FilmMapper(context), new FilmModelMapper(_context)));
         
         ServerRepository = new Lazy<IServerRepository>(() =>
-            new ServerRepository(_context, new ServerMapper(), new ServerModelMapper(_context)));
+            new ServerRepository(_context, new ServerMapper(context), new ServerModelMapper(_context)));
         
         FilmRoomRepository = new Lazy<IFilmRoomRepository>(() =>
             new FilmRoomRepository(_context, new FilmRoomMapper(), new FilmRoomModelMapper(_context)));

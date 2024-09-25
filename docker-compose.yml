@@ -38,11 +38,3 @@
       - 5434:5432
     volumes:
       - ./containers/rooms-1:/var/lib/postgresql/data
-  
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-admin@admin.com}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-admin}
-    ports:
-      - "5050:80"

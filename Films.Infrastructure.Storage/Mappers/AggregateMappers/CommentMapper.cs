@@ -25,7 +25,7 @@ internal class CommentMapper : IAggregateMapperUnit<Comment, CommentModel>
     private static readonly FieldInfo Text =
         CommentType.GetField("<Text>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
-    public Comment Map(CommentModel model)
+    public Task<Comment> MapAsync(CommentModel model)
     {
         var comment = (Comment)RuntimeHelpers.GetUninitializedObject(CommentType);
         IdFields.AggregateId.SetValue(comment, model.Id);
@@ -34,6 +34,6 @@ internal class CommentMapper : IAggregateMapperUnit<Comment, CommentModel>
         FilmId.SetValue(comment, model.FilmId);
         Text.SetValue(comment, model.Text);
         IdFields.DomainEvents.SetValue(comment, new List<IDomainEvent>());
-        return comment;
+        return Task.FromResult(comment);
     }
 }

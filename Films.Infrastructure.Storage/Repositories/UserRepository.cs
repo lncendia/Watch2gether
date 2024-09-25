@@ -45,8 +45,9 @@ public class UserRepository(
             .LoadDependencies()
             .AsNoTracking()
             .FirstOrDefaultAsync(userModel => userModel.Id == id);
-        
-        return user == null ? null : aggregateMapper.Map(user);
+
+        if (user == null) return null;
+        return await aggregateMapper.MapAsync(user);
     }
 
     public async Task<IReadOnlyCollection<User>> FindAsync(
@@ -74,7 +75,7 @@ public class UserRepository(
                 .Aggregate(orderedQuery, (current, sort) => sort.IsDescending
                     ? current.ThenByDescending(sort.Expr)
                     : current.ThenBy(sort.Expr));
-            
+
             query = orderedQuery.ThenBy(v => v.Id);
         }
         else
@@ -85,12 +86,14 @@ public class UserRepository(
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        var models = await query
+        var entities = await query
             .LoadDependencies()
             .AsNoTracking()
             .ToArrayAsync();
 
-        return models.Select(aggregateMapper.Map).ToArray();
+        var aggregates = new User[entities.Length];
+        for (var i = 0; i < aggregates.Length; i++) aggregates[i] = await aggregateMapper.MapAsync(entities[i]);
+        return aggregates;
     }
 
     public Task<int> CountAsync(ISpecification<User, IUserSpecificationVisitor>? specification)

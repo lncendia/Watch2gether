@@ -111,7 +111,7 @@ public static class FluentExtensions
 
         modelBuilder.Entity<RatingModel>()
             .HasOne<FilmModel>()
-            .WithMany()
+            .WithMany(x=>x.Ratings)
             .HasForeignKey(x => x.FilmId)
             .OnDelete(DeleteBehavior.Cascade);
     }
@@ -141,13 +141,13 @@ public static class FluentExtensions
 
         modelBuilder.Entity<FilmRoomModel>()
             .HasOne<ServerModel>()
-            .WithMany()
+            .WithMany(x=>x.FilmRooms)
             .HasForeignKey(x => x.ServerId)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<FilmRoomModel>()
-            .HasMany(x => x.Viewers)
-            .WithOne(x => x.Room)
+            .HasOne<ServerModel>()
+            .WithOne()
             .HasForeignKey(x => x.RoomId)
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -186,7 +186,7 @@ public static class FluentExtensions
 
         modelBuilder.Entity<YoutubeRoomModel>()
             .HasOne<ServerModel>()
-            .WithMany()
+            .WithMany(x=>x.YoutubeRooms)
             .HasForeignKey(x => x.ServerId)
             .OnDelete(DeleteBehavior.Cascade);
 

@@ -42,7 +42,7 @@ public class RatingRepository(
     public async Task<Rating?> GetAsync(Guid id)
     {
         var rating = await context.Ratings.AsNoTracking().FirstOrDefaultAsync(ratingModel => ratingModel.Id == id);
-        return rating == null ? null : aggregateMapper.Map(rating);
+        return await (rating == null ? null : aggregateMapper.MapAsync(rating))!;
     }
 
     public async Task<IReadOnlyCollection<Rating>> FindAsync(
@@ -80,8 +80,11 @@ public class RatingRepository(
 
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
-
-        return (await query.AsNoTracking().ToArrayAsync()).Select(aggregateMapper.Map).ToArray();
+            
+        var entities = await query.AsNoTracking().ToArrayAsync();
+        var aggregates = new Rating[entities.Length];
+        for (var i = 0; i < aggregates.Length; i++) aggregates[i] = await aggregateMapper.MapAsync(entities[i]);
+        return aggregates;
     }
 
     public Task<int> CountAsync(ISpecification<Rating, IRatingSpecificationVisitor>? specification)

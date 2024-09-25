@@ -31,10 +31,8 @@ internal class FilmModelMapper(ApplicationDbContext context) : IModelMapperUnit<
         model.ShortDescription = (string?)ShortDescription.GetValue(aggregate);
         model.RatingKp = aggregate.RatingKp;
         model.RatingImdb = aggregate.RatingImdb;
-        model.UserRating = aggregate.UserRating;
         model.CountSeasons = aggregate.CountSeasons;
         model.CountEpisodes = aggregate.CountEpisodes;
-        model.UserRatingsCount = aggregate.UserRatingsCount;
 
         var persons = await GetPersonsAsync(aggregate);
 

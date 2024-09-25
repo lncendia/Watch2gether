@@ -19,5 +19,5 @@ public class ServerSortingVisitor : BaseSortingVisitor<ServerModel, IServerSorti
     }
 
     public void Visit(ServerOrderByCountRooms order)=>
-        SortItems.Add(new SortData<ServerModel>(f => f.RoomsCount, false));
+        SortItems.Add(new SortData<ServerModel>(f => f.FilmRooms!.Count + f.YoutubeRooms!.Count, false));
 }

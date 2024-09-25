@@ -41,7 +41,7 @@ public class CommentRepository(
     public async Task<Comment?> GetAsync(Guid id)
     {
         var comment = await context.Comments.AsNoTracking().FirstOrDefaultAsync(commentModel => commentModel.Id == id);
-        return comment == null ? null : aggregateMapper.Map(comment);
+        return await (comment == null ? null : aggregateMapper.MapAsync(comment))!;
     }
 
     public async Task<IReadOnlyCollection<Comment>> FindAsync(
@@ -69,7 +69,7 @@ public class CommentRepository(
                 .Aggregate(orderedQuery, (current, sort) => sort.IsDescending
                     ? current.ThenByDescending(sort.Expr)
                     : current.ThenBy(sort.Expr));
-            
+
             query = orderedQuery.ThenBy(v => v.Id);
         }
         else
@@ -80,7 +80,10 @@ public class CommentRepository(
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        return (await query.AsNoTracking().ToArrayAsync()).Select(aggregateMapper.Map).ToArray();
+        var entities = await query.AsNoTracking().ToArrayAsync();
+        var aggregates = new Comment[entities.Length];
+        for (var i = 0; i < aggregates.Length; i++) aggregates[i] = await aggregateMapper.MapAsync(entities[i]);
+        return aggregates;
     }
 
     public Task<int> CountAsync(ISpecification<Comment, ICommentSpecificationVisitor>? specification)

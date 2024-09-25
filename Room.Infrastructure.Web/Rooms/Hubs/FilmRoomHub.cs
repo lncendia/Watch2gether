@@ -40,7 +40,7 @@ public class FilmRoomHub(ISender mediator) : Hub
 
             await Clients.Caller.SendAsync("Room", viewModel);
 
-            await Clients.Groups(roomId.ToString()).SendAsync("Connect", viewModel.Viewers.First(v => v.Id == userId));
+            await Clients.OthersInGroup(roomId.ToString()).SendAsync("Connect", viewModel.Viewers.First(v => v.Id == userId));
         }
         catch (Exception ex)
         {

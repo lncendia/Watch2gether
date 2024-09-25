@@ -5,6 +5,7 @@ using Films.Infrastructure.Storage.Models.Countries;
 using Films.Infrastructure.Storage.Models.Genres;
 using Films.Infrastructure.Storage.Models.Persons;
 using Films.Infrastructure.Storage.Models.Playlists;
+using Films.Infrastructure.Storage.Models.Ratings;
 
 namespace Films.Infrastructure.Storage.Models.Films;
 
@@ -21,8 +22,6 @@ public class FilmModel : IAggregateModel
     public int Year { get; set; }
     public double? RatingKp { get; set; }
     public double? RatingImdb { get; set; }
-    public double UserRating { get; set; }
-    public int UserRatingsCount { get; set; }
 
     public int? CountSeasons { get; set; }
     public int? CountEpisodes { get; set; }
@@ -34,6 +33,7 @@ public class FilmModel : IAggregateModel
     public List<FilmActorModel> Actors { get; set; } = [];
     public List<PersonModel> Directors { get; set; } = [];
     public List<PersonModel> Screenwriters { get; set; } = [];
-    
     public List<PlaylistFilmModel> Playlists { get; set; } = [];
+
+    public List<RatingModel> Ratings { get; set; }
 }

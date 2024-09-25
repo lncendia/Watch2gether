@@ -24,7 +24,7 @@ internal class UserMapper : IAggregateMapperUnit<User, UserModel>
         FilmNoteType.GetField("<Date>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
 
-    public User Map(UserModel model)
+    public Task<User> MapAsync(UserModel model)
     {
         var user = new User(model.Id)
         {
@@ -68,6 +68,6 @@ internal class UserMapper : IAggregateMapperUnit<User, UserModel>
         History.SetValue(user, history);
         Genres.SetValue(user, genres);
 
-        return user;
+        return Task.FromResult(user);
     }
 }

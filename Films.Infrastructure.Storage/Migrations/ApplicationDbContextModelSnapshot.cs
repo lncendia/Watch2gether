@@ -256,12 +256,6 @@ namespace Films.Infrastructure.Storage.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<double>("UserRating")
-                        .HasColumnType("double precision");
-
-                    b.Property<int>("UserRatingsCount")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Year")
                         .HasColumnType("integer");
 
@@ -443,9 +437,6 @@ namespace Films.Infrastructure.Storage.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<int>("MaxRoomsCount")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("RoomsCount")
                         .HasColumnType("integer");
 
                     b.Property<string>("Url")
@@ -652,39 +643,31 @@ namespace Films.Infrastructure.Storage.Migrations
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Comments.CommentModel", b =>
                 {
-                    b.HasOne("Films.Infrastructure.Storage.Models.Films.FilmModel", "Film")
+                    b.HasOne("Films.Infrastructure.Storage.Models.Films.FilmModel", null)
                         .WithMany()
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", "User")
+                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Film");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.FilmRooms.FilmRoomModel", b =>
                 {
-                    b.HasOne("Films.Infrastructure.Storage.Models.Films.FilmModel", "Film")
+                    b.HasOne("Films.Infrastructure.Storage.Models.Films.FilmModel", null)
                         .WithMany()
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Films.Infrastructure.Storage.Models.Servers.ServerModel", "Server")
-                        .WithMany()
+                    b.HasOne("Films.Infrastructure.Storage.Models.Servers.ServerModel", null)
+                        .WithMany("FilmRooms")
                         .HasForeignKey("ServerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Film");
-
-                    b.Navigation("Server");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Films.CdnModel", b =>
@@ -719,39 +702,31 @@ namespace Films.Infrastructure.Storage.Migrations
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Playlists.PlaylistFilmModel", b =>
                 {
-                    b.HasOne("Films.Infrastructure.Storage.Models.Films.FilmModel", "Film")
+                    b.HasOne("Films.Infrastructure.Storage.Models.Films.FilmModel", null)
                         .WithMany("Playlists")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Films.Infrastructure.Storage.Models.Playlists.PlaylistModel", "Playlist")
+                    b.HasOne("Films.Infrastructure.Storage.Models.Playlists.PlaylistModel", null)
                         .WithMany("Films")
                         .HasForeignKey("PlaylistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Film");
-
-                    b.Navigation("Playlist");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Ratings.RatingModel", b =>
                 {
-                    b.HasOne("Films.Infrastructure.Storage.Models.Films.FilmModel", "Film")
-                        .WithMany()
+                    b.HasOne("Films.Infrastructure.Storage.Models.Films.FilmModel", null)
+                        .WithMany("Ratings")
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", "User")
+                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Film");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.BannedModel<Films.Infrastructure.Storage.Models.FilmRooms.FilmRoomModel>", b =>
@@ -762,15 +737,13 @@ namespace Films.Infrastructure.Storage.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", "User")
+                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Room");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.BannedModel<Films.Infrastructure.Storage.Models.YoutubeRoom.YoutubeRoomModel>", b =>
@@ -781,15 +754,13 @@ namespace Films.Infrastructure.Storage.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", "User")
+                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Room");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.ViewerModel<Films.Infrastructure.Storage.Models.FilmRooms.FilmRoomModel>", b =>
@@ -800,15 +771,13 @@ namespace Films.Infrastructure.Storage.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", "User")
+                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Room");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Rooms.ViewerModel<Films.Infrastructure.Storage.Models.YoutubeRoom.YoutubeRoomModel>", b =>
@@ -819,15 +788,13 @@ namespace Films.Infrastructure.Storage.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", "User")
+                    b.HasOne("Films.Infrastructure.Storage.Models.Users.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Room");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Users.HistoryModel", b =>
@@ -870,13 +837,11 @@ namespace Films.Infrastructure.Storage.Migrations
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.YoutubeRoom.YoutubeRoomModel", b =>
                 {
-                    b.HasOne("Films.Infrastructure.Storage.Models.Servers.ServerModel", "Server")
-                        .WithMany()
+                    b.HasOne("Films.Infrastructure.Storage.Models.Servers.ServerModel", null)
+                        .WithMany("YoutubeRooms")
                         .HasForeignKey("ServerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Server");
                 });
 
             modelBuilder.Entity("GenreModelPlaylistModel", b =>
@@ -923,11 +888,20 @@ namespace Films.Infrastructure.Storage.Migrations
                     b.Navigation("CdnList");
 
                     b.Navigation("Playlists");
+
+                    b.Navigation("Ratings");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Playlists.PlaylistModel", b =>
                 {
                     b.Navigation("Films");
+                });
+
+            modelBuilder.Entity("Films.Infrastructure.Storage.Models.Servers.ServerModel", b =>
+                {
+                    b.Navigation("FilmRooms");
+
+                    b.Navigation("YoutubeRooms");
                 });
 
             modelBuilder.Entity("Films.Infrastructure.Storage.Models.Users.UserModel", b =>

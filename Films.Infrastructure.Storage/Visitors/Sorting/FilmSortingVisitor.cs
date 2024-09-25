@@ -9,10 +9,11 @@ namespace Films.Infrastructure.Storage.Visitors.Sorting;
 
 public class FilmSortingVisitor : BaseSortingVisitor<FilmModel, IFilmSortingVisitor, Film>, IFilmSortingVisitor
 {
-    public void Visit(FilmOrderByUserRating order) => SortItems.Add(new SortData<FilmModel>(x => x.UserRating, false));
+    public void Visit(FilmOrderByUserRating order) =>
+        SortItems.Add(new SortData<FilmModel>(x => x.Ratings.Average(r => r.Score), false));
 
     public void Visit(FilmOrderByUserRatingCount order) =>
-        SortItems.Add(new SortData<FilmModel>(x => x.UserRatingsCount, false));
+        SortItems.Add(new SortData<FilmModel>(x => x.Ratings.Count, false));
 
     public void Visit(FilmOrderByDate order) => SortItems.Add(new SortData<FilmModel>(x => x.Year, false));
 

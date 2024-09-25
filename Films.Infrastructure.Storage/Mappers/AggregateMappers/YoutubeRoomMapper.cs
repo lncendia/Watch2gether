@@ -14,8 +14,8 @@ internal class YoutubeRoomMapper : IAggregateMapperUnit<YoutubeRoom, YoutubeRoom
 
     private static readonly FieldInfo VideoAccess =
         YoutubeRoomType.GetField("<VideoAccess>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
-    
-    public YoutubeRoom Map(YoutubeRoomModel model)
+
+    public Task<YoutubeRoom> MapAsync(YoutubeRoomModel model)
     {
         var room = (YoutubeRoom)RuntimeHelpers.GetUninitializedObject(YoutubeRoomType);
         VideoAccess.SetValue(room, model.VideoAccess);
@@ -23,10 +23,10 @@ internal class YoutubeRoomMapper : IAggregateMapperUnit<YoutubeRoom, YoutubeRoom
         RoomFields.Code.SetValue(room, model.Code);
         RoomFields.ServerId.SetValue(room, model.ServerId);
         RoomFields.Viewers.SetValue(room, model.Viewers.Select(v => v.UserId).ToList());
-        RoomFields.Banned.SetValue(room, model.Banned.Select(b=>b.UserId).ToList());
+        RoomFields.Banned.SetValue(room, model.Banned.Select(b => b.UserId).ToList());
         IdFields.AggregateId.SetValue(room, model.Id);
         IdFields.DomainEvents.SetValue(room, new List<IDomainEvent>());
 
-        return room;
+        return Task.FromResult(room);
     }
 }

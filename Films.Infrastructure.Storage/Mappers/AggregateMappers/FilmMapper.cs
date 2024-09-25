@@ -2,13 +2,15 @@
 using Films.Domain.Abstractions;
 using Films.Domain.Films;
 using Films.Domain.Films.ValueObjects;
+using Films.Infrastructure.Storage.Context;
 using Films.Infrastructure.Storage.Mappers.Abstractions;
 using Films.Infrastructure.Storage.Mappers.StaticMethods;
 using Films.Infrastructure.Storage.Models.Films;
+using Microsoft.EntityFrameworkCore;
 
 namespace Films.Infrastructure.Storage.Mappers.AggregateMappers;
 
-internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
+internal class FilmMapper(ApplicationDbContext context) : IAggregateMapperUnit<Film, FilmModel>
 {
     private static readonly FieldInfo UserRating =
         typeof(Film).GetField("<UserRating>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
@@ -16,7 +18,7 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
     private static readonly FieldInfo UserRatingsCount =
         typeof(Film).GetField("<UserRatingsCount>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
-    public Film Map(FilmModel model)
+    public async Task<Film> MapAsync(FilmModel model)
     {
         var film = new Film(model.IsSerial, model.CountSeasons, model.CountEpisodes)
         {
@@ -41,8 +43,18 @@ internal class FilmMapper : IAggregateMapperUnit<Film, FilmModel>
 
         if (!string.IsNullOrEmpty(model.ShortDescription)) film.ShortDescription = model.ShortDescription;
 
-        UserRating.SetValue(film, model.UserRating);
-        UserRatingsCount.SetValue(film, model.UserRatingsCount);
+        try
+        {
+            var ratings = await context.Ratings.Where(r => r.FilmId == model.Id).AverageAsync(x => x.Score);
+
+            UserRating.SetValue(film, ratings);
+        }
+        catch (InvalidOperationException)
+        {
+            UserRating.SetValue(film, 0);
+        }
+
+        UserRatingsCount.SetValue(film, await context.Ratings.Where(r => r.FilmId == model.Id).CountAsync());
 
         IdFields.AggregateId.SetValue(film, model.Id);
         var domainCollection = (List<IDomainEvent>)IdFields.DomainEvents.GetValue(film)!;

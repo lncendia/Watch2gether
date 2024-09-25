@@ -46,7 +46,7 @@ public class FilmRepository(
             .AsNoTracking()
             .FirstOrDefaultAsync(userModel => userModel.Id == id);
 
-        return film == null ? null : aggregateMapper.Map(film);
+        return await (film == null ? null : aggregateMapper.MapAsync(film))!;
     }
 
     public async Task<IReadOnlyCollection<Film>> FindAsync(
@@ -85,12 +85,13 @@ public class FilmRepository(
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        var models = await query
+        var entities = await query
             .LoadDependencies()
             .AsNoTracking()
             .ToArrayAsync();
-
-        return models.Select(aggregateMapper.Map).ToArray();
+        var aggregates = new Film[entities.Length];
+        for (var i = 0; i < aggregates.Length; i++) aggregates[i] = await aggregateMapper.MapAsync(entities[i]);
+        return aggregates;
     }
 
     public Task<int> CountAsync(ISpecification<Film, IFilmSpecificationVisitor>? specification)

@@ -47,7 +47,7 @@ public class PlaylistRepository(
             .AsNoTracking()
             .FirstOrDefaultAsync(playlistModel => playlistModel.Id == id);
         
-        return playlist == null ? null : aggregateMapper.Map(playlist);
+        return await (playlist == null ? null : aggregateMapper.MapAsync(playlist))!;
     }
 
     public async Task<IReadOnlyCollection<Playlist>> FindAsync(
@@ -86,12 +86,14 @@ public class PlaylistRepository(
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
         
-        var models = await query
+        var entities = await query
             .LoadDependencies()
             .AsNoTracking()
             .ToArrayAsync();
-
-        return models.Select(aggregateMapper.Map).ToArray();
+        
+        var aggregates = new Playlist[entities.Length];
+        for (var i = 0; i < aggregates.Length; i++) aggregates[i] = await aggregateMapper.MapAsync(entities[i]);
+        return aggregates;
     }
 
     public Task<int> CountAsync(ISpecification<Playlist, IPlaylistSpecificationVisitor>? specification)

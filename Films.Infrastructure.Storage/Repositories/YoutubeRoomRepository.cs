@@ -41,11 +41,11 @@ public class YoutubeRoomRepository(
     public async Task<YoutubeRoom?> GetAsync(Guid id)
     {
         var room = await context.YoutubeRooms
-            .Include(r=>r.Viewers)
+            .Include(r => r.Viewers)
             .AsNoTracking()
             .FirstOrDefaultAsync(youtubeYoutubeRoomModel => youtubeYoutubeRoomModel.Id == id);
-        
-        return room == null ? null : aggregateMapper.Map(room);
+
+        return await (room == null ? null : aggregateMapper.MapAsync(room))!;
     }
 
     public async Task<IReadOnlyCollection<YoutubeRoom>> FindAsync(
@@ -74,7 +74,7 @@ public class YoutubeRoomRepository(
                 .Aggregate(orderedQuery, (current, sort) => sort.IsDescending
                     ? current.ThenByDescending(sort.Expr)
                     : current.ThenBy(sort.Expr));
-            
+
             query = orderedQuery.ThenBy(v => v.Id);
         }
         else
@@ -85,12 +85,14 @@ public class YoutubeRoomRepository(
         if (skip.HasValue) query = query.Skip(skip.Value);
         if (take.HasValue) query = query.Take(take.Value);
 
-        var models = await query            
-            .Include(r=>r.Viewers)
+        var entities = await query
+            .Include(r => r.Viewers)
             .AsNoTracking()
             .ToArrayAsync();
-        
-        return models.Select(aggregateMapper.Map).ToArray();
+
+        var aggregates = new YoutubeRoom[entities.Length];
+        for (var i = 0; i < aggregates.Length; i++) aggregates[i] = await aggregateMapper.MapAsync(entities[i]);
+        return aggregates;
     }
 
     public Task<int> CountAsync(ISpecification<YoutubeRoom, IYoutubeRoomSpecificationVisitor>? specification)
